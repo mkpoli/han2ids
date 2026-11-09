@@ -47,3 +47,18 @@ encoder.
 
 Jigmo gains 15.9 points; IPAmj loses 1.6; Noto is unchanged. The result is in
 `docs/full-font-results.json`; the local checkpoint is `models/han2ids-v0.2.pt`.
+
+## v0.3
+
+v0.3 retrains on a common em-box rendering: a 200-unit em box with the baseline at 0.88 em, cropped to
+224. That removes the per-font anchor offset and the bottom clipping of the earlier renders. The labels
+carry the three image overrides.
+
+| test | v0.3 | v0.2, same renders |
+| --- | ---: | ---: |
+| exact | 82.90% | 80.23% |
+| same tree | 86.36% | |
+| valid | 100% | 99.97% |
+
+Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is
+`models/han2ids-v0.3.pt`; the training script is `scripts/train_fonts_v3.py`.

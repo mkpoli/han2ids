@@ -66,7 +66,7 @@ class Reading:
 
 
 class Han2IDS:
-    def __init__(self, checkpoint: str | Path = "models/han2ids-v0.2.pt", device: str | None = None):
+    def __init__(self, checkpoint: str | Path = "models/han2ids-v0.3.pt", device: str | None = None):
         path = Path(checkpoint)
         if not path.exists():
             raise FileNotFoundError(f"Checkpoint not found: {path}")
@@ -82,12 +82,20 @@ class Han2IDS:
     @torch.no_grad()
     def read(self, image: Image.Image, tta: bool = True) -> Reading:
         choices = variants(image) if tta else variants(image)[:1]
-        batch = torch.stack([tensor(picture) for _, picture in choices]).to(self.device)
-        tokens, confidence = generate(self.model, batch, self.itos)
-        best = int(confidence.argmax())
-        text = self.vocab.decode(tokens[best].tolist())
-        return Reading(text, float(confidence[best]), choices[best][0], valid_ids(text))
-
+        readings = []
+        for name, picture in choices:
+            tokens, confidence = generate(self.model, tensor(picture).unsqueeze(0).to(self.device), self.itos)
+            text = self.vocab.decode(tokens[0].tolist())
+            readings.append(Reading(text, float(confidence[0]), name, valid_ids(text)))
+        best = 0
+        if not readings[0].valid:
+            valid = [i for i, item in enumerate(readings) if item.valid]
+            best = max(valid, key=lambda i: readings[i].confidence) if valid else 0
+        else:
+            for i in range(1, len(readings)):
+                if readings[i].valid and readings[i].confidence > readings[0].confidence + 0.08:
+                    best = i
+        return readings[best]
     @torch.no_grad()
     def read_topk(self, image: Image.Image, k: int = 3, tta: bool = True) -> list[Reading]:
         choices = variants(image) if tta else variants(image)[:1]
@@ -95,7 +103,11 @@ class Han2IDS:
         for name, picture in choices:
             readings = generate_beam(self.model, tensor(picture).unsqueeze(0).to(self.device), self.itos, k=k)
             option = [Reading(text, float(score), name, valid_ids(text)) for text, score in readings]
-            if not best or (option and option[0].confidence > best[0].confidence):
+            if not best:
+                best = option
+            elif name == 'em':
+                continue
+            elif option and option[0].confidence > best[0].confidence + 0.08 and option[0].valid:
                 best = option
         return best
 

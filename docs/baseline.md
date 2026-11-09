@@ -45,3 +45,21 @@ The full Mincho model, trained on 176,960 images (Noto, IPAmj and Jigmo) for 97,
 
 The gain is on Jigmo (+15.9 points); IPAmj gives up 1.6 points and Noto is flat. v0.2 is the default
 checkpoint.
+
+## v0.3
+
+The common em-box model: 176,965 images over 95,927 Han characters, four epochs. The renderer fixes the
+shared baseline; the labels use the three image overrides and leave 崢 as a reviewed miss.
+
+| test | exact | same tree | valid |
+| --- | ---: | ---: | ---: |
+| v0.3, 8,730 mixed-font rows | 82.90% | 86.36% | 100% |
+| v0.2 on the same em-box renders | 80.23% | | 99.97% |
+
+| font | v0.3 exact | v0.2 exact, same renders |
+| --- | ---: | ---: |
+| Noto Serif CJK JP | 92.29% | 91.19% |
+| IPAmj Mincho | 83.60% | 82.38% |
+| Jigmo family | 79.65% | 75.74% |
+
+v0.3 is the default checkpoint.
