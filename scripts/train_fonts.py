@@ -27,6 +27,7 @@ from torch.utils.data import DataLoader, Dataset
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from han2ids.grammar import generate, valid_ids
+from han2ids.labels import base_labels
 from han2ids.model import GlyphIDS
 from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
 
@@ -36,19 +37,7 @@ REGIONS = re.compile(r"\([A-Z]+\)$")
 
 
 def labels() -> dict[str, str]:
-    out = {}
-    with gzip.open(ROOT / "data/babelstone-ids.tsv.gz", "rt", encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip() or line.startswith("#"):
-                continue
-            char, rest = line.rstrip("\n").split("\t", 1)
-            for candidate in rest.split(" "):
-                text = REGIONS.sub("", candidate)
-                if text and text[0] in OPERATORS and "{" not in text and "？" not in text and "?" not in text:
-                    out[char] = text
-                    break
-    return out
-
+    return base_labels(ROOT / "data/IDS.TXT", ROOT / "data/label-overrides.tsv")
 
 def han(char: str) -> bool:
     cp = ord(char)

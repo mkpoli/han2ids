@@ -40,10 +40,10 @@ encoder.
 
 | test | v0.2 | v0.1 |
 | --- | ---: | ---: |
-| overall | 82.45% | 74.27% |
-| Noto | 92.02% | 92.15% |
-| IPAmj | 82.69% | 84.32% |
-| Jigmo | 79.40% | 63.47% |
+| overall, corrected labels | 82.62% | 74.27% |
+| Noto | 92.22% | 92.15% |
+| IPAmj | 82.89% | 84.32% |
+| Jigmo | 79.55% | 63.47% |
 
 Jigmo gains 15.9 points; IPAmj loses 1.6; Noto is unchanged. The result is in
 `docs/full-font-results.json`; the local checkpoint is `models/han2ids-v0.2.pt`.

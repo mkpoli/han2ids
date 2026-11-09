@@ -34,14 +34,14 @@ The full Mincho model, trained on 176,960 images (Noto, IPAmj and Jigmo) for 97,
 
 | test | exact | valid |
 | --- | ---: | ---: |
-| v0.2, 8,730 mixed-font rows | 82.45% | 100% |
+| v0.2, 8,730 mixed-font rows, corrected labels | 82.62% | 100% |
 | v0.1 on the same rows | 74.27% | 100% |
 
 | font | v0.2 | v0.1 |
 | --- | ---: | ---: |
-| Noto Serif CJK JP | 92.02% | 92.15% |
-| IPAmj Mincho | 82.69% | 84.32% |
-| Jigmo family | 79.40% | 63.47% |
+| Noto Serif CJK JP | 92.22% | 92.15% |
+| IPAmj Mincho | 82.89% | 84.32% |
+| Jigmo family | 79.55% | 63.47% |
 
 The gain is on Jigmo (+15.9 points); IPAmj gives up 1.6 points and Noto is flat. v0.2 is the default
 checkpoint.

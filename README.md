@@ -9,8 +9,8 @@ out of scope, so the model does not spend capacity on shapes it is not meant to 
 ![han2ids v0.2 capability gallery](docs/gallery-v0.2-cover.png)
 
 Status: v0.2, a 35.2M model trained on Noto Serif, IPAmj and the Jigmo family. On the 8,730-row
-mixed-font test split it reaches 82.45% exact IDS and 100% valid IDS. On the earlier 4,839-character
-synthetic serif split the v0.1 checkpoint reached 80.1%; see `docs/baseline.md` and `docs/training.md`. The full [capability gallery](docs/gallery-v0.2.png) shows 32 test cards across the three faces.
+mixed-font test split it reaches 82.62% exact IDS after the Japanese-label fixes and 100% valid IDS. The uncorrected-label score was 82.45%. On the earlier 4,839-character
+synthetic serif split the v0.1 checkpoint reached 80.1%; see `docs/baseline.md`, `docs/training.md` and the [label audit](docs/label-audit.md). The full [capability gallery](docs/gallery-v0.2.png) shows 32 test cards across the three faces.
 
 ## Install
 

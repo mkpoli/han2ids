@@ -6,14 +6,18 @@ character first; a missing character simply has no row for that font.
 from __future__ import annotations
 
 import argparse
-import gzip
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
 from PIL import Image, ImageDraw, ImageFont
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from han2ids.labels import base_labels
 
 SIZE = 224
 REGIONS = re.compile(r"\([A-Z]+\)$")
@@ -21,20 +25,7 @@ OPERATORS = set("⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯")
 
 
 def labels(path: Path) -> dict[str, str]:
-    """First usable IDS for each character."""
-    out = {}
-    with gzip.open(path, "rt", encoding="utf-8") as handle:
-        for line in handle:
-            if not line.strip() or line.startswith("#"):
-                continue
-            char, rest = line.rstrip("\n").split("\t", 1)
-            for candidate in rest.split(" "):
-                text = REGIONS.sub("", candidate)
-                if text and text[0] in OPERATORS and "{" not in text and "？" not in text and "?" not in text:
-                    out[char] = text
-                    break
-    return out
-
+    return base_labels(path, path.parent / "label-overrides.tsv")
 
 def split(char: str) -> str:
     n = int(hashlib.sha256(char.encode()).hexdigest()[:8], 16) % 100
@@ -43,7 +34,7 @@ def split(char: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--labels", type=Path, default=Path("data/babelstone-ids.tsv.gz"))
+    parser.add_argument("--labels", type=Path, default=Path("data/IDS.TXT"))
     parser.add_argument("--out", type=Path, default=Path("build/dataset"))
     parser.add_argument("--noto", type=Path, default=Path("/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"))
     parser.add_argument("--ipamj", type=Path, default=Path("cache/fonts/ipamj/ipamjm.ttf"))
