@@ -25,6 +25,15 @@ Reviewed cases (BabelStone region tags and Unicode IVD):
 | U+2569C, U+256A8 | IPAmj / Jigmo | 示, 礻 and 𱍐 are regional forms |
 | U+270E0 | IPAmj / Jigmo | 靑 in IPAmj, 青 in Jigmo |
 | U+2DD65 | Jigmo | BabelStone gives `⿸𦫺用` for T and `⿱艹⿸厂用` for J; Jigmo prints the J form |
+| U+4885 | IPAmj | 𦥑 against the preview's 臼 |
+| U+4635 | IPAmj | 彔 against the preview's 录 |
+| U+49B3 | IPAmj | expanded 鄉 against the preview's 鄉 |
+| U+51D1 | Noto | 𡗗+夭 against the preview's 奏 |
+| U+53A7 | IPAmj | 眞 against the preview's 真 |
+| U+55AD | IPAmj | 彥 against the preview's 彦 |
+| U+61F2 | Jigmo | expanded 徵 against the preview's 徵 |
+| U+6011 | IPAmj/Jigmo | ⿻八𰀁 against the preview's 半 |
+| U+631B | Noto | 亦 against the preview's 𰁜 |
 | U+3AE6 | IPAmj | 攵 against the preview's 夂 |
 | U+399C | Jigmo | 蒦 expanded as 卝+隻; the preview uses 蒦 |
 | U+3B36 | IPAmj | 吿 against the preview's 告 |
