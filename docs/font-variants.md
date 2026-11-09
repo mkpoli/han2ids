@@ -5,6 +5,15 @@ print with different components in Japanese, Taiwanese and mainland fonts, and a
 as a variation sequence rather than a separate character. A single character-level gold label cannot
 be right for every face.
 
+## The preview font
+
+The small character to the left of `U+…` in the galleries is the card's Unicode preview, not the
+image. Its CSS is `font-family: "IDS Noto", "IDS Jigmo", serif`; `IDS Noto` is the bundled
+`fonts/NotoSerifCJKjp-VF-2.003.ttf` (Noto Serif CJK JP variable 2.003), with Jigmo/Jigmo2 as fallback
+when Noto lacks the character. The image on the left is the actual test glyph, from Noto, IPAmj or
+Jigmo. A disagreement between the preview and the model image is therefore often a disagreement
+between Noto JP and the source face.
+
 Reviewed cases (BabelStone region tags and Unicode IVD):
 
 | character | font | difference |
@@ -16,6 +25,13 @@ Reviewed cases (BabelStone region tags and Unicode IVD):
 | U+2569C, U+256A8 | IPAmj / Jigmo | 示, 礻 and 𱍐 are regional forms |
 | U+270E0 | IPAmj / Jigmo | 靑 in IPAmj, 青 in Jigmo |
 | U+2DD65 | Jigmo | BabelStone gives `⿸𦫺用` for T and `⿱艹⿸厂用` for J; Jigmo prints the J form |
+| U+3AE6 | IPAmj | 攵 against the preview's 夂 |
+| U+399C | Jigmo | 蒦 expanded as 卝+隻; the preview uses 蒦 |
+| U+3B36 | IPAmj | 吿 against the preview's 告 |
+| U+3EBF, U+41EB | IPAmj | 𦣝 against the preview's 𦣞 |
+| U+4100, U+4101 | IPAmj | 示 against the preview's 礻 |
+| U+425B | IPAmj | 奧 against the preview's 奥 |
+| U+42ED, U+4300, U+4328, U+431E, U+4311 | IPAmj | 糸 against the preview's 糹 |
 | U+34EC | IPAmj | 龹+刀 against the preview font's 券 |
 | U+34DE | Jigmo | 丯 against the preview font's 丰 |
 | U+3423 | Jigmo | 庫 against 广+車 |
@@ -24,7 +40,7 @@ Reviewed cases (BabelStone region tags and Unicode IVD):
 
 These are not model misses: U+50C3 `⿰亻𤰈` and U+5AD3 `⿱⿱…` are the same trees as the fuller
 spellings, U+306A9 `辱` is `⿸辰寸`, U+3423 `庫` is `⿸广車`, U+3793 `尼+日` is `尸+旨`, and U+37F5
-`罡` is `罒+正`. `src/han2ids/tree.py` normalises equal-axis operator nesting (`⿱⿱ABC` = `⿳ABC`,
+`罡` is `罒+正`; U+3DBE `⿳覀一火` and `⿱覀灭` are the same. `src/han2ids/tree.py` normalises equal-axis operator nesting (`⿱⿱ABC` = `⿳ABC`,
 `⿰⿰ABC` = `⿲ABC`), and `data/equivalence-overrides.tsv` records the reviewed rare cases.
 
 ## Consequence for training
