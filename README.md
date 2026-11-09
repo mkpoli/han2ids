@@ -66,7 +66,7 @@ the repository does not carry the 135 MB file.
 `scripts/train_fonts.py` trains the full v0.2 model; `scripts/train.py` trains from image/label JSONL
 directories. `scripts/pilot_fonts.py` is the held-out-font experiment. Nothing uses Kai.
 
-The full v0.2 run used 176,960 images over 97,680 Han records, four epochs, and then evaluated on
+The full v0.2 run used 176,960 images over 95,927 Han characters, four epochs, and then evaluated on
 8,730 mixed-font rows. See `docs/training.md` for the numbers and the pilot comparison.
 
 ## Licence

@@ -33,7 +33,7 @@ checkpoint is local (`models/han2ids-font-pilot.pt`, ignored) and is not the shi
 
 ## Full font run
 
-The production v0.2 model used all 97,680 Han records and every available face: 159,516 training
+The production v0.2 model used 95,927 Han characters (97,680 BabelStone Han records, 1,753 without a usable sequence) and every available face: 159,516 training
 images, 8,714 validation and 8,730 test images. Noto covers 29,847 rows, IPAmj 52,518 and Jigmo
 97,680. Four epochs, batch 32, the same 35.2M architecture, decoder from scratch and ImageNet-21k
 encoder.
