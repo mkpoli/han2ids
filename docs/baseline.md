@@ -53,12 +53,12 @@ shared baseline; the labels use the three image overrides and leave 崢 as a rev
 
 | test | exact | same tree | valid |
 | --- | ---: | ---: | ---: |
-| v0.3, 8,730 mixed-font rows | 82.90% | 86.36% | 100% |
-| v0.2 on the same em-box renders | 80.23% | | 99.97% |
+| v0.3, 8,730 mixed-font rows | 82.91% | 86.37% | 100% |
+| v0.2 on the same em-box renders | 80.24% | | 99.97% |
 
 | font | v0.3 exact | v0.2 exact, same renders |
 | --- | ---: | ---: |
-| Noto Serif CJK JP | 92.29% | 91.19% |
+| Noto Serif CJK JP | 92.36% | 91.26% |
 | IPAmj Mincho | 83.60% | 82.38% |
 | Jigmo family | 79.65% | 75.74% |
 

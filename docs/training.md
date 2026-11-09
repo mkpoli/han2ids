@@ -56,8 +56,8 @@ carry the three image overrides.
 
 | test | v0.3 | v0.2, same renders |
 | --- | ---: | ---: |
-| exact | 82.90% | 80.23% |
-| same tree | 86.36% | |
+| exact | 82.91% | 80.24% |
+| same tree | 86.37% | |
 | valid | 100% | 99.97% |
 
 Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is

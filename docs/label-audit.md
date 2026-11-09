@@ -6,7 +6,7 @@
 | --- | --- | --- | --- |
 | 船 | ⿰舟⿱𠘧口 | ⿰舟㕣 | Japanese glyph uses 㕣; BabelStone's J sequence is ⿰舟㕣 (first is GP) |
 | 勇 | ⿱甬力 | ⿱龴男 | Japanese glyph uses 龴+男; BabelStone's J sequence is ⿱龴男 (first is GHTV) |
-| 屄 | ⿸尸穴 | ⿸尸宂 | Japanese glyph shows 宂, not 穴; BabelStone has no J row |
+| 屄 | ⿸尸穴 | ⿸尸宂 | IPAmj and Jigmo draw 宂; Noto Serif draws 穴 (see font-label-overrides.tsv) |
 
 ## 争 / 爭 families (79 characters)
 
