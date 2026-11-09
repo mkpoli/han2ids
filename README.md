@@ -6,9 +6,9 @@ one sequence out: `⿰𠤕⿱龴疋`.
 Scope is deliberately narrow: Mincho and Song serif faces only. Kai, handwriting and sans faces are
 out of scope, so the model does not spend capacity on shapes it is not meant to read.
 
-Status: v0.1, a 35.2M model trained on serif renders. On the 4,839-character synthetic serif test
-split it reaches 80.1% exact IDS and 99.98% valid IDS. A first font-held-out pilot trained on Noto
-and Jigmo and tested on IPAmj reaches 81.1% exact on IPAmj; see `docs/training.md`.
+Status: v0.2, a 35.2M model trained on Noto Serif, IPAmj and the Jigmo family. On the 8,730-row
+mixed-font test split it reaches 82.45% exact IDS and 100% valid IDS. On the earlier 4,839-character
+synthetic serif split the v0.1 checkpoint reached 80.1%; see `docs/baseline.md` and `docs/training.md`.
 
 ## Use
 
@@ -17,7 +17,7 @@ uv sync
 uv run han2ids samples/疑.png
 ```
 
-The default checkpoint is `models/han2ids-v0.1.pt`. Point at another with `--checkpoint`, or set
+The default checkpoint is `models/han2ids-v0.2.pt`. Point at another with `--checkpoint`, or set
 `HAN2IDS_MODEL`. `--json` prints the IDS, confidence and the chosen preprocessing variant.
 `--no-tta` uses the em-box render only.
 
@@ -46,7 +46,7 @@ Of the 97,680 Han records, Jigmo covers all 97,680 and IPAmj covers 52,518, addi
 contain 10,398 distinct characters; Jigmo covers all and IPAmj covers 8,379. IPAmj is useful as a
 second Mincho style, not as extra coverage.
 
-The model weights are not in git. Keep `models/han2ids-v0.1.pt` locally; publish it separately when
+The model weights are not in git. Keep `models/han2ids-v0.2.pt` locally; publish it separately when
 the checkpoint is ready.
 
 ## Training

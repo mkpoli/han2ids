@@ -29,3 +29,21 @@ characters.
 
 The script is `scripts/pilot_fonts.py`; the result is `docs/pilot-font-results.json`. The pilot
 checkpoint is local (`models/han2ids-font-pilot.pt`, ignored) and is not the shipped model.
+
+
+## Full font run
+
+The production v0.2 model used all 97,680 Han records and every available face: 159,516 training
+images, 8,714 validation and 8,730 test images. Noto covers 29,847 rows, IPAmj 52,518 and Jigmo
+97,680. Four epochs, batch 32, the same 35.2M architecture, decoder from scratch and ImageNet-21k
+encoder.
+
+| test | v0.2 | v0.1 |
+| --- | ---: | ---: |
+| overall | 82.45% | 74.27% |
+| Noto | 92.02% | 92.15% |
+| IPAmj | 82.69% | 84.32% |
+| Jigmo | 79.40% | 63.47% |
+
+Jigmo gains 15.9 points; IPAmj loses 1.6; Noto is unchanged. The result is in
+`docs/full-font-results.json`; the local checkpoint is `models/han2ids-v0.2.pt`.

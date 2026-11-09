@@ -1,6 +1,6 @@
 # Models
 
-`han2ids-v0.1.pt` is the working checkpoint (135 MB). It is not committed; keep it in this folder.
+`han2ids-v0.2.pt` is the working checkpoint (the v0.1 file is kept for comparison) (135 MB). It is not committed; keep it in this folder.
 
 It is a `GlyphIDS` state dict with `itos` and `args` (`encoder`, `max_len`). The architecture is the
 ViT-S/16 encoder and 4-layer decoder in `src/han2ids/model.py`.
