@@ -7,8 +7,8 @@ Scope is deliberately narrow: Mincho and Song serif faces only. Kai, handwriting
 out of scope, so the model does not spend capacity on shapes it is not meant to read.
 
 Status: v0.1, a 35.2M model trained on serif renders. On the 4,839-character synthetic serif test
-split it reaches 80.1% exact IDS and 99.98% valid IDS. Real scans, tight crops and fonts outside the
-training set are the next problem.
+split it reaches 80.1% exact IDS and 99.98% valid IDS. A first font-held-out pilot trained on Noto
+and Jigmo and tested on IPAmj reaches 81.1% exact on IPAmj; see `docs/training.md`.
 
 ## Use
 
