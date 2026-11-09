@@ -6,9 +6,11 @@ one sequence out: `⿰𠤕⿱龴疋`.
 Scope is deliberately narrow: Mincho and Song serif faces only. Kai, handwriting and sans faces are
 out of scope, so the model does not spend capacity on shapes it is not meant to read.
 
+![han2ids v0.2 capability gallery](docs/gallery-v0.2-cover.png)
+
 Status: v0.2, a 35.2M model trained on Noto Serif, IPAmj and the Jigmo family. On the 8,730-row
 mixed-font test split it reaches 82.45% exact IDS and 100% valid IDS. On the earlier 4,839-character
-synthetic serif split the v0.1 checkpoint reached 80.1%; see `docs/baseline.md` and `docs/training.md`.
+synthetic serif split the v0.1 checkpoint reached 80.1%; see `docs/baseline.md` and `docs/training.md`. The full [capability gallery](docs/gallery-v0.2.png) shows 32 test cards across the three faces.
 
 ## Install
 
