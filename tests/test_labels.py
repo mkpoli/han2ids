@@ -16,4 +16,4 @@ def test_image_overrides():
     assert labels["船"] == "⿰舟㕣"
     assert labels["勇"] == "⿱龴男"
     assert labels["屄"] == "⿸尸宂"
-    assert labels["崢"] == "⿰山争"
+    assert labels["崢"] == "⿰山爭"

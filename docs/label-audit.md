@@ -7,11 +7,10 @@
 | 船 | ⿰舟⿱𠘧口 | ⿰舟㕣 | Japanese glyph uses 㕣; BabelStone's J sequence is ⿰舟㕣 (first is GP) |
 | 勇 | ⿱甬力 | ⿱龴男 | Japanese glyph uses 龴+男; BabelStone's J sequence is ⿱龴男 (first is GHTV) |
 | 屄 | ⿸尸穴 | ⿸尸宂 | Japanese glyph shows 宂, not 穴; BabelStone has no J row |
-| 崢 | ⿰山爭 | ⿰山争 | Japanese glyph uses 争; BabelStone's only row is ⿰山爭 for GHTJKPV |
 
 ## 争 / 爭 families (79 characters)
 
-The current label is the first BabelStone sequence unless an override above applies. The alternatives and region tags are listed for review; 淨, 靜, 掙, 睜 and 箏 genuinely use 爭 in Japanese, while 崢 is drawn with 争.
+The current label is the first BabelStone sequence unless an override above applies. The alternatives and region tags are listed for review. 淨, 靜, 掙, 睜 and 箏 use 爭 in Japanese. 崢 remains an open case: the model emits 争 while the source has 爭, so it is not counted as exact.
 
 | char | current | sequences | note |
 | --- | --- | --- | --- |
@@ -20,7 +19,7 @@ The current label is the first BabelStone sequence unless an override above appl
 | 埩 | ⿰土争 | ⿰土争 (G) · ⿰土爭 (HTJKV) |  |
 | 婙 | ⿰女争 | ⿰女争 (G) · ⿰女爭 (HT) |  |
 | 峥 | ⿰山争 | ⿰山争 (GHTK) |  |
-| 崢 | ⿰山争 | ⿰山爭 (GHTJKPV) | Japanese glyph uses 争; BabelStone's only row is ⿰山爭 for GHTJKPV |
+| 崢 | ⿰山爭 | ⿰山爭 (GHTJKPV) | kept as ⿰山爭; the model emits ⿰山争; review open, not treated as exact |
 | 挣 | ⿰扌争 | ⿰扌争 (GT) |  |
 | 掙 | ⿰扌爭 | ⿰扌爭 (GHTJKPV) |  |
 | 棦 | ⿰木争 | ⿰木争 (G) · ⿰木爭 (HTKV) |  |

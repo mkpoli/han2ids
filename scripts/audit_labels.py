@@ -30,7 +30,10 @@ changed_by_region = [(char, current.get(char), japanese[char], [s.regions for s 
 competition = []
 for char, sequences in records.items():
     if any("争" in s.text or "爭" in s.text for s in sequences):
-        competition.append((char, current.get(char), [(s.text, s.regions) for s in sequences], overrides.get(char, ("", ""))[1]))
+        note = overrides.get(char, ("", ""))[1]
+        if char == "崢":
+            note = "kept as ⿰山爭; the model emits ⿰山争; review open, not treated as exact"
+        competition.append((char, current.get(char), [(s.text, s.regions) for s in sequences], note))
 
 lines = ["# Label audit", "",
          "## Image-specific overrides", "",
@@ -38,7 +41,7 @@ lines = ["# Label audit", "",
 for char, before, after, note in changed_by_override:
     lines.append(f"| {char} | {before} | {after} | {note} |")
 lines += ["", f"## 争 / 爭 families ({len(competition)} characters)", "",
-          "The current label is the first BabelStone sequence unless an override above applies. The alternatives and region tags are listed for review; 淨, 靜, 掙, 睜 and 箏 genuinely use 爭 in Japanese, while 崢 is drawn with 争.", "",
+          "The current label is the first BabelStone sequence unless an override above applies. The alternatives and region tags are listed for review. 淨, 靜, 掙, 睜 and 箏 use 爭 in Japanese. 崢 remains an open case: the model emits 争 while the source has 爭, so it is not counted as exact.", "",
           "| char | current | sequences | note |", "| --- | --- | --- | --- |"]
 for char, value, sequences, note in competition:
     lines.append(f"| {char} | {value} | {' · '.join(f'{text} ({regions})' for text, regions in sequences)} | {note} |")

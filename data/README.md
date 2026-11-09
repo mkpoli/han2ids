@@ -1,6 +1,6 @@
 # Data
 
-`IDS.TXT` is BabelStone IDS with its region tags. `scripts/audit_labels.py` reads it and `data/label-overrides.tsv` records the four image-specific labels that the source cannot express. `babelstone-ids.tsv.gz` is the older compiled table without tags; the current scripts use `IDS.TXT`.
+`IDS.TXT` is BabelStone IDS with its region tags. `scripts/audit_labels.py` reads it and `data/label-overrides.tsv` records the three image-specific labels that the source cannot express. `babelstone-ids.tsv.gz` is the older compiled table without tags; the current scripts use `IDS.TXT`.
 
 `babelstone-ids.tsv.gz` is BabelStone IDS (IDS.TXT, file date 2025-06-27) by Andrew West, public
 domain, in the compiled `char<TAB>sequences` form used by the sibling ids-input project. It holds
