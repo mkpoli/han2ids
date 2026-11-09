@@ -8,7 +8,7 @@ import numpy as np
 import torch
 from PIL import Image, ImageOps
 
-from .grammar import generate, valid_ids
+from .grammar import generate, generate_beam, valid_ids
 from .model import GlyphIDS
 from .tokenizer import Vocabulary
 
@@ -87,6 +87,17 @@ class Han2IDS:
         best = int(confidence.argmax())
         text = self.vocab.decode(tokens[best].tolist())
         return Reading(text, float(confidence[best]), choices[best][0], valid_ids(text))
+
+    @torch.no_grad()
+    def read_topk(self, image: Image.Image, k: int = 3, tta: bool = True) -> list[Reading]:
+        choices = variants(image) if tta else variants(image)[:1]
+        best = []
+        for name, picture in choices:
+            readings = generate_beam(self.model, tensor(picture).unsqueeze(0).to(self.device), self.itos, k=k)
+            option = [Reading(text, float(score), name, valid_ids(text)) for text, score in readings]
+            if not best or (option and option[0].confidence > best[0].confidence):
+                best = option
+        return best
 
     def read_path(self, path: str | Path, tta: bool = True) -> Reading:
         with Image.open(path) as image:
