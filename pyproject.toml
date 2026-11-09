@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "han2ids"
+version = "0.1.0"
+description = "Read an ideographic description sequence from a Mincho serif glyph image."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+  "numpy>=1.24",
+  "pillow>=10",
+  "timm>=1.0",
+  "torch>=2.2",
+]
+
+[project.optional-dependencies]
+train = ["fonttools>=4.50"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+han2ids = "han2ids.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/han2ids"]
