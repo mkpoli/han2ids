@@ -52,12 +52,12 @@ Jigmo gains 15.9 points; IPAmj loses 1.6; Noto is unchanged. The result is in
 
 v0.3 retrains on a common em-box rendering: a 200-unit em box with the baseline at 0.88 em, cropped to
 224. That removes the per-font anchor offset and the bottom clipping of the earlier renders. The labels
-carry the three image overrides.
+carry the four image overrides.
 
 | test | v0.3 | v0.2, same renders |
 | --- | ---: | ---: |
-| exact | 82.91% | 80.24% |
-| same tree | 86.37% | |
+| exact | 82.93% | 80.24% |
+| same tree | 86.48% | |
 | valid | 100% | 99.97% |
 
 Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is

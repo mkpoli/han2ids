@@ -49,17 +49,17 @@ checkpoint.
 ## v0.3
 
 The common em-box model: 176,965 images over 95,927 Han characters, four epochs. The renderer fixes the
-shared baseline; the labels use the three image overrides and leave 崢 as a reviewed miss.
+shared baseline; the labels use the four image overrides and leave 崢 as a reviewed miss.
 
 | test | exact | same tree | valid |
 | --- | ---: | ---: | ---: |
-| v0.3, 8,730 mixed-font rows | 82.91% | 86.37% | 100% |
+| v0.3, 8,730 mixed-font rows | 82.93% | 86.48% | 100% |
 | v0.2 on the same em-box renders | 80.24% | | 99.97% |
 
 | font | v0.3 exact | v0.2 exact, same renders |
 | --- | ---: | ---: |
-| Noto Serif CJK JP | 92.36% | 91.26% |
+| Noto Serif CJK JP | 92.43% | 91.26% |
 | IPAmj Mincho | 83.60% | 82.38% |
-| Jigmo family | 79.65% | 75.74% |
+| Jigmo family | 79.67% | 75.74% |
 
 v0.3 is the default checkpoint.
