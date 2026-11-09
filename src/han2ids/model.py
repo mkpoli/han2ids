@@ -27,6 +27,9 @@ class GlyphIDS(nn.Module):
         self.decoder = nn.TransformerDecoder(layer, layers, norm=nn.LayerNorm(d_model))
         self.head = nn.Linear(d_model, vocab_size)
         self.head.weight = self.tok.weight
+        nn.init.normal_(self.tok.weight, mean=0.0, std=0.02)
+        nn.init.normal_(self.pos.weight, mean=0.0, std=0.02)
+        nn.init.zeros_(self.head.bias)
         self.d_model, self.max_len = d_model, max_len
 
     def forward(self, images: torch.Tensor, tokens: torch.Tensor) -> torch.Tensor:
