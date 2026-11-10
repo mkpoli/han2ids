@@ -19,9 +19,16 @@ search for three readings.
 
 - `server.py` — standard-library HTTP server and the reading endpoint.
 - `static/index.html`, `static/app.css`, `static/app.js` — the page, with no build step.
+- `static/i18n.js` — the six UI locales.
 - `static/design/` — copies of the IDS Workshop's design system, with provenance in its README.
 - `static/fonts/han2ids-glyphs.woff2` — Jigmo subset for sequence text, with provenance in its README.
 - `static/samples/sample-yi.png` — the repository's 疑 sample.
+
+## Locales
+
+The page ships in English, Japanese, Simplified Chinese, Traditional Chinese, Korean and Vietnamese;
+the set follows the [IDS Workshop](https://ids.mkpo.li/). The header control starts from `?lang=`,
+then the saved choice, then the browser language, and stores a change in `han2ids:lang` and the URL.
 
 ## API
 
@@ -43,4 +50,5 @@ It returns:
 
 ```sh
 uv run --extra dev pytest tests/test_demo.py
+node demo/check-i18n.mjs
 ```

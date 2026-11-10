@@ -1,3 +1,5 @@
+import { DEFAULT_LOCALE, LOCALES, matchLocale } from './i18n.js';
+
 const MAX_SEND = 1024;
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
@@ -37,6 +39,8 @@ const els = {
   errorTitle: document.querySelector('#error-title'),
   errorDetail: document.querySelector('#error-detail'),
   liveStatus: document.querySelector('#live-status'),
+  language: document.querySelector('#language'),
+  languageCode: document.querySelector('#language-code'),
 };
 
 const IDC = /[\u2FF0-\u2FFF\u303E\u31EF]/;
@@ -54,6 +58,9 @@ const state = {
   readTimer: 0,
   controller: null,
   drag: null,
+  busy: false,
+  copied: false,
+  error: null,
 };
 
 /* ---------- Theme ---------- */
@@ -88,6 +95,74 @@ for (const radio of themeRadios) {
 
 applyTheme(storedTheme());
 
+/* ---------- Language ---------- */
+
+let locale = DEFAULT_LOCALE;
+let messages = LOCALES[locale].messages;
+
+function t(key, params = {}) {
+  let text = messages[key] ?? LOCALES[DEFAULT_LOCALE].messages[key] ?? key;
+  for (const [name, value] of Object.entries(params)) text = text.split(`{${name}}`).join(String(value));
+  return text;
+}
+
+function storedLanguage() {
+  try {
+    return localStorage.getItem('han2ids:lang');
+  } catch {
+    return null;
+  }
+}
+
+function initialLocale() {
+  const query = new URLSearchParams(location.search).get('lang');
+  const candidates = [query, storedLanguage(), ...(navigator.languages ?? []), navigator.language];
+  for (const candidate of candidates) {
+    const match = matchLocale(candidate);
+    if (match) return match;
+  }
+  return DEFAULT_LOCALE;
+}
+
+function setLocale(value, { persist = true } = {}) {
+  locale = LOCALES[value] ? value : DEFAULT_LOCALE;
+  messages = LOCALES[locale].messages;
+  if (persist) {
+    try {
+      localStorage.setItem('han2ids:lang', locale);
+      const url = new URL(location.href);
+      url.searchParams.set('lang', locale);
+      history.replaceState(null, '', url);
+    } catch {}
+  }
+  applyTranslations();
+}
+
+function applyTranslations() {
+  document.documentElement.lang = LOCALES[locale].htmlLang;
+  document.title = t('meta.title');
+  document.querySelector('meta[name="description"]')?.setAttribute('content', t('meta.description'));
+  for (const node of document.querySelectorAll('[data-i18n]')) node.textContent = t(node.dataset.i18n);
+  for (const node of document.querySelectorAll('[data-i18n-aria]')) node.setAttribute('aria-label', t(node.dataset.i18nAria));
+  for (const node of document.querySelectorAll('[data-i18n-title]')) node.title = t(node.dataset.i18nTitle);
+  for (const node of document.querySelectorAll('[data-i18n-alt]')) node.alt = t(node.dataset.i18nAlt);
+  const languageLabel = `${t('language.label')}: ${LOCALES[locale].label}`;
+  els.language.value = locale;
+  els.language.setAttribute('aria-label', languageLabel);
+  els.language.title = languageLabel;
+  els.languageCode.textContent = LOCALES[locale].code;
+  refreshStatus();
+  if (state.readings.length) updateReadingMeta();
+  if (state.error) {
+    els.errorTitle.textContent = t(state.error.titleKey);
+    els.errorDetail.textContent = t(state.error.detailKey);
+  }
+  els.liveStatus.textContent = '';
+}
+
+els.language.addEventListener('change', () => setLocale(els.language.value));
+setLocale(initialLocale(), { persist: false });
+
 /* ---------- Image input ---------- */
 
 els.chooseFile.addEventListener('click', () => els.fileInput.click());
@@ -112,10 +187,7 @@ els.trySample.addEventListener('click', async () => {
     const blob = await response.blob();
     await loadFile(new File([blob], '疑.png', { type: blob.type || 'image/png' }));
   } catch {
-    showError(new Error('The sample could not be loaded.'), {
-      title: 'The sample could not be loaded.',
-      detail: 'Check that the demo server is running, then try again.',
-    });
+    showError({ titleKey: 'error.sample.title', detailKey: 'error.sample.detail' });
   }
 });
 
@@ -159,10 +231,7 @@ function isImageFile(file) {
 
 async function loadFile(file) {
   if (!isImageFile(file)) {
-    showError(new Error('That file is not an image.'), {
-      title: 'That file is not an image.',
-      detail: 'Choose a PNG, JPEG, or WebP image.',
-    });
+    showError({ titleKey: 'error.imageType.title', detailKey: 'error.imageType.detail' });
     return;
   }
 
@@ -178,10 +247,7 @@ async function loadFile(file) {
     await probe.decode();
   } catch {
     URL.revokeObjectURL(url);
-    showError(new Error('The image could not be opened.'), {
-      title: 'That image could not be opened.',
-      detail: 'Choose a PNG, JPEG, or WebP image.',
-    });
+    showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
     return;
   }
 
@@ -190,10 +256,7 @@ async function loadFile(file) {
     await els.glyphImage.decode();
   } catch {
     URL.revokeObjectURL(url);
-    showError(new Error('The image could not be opened.'), {
-      title: 'That image could not be opened.',
-      detail: 'Choose a PNG, JPEG, or WebP image.',
-    });
+    showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
     return;
   }
   if (state.imageUrl) URL.revokeObjectURL(state.imageUrl);
@@ -532,11 +595,7 @@ async function readNow() {
   try {
     image = makeDataUrl();
   } catch {
-    setBusy(false);
-    showError(new Error('The cut could not be prepared.'), {
-      title: 'The cut could not be prepared.',
-      detail: 'Try the full image, then read again.',
-    });
+    showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
     return;
   }
 
@@ -547,26 +606,16 @@ async function readNow() {
       body: JSON.stringify({ image, top_k: 3, tta: true }),
       signal: controller.signal,
     });
-    if (!response.ok) {
-      let message = `The reader returned ${response.status}.`;
-      try {
-        const body = await response.json();
-        if (body.error) message = body.error;
-      } catch {}
-      throw new Error(message);
-    }
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     if (request !== state.requestSeq) return;
     showReadings(data.readings ?? []);
   } catch (error) {
     if (error.name === 'AbortError' || request !== state.requestSeq) return;
     const network = error instanceof TypeError;
-    setBusy(false);
-    showError(error, {
-      title: network ? 'The reader is not responding.' : 'The glyph could not be read.',
-      detail: network
-        ? 'Check that the demo server is running, then try again.'
-        : 'Try a different cut, or read again.',
+    showError({
+      titleKey: network ? 'error.network.title' : 'error.read.title',
+      detailKey: network ? 'error.network.detail' : 'error.read.detail',
     });
   }
 }
@@ -605,22 +654,18 @@ function makeDataUrl() {
 function showReadings(readings) {
   setBusy(false);
   if (!readings.length) {
-    showError(new Error('No reading was returned.'), {
-      title: 'No reading was returned.',
-      detail: 'Try a different cut, or read again.',
-    });
+    showError({ titleKey: 'error.noReading.title', detailKey: 'error.noReading.detail' });
     return;
   }
 
   state.readings = readings;
+  state.error = null;
+  state.copied = false;
   const best = readings[0];
   const confidence = Math.round(best.confidence * 1000) / 10;
 
   renderIds(els.idsText, best.ids);
-  els.confidenceChip.textContent = `${confidence.toFixed(1)}% confidence`;
-  els.confidenceChip.title = 'Geometric mean of the token probabilities.';
-  els.validityChip.textContent = best.valid ? 'Valid IDS' : 'Invalid tree';
-  els.validityChip.dataset.variant = best.valid ? 'accent' : 'danger';
+  updateReadingMeta();
   els.confidenceBar.style.setProperty('--ui-progress', `${confidence}%`);
   els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(best.ids)}`;
 
@@ -631,9 +676,19 @@ function showReadings(readings) {
   els.resultEmpty.hidden = true;
   els.resultBody.hidden = false;
   els.resultError.hidden = true;
-  els.copyIds.textContent = 'Copy IDS';
-  setStatus('Ready', 'idle');
-  els.liveStatus.textContent = `Read ${best.ids} with ${confidence.toFixed(1)}% confidence.`;
+  setStatus('status.ready', 'idle');
+  els.liveStatus.textContent = t('live.read', { ids: best.ids, confidence: confidence.toFixed(1) });
+}
+
+function updateReadingMeta() {
+  if (!state.readings.length) return;
+  const best = state.readings[0];
+  const confidence = Math.round(best.confidence * 1000) / 10;
+  els.confidenceChip.textContent = t('reading.confidence', { value: confidence.toFixed(1) });
+  els.confidenceChip.title = t('reading.confidenceHint');
+  els.validityChip.textContent = best.valid ? t('reading.valid') : t('reading.invalid');
+  els.validityChip.dataset.variant = best.valid ? 'accent' : 'danger';
+  els.copyIds.textContent = state.copied ? t('reading.copied') : t('reading.copy');
 }
 
 function candidateRow(reading, index) {
@@ -681,6 +736,8 @@ function renderIds(element, text) {
 
 function resetResult() {
   state.readings = [];
+  state.error = null;
+  state.copied = false;
   state.requestSeq += 1;
   if (state.controller) state.controller.abort();
   els.resultBody.hidden = true;
@@ -693,40 +750,49 @@ function resetResult() {
 }
 
 function setBusy(busy) {
+  state.busy = busy;
   els.resultCard.setAttribute('aria-busy', String(busy));
   if (busy) {
     els.recognize.setAttribute('aria-busy', 'true');
-    setStatus('Reading', 'busy');
+    setStatus('status.reading', 'busy');
   } else {
     els.recognize.removeAttribute('aria-busy');
-    if (!els.resultError.hidden) setStatus('Error', 'error');
-    else if (state.readings.length) setStatus('Ready', 'idle');
+    if (!els.resultError.hidden) setStatus('status.error', 'error');
+    else if (state.readings.length) setStatus('status.ready', 'idle');
     else els.readingStatus.hidden = true;
   }
 }
 
-function setStatus(text, kind) {
+function setStatus(key, kind) {
   els.readingStatus.hidden = false;
   els.readingStatus.dataset.state = kind;
-  els.readingStatusText.textContent = text;
+  els.readingStatusText.textContent = t(key);
+}
+
+function refreshStatus() {
+  if (els.readingStatus.hidden) return;
+  const kind = els.readingStatus.dataset.state;
+  els.readingStatusText.textContent = kind === 'busy' ? t('status.reading') : kind === 'error' ? t('status.error') : t('status.ready');
 }
 
 function clearError() {
+  state.error = null;
   els.resultError.hidden = true;
 }
 
-function showError(error, { title, detail }) {
+function showError({ titleKey, detailKey }) {
   clearTimeout(state.readTimer);
+  state.error = { titleKey, detailKey };
   setBusy(false);
   els.resultError.hidden = false;
-  els.errorTitle.textContent = title ?? 'The glyph could not be read.';
-  els.errorDetail.textContent = detail ?? error.message;
+  els.errorTitle.textContent = t(titleKey);
+  els.errorDetail.textContent = t(detailKey);
   if (!state.readings.length) {
     els.resultEmpty.hidden = true;
     els.resultBody.hidden = true;
   }
-  setStatus('Error', 'error');
-  els.liveStatus.textContent = els.errorTitle.textContent;
+  setStatus('status.error', 'error');
+  els.liveStatus.textContent = t(titleKey);
 }
 
 /* ---------- Copy ---------- */
@@ -747,9 +813,11 @@ els.copyIds.addEventListener('click', async () => {
     document.execCommand('copy');
     area.remove();
   }
-  els.copyIds.textContent = 'Copied';
-  els.liveStatus.textContent = 'IDS copied to the clipboard.';
+  state.copied = true;
+  updateReadingMeta();
+  els.liveStatus.textContent = t('live.copied');
   setTimeout(() => {
-    if (state.readings.length) els.copyIds.textContent = 'Copy IDS';
+    state.copied = false;
+    updateReadingMeta();
   }, 1600);
 });
