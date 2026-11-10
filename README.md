@@ -12,7 +12,7 @@ Status: v0.3, a 35.2M model trained on Noto Serif, IPAmj and the Jigmo family wi
 renderer. On the 8,730-row mixed-font test split it reaches 82.93% exact IDS, 86.48% under canonical
 equivalence, and 100% valid IDS. v0.2 reaches 80.24% exact on the same corrected-render test set.
 See `docs/baseline.md`, `docs/training.md` and the [label audit](docs/label-audit.md) and [font variants](docs/font-variants.md). The full
-[capability gallery](docs/gallery-v0.3.png) shows 90 test cards. Earlier: [v0.1 gallery](docs/gallery-v0.1.png) · [v0.2 gallery](docs/gallery-v0.2.png). Fixed cases: [all fixes in one image](docs/improvements-one.md) · [IVD variants](docs/ivd-variants.md) · [status audit](docs/status-audit.md).
+[capability gallery](docs/gallery-v0.3.png) shows 90 test cards. Earlier: [v0.1 gallery](docs/gallery-v0.1.png) · [v0.2 gallery](docs/gallery-v0.2.png). Fixed cases: [all fixes in one image](docs/improvements-one.md) · [IVD variants](docs/ivd-variants.md) · [why Jigmo differs](docs/jigmo.md) · [status audit](docs/status-audit.md).
 
 ## Install
 
