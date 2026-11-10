@@ -253,13 +253,15 @@
   outline-offset: calc(-1 * var(--ui-ring-width));
 }
 
-.ui-menu-item:disabled {
+.ui-menu-item:disabled,
+.ui-menu-item[aria-disabled='true'] {
   opacity: var(--ui-disabled-opacity);
   cursor: not-allowed;
 }
 
 .ui-menu-item[aria-checked='true']::before,
-.ui-menu-item[aria-current='true']::before {
+.ui-menu-item[aria-current='true']::before,
+.ui-menu-item[aria-selected='true']::before {
   content: '';
   flex: none;
   inline-size: 6px;
@@ -273,6 +275,73 @@
   block-size: 1px;
   margin: var(--ui-space-2xs) var(--ui-space-md);
   background: var(--ui-color-border);
+}
+
+/* ---------- Select menu ---------- */
+
+/* A button trigger and a listbox popup. The trigger can lead with an icon or a mark, so a compact
+   choice keeps its shape where a native select would show only text. */
+.ui-select-menu {
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.ui-select-menu-trigger {
+  inline-size: 100%;
+  justify-content: space-between;
+  gap: var(--ui-space-sm);
+  text-align: start;
+}
+
+.ui-select-menu-trigger[aria-expanded='true'] {
+  border-color: var(--ui-color-accent);
+}
+
+.ui-select-menu-leading {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--ui-color-ink-muted);
+}
+
+.ui-select-menu-value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-select-menu-chevron {
+  flex: none;
+  color: var(--ui-color-ink-muted);
+  transition: transform var(--ui-duration-fast) var(--ui-ease);
+}
+
+.ui-select-menu-trigger[aria-expanded='true'] .ui-select-menu-chevron {
+  transform: rotate(180deg);
+}
+
+.ui-select-menu-list {
+  position: absolute;
+  z-index: var(--ui-z-menu);
+  inset-block-start: calc(100% + var(--ui-space-2xs));
+  inset-inline-start: 0;
+  inline-size: max-content;
+  min-inline-size: 100%;
+  max-inline-size: min(320px, calc(100vw - 24px));
+  max-block-size: 280px;
+  overflow: auto;
+}
+
+.ui-select-menu-list[data-align='end'] {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+.ui-select-menu-list[hidden] {
+  display: none;
 }
 
 /* ---------- Lists ---------- */
@@ -1243,9 +1312,15 @@
   }
 
   .ui-menu-item[aria-checked='true']::before,
-  .ui-menu-item[aria-current='true']::before {
+  .ui-menu-item[aria-current='true']::before,
+  .ui-menu-item[aria-selected='true']::before {
     background: Highlight;
     forced-color-adjust: none;
+  }
+
+  .ui-select-menu-trigger,
+  .ui-select-menu-list {
+    border-color: ButtonBorder;
   }
 
   .ui-list-row[aria-selected='true'],

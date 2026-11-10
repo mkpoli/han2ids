@@ -29,24 +29,34 @@
       <span class="brand-name">han2ids</span>
     </a>
     <div class="topbar-actions">
-      <a class="ui-button version-link" data-variant="quiet" data-size="sm" href="https://github.com/mkpoli/han2ids" target="_blank" rel="noreferrer" data-i18n-title="build.note" title="Browser build; not the canonical PyTorch checkpoint.">
+      <a class="ui-button version-link" data-variant="quiet" data-size="sm" href="https://github.com/mkpoli/han2ids" target="_blank" rel="noreferrer">
         <span class="version-number">v0.4 · int8 ONNX</span>
         <span class="github-label">GitHub</span>
+        <span class="build-mark">int8 ONNX</span>
       </a>
-      <div class="language-control">
-        <select class="ui-select language-select" id="language" aria-label="Language" title="Language">
-          <option value="en" lang="en">English</option>
-          <option value="ja" lang="ja">日本語</option>
-          <option value="zh-Hans" lang="zh-Hans">简体中文</option>
-          <option value="zh-Hant" lang="zh-Hant">繁體中文</option>
-          <option value="ko" lang="ko">한국어</option>
-          <option value="vi" lang="vi">Tiếng Việt</option>
-        </select>
-        <svg class="language-globe" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
-          <path fill="none" stroke="currentColor" stroke-width="1.6" d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.4 3.5 8.5s-1.2 6.1-3.5 8.5M12 3.5C9.7 5.9 8.5 8.9 8.5 12s1.2 6.1 3.5 8.5"/>
-        </svg>
-        <span class="language-code" id="language-code" aria-hidden="true">EN</span>
+      <div class="ui-select-menu language-menu" id="language-menu">
+        <button class="ui-button ui-select-menu-trigger language-trigger" id="language-button" type="button"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="language-list" aria-label="Language" title="Language">
+          <span class="ui-select-menu-leading" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.6" d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.4 3.5 8.5s-1.2 6.1-3.5 8.5M12 3.5C9.7 5.9 8.5 8.9 8.5 12s1.2 6.1 3.5 8.5"/>
+            </svg>
+          </span>
+          <span class="ui-select-menu-value language-name" id="language-label">English</span>
+          <span class="language-code" id="language-code" aria-hidden="true">EN</span>
+          <svg class="ui-select-menu-chevron" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <ul class="ui-menu ui-select-menu-list language-list" id="language-list" role="listbox" aria-label="Language" data-align="end" hidden>
+          <li class="ui-menu-item" role="option" data-value="en" aria-selected="true" tabindex="-1"><span lang="en">English</span></li>
+          <li class="ui-menu-item" role="option" data-value="ja" aria-selected="false" tabindex="-1"><span lang="ja">日本語</span></li>
+          <li class="ui-menu-item" role="option" data-value="zh-Hans" aria-selected="false" tabindex="-1"><span lang="zh-Hans">简体中文</span></li>
+          <li class="ui-menu-item" role="option" data-value="zh-Hant" aria-selected="false" tabindex="-1"><span lang="zh-Hant">繁體中文</span></li>
+          <li class="ui-menu-item" role="option" data-value="ko" aria-selected="false" tabindex="-1"><span lang="ko">한국어</span></li>
+          <li class="ui-menu-item" role="option" data-value="vi" aria-selected="false" tabindex="-1"><span lang="vi">Tiếng Việt</span></li>
+        </ul>
       </div>
       <fieldset class="theme-switch ui-segmented">
         <legend class="ui-visually-hidden" data-i18n="theme.legend">Colour scheme</legend>
@@ -79,10 +89,6 @@
     <section class="intro">
       <h1 data-i18n="intro.title">Read a glyph's IDS</h1>
       <p data-i18n="intro.body">Paste or drop a Mincho or Song glyph. Adjust the cut, then read its ideographic description sequence.</p>
-      <p class="build-note">
-        <span class="ui-chip" data-variant="accent">int8 ONNX</span>
-        <span data-i18n="build.note">Browser build; not the canonical PyTorch checkpoint.</span>
-      </p>
     </section>
 
     <div class="workspace">

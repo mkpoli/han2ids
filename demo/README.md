@@ -27,8 +27,10 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 ## Locales
 
 The page ships in English, Japanese, Simplified Chinese, Traditional Chinese, Korean and Vietnamese;
-the set follows the [IDS Workshop](https://ids.mkpo.li/). The header control starts from `?lang=`,
-then the saved choice, then the browser language, and stores a change in `han2ids:lang` and the URL.
+the set follows the [IDS Workshop](https://ids.mkpo.li/). The language control is the design system's
+select menu from [ids-input#858](https://github.com/mkpoli/ids-input/pull/858). It starts from
+`?lang=`, then the saved choice, then the browser language, and stores a change in `han2ids:lang` and
+the URL.
 
 ## Deploy
 
