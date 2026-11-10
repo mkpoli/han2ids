@@ -44,12 +44,14 @@ samples/字.png	⿱宀子	0.940
 ## Demo
 
 ```sh
-uv sync
+uv run --extra onnx python scripts/export_onnx.py
+uv run python demo/prepare.py
 uv run python demo/server.py
 ```
 
-The page at <http://127.0.0.1:8402> takes a pasted or dropped glyph image, cuts it automatically,
-and reads three candidates. See `demo/README.md` for options and the API.
+The page at <http://127.0.0.1:8402> runs the int8 ONNX model in a Web Worker; the first read loads
+40.2 MB of models. It reads one em-box crop without the CLI's four-cut beam search, and it is not the
+canonical PyTorch checkpoint. See `demo/README.md` for the page and deployment.
 
 ## Browser export
 
@@ -60,8 +62,8 @@ uv run --extra onnx python scripts/export_onnx.py
 The script writes a split encoder/decoder, an int8 copy, the vocabulary and a manifest to
 `build/onnx/`. The int8 pair totals 40.2 MB; both files are under [Cloudflare Pages' 25 MiB
 per-file limit](https://developers.cloudflare.com/pages/platform/limits/). The int8 copy matched fp32
-on a 200-row test sample. The export is only the model; a browser page still needs ONNX Runtime Web
-and the grammar decoder.
+on a 200-row test sample. The demo page runs it in a Web Worker with ONNX Runtime Web; the int8
+export is not the canonical PyTorch checkpoint.
 
 ## Preprocessing
 

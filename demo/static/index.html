@@ -29,8 +29,8 @@
       <span class="brand-name">han2ids</span>
     </a>
     <div class="topbar-actions">
-      <a class="ui-button version-link" data-variant="quiet" data-size="sm" href="https://github.com/mkpoli/han2ids" target="_blank" rel="noreferrer">
-        <span class="version-number">v0.4</span>
+      <a class="ui-button version-link" data-variant="quiet" data-size="sm" href="https://github.com/mkpoli/han2ids" target="_blank" rel="noreferrer" data-i18n-title="build.note" title="Browser build; not the canonical PyTorch checkpoint.">
+        <span class="version-number">v0.4 · int8 ONNX</span>
         <span class="github-label">GitHub</span>
       </a>
       <div class="language-control">
@@ -79,6 +79,10 @@
     <section class="intro">
       <h1 data-i18n="intro.title">Read a glyph's IDS</h1>
       <p data-i18n="intro.body">Paste or drop a Mincho or Song glyph. Adjust the cut, then read its ideographic description sequence.</p>
+      <p class="build-note">
+        <span class="ui-chip" data-variant="accent">int8 ONNX</span>
+        <span data-i18n="build.note">Browser build; not the canonical PyTorch checkpoint.</span>
+      </p>
     </section>
 
     <div class="workspace">
@@ -161,6 +165,14 @@
             <span class="ui-spinner" aria-hidden="true"></span>
             <span id="reading-status-text" data-i18n="status.ready">Ready</span>
           </span>
+        </div>
+
+        <div class="model-load" id="model-load" hidden>
+          <div class="model-load-head">
+            <span data-i18n="model.loading">Loading int8 ONNX model</span>
+            <span class="range-value" id="model-progress-text">0%</span>
+          </div>
+          <div class="ui-progress" id="model-progress" aria-hidden="true"></div>
         </div>
 
         <div class="result-empty" id="result-empty">

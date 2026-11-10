@@ -1,24 +1,24 @@
 # Demo
 
-A one-page reader for the model: paste or drop a glyph image, adjust the cut, and the page sends the
-crop to a local server and shows the IDS.
+A one-page reader that runs the int8 ONNX export in the browser. No inference server is involved.
 
 ```sh
-uv sync
+uv run --extra onnx python scripts/export_onnx.py
+uv run python demo/prepare.py
 uv run python demo/server.py
 ```
 
-Open <http://127.0.0.1:8402>. The server loads the checkpoint once and uses CUDA when it is
-available. `--port`, `--checkpoint`, `--host` and `--cpu` are accepted.
-
-The cut follows the ink automatically; the margin slider and the handles refine it. The crop is
-sent as a WebP data URL, and the server runs the checkpoint's four preprocessing variants and beam
-search for three readings.
+Open <http://127.0.0.1:8402>. The first read downloads 40.2 MB of int8 models and starts ONNX Runtime
+Web in a Web Worker; later reads reuse the sessions. The cut follows the ink automatically, and the
+margin slider and handles refine it. The browser build reads one em-box crop, without the CLI's
+four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch checkpoint.
 
 ## Files
 
-- `server.py` — standard-library HTTP server and the reading endpoint.
+- `server.py` — a local static server for the page.
+- `prepare.py` — copies the int8 models from `build/onnx/` and ONNX Runtime Web into `static/`.
 - `static/index.html`, `static/app.css`, `static/app.js` — the page, with no build step.
+- `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
 - `static/i18n.js` — the six UI locales.
 - `static/design/` — copies of the IDS Workshop's design system, with provenance in its README.
 - `static/fonts/han2ids-glyphs.woff2` — Jigmo subset for sequence text, with provenance in its README.
@@ -30,25 +30,19 @@ The page ships in English, Japanese, Simplified Chinese, Traditional Chinese, Ko
 the set follows the [IDS Workshop](https://ids.mkpo.li/). The header control starts from `?lang=`,
 then the saved choice, then the browser language, and stores a change in `han2ids:lang` and the URL.
 
-## API
+## Deploy
 
-`POST /api/read` takes JSON:
-
-```json
-{"image": "data:image/webp;base64,...", "top_k": 3, "tta": true}
+```sh
+uv run python scripts/build_ocr.py
+bunx wrangler@4.158.0 deploy --config deploy/wrangler.ocr.jsonc
 ```
 
-It returns:
-
-```json
-{"readings": [{"ids": "⿰𠤕⿱龴疋", "confidence": 0.9559, "variant": "em", "valid": true}]}
-```
-
-`GET /api/health` reports the model version and device.
+The Worker serves the static page at `ids.mkpo.li/ocr`. The int8 files are each below the 25 MiB
+per-file limit. ONNX Runtime Web is MIT; the model export comes from `scripts/export_onnx.py`.
 
 ## Checks
 
 ```sh
-uv run --extra dev pytest tests/test_demo.py
+uv run --extra dev pytest
 node demo/check-i18n.mjs
 ```

@@ -1,6 +1,5 @@
 import { DEFAULT_LOCALE, LOCALES, matchLocale } from './i18n.js';
 
-const MAX_SEND = 1024;
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
 
@@ -41,6 +40,9 @@ const els = {
   liveStatus: document.querySelector('#live-status'),
   language: document.querySelector('#language'),
   languageCode: document.querySelector('#language-code'),
+  modelLoad: document.querySelector('#model-load'),
+  modelProgress: document.querySelector('#model-progress'),
+  modelProgressText: document.querySelector('#model-progress-text'),
 };
 
 const IDC = /[\u2FF0-\u2FFF\u303E\u31EF]/;
@@ -56,9 +58,13 @@ const state = {
   readings: [],
   requestSeq: 0,
   readTimer: 0,
-  controller: null,
   drag: null,
   busy: false,
+  loading: false,
+  modelLoaded: false,
+  progress: 0,
+  running: false,
+  queued: false,
   copied: false,
   error: null,
 };
@@ -236,7 +242,6 @@ async function loadFile(file) {
   }
 
   state.requestSeq += 1;
-  if (state.controller) state.controller.abort();
   clearTimeout(state.readTimer);
   setBusy(false);
 
@@ -581,46 +586,75 @@ function scheduleRead(delay = READ_DELAY) {
   state.readTimer = setTimeout(readNow, delay);
 }
 
+let inference = null;
+
+function loadInference() {
+  if (!inference) inference = import('./inference.js');
+  return inference;
+}
+
 async function readNow() {
   if (!state.natural.width) return;
+  if (state.running) {
+    state.queued = true;
+    return;
+  }
 
+  state.running = true;
   const request = ++state.requestSeq;
-  if (state.controller) state.controller.abort();
-  const controller = new AbortController();
-  state.controller = controller;
   setBusy(true);
   clearError();
 
-  let image;
+  let input;
   try {
-    image = makeDataUrl();
+    input = makeModelInput();
   } catch {
+    state.running = false;
     showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
     return;
   }
 
+  const firstLoad = !state.modelLoaded;
+  if (firstLoad) {
+    state.loading = true;
+    state.progress = 0;
+    showModelProgress(0);
+    setStatus('status.loading', 'busy');
+  }
+
   try {
-    const response = await fetch('./api/read', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image, top_k: 3, tta: true }),
-      signal: controller.signal,
+    const { recognize } = await loadInference();
+    const readings = await recognize(input, {
+      onProgress(fraction) {
+        if (request !== state.requestSeq || !firstLoad || !state.loading) return;
+        state.progress = Math.max(state.progress, fraction);
+        showModelProgress(state.progress);
+      },
     });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
     if (request !== state.requestSeq) return;
-    showReadings(data.readings ?? []);
+    state.modelLoaded = true;
+    state.loading = false;
+    hideModelProgress();
+    showReadings(readings);
   } catch (error) {
-    if (error.name === 'AbortError' || request !== state.requestSeq) return;
-    const network = error instanceof TypeError;
+    if (request !== state.requestSeq) return;
+    state.loading = false;
+    hideModelProgress();
+    const modelError = error?.name === 'ModelLoadError' || !state.modelLoaded;
     showError({
-      titleKey: network ? 'error.network.title' : 'error.read.title',
-      detailKey: network ? 'error.network.detail' : 'error.read.detail',
+      titleKey: modelError ? 'error.model.title' : 'error.read.title',
+      detailKey: modelError ? 'error.model.detail' : 'error.read.detail',
     });
+  } finally {
+    state.running = false;
+    if (state.queued) {
+      state.queued = false;
+      readNow();
+    }
   }
 }
 
-function makeDataUrl() {
+function makeModelInput() {
   const image = els.glyphImage;
   const naturalWidth = image.naturalWidth;
   const naturalHeight = image.naturalHeight;
@@ -632,26 +666,62 @@ function makeDataUrl() {
   const ey = clamp(Math.ceil((y + h) * naturalHeight), sy + 1, naturalHeight);
   const sourceWidth = ex - sx;
   const sourceHeight = ey - sy;
-
-  const scale = Math.min(1, MAX_SEND / Math.max(sourceWidth, sourceHeight));
+  const scale = 224 / Math.max(sourceWidth, sourceHeight);
   const width = Math.max(1, Math.round(sourceWidth * scale));
   const height = Math.max(1, Math.round(sourceHeight * scale));
 
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext('2d', { willReadFrequently: true });
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
   context.fillStyle = state.transparent && state.inkLight ? '#000' : '#fff';
   context.fillRect(0, 0, width, height);
   context.drawImage(image, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
+  const pixels = context.getImageData(0, 0, width, height).data;
 
-  const webp = canvas.toDataURL('image/webp', 0.95);
-  return webp.startsWith('data:image/webp') ? webp : canvas.toDataURL('image/png');
+  const gray = new Float32Array(width * height);
+  let mean = 0;
+  for (let index = 0; index < gray.length; index += 1) {
+    const offset = index * 4;
+    const value = 0.299 * pixels[offset] + 0.587 * pixels[offset + 1] + 0.114 * pixels[offset + 2];
+    gray[index] = value;
+    mean += value;
+  }
+  const invert = mean / gray.length < 127;
+  const data = new Float32Array(3 * 224 * 224);
+  data.fill(1);
+  const left = Math.floor((224 - width) / 2);
+  const top = Math.floor((224 - height) / 2);
+  for (let row = 0; row < height; row += 1) {
+    for (let column = 0; column < width; column += 1) {
+      let value = gray[row * width + column];
+      if (invert) value = 255 - value;
+      const normalized = (value / 255 - 0.5) / 0.5;
+      const target = (top + row) * 224 + left + column;
+      data[target] = normalized;
+      data[224 * 224 + target] = normalized;
+      data[2 * 224 * 224 + target] = normalized;
+    }
+  }
+  return data;
+}
+
+function showModelProgress(fraction) {
+  els.modelLoad.hidden = false;
+  const percent = Math.round(clamp(fraction, 0, 1) * 100);
+  els.modelProgress.style.setProperty('--ui-progress', `${percent}%`);
+  els.modelProgressText.textContent = `${percent}%`;
+}
+
+function hideModelProgress() {
+  els.modelLoad.hidden = true;
 }
 
 function showReadings(readings) {
+  state.loading = false;
+  hideModelProgress();
   setBusy(false);
   if (!readings.length) {
     showError({ titleKey: 'error.noReading.title', detailKey: 'error.noReading.detail' });
@@ -738,8 +808,10 @@ function resetResult() {
   state.readings = [];
   state.error = null;
   state.copied = false;
+  state.loading = false;
+  state.progress = 0;
   state.requestSeq += 1;
-  if (state.controller) state.controller.abort();
+  hideModelProgress();
   els.resultBody.hidden = true;
   els.resultEmpty.hidden = false;
   els.resultError.hidden = true;
@@ -754,7 +826,7 @@ function setBusy(busy) {
   els.resultCard.setAttribute('aria-busy', String(busy));
   if (busy) {
     els.recognize.setAttribute('aria-busy', 'true');
-    setStatus('status.reading', 'busy');
+    setStatus(state.loading ? 'status.loading' : 'status.reading', 'busy');
   } else {
     els.recognize.removeAttribute('aria-busy');
     if (!els.resultError.hidden) setStatus('status.error', 'error');
@@ -772,7 +844,10 @@ function setStatus(key, kind) {
 function refreshStatus() {
   if (els.readingStatus.hidden) return;
   const kind = els.readingStatus.dataset.state;
-  els.readingStatusText.textContent = kind === 'busy' ? t('status.reading') : kind === 'error' ? t('status.error') : t('status.ready');
+  const key = kind === 'busy'
+    ? (state.loading ? 'status.loading' : 'status.reading')
+    : kind === 'error' ? 'status.error' : 'status.ready';
+  els.readingStatusText.textContent = t(key);
 }
 
 function clearError() {
@@ -783,6 +858,8 @@ function clearError() {
 function showError({ titleKey, detailKey }) {
   clearTimeout(state.readTimer);
   state.error = { titleKey, detailKey };
+  state.loading = false;
+  hideModelProgress();
   setBusy(false);
   els.resultError.hidden = false;
   els.errorTitle.textContent = t(titleKey);

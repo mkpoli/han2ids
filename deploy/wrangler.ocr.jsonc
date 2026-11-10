@@ -1,0 +1,13 @@
+{
+  "name": "han2ids-ocr",
+  "main": "./ocr-worker.js",
+  "compatibility_date": "2026-11-10",
+  "assets": {
+    "directory": "../build/ocr",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "routes": [{ "pattern": "ids.mkpo.li/ocr*", "zone_name": "mkpo.li" }],
+  "workers_dev": false,
+  "observability": { "enabled": true }
+}
