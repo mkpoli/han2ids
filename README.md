@@ -8,11 +8,11 @@ out of scope, so the model does not spend capacity on shapes it is not meant to 
 
 ![han2ids v0.3 capability gallery](docs/gallery-v0.3-cover.png)
 
-Status: v0.3, a 35.2M model trained on Noto Serif, IPAmj and the Jigmo family with a common em-box
-renderer. On the 8,730-row mixed-font test split it reaches 82.93% exact IDS, 86.48% under canonical
-equivalence, and 100% valid IDS. v0.2 reaches 80.24% exact on the same corrected-render test set.
-See `docs/baseline.md`, `docs/training.md` and the [label audit](docs/label-audit.md) and [font variants](docs/font-variants.md). The full
-[capability gallery](docs/gallery-v0.3.png) shows 90 test cards. Earlier: [v0.1 gallery](docs/gallery-v0.1.png) · [v0.2 gallery](docs/gallery-v0.2.png). Fixed cases: [all fixes in one image](docs/improvements-one.md) · [IVD variants](docs/ivd-variants.md) · [why Jigmo differs](docs/jigmo.md) · [status audit](docs/status-audit.md) · [v0.1 split leak](docs/leak.md) · [v0.4 plan](docs/v0.4-plan.md).
+Status: v0.4, a clean 35.2M model continued from v0.3 on the corrected Noto/IPAmj/Jigmo em-box set. On
+the 8,730-row test it reaches 84.54% exact IDS, 87.79% exact-or-same-tree, and 100% valid. v0.3 was
+82.88% exact. Noto 93.32%, IPAmj 84.63%, Jigmo 81.80%. See `docs/v0.4-plan.md`, `docs/leak.md` and
+`docs/v0.4-results.json`. The v0.1→v0.2 comparison is leaked: 89.9% of current test characters were in
+v0.1's training split.
 
 ## Install
 
@@ -20,7 +20,7 @@ See `docs/baseline.md`, `docs/training.md` and the [label audit](docs/label-audi
 uv sync
 mkdir -p models
 curl -L -o models/han2ids-v0.2.pt \
-  https://github.com/mkpoli/han2ids/releases/download/v0.3.0/han2ids-v0.3.pt
+  https://github.com/mkpoli/han2ids/releases/download/v0.4.0/han2ids-v0.4.pt
 ```
 
 The checkpoint is 135 MB. It is not committed.
@@ -60,13 +60,13 @@ Of the 97,680 Han records, Jigmo covers all 97,680 and IPAmj covers 52,518, addi
 contain 10,398 distinct characters; Jigmo covers all and IPAmj covers 8,379. IPAmj is useful as a
 second Mincho style, not as extra coverage.
 
-The v0.3 checkpoint is attached to the [v0.3.0 release](https://github.com/mkpoli/han2ids/releases/tag/v0.3.0);
-the repository does not carry the 135 MB file. [Hugging Face](https://huggingface.co/mkpoli/han2ids-v0.3) mirrors it.
+The v0.4 checkpoint is attached to the [v0.4.0 release](https://github.com/mkpoli/han2ids/releases/tag/v0.4.0);
+the repository does not carry the 135 MB file. [Hugging Face](https://huggingface.co/mkpoli/han2ids-v0.4) mirrors it.
 
 ## Training
 
 `scripts/build_dataset.py` renders a font-mixed set from the BabelStone labels.
-`scripts/train_fonts_v3.py` trains the full v0.3 model; `scripts/train.py` trains from image/label JSONL
+`scripts/train_fonts_v4.py` trains v0.4 from v0.3; `scripts/train_fonts_v3.py` trains the full v0.3 model; `scripts/train.py` trains from image/label JSONL
 directories. `scripts/pilot_fonts.py` is the held-out-font experiment. Nothing uses Kai.
 
 The full v0.3 run used 176,965 images over 95,927 Han characters with a common em-box renderer, four epochs, and evaluated on 8,730 mixed-font rows. See `docs/training.md` for the numbers and the pilot comparison.
