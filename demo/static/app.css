@@ -592,24 +592,6 @@ body {
   color: var(--ui-color-ink-soft);
 }
 
-.page-foot {
-  inline-size: 100%;
-  max-inline-size: 1280px;
-  margin: 0 auto;
-  padding: 16px 24px 28px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ui-space-xs) var(--ui-space-lg);
-  border-block-start: 1px solid var(--ui-color-border);
-  color: var(--ui-color-ink-muted);
-  font-size: var(--ui-text-2xs);
-}
-
-.page-foot a {
-  color: inherit;
-  text-decoration-color: var(--ui-color-border-strong);
-}
-
 @media (max-width: 980px) {
   .workspace {
     grid-template-columns: minmax(0, 1fr);
@@ -688,10 +670,6 @@ body {
   .auto-note {
     flex-basis: 100%;
     margin-inline-start: 0;
-  }
-
-  .page-foot {
-    padding-inline: 16px;
   }
 
   .version-number {
