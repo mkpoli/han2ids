@@ -1,0 +1,151 @@
+/* IDS UI tokens.
+
+   One palette for the workshop, its embedded components and any site that adopts the system.
+   Every colour is a light-dark() pair, so `color-scheme` alone chooses the side: a site that
+   wants the reader's system scheme does nothing, and one that offers a switch sets
+   `data-theme="light"` or `data-theme="dark"` on the root.
+
+   Rules:
+   - Components read semantic tokens, never raw hex values.
+   - A site may override any token on :root; the layout, states and contrast stay the same.
+   - Contrast is measured against the surface the token sits on (see design/README.md). */
+
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+:root {
+  /* Surfaces */
+  --ui-color-canvas: light-dark(#f3f3f6, #111114);
+  --ui-color-surface: light-dark(#ffffff, #1b1b20);
+  --ui-color-surface-sunken: light-dark(#f6f6f9, #16161a);
+  --ui-color-surface-hover: light-dark(#eeeef3, #26262d);
+  --ui-color-surface-active: light-dark(#e3e3ea, #30303a);
+  --ui-color-overlay: light-dark(rgb(10 10 20 / 0.35), rgb(0 0 0 / 0.6));
+
+  /* Text */
+  --ui-color-ink: light-dark(#1c1c22, #ececf2);
+  --ui-color-ink-soft: light-dark(#44444c, #c6c6ce);
+  --ui-color-ink-muted: light-dark(#686874, #9d9daa);
+
+  /* Lines. `border` and `border-strong` are decorative; `control-border` is the 3:1 boundary
+     that identifies an input or an unchecked box. */
+  --ui-color-border: light-dark(#e1e1e8, #2e2e36);
+  --ui-color-border-strong: light-dark(#c2c2cc, #4a4a55);
+  --ui-color-control-border: light-dark(#8a8a96, #6f6f7e);
+  --ui-color-control-border-hover: light-dark(#6e6e7a, #8a8a99);
+
+  /* Accent */
+  --ui-color-accent: light-dark(#2944c7, #8ea8ff);
+  --ui-color-accent-hover: light-dark(#2138a8, #a5bbff);
+  --ui-color-accent-active: light-dark(#1a2d8c, #b9caff);
+  --ui-color-accent-soft: light-dark(#e9edfd, #232c4c);
+  --ui-color-on-accent: light-dark(#ffffff, #0e1330);
+  --ui-color-focus: var(--ui-color-accent);
+
+  /* Danger */
+  --ui-color-danger: light-dark(#b42318, #ff8a80);
+  --ui-color-danger-hover: light-dark(#971c13, #ffa59d);
+  --ui-color-danger-soft: light-dark(#fdeceb, #3a1e1c);
+  --ui-color-on-danger: light-dark(#ffffff, #2a0b08);
+
+  /* A segmented switch's raised half; the light scheme inverts to ink on white. */
+  --ui-color-switch-highlight: light-dark(#1c1c22, #ececf2);
+  --ui-color-on-switch-highlight: light-dark(#ffffff, #111114);
+
+  /* Selection and scrollbars */
+  --ui-color-selection: var(--ui-color-accent-soft);
+  --ui-color-selection-ink: var(--ui-color-ink);
+  --ui-color-scrollbar: var(--ui-color-border-strong);
+  --ui-color-scrollbar-hover: var(--ui-color-ink-muted);
+
+  /* Toast */
+  --ui-color-toast-surface: light-dark(#1c1c22, #ececf2);
+  --ui-color-toast-ink: light-dark(#ffffff, #111114);
+
+  /* Shadows. light-dark() is a colour function, so only the colour changes; the offsets
+     stay outside it. */
+  --ui-shadow-color-1: light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.5));
+  --ui-shadow-color-2: light-dark(rgb(20 20 40 / 0.18), rgb(0 0 0 / 0.55));
+  --ui-shadow-1: 0 1px 3px var(--ui-shadow-color-1);
+  --ui-shadow-2: 0 12px 32px var(--ui-shadow-color-2);
+
+  /* Type */
+  --ui-font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --ui-font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --ui-text-2xs: 11px;
+  --ui-text-xs: 12px;
+  --ui-text-sm: 13px;
+  --ui-text-md: 14px;
+  --ui-text-lg: 16px;
+  --ui-text-xl: 20px;
+  --ui-text-2xl: 28px;
+  --ui-leading-tight: 1.25;
+  --ui-leading-normal: 1.5;
+  --ui-weight-normal: 400;
+  --ui-weight-medium: 500;
+  --ui-weight-semibold: 600;
+  --ui-weight-bold: 650;
+  --ui-tracking-caps: 0.04em;
+
+  /* Space */
+  --ui-space-3xs: 2px;
+  --ui-space-2xs: 4px;
+  --ui-space-xs: 6px;
+  --ui-space-sm: 8px;
+  --ui-space-md: 10px;
+  --ui-space-lg: 12px;
+  --ui-space-xl: 16px;
+  --ui-space-2xl: 20px;
+  --ui-space-3xl: 24px;
+  --ui-space-4xl: 32px;
+
+  /* Shape */
+  --ui-radius-xs: 4px;
+  --ui-radius-sm: 6px;
+  --ui-radius-md: 8px;
+  --ui-radius-lg: 10px;
+  --ui-radius-xl: 12px;
+  --ui-radius-2xl: 14px;
+  --ui-radius-3xl: 16px;
+  --ui-radius-pill: 999px;
+
+  /* Controls */
+  --ui-control-h-xs: 24px;
+  --ui-control-h-sm: 28px;
+  --ui-control-h-md: 32px;
+  --ui-control-h-lg: 36px;
+  --ui-target-min: 24px;
+  --ui-checkbox-size: 18px;
+  --ui-radio-size: 18px;
+  --ui-switch-width: 40px;
+  --ui-switch-height: 24px;
+  --ui-switch-thumb: 18px;
+  --ui-switch-travel: 16px;
+  --ui-color-switch-thumb: light-dark(#ffffff, #f3f3f6);
+  --ui-disabled-opacity: 0.45;
+
+  /* Focus. The ring clears 3:1 against every surface it sits on. */
+  --ui-ring-width: 2px;
+  --ui-ring-offset: 2px;
+
+  /* Motion */
+  --ui-duration-fast: 120ms;
+  --ui-duration: 160ms;
+  --ui-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layers */
+  --ui-z-chrome: 30;
+  --ui-z-menu: 40;
+  --ui-z-hint: 50;
+  --ui-z-modal: 60;
+  --ui-z-toast: 70;
+}

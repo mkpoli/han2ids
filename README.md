@@ -41,6 +41,16 @@ samples/疑.png	⿰𠤕⿱龴疋	0.91
 samples/字.png	⿱宀子	0.96
 ```
 
+## Demo
+
+```sh
+uv sync
+uv run python demo/server.py
+```
+
+The page at <http://127.0.0.1:8402> takes a pasted or dropped glyph image, cuts it automatically,
+and reads three candidates. See `demo/README.md` for options and the API.
+
 ## Preprocessing
 
 The model reads a 224×224 grayscale image in an em box. A cropped glyph has no em box, so the CLI

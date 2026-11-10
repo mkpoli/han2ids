@@ -1,0 +1,116 @@
+/* The page layer: a reset, the document's face, one focus ring, themed scrollbars and
+   selection, and the reader's motion preference. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  background: var(--ui-color-canvas);
+  color: var(--ui-color-ink);
+  font-family: var(--ui-font-sans);
+  font-size: var(--ui-text-md);
+  line-height: var(--ui-leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+:where(a) {
+  color: var(--ui-color-accent);
+  text-underline-offset: 2px;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+}
+
+/* One ring for every control. A component may inset it where an outer edge would clip,
+   but it may not change its colour, width or meaning. */
+:where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: var(--ui-ring-width) solid var(--ui-color-focus);
+  outline-offset: var(--ui-ring-offset);
+}
+
+::selection {
+  background: var(--ui-color-selection);
+  color: var(--ui-color-selection-ink);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ui-color-scrollbar) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--ui-color-scrollbar);
+  border: 2px solid transparent;
+  border-radius: var(--ui-radius-pill);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-color-scrollbar-hover);
+  background-clip: padding-box;
+}
+
+.ui-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* A reader who asks for more contrast gets stronger lines, text and focus; the control
+   boundaries reach the text colour, which is 3:1 or better everywhere they sit. */
+@media (prefers-contrast: more) {
+  :root {
+    --ui-color-ink-soft: var(--ui-color-ink);
+    --ui-color-ink-muted: light-dark(#3c3c46, #d4d4de);
+    --ui-color-border: light-dark(#8a8a96, #6f6f7e);
+    --ui-color-border-strong: light-dark(#5a5a66, #a2a2ae);
+    --ui-color-control-border: var(--ui-color-ink);
+    --ui-color-control-border-hover: var(--ui-color-ink);
+    --ui-color-accent: light-dark(#1b2d94, #b9caff);
+    --ui-color-accent-hover: light-dark(#142270, #d0dbff);
+    --ui-color-accent-active: light-dark(#0f1a5c, #e2e9ff);
+    --ui-ring-width: 3px;
+  }
+}

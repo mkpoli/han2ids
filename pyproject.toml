@@ -25,3 +25,6 @@ han2ids = "han2ids.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/han2ids"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
