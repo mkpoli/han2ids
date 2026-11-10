@@ -19,7 +19,7 @@ v0.1's training split.
 ```sh
 uv sync
 mkdir -p models
-curl -L -o models/han2ids-v0.2.pt \
+curl -L -o models/han2ids-v0.4.pt \
   https://github.com/mkpoli/han2ids/releases/download/v0.4.0/han2ids-v0.4.pt
 ```
 
@@ -31,7 +31,7 @@ The checkpoint is 135 MB. It is not committed.
 uv run han2ids samples/疑.png
 ```
 
-The default checkpoint is `models/han2ids-v0.3.pt`. Point at another with `--checkpoint`, or set
+The default checkpoint is `models/han2ids-v0.4.pt`. Point at another with `--checkpoint`, or set
 `HAN2IDS_MODEL`. `--json` prints the IDS, confidence and the chosen preprocessing variant;
 `--top-k 3` returns ranked beam alternatives; see `docs/multiple-ids.md`. `--no-tta` uses the em-box render only.
 
