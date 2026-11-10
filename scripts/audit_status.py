@@ -1,6 +1,7 @@
 """Count every v0.1/v0.2/v0.3 status and every transition, once."""
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from collections import Counter
@@ -15,9 +16,12 @@ MODELS = {
     'v0.2': [json.loads(line) for line in (ROOT / 'build/gallery-v02/predictions.jsonl').read_text().splitlines()],
     'v0.3': [json.loads(line) for line in (ROOT / 'build/gallery-v3/predictions.jsonl').read_text().splitlines()],
 }
+parser = argparse.ArgumentParser()
+parser.add_argument("--strict-ivd", action="store_true")
+args = parser.parse_args()
 status = {}
 for name, rows in MODELS.items():
-    status[name] = [(row, classify(row['char'], row['font'], row['pred'], row['ids'])) for row in rows]
+    status[name] = [(row, classify(row['char'], row['font'], row['pred'], row['ids'], strict_ivd=args.strict_ivd)) for row in rows]
     counts = Counter(kind for _, kind in status[name])
     print(name, dict(counts), {k: round(v / len(rows) * 100, 2) for k, v in counts.items()})
 

@@ -57,7 +57,10 @@ def render(node) -> str:
 
 
 def normalise(text: str) -> str:
-    tree, end = parse(text)
-    if end != len(text):
+    try:
+        tree, end = parse(text)
+        if end != len(text):
+            return text
+        return render(flatten(tree))
+    except (IndexError, RecursionError):
         return text
-    return render(flatten(tree))

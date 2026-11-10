@@ -18,6 +18,11 @@ for line in (ROOT / 'data/font-label-overrides.tsv').read_text().splitlines():
         FONT_GOLD[(char, font)] = text
 SAME = {line.split('\t', 1)[0] for line in (ROOT / 'data/equivalence-overrides.tsv').read_text().splitlines() if line and not line.startswith('#')}
 VARIANT = {line.split('\t', 1)[0] for line in (ROOT / 'data/variant-overrides.tsv').read_text().splitlines() if line and not line.startswith('#')}
+IVD_GROUP = {}
+for line in (ROOT / 'data/ivd-variants.tsv').read_text().splitlines():
+    if line and not line.startswith('#'):
+        codepoint, _, ids, _ = (line.split('\t') + [''])[:4]
+        IVD_GROUP[ids] = codepoint
 
 # Replace long strings first. These are regional or design forms, not tree changes.
 COMPONENTS = {}
@@ -62,7 +67,7 @@ def same_variant(a: str, b: str) -> bool:
     return normalise(expand(variant_form(a))) == normalise(expand(variant_form(b)))
 
 
-def classify(char: str, font: str, pred: str, fallback: str) -> str:
+def classify(char: str, font: str, pred: str, fallback: str, strict_ivd: bool = False) -> str:
     golden = gold(char, font, fallback)
     if pred == golden:
         return 'exact'
@@ -72,4 +77,6 @@ def classify(char: str, font: str, pred: str, fallback: str) -> str:
         return 'same'
     if same_variant(pred, golden):
         return 'variant'
+    if IVD_GROUP.get(pred) and IVD_GROUP.get(pred) == IVD_GROUP.get(golden):
+        return 'miss' if strict_ivd else 'variant'
     return 'miss'
