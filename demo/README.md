@@ -15,9 +15,10 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 
 ## Preprocessing
 
-The cut is automatic; the margin and handles refine it. **Binarise** thresholds the crop at twice the
-224 px model input size, starting from Otsu and adjustable with the slider; **Rotate** turns the input
-in 90° steps. The **Model input** thumbnail shows the exact grayscale image the model receives.
+The cut is automatic; the margin and handles refine it. **Binarise** thresholds a 2× copy of the crop,
+starting from Otsu and adjustable with the slider, then downsamples it with smoothing; **Rotate**
+turns the input in 90° steps. The **Model input** thumbnail shows the exact grayscale image the model
+receives.
 
 ## Files
 

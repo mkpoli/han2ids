@@ -499,12 +499,6 @@ body {
   margin-block-end: 1px;
 }
 
-.preprocess-auto:disabled {
-  border-color: transparent;
-  background: transparent;
-  color: var(--ui-color-ink-muted);
-}
-
 .preprocess-label {
   color: var(--ui-color-ink-muted);
   font-size: var(--ui-text-sm);
@@ -534,6 +528,7 @@ body {
   block-size: 96px;
   border: 1px solid var(--ui-color-border-strong);
   border-radius: 2px;
+  /* The model input is always a light document; keep the thumbnail white in dark mode. */
   background: #fff;
 }
 

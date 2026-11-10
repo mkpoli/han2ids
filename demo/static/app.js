@@ -70,6 +70,7 @@ const state = {
   threshold: null,
   autoThreshold: null,
   rotation: 0,
+  modelInput: null,
   readings: [],
   requestSeq: 0,
   readTimer: 0,
@@ -350,6 +351,8 @@ async function loadFile(file) {
     return;
   }
 
+  state.modelInput = null;
+  clearInputPreview();
   els.glyphImage.src = url;
   try {
     await els.glyphImage.decode();
@@ -388,6 +391,10 @@ async function loadFile(file) {
 
 /* ---------- Ink detection and the cut ---------- */
 
+function luminance(red, green, blue) {
+  return 0.299 * red + 0.587 * green + 0.114 * blue;
+}
+
 function analyseInk(image) {
   const width = image.naturalWidth;
   const height = image.naturalHeight;
@@ -416,7 +423,7 @@ function analyseInk(image) {
     for (let x = 0; x < w; x += 1) {
       const offset = (y * w + x) * 4;
       const alpha = pixels[offset + 3];
-      const luma = Math.round(0.2126 * pixels[offset] + 0.7152 * pixels[offset + 1] + 0.0722 * pixels[offset + 2]);
+      const luma = Math.round(luminance(pixels[offset], pixels[offset + 1], pixels[offset + 2]));
       const onBorder = x < border || y < border || x >= w - border || y >= h - border;
       if (onBorder) {
         borderCount += 1;
@@ -449,7 +456,7 @@ function analyseInk(image) {
       const offset = (y * w + x) * 4;
       const alpha = pixels[offset + 3];
       if (alpha <= 32) continue;
-      const luma = 0.2126 * pixels[offset] + 0.7152 * pixels[offset + 1] + 0.0722 * pixels[offset + 2];
+      const luma = luminance(pixels[offset], pixels[offset + 1], pixels[offset + 2]);
       const ink = transparentBackground ? true : brightBackground ? luma <= threshold : luma >= threshold;
       if (!ink) continue;
       if (x < left) left = x;
@@ -546,6 +553,7 @@ function setCrop(crop, delay = READ_DELAY) {
     state.crop.y = Math.max(0, 1 - MIN_CUT);
   }
   renderCrop();
+  refreshPreview();
   scheduleRead(delay);
 }
 
@@ -625,7 +633,10 @@ function endDrag() {
   target.releasePointerCapture?.(pointerId);
   state.drag = null;
   els.imageWrap.classList.remove('is-cropping');
-  if (moved) scheduleRead();
+  if (moved) {
+    refreshPreview();
+    scheduleRead();
+  }
 }
 
 window.addEventListener('pointerup', endDrag);
@@ -676,14 +687,16 @@ els.fullImage.addEventListener('click', () => {
 /* ---------- Preprocess controls ---------- */
 
 function updatePreprocessControls() {
-  els.binarize.checked = state.binarize;
-  els.threshold.disabled = !state.binarize;
-  els.thresholdAuto.disabled = !state.binarize;
-  els.threshold.closest('.preprocess-threshold')?.classList.toggle('is-disabled', !state.binarize);
-  const value = state.threshold ?? state.autoThreshold ?? 128;
+  const on = state.binarize;
+  const automatic = state.threshold == null;
+  els.binarize.checked = on;
+  els.threshold.disabled = !on;
+  els.thresholdAuto.disabled = !on;
+  els.threshold.closest('.preprocess-threshold')?.classList.toggle('is-disabled', !on);
+  const value = on ? (state.threshold ?? state.autoThreshold ?? 128) : (state.threshold ?? 128);
   els.threshold.value = String(Math.round(value));
-  els.thresholdValue.textContent = String(Math.round(value));
-  els.thresholdAuto.setAttribute('aria-pressed', String(state.threshold == null));
+  els.thresholdValue.textContent = !on && automatic ? '—' : String(Math.round(value));
+  els.thresholdAuto.setAttribute('aria-pressed', String(on && automatic));
   els.rotationValue.textContent = `${state.rotation}°`;
 }
 
@@ -695,7 +708,9 @@ function refreshPreview() {
     previewFrame = 0;
     if (!state.natural.width) return;
     try {
-      makeModelInput();
+      const { canvas } = makeModelInput();
+      drawInputPreview(canvas);
+      updatePreprocessControls();
     } catch {}
   });
 }
@@ -709,6 +724,7 @@ function turnImage(degrees) {
 
 els.binarize.addEventListener('change', () => {
   state.binarize = els.binarize.checked;
+  if (!state.binarize) state.autoThreshold = null;
   refreshPreview();
   updatePreprocessControls();
   scheduleRead();
@@ -767,10 +783,13 @@ async function readNow() {
 
   let input;
   try {
-    input = makeModelInput();
+    const prepared = makeModelInput();
+    input = prepared.data;
+    drawInputPreview(prepared.canvas);
+    updatePreprocessControls();
   } catch {
     state.running = false;
-    showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
+    showError({ titleKey: 'error.preprocess.title', detailKey: 'error.preprocess.detail' });
     return;
   }
 
@@ -817,7 +836,16 @@ async function readNow() {
 const INPUT_SIZE = 224;
 const BINARISE_SIZE = INPUT_SIZE * 2;
 
+function modelInputKey() {
+  const { x, y, w, h } = state.crop;
+  const mode = state.binarize ? `bin:${state.threshold ?? 'auto'}` : 'gray';
+  return `${state.imageUrl}|${x}|${y}|${w}|${h}|${state.rotation}|${mode}`;
+}
+
 function makeModelInput() {
+  const key = modelInputKey();
+  if (state.modelInput?.key === key) return state.modelInput;
+
   const image = els.glyphImage;
   const naturalWidth = image.naturalWidth;
   const naturalHeight = image.naturalHeight;
@@ -855,20 +883,19 @@ function makeModelInput() {
   let sum = 0;
   for (let index = 0; index < count; index += 1) {
     const offset = index * 4;
-    const value = Math.round(0.299 * cropData[offset] + 0.587 * cropData[offset + 1] + 0.114 * cropData[offset + 2]);
+    const value = Math.round(luminance(cropData[offset], cropData[offset + 1], cropData[offset + 2]));
     gray[index] = value;
     sum += value;
   }
   let invert = sum / count < 127;
 
-  const histogram = new Uint32Array(256);
-  for (let index = 0; index < count; index += 1) {
-    histogram[invert ? 255 - gray[index] : gray[index]] += 1;
-  }
-  const auto = otsu(histogram, count);
-  state.autoThreshold = auto;
-
   if (state.binarize) {
+    const histogram = new Uint32Array(256);
+    for (let index = 0; index < count; index += 1) {
+      histogram[invert ? 255 - gray[index] : gray[index]] += 1;
+    }
+    const auto = otsu(histogram, count);
+    state.autoThreshold = auto;
     const threshold = state.threshold ?? auto;
     for (let index = 0; index < count; index += 1) {
       const offset = index * 4;
@@ -896,15 +923,16 @@ function makeModelInput() {
   const height = Math.max(1, Math.round(crop.height * fit));
   const left = Math.floor((INPUT_SIZE - width) / 2);
   const top = Math.floor((INPUT_SIZE - height) / 2);
+  // A binarised crop is thresholded at 448 px and downsampled with smoothing,
+  // so the model keeps antialiased edges instead of a hard 224 px cut.
   context.drawImage(crop, left, top, width, height);
 
   const pixels = context.getImageData(0, 0, INPUT_SIZE, INPUT_SIZE);
   const pixelsData = pixels.data;
   const data = new Float32Array(3 * INPUT_SIZE * INPUT_SIZE);
-  data.fill(1);
   for (let index = 0; index < INPUT_SIZE * INPUT_SIZE; index += 1) {
     const offset = index * 4;
-    let value = 0.299 * pixelsData[offset] + 0.587 * pixelsData[offset + 1] + 0.114 * pixelsData[offset + 2];
+    let value = Math.round(luminance(pixelsData[offset], pixelsData[offset + 1], pixelsData[offset + 2]));
     if (invert) value = 255 - value;
     const normalized = (value / 255 - 0.5) / 0.5;
     data[index] = normalized;
@@ -916,15 +944,21 @@ function makeModelInput() {
     pixelsData[offset + 3] = 255;
   }
   context.putImageData(pixels, 0, 0);
-  drawInputPreview(output);
-  updatePreprocessControls();
-  return data;
+
+  const result = { key, data, canvas: output };
+  state.modelInput = result;
+  return result;
 }
 
 function drawInputPreview(canvas) {
   const context = els.inputPreview.getContext('2d');
   context.clearRect(0, 0, INPUT_SIZE, INPUT_SIZE);
   context.drawImage(canvas, 0, 0);
+}
+
+function clearInputPreview() {
+  const context = els.inputPreview.getContext('2d');
+  context.clearRect(0, 0, INPUT_SIZE, INPUT_SIZE);
 }
 
 function showModelProgress(fraction) {
