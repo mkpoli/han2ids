@@ -37,8 +37,8 @@ The default checkpoint is `models/han2ids-v0.4.pt`. Point at another with `--che
 
 ```console
 $ uv run han2ids samples/疑.png samples/字.png
-samples/疑.png	⿰𠤕⿱龴疋	0.91
-samples/字.png	⿱宀子	0.96
+samples/疑.png	⿰𠤕⿱龴疋	0.956
+samples/字.png	⿱宀子	0.940
 ```
 
 ## Demo
