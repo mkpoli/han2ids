@@ -156,6 +156,41 @@
               <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="full-image" data-i18n="cut.full">Full image</button>
             </div>
           </div>
+          <div class="preprocess" id="preprocess">
+            <div class="preprocess-controls">
+              <h3 class="preprocess-title" data-i18n="preprocess.title">Preprocess</h3>
+              <div class="preprocess-row preprocess-options">
+                <label class="ui-check-row preprocess-toggle">
+                  <input class="ui-switch" type="checkbox" id="binarize">
+                  <span class="ui-check-text" data-i18n="preprocess.binarise">Binarise</span>
+                </label>
+                <div class="ui-field preprocess-threshold">
+                  <label class="ui-label" for="threshold">
+                    <span data-i18n="preprocess.threshold">Threshold</span>
+                    <output class="range-value" id="threshold-value" for="threshold" aria-hidden="true">128</output>
+                  </label>
+                  <input class="ui-range" id="threshold" type="range" min="0" max="255" step="1" value="128" disabled>
+                </div>
+                <button class="ui-button preprocess-auto" type="button" data-size="sm" data-variant="quiet" id="threshold-auto" aria-pressed="true" disabled data-i18n="preprocess.auto">Auto</button>
+              </div>
+              <div class="preprocess-row">
+                <span class="preprocess-label" data-i18n="preprocess.rotate">Rotate</span>
+                <div class="preprocess-rotate">
+                  <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="rotate-left" data-i18n-aria="preprocess.rotateLeft" data-i18n-title="preprocess.rotateLeft">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 10a8 8 0 1 1 2.4 6.7M4 5v5h5"/></svg>
+                  </button>
+                  <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="rotate-right" data-i18n-aria="preprocess.rotateRight" data-i18n-title="preprocess.rotateRight">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 10a8 8 0 1 0-2.4 6.7M20 5v5h-5"/></svg>
+                  </button>
+                  <output class="range-value rotation-value" id="rotation-value" aria-live="polite">0°</output>
+                </div>
+              </div>
+            </div>
+            <figure class="preprocess-preview">
+              <canvas id="input-preview" width="224" height="224" role="img" aria-label="Model input" data-i18n-aria="preprocess.input"></canvas>
+              <figcaption data-i18n="preprocess.input">Model input</figcaption>
+            </figure>
+          </div>
           <div class="action-row">
             <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Recognise</button>
             <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.replace">Replace</button>

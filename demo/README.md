@@ -13,6 +13,12 @@ Web in a Web Worker; later reads reuse the sessions. The cut follows the ink aut
 margin slider and handles refine it. The browser build reads one em-box crop, without the CLI's
 four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch checkpoint.
 
+## Preprocessing
+
+The cut is automatic; the margin and handles refine it. **Binarise** thresholds the crop at twice the
+224 px model input size, starting from Otsu and adjustable with the slider; **Rotate** turns the input
+in 90° steps. The **Model input** thumbnail shows the exact grayscale image the model receives.
+
 ## Files
 
 - `server.py` — a local static server for the page.

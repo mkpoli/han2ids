@@ -19,6 +19,14 @@ const els = {
   marginValue: document.querySelector('#margin-value'),
   autoCut: document.querySelector('#auto-cut'),
   fullImage: document.querySelector('#full-image'),
+  binarize: document.querySelector('#binarize'),
+  threshold: document.querySelector('#threshold'),
+  thresholdValue: document.querySelector('#threshold-value'),
+  thresholdAuto: document.querySelector('#threshold-auto'),
+  rotateLeft: document.querySelector('#rotate-left'),
+  rotateRight: document.querySelector('#rotate-right'),
+  rotationValue: document.querySelector('#rotation-value'),
+  inputPreview: document.querySelector('#input-preview'),
   recognize: document.querySelector('#recognize'),
   replaceImage: document.querySelector('#replace-image'),
   resultCard: document.querySelector('#result-card'),
@@ -58,6 +66,10 @@ const state = {
   transparent: false,
   inkLight: false,
   margin: Number(els.margin.value),
+  binarize: false,
+  threshold: null,
+  autoThreshold: null,
+  rotation: 0,
   readings: [],
   requestSeq: 0,
   readTimer: 0,
@@ -358,6 +370,12 @@ async function loadFile(file) {
   els.margin.value = String(state.margin);
   els.marginValue.textContent = `${state.margin}%`;
 
+  state.binarize = false;
+  state.threshold = null;
+  state.autoThreshold = null;
+  state.rotation = 0;
+  updatePreprocessControls();
+
   resetResult();
   state.transparent = false;
   state.inkLight = false;
@@ -655,6 +673,66 @@ els.fullImage.addEventListener('click', () => {
   setCrop({ x: 0, y: 0, w: 1, h: 1 }, 0);
 });
 
+/* ---------- Preprocess controls ---------- */
+
+function updatePreprocessControls() {
+  els.binarize.checked = state.binarize;
+  els.threshold.disabled = !state.binarize;
+  els.thresholdAuto.disabled = !state.binarize;
+  els.threshold.closest('.preprocess-threshold')?.classList.toggle('is-disabled', !state.binarize);
+  const value = state.threshold ?? state.autoThreshold ?? 128;
+  els.threshold.value = String(Math.round(value));
+  els.thresholdValue.textContent = String(Math.round(value));
+  els.thresholdAuto.setAttribute('aria-pressed', String(state.threshold == null));
+  els.rotationValue.textContent = `${state.rotation}°`;
+}
+
+let previewFrame = 0;
+
+function refreshPreview() {
+  if (!state.natural.width || previewFrame) return;
+  previewFrame = requestAnimationFrame(() => {
+    previewFrame = 0;
+    if (!state.natural.width) return;
+    try {
+      makeModelInput();
+    } catch {}
+  });
+}
+
+function turnImage(degrees) {
+  state.rotation = (state.rotation + degrees + 360) % 360;
+  refreshPreview();
+  updatePreprocessControls();
+  scheduleRead();
+}
+
+els.binarize.addEventListener('change', () => {
+  state.binarize = els.binarize.checked;
+  refreshPreview();
+  updatePreprocessControls();
+  scheduleRead();
+});
+
+els.threshold.addEventListener('input', () => {
+  state.threshold = Number(els.threshold.value);
+  els.thresholdValue.textContent = els.threshold.value;
+  els.thresholdAuto.setAttribute('aria-pressed', 'false');
+  refreshPreview();
+  scheduleRead();
+});
+
+els.thresholdAuto.addEventListener('click', () => {
+  if (!state.binarize) return;
+  state.threshold = null;
+  refreshPreview();
+  updatePreprocessControls();
+  scheduleRead();
+});
+
+els.rotateLeft.addEventListener('click', () => turnImage(-90));
+els.rotateRight.addEventListener('click', () => turnImage(90));
+
 els.recognize.addEventListener('click', () => {
   clearTimeout(state.readTimer);
   readNow();
@@ -736,6 +814,9 @@ async function readNow() {
   }
 }
 
+const INPUT_SIZE = 224;
+const BINARISE_SIZE = INPUT_SIZE * 2;
+
 function makeModelInput() {
   const image = els.glyphImage;
   const naturalWidth = image.naturalWidth;
@@ -748,46 +829,102 @@ function makeModelInput() {
   const ey = clamp(Math.ceil((y + h) * naturalHeight), sy + 1, naturalHeight);
   const sourceWidth = ex - sx;
   const sourceHeight = ey - sy;
-  const scale = 224 / Math.max(sourceWidth, sourceHeight);
-  const width = Math.max(1, Math.round(sourceWidth * scale));
-  const height = Math.max(1, Math.round(sourceHeight * scale));
+  const sideways = state.rotation === 90 || state.rotation === 270;
+  const workSize = state.binarize ? BINARISE_SIZE : INPUT_SIZE;
+  const scale = workSize / Math.max(sourceWidth, sourceHeight);
+  const drawWidth = Math.max(1, Math.round(sourceWidth * scale));
+  const drawHeight = Math.max(1, Math.round(sourceHeight * scale));
 
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const context = canvas.getContext('2d', { willReadFrequently: true });
+  const crop = document.createElement('canvas');
+  crop.width = sideways ? drawHeight : drawWidth;
+  crop.height = sideways ? drawWidth : drawHeight;
+  const cropContext = crop.getContext('2d', { willReadFrequently: true });
+  cropContext.imageSmoothingEnabled = true;
+  cropContext.imageSmoothingQuality = 'high';
+  cropContext.fillStyle = state.transparent && state.inkLight ? '#000' : '#fff';
+  cropContext.fillRect(0, 0, crop.width, crop.height);
+  cropContext.translate(crop.width / 2, crop.height / 2);
+  cropContext.rotate((state.rotation * Math.PI) / 180);
+  cropContext.drawImage(image, sx, sy, sourceWidth, sourceHeight,
+    -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
+
+  const cropPixels = cropContext.getImageData(0, 0, crop.width, crop.height);
+  const cropData = cropPixels.data;
+  const count = crop.width * crop.height;
+  const gray = new Uint8Array(count);
+  let sum = 0;
+  for (let index = 0; index < count; index += 1) {
+    const offset = index * 4;
+    const value = Math.round(0.299 * cropData[offset] + 0.587 * cropData[offset + 1] + 0.114 * cropData[offset + 2]);
+    gray[index] = value;
+    sum += value;
+  }
+  let invert = sum / count < 127;
+
+  const histogram = new Uint32Array(256);
+  for (let index = 0; index < count; index += 1) {
+    histogram[invert ? 255 - gray[index] : gray[index]] += 1;
+  }
+  const auto = otsu(histogram, count);
+  state.autoThreshold = auto;
+
+  if (state.binarize) {
+    const threshold = state.threshold ?? auto;
+    for (let index = 0; index < count; index += 1) {
+      const offset = index * 4;
+      const value = invert ? 255 - gray[index] : gray[index];
+      const ink = value <= threshold ? 0 : 255;
+      cropData[offset] = ink;
+      cropData[offset + 1] = ink;
+      cropData[offset + 2] = ink;
+      cropData[offset + 3] = 255;
+    }
+    cropContext.putImageData(cropPixels, 0, 0);
+    invert = false;
+  }
+
+  const output = document.createElement('canvas');
+  output.width = INPUT_SIZE;
+  output.height = INPUT_SIZE;
+  const context = output.getContext('2d', { willReadFrequently: true });
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.fillStyle = state.transparent && state.inkLight ? '#000' : '#fff';
-  context.fillRect(0, 0, width, height);
-  context.drawImage(image, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
-  const pixels = context.getImageData(0, 0, width, height).data;
+  context.fillStyle = invert ? '#000' : '#fff';
+  context.fillRect(0, 0, INPUT_SIZE, INPUT_SIZE);
+  const fit = Math.min(INPUT_SIZE / crop.width, INPUT_SIZE / crop.height);
+  const width = Math.max(1, Math.round(crop.width * fit));
+  const height = Math.max(1, Math.round(crop.height * fit));
+  const left = Math.floor((INPUT_SIZE - width) / 2);
+  const top = Math.floor((INPUT_SIZE - height) / 2);
+  context.drawImage(crop, left, top, width, height);
 
-  const gray = new Float32Array(width * height);
-  let mean = 0;
-  for (let index = 0; index < gray.length; index += 1) {
-    const offset = index * 4;
-    const value = 0.299 * pixels[offset] + 0.587 * pixels[offset + 1] + 0.114 * pixels[offset + 2];
-    gray[index] = value;
-    mean += value;
-  }
-  const invert = mean / gray.length < 127;
-  const data = new Float32Array(3 * 224 * 224);
+  const pixels = context.getImageData(0, 0, INPUT_SIZE, INPUT_SIZE);
+  const pixelsData = pixels.data;
+  const data = new Float32Array(3 * INPUT_SIZE * INPUT_SIZE);
   data.fill(1);
-  const left = Math.floor((224 - width) / 2);
-  const top = Math.floor((224 - height) / 2);
-  for (let row = 0; row < height; row += 1) {
-    for (let column = 0; column < width; column += 1) {
-      let value = gray[row * width + column];
-      if (invert) value = 255 - value;
-      const normalized = (value / 255 - 0.5) / 0.5;
-      const target = (top + row) * 224 + left + column;
-      data[target] = normalized;
-      data[224 * 224 + target] = normalized;
-      data[2 * 224 * 224 + target] = normalized;
-    }
+  for (let index = 0; index < INPUT_SIZE * INPUT_SIZE; index += 1) {
+    const offset = index * 4;
+    let value = 0.299 * pixelsData[offset] + 0.587 * pixelsData[offset + 1] + 0.114 * pixelsData[offset + 2];
+    if (invert) value = 255 - value;
+    const normalized = (value / 255 - 0.5) / 0.5;
+    data[index] = normalized;
+    data[INPUT_SIZE * INPUT_SIZE + index] = normalized;
+    data[2 * INPUT_SIZE * INPUT_SIZE + index] = normalized;
+    pixelsData[offset] = value;
+    pixelsData[offset + 1] = value;
+    pixelsData[offset + 2] = value;
+    pixelsData[offset + 3] = 255;
   }
+  context.putImageData(pixels, 0, 0);
+  drawInputPreview(output);
+  updatePreprocessControls();
   return data;
+}
+
+function drawInputPreview(canvas) {
+  const context = els.inputPreview.getContext('2d');
+  context.clearRect(0, 0, INPUT_SIZE, INPUT_SIZE);
+  context.drawImage(canvas, 0, 0);
 }
 
 function showModelProgress(fraction) {

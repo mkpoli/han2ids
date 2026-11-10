@@ -70,7 +70,9 @@ export is not the canonical PyTorch checkpoint.
 The model reads a 224×224 grayscale image in an em box. A cropped glyph has no em box, so the CLI
 tries four placements (the image as given, and the ink fitted at 3%, 8% and 15% margins) and keeps
 the reading with the highest token confidence. The same augmentation is needed in training before
-real crops can be claimed.
+real crops can be claimed. The browser demo also offers an adjustable binarisation threshold,
+applied after a 2× upscale of the crop, and 90° rotations on the model input, with a thumbnail of
+what the model receives.
 
 ## Fonts and data
 

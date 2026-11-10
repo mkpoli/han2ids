@@ -439,6 +439,110 @@ body {
   padding-block-end: 1px;
 }
 
+.preprocess {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--ui-space-lg);
+  padding-block-start: var(--ui-space-lg);
+  border-block-start: 1px solid var(--ui-color-border);
+}
+
+.preprocess-controls {
+  display: grid;
+  gap: var(--ui-space-sm);
+  min-inline-size: 0;
+}
+
+.preprocess-title {
+  margin: 0;
+  font-size: var(--ui-text-sm);
+  font-weight: var(--ui-weight-semibold);
+  line-height: 1.3;
+}
+
+.preprocess-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-md);
+  flex-wrap: wrap;
+}
+
+.preprocess-options {
+  align-items: flex-start;
+}
+
+.preprocess-toggle {
+  min-block-size: 0;
+  padding-block: 0;
+  font-weight: var(--ui-weight-medium);
+}
+
+.preprocess-threshold {
+  flex: 1 1 180px;
+  min-inline-size: 150px;
+}
+
+.preprocess-threshold .ui-label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ui-space-sm);
+}
+
+.preprocess-threshold.is-disabled {
+  opacity: var(--ui-disabled-opacity);
+}
+
+.preprocess-auto {
+  align-self: flex-end;
+  margin-block-end: 1px;
+}
+
+.preprocess-auto:disabled {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ui-color-ink-muted);
+}
+
+.preprocess-label {
+  color: var(--ui-color-ink-muted);
+  font-size: var(--ui-text-sm);
+}
+
+.preprocess-rotate {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-xs);
+}
+
+.rotation-value {
+  min-inline-size: 3ch;
+  text-align: end;
+}
+
+.preprocess-preview {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  margin: 0;
+}
+
+.preprocess-preview canvas {
+  display: block;
+  inline-size: 96px;
+  block-size: 96px;
+  border: 1px solid var(--ui-color-border-strong);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.preprocess-preview figcaption {
+  color: var(--ui-color-ink-muted);
+  font-size: var(--ui-text-2xs);
+  text-align: center;
+}
+
 .action-row {
   display: flex;
   align-items: center;
@@ -709,6 +813,38 @@ body {
 
   .cut-buttons .ui-button {
     flex: 1;
+  }
+
+  .preprocess {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--ui-space-md);
+  }
+
+  .preprocess-options {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--ui-space-sm);
+  }
+
+  .preprocess-toggle {
+    grid-column: 1 / -1;
+  }
+
+  .preprocess-threshold {
+    min-inline-size: 0;
+  }
+
+  .preprocess-preview {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    gap: var(--ui-space-sm);
+  }
+
+  .preprocess-preview canvas {
+    inline-size: 64px;
+    block-size: 64px;
   }
 
   .action-row .ui-button {
