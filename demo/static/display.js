@@ -7,7 +7,12 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
 
   function showModelProgress(fraction) {
     els.modelLoad.hidden = false;
-    const percent = Math.round(clamp(fraction, 0, 1) * 100);
+    els.modelProgress.hidden = fraction === null;
+    if (fraction === null) {
+      els.modelProgressText.textContent = '—';
+      return;
+    }
+    const percent = Math.floor(clamp(fraction, 0, 1) * 100);
     els.modelProgress.style.setProperty('--ui-progress', `${percent}%`);
     els.modelProgressText.textContent = `${percent}%`;
   }
