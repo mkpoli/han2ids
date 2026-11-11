@@ -204,10 +204,10 @@
 
         <div class="model-load" id="model-load" hidden>
           <div class="model-load-head">
-            <span data-i18n="model.loading">Loading int8 ONNX model</span>
+            <label for="model-progress" data-i18n="model.loading">Loading int8 ONNX model</label>
             <span class="range-value" id="model-progress-text">0%</span>
           </div>
-          <div class="ui-progress" id="model-progress" aria-hidden="true"></div>
+          <progress class="model-progress" id="model-progress" max="100" value="0"></progress>
         </div>
 
         <div class="result-empty" id="result-empty">
