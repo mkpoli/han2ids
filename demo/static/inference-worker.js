@@ -173,9 +173,9 @@ async function run(model, input) {
     advance(model.stack, model.itos[choice]);
   }
 
-  const confidence = Math.exp(score / Math.max(1, steps));
+  const readingScore = Math.exp(score / Math.max(1, steps));
   const valid = Boolean(text) && model.stack.length === 0;
-  return [{ ids: text, confidence, variant: 'em', valid }];
+  return [{ ids: text, score: readingScore, variant: 'em', valid }];
 }
 
 async function recognize(input, { onProgress } = {}) {

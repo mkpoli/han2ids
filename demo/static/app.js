@@ -37,9 +37,8 @@ const els = {
   resultEmpty: document.querySelector('#result-empty'),
   resultBody: document.querySelector('#result-body'),
   idsText: document.querySelector('#ids-text'),
-  confidenceChip: document.querySelector('#confidence-chip'),
+  scoreChip: document.querySelector('#score-chip'),
   validityChip: document.querySelector('#validity-chip'),
-  confidenceBar: document.querySelector('#confidence-bar'),
   copyIds: document.querySelector('#copy-ids'),
   openWorkshop: document.querySelector('#open-workshop'),
   candidates: document.querySelector('#candidates'),
@@ -1070,11 +1069,10 @@ function showReadings(readings) {
   state.error = null;
   state.copied = false;
   const best = readings[0];
-  const confidence = Math.round(best.confidence * 1000) / 10;
+  const score = Math.round(best.score * 1000) / 10;
 
   renderIds(els.idsText, best.ids);
   updateReadingMeta();
-  els.confidenceBar.style.setProperty('--ui-progress', `${confidence}%`);
   els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(best.ids)}`;
 
   const alternatives = readings.slice(1);
@@ -1085,15 +1083,15 @@ function showReadings(readings) {
   els.resultBody.hidden = false;
   els.resultError.hidden = true;
   setStatus('status.ready', 'idle');
-  els.liveStatus.textContent = t('live.read', { ids: best.ids, confidence: confidence.toFixed(1) });
+  els.liveStatus.textContent = t('live.read', { ids: best.ids, score: score.toFixed(1) });
 }
 
 function updateReadingMeta() {
   if (!state.readings.length) return;
   const best = state.readings[0];
-  const confidence = Math.round(best.confidence * 1000) / 10;
-  els.confidenceChip.textContent = t('reading.confidence', { value: confidence.toFixed(1) });
-  els.confidenceChip.title = t('reading.confidenceHint');
+  const score = Math.round(best.score * 1000) / 10;
+  els.scoreChip.textContent = t('reading.score', { value: score.toFixed(1) });
+  els.scoreChip.title = t('reading.scoreHint');
   els.validityChip.textContent = best.valid ? t('reading.valid') : t('reading.invalid');
   els.validityChip.dataset.variant = best.valid ? 'accent' : 'danger';
   els.copyIds.textContent = state.copied ? t('reading.copied') : t('reading.copy');
@@ -1112,11 +1110,11 @@ function candidateRow(reading, index) {
   ids.title = reading.ids;
   renderIds(ids, reading.ids);
 
-  const confidence = document.createElement('span');
-  confidence.className = 'ui-list-row-note';
-  confidence.textContent = `${(reading.confidence * 100).toFixed(1)}%`;
+  const score = document.createElement('span');
+  score.className = 'ui-list-row-note';
+  score.textContent = `${(reading.score * 100).toFixed(1)}%`;
 
-  row.append(rank, ids, confidence);
+  row.append(rank, ids, score);
   return row;
 }
 
