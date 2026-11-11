@@ -18,7 +18,10 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `server.py` — a local static server for the page.
 - `prepare.py` — copies the int8 models from `build/onnx/` and ONNX Runtime Web into `static/`.
 - `make_samples.py` — renders the glyph sheets in `static/samples/`.
-- `static/index.html`, `static/app.css`, `static/app.js` — the page, with no build step.
+- `static/index.html`, `static/app.css`, `static/app.js` — the page and composition root, with no build step.
+- `static/theme.js`, `static/language.js`, `static/i18n.js` — theme and language controls.
+- `static/files.js`, `static/stage.js`, `static/queue.js` — sources, crop controls and the glyph queue.
+- `static/reading.js`, `static/model-input.js`, `static/display.js` — reading lifecycle, preprocessing and results.
 - `static/detect.js` — the glyph cut: Otsu ink, connected components, widest-gap splitting.
 - `static/ids.js` — the operand-stack grammar, shared by the page and the worker.
 - `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
