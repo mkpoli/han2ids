@@ -13,7 +13,6 @@ const els = {
   imageWrap: document.querySelector('#image-wrap'),
   glyphImage: document.querySelector('#glyph-image'),
   cropBox: document.querySelector('#crop-box'),
-  imageSize: document.querySelector('#image-size'),
   viewRow: document.querySelector('#view-row'),
   resultView: document.querySelector('#result-view'),
   resultFrame: document.querySelector('#result-frame'),
@@ -29,12 +28,12 @@ const els = {
   inkField: document.querySelector('#ink-field'),
   threshold: document.querySelector('#threshold'),
   thresholdAuto: document.querySelector('#threshold-auto'),
+  resetTurn: document.querySelector('#reset-turn'),
   recognize: document.querySelector('#recognize'),
   replaceImage: document.querySelector('#replace-image'),
   resultCard: document.querySelector('#result-card'),
   readingStatus: document.querySelector('#reading-status'),
   readingStatusText: document.querySelector('#reading-status-text'),
-  resultEmpty: document.querySelector('#result-empty'),
   resultBody: document.querySelector('#result-body'),
   idsText: document.querySelector('#ids-text'),
   scoreChip: document.querySelector('#score-chip'),
@@ -342,6 +341,8 @@ function applyView() {
   els.imageEditor.hidden = !loaded || state.view === 'result';
   els.resultView.hidden = !loaded || state.view === 'original';
   els.cleanRow.hidden = state.view === 'original';
+  els.resultCard.hidden = !loaded;
+  updateCleanupControls();
   for (const radio of viewRadios) radio.checked = radio.value === state.view;
 }
 
@@ -392,8 +393,6 @@ async function loadFile(file) {
   state.view = 'result';
   applyView();
   els.cutControls.hidden = false;
-  els.imageSize.hidden = false;
-  els.imageSize.textContent = `${state.natural.width} × ${state.natural.height}`;
   els.margin.value = String(state.margin);
   els.marginValue.textContent = `${state.margin}%`;
 
@@ -719,6 +718,8 @@ function updateCleanupControls() {
     els.threshold.value = String(Math.round(value));
   }
   els.thresholdAuto.setAttribute('aria-pressed', String(on && state.threshold == null));
+  els.rotateHandle.hidden = state.view === 'original';
+  els.resetTurn.hidden = state.view === 'original' || state.rotation === 0;
 }
 
 let previewFrame = 0;
@@ -768,6 +769,14 @@ els.thresholdAuto.addEventListener('click', () => {
   scheduleRead();
 });
 
+els.resetTurn.addEventListener('click', () => {
+  if (state.rotation === 0) return;
+  state.rotation = 0;
+  refreshPreview();
+  updateCleanupControls();
+  scheduleRead();
+});
+
 els.rotateHandle.addEventListener('pointerdown', event => {
   if (event.button !== 0 || !state.natural.width || state.view !== 'result') return;
   const rect = els.resultFrame.getBoundingClientRect();
@@ -783,7 +792,7 @@ els.rotateHandle.addEventListener('pointerdown', event => {
     pointerId: event.pointerId,
   };
   els.rotateHandle.setPointerCapture?.(event.pointerId);
-  els.resultView.classList.add('is-turning');
+  els.rotateHandle.classList.add('is-turning');
   event.preventDefault();
 });
 
@@ -801,23 +810,30 @@ window.addEventListener('pointermove', event => {
   event.preventDefault();
 });
 
-function endTurn() {
+function endTurn(event) {
   if (!state.turn) return;
   const moved = state.turn.moved;
   els.rotateHandle.releasePointerCapture?.(state.turn.pointerId);
   state.turn = null;
-  els.resultView.classList.remove('is-turning');
-  if (moved) scheduleRead(0);
+  els.rotateHandle.classList.remove('is-turning');
+  if (!moved && event.type === 'pointerup') {
+    state.rotation = normalizeDegrees(state.rotation + 90);
+  }
+  refreshPreview();
+  updateCleanupControls();
+  scheduleRead(0);
 }
 
 window.addEventListener('pointerup', endTurn);
 window.addEventListener('pointercancel', endTurn);
 
 els.rotateHandle.addEventListener('keydown', event => {
-  if (!['ArrowLeft', 'ArrowRight', 'Home'].includes(event.key)) return;
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'Enter', ' '].includes(event.key)) return;
   event.preventDefault();
   if (event.key === 'Home') {
     state.rotation = 0;
+  } else if (event.key === 'Enter' || event.key === ' ') {
+    state.rotation = normalizeDegrees(state.rotation + 90);
   } else {
     const step = event.shiftKey ? 90 : 5;
     state.rotation = normalizeDegrees(state.rotation + (event.key === 'ArrowRight' ? step : -step));
@@ -1079,7 +1095,6 @@ function showReadings(readings) {
   els.candidateList.replaceChildren(...alternatives.map(candidateRow));
   els.candidates.hidden = alternatives.length === 0;
 
-  els.resultEmpty.hidden = true;
   els.resultBody.hidden = false;
   els.resultError.hidden = true;
   setStatus('status.ready', 'idle');
@@ -1149,7 +1164,6 @@ function resetResult() {
   state.requestSeq += 1;
   hideModelProgress();
   els.resultBody.hidden = true;
-  els.resultEmpty.hidden = false;
   els.resultError.hidden = true;
   els.candidates.hidden = true;
   els.idsText.replaceChildren();
@@ -1200,10 +1214,7 @@ function showError({ titleKey, detailKey }) {
   els.resultError.hidden = false;
   els.errorTitle.textContent = t(titleKey);
   els.errorDetail.textContent = t(detailKey);
-  if (!state.readings.length) {
-    els.resultEmpty.hidden = true;
-    els.resultBody.hidden = true;
-  }
+  if (!state.readings.length) els.resultBody.hidden = true;
   setStatus('status.error', 'error');
   els.liveStatus.textContent = t(titleKey);
 }

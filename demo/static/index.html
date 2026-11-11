@@ -91,29 +91,10 @@
     </section>
 
     <div class="workspace">
-      <section class="ui-card input-card" aria-labelledby="image-heading">
-        <div class="card-head">
-          <div>
-            <h2 id="image-heading" data-i18n="image.title" data-i18n-title="image.local">Glyph image</h2>
-          </div>
-          <span class="ui-chip image-size" id="image-size" hidden></span>
-        </div>
+      <section class="ui-card reader-card" aria-labelledby="image-heading">
+        <h2 class="ui-visually-hidden" id="image-heading" data-i18n="image.title">Glyph image</h2>
 
-        <div class="view-row" id="view-row" hidden>
-          <fieldset class="ui-segmented view-switch" id="view-switch">
-            <legend class="ui-visually-hidden" data-i18n="view.legend">View</legend>
-            <label class="ui-segment">
-              <input type="radio" name="view" value="result" checked>
-              <span class="ui-segment-face" data-i18n="view.result">Result</span>
-            </label>
-            <label class="ui-segment">
-              <input type="radio" name="view" value="original">
-              <span class="ui-segment-face" data-i18n="view.original">Original</span>
-            </label>
-          </fieldset>
-        </div>
-
-        <div class="stage" id="stage">
+        <div class="stage" id="stage" data-i18n-title="image.local" title="Images stay in this browser.">
           <div class="drop-empty" id="drop-empty">
             <span class="drop-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="26" height="26" focusable="false">
@@ -156,11 +137,21 @@
           <div class="result-view" id="result-view" hidden>
             <div class="result-frame" id="result-frame">
               <canvas id="result-canvas" width="672" height="672" role="img" aria-label="Processed result" data-i18n-aria="view.resultAlt"></canvas>
-              <button class="rotate-handle" type="button" id="rotate-handle" aria-label="Turn image" data-i18n-aria="view.turn" data-i18n-title="view.turnHint" title="Drag the handle to turn.">
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 10a8 8 0 1 1 2.4 6.7M4 5v5h5"/></svg>
-                <span data-i18n="view.turnLabel">Turn</span>
-              </button>
             </div>
+          </div>
+
+          <div class="view-row" id="view-row" hidden>
+            <fieldset class="ui-segmented view-switch" id="view-switch">
+              <legend class="ui-visually-hidden" data-i18n="view.legend">View</legend>
+              <label class="ui-segment">
+                <input type="radio" name="view" value="result" checked>
+                <span class="ui-segment-face" data-i18n="view.result">Result</span>
+              </label>
+              <label class="ui-segment">
+                <input type="radio" name="view" value="original">
+                <span class="ui-segment-face" data-i18n="view.original">Original</span>
+              </label>
+            </fieldset>
           </div>
         </div>
 
@@ -178,6 +169,7 @@
               <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="full-image" data-i18n="cut.full">Full image</button>
             </div>
           </div>
+
           <div class="clean-row">
             <label class="ui-check-row clean-toggle">
               <input class="ui-switch" type="checkbox" id="binarize">
@@ -190,59 +182,63 @@
                 <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="threshold-auto" aria-pressed="true" data-i18n="clean.auto">Auto</button>
               </div>
             </div>
-          </div>
-          <div class="action-row">
-            <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Read</button>
-            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.replace">Replace</button>
-          </div>
-        </div>
-      </section>
-
-      <aside class="ui-card result-card" id="result-card" aria-labelledby="result-heading">
-        <div class="card-head">
-          <h2 id="result-heading" data-i18n="reading.title">Reading</h2>
-          <span class="ui-chip status-chip" id="reading-status" hidden>
-            <span class="ui-spinner" aria-hidden="true"></span>
-            <span id="reading-status-text" data-i18n="status.ready">Ready</span>
-          </span>
-        </div>
-
-        <div class="model-load" id="model-load" hidden>
-          <div class="model-load-head">
-            <span data-i18n="model.loading">Loading int8 ONNX model</span>
-            <span class="range-value" id="model-progress-text">0%</span>
-          </div>
-          <div class="ui-progress" id="model-progress" aria-hidden="true"></div>
-        </div>
-
-        <div class="result-empty" id="result-empty">
-          <span class="result-mark" aria-hidden="true">字</span>
-          <p data-i18n="empty.title">No reading yet.</p>
-        </div>
-
-        <div class="result-body" id="result-body" hidden>
-          <div class="sequence-block">
-            <div class="ids-text" id="ids-text" lang="zh-Hani"></div>
-            <div class="meta-row">
-              <span class="ui-chip" id="score-chip">Model score</span>
-              <span class="ui-chip" data-variant="accent" id="validity-chip" data-i18n="reading.valid">Valid IDS</span>
+            <div class="turn-actions">
+              <button class="ui-button turn-button" type="button" data-size="sm" data-variant="quiet" id="rotate-handle" aria-label="Turn image" data-i18n-aria="view.turn" data-i18n-title="view.turnHint" title="Drag to turn, or click for 90°.">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 10a8 8 0 1 1 2.4 6.7M4 5v5h5"/></svg>
+                <span data-i18n="view.turnLabel">Turn</span>
+              </button>
+              <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="reset-turn" hidden data-i18n="view.resetTurn">Reset turn</button>
             </div>
           </div>
-          <div class="result-actions">
-            <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="copy-ids" data-i18n="reading.copy">Copy IDS</button>
-            <a class="ui-button" data-size="lg" id="open-workshop" href="https://ids.mkpo.li/" target="_blank" rel="noreferrer" data-i18n="reading.open">Open in IDS Workshop</a>
-          </div>
-          <div class="candidates" id="candidates" hidden>
-            <h3 data-i18n="reading.other">Other readings</h3>
-            <ul class="ui-list" id="candidate-list"></ul>
+
+          <div class="action-row">
+            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.replace">Replace</button>
+            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="recognize" data-i18n="action.recognize">Read</button>
           </div>
         </div>
 
-        <div class="result-error" id="result-error" role="alert" hidden>
-          <strong id="error-title">Could not read this image.</strong>
-          <span id="error-detail"></span>
-        </div>
-      </aside>
+        <section class="reading" id="result-card" aria-labelledby="result-heading" hidden>
+          <div class="reading-head">
+            <h2 id="result-heading" data-i18n="reading.title">Reading</h2>
+            <span class="ui-chip status-chip" id="reading-status" hidden>
+              <span class="ui-spinner" aria-hidden="true"></span>
+              <span id="reading-status-text" data-i18n="status.ready">Ready</span>
+            </span>
+          </div>
+
+          <div class="model-load" id="model-load" hidden>
+            <div class="model-load-head">
+              <span data-i18n="model.loading">Loading int8 ONNX model</span>
+              <span class="range-value" id="model-progress-text">0%</span>
+            </div>
+            <div class="ui-progress" id="model-progress" aria-hidden="true"></div>
+          </div>
+
+          <div class="result-body" id="result-body" hidden>
+            <div class="sequence-block">
+              <div class="ids-text" id="ids-text" lang="zh-Hani"></div>
+              <div class="meta-row">
+                <span class="ui-chip" id="score-chip">Model score</span>
+                <span class="ui-chip" data-variant="accent" id="validity-chip" data-i18n="reading.valid">Valid IDS</span>
+              </div>
+            </div>
+            <div class="result-actions">
+              <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="copy-ids" data-i18n="reading.copy">Copy IDS</button>
+              <a class="ui-button" data-size="lg" id="open-workshop" href="https://ids.mkpo.li/" target="_blank" rel="noreferrer" data-i18n="reading.open">Open in IDS Workshop</a>
+            </div>
+            <div class="candidates" id="candidates" hidden>
+              <h3 data-i18n="reading.other">Other readings</h3>
+              <ul class="ui-list" id="candidate-list"></ul>
+            </div>
+          </div>
+
+          <div class="result-error" id="result-error" role="alert" hidden>
+            <strong id="error-title">Could not read this image.</strong>
+            <span id="error-detail"></span>
+          </div>
+        </section>
+      </section>
+    </div>
     </div>
   </main>
 

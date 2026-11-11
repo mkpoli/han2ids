@@ -72,7 +72,7 @@ tries four placements (the image as given, and the ink fitted at 3%, 8% and 15% 
 the reading with the highest token confidence. The same augmentation is needed in training before
 real crops can be claimed. The browser demo shows the prepared model input as its Result view;
 **Black & white** applies an adjustable ink threshold to a 2× copy of the crop, and the **Turn**
-handle rotates it.
+control rotates it.
 
 ## Fonts and data
 
