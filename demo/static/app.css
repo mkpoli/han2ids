@@ -673,12 +673,6 @@ body {
   flex-wrap: wrap;
 }
 
-.auto-note {
-  margin-inline-start: auto;
-  color: var(--ui-color-ink-muted);
-  font-size: var(--ui-text-xs);
-}
-
 .result-card {
   min-block-size: 100%;
 }
@@ -953,11 +947,6 @@ body {
 
   .action-row .ui-button {
     flex: 1;
-  }
-
-  .auto-note {
-    flex-basis: 100%;
-    margin-inline-start: 0;
   }
 
   .version-link {
