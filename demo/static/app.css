@@ -575,11 +575,6 @@ body {
   align-items: center;
   gap: var(--ui-space-xs);
 }
-
-.confidence-bar {
-  margin-block-start: calc(-1 * var(--ui-space-2xs));
-}
-
 .result-actions {
   display: flex;
   flex-wrap: wrap;
