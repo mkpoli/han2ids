@@ -97,6 +97,16 @@
           <h2 id="queue-heading" data-i18n="queue.title">Items</h2>
           <span class="ui-chip queue-total" id="queue-total">0</span>
         </div>
+        <div class="queue-tools">
+          <button class="ui-button" type="button" data-size="sm" id="add-images" data-i18n="queue.add">Add images</button>
+          <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="add-folder" data-i18n="queue.folder">Add folder</button>
+          <button class="ui-button queue-clear" type="button" data-size="sm" data-variant="quiet" id="queue-clear" data-i18n="queue.clear">Clear</button>
+        </div>
+        <div class="queue-run" id="queue-run" hidden>
+          <div class="ui-progress" id="queue-progress" aria-hidden="true"></div>
+          <span class="queue-count" id="queue-count"></span>
+          <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="queue-toggle" data-i18n="queue.cancel">Cancel</button>
+        </div>
         <ul class="ui-list item-list" id="item-list" role="listbox" aria-labelledby="queue-heading"></ul>
         <div class="queue-foot">
           <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="item-prev" data-i18n-aria="queue.prev" data-i18n-title="queue.prev" aria-label="Previous">
@@ -240,7 +250,8 @@
     </div>
   </main>
 
-  <input class="ui-visually-hidden" type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" tabindex="-1" aria-label="Choose a glyph image" data-i18n-aria="file.label">
+  <input class="ui-visually-hidden" type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" multiple tabindex="-1" aria-label="Choose a glyph image" data-i18n-aria="file.label">
+  <input class="ui-visually-hidden" type="file" id="folder-input" webkitdirectory multiple tabindex="-1" aria-label="Choose a folder" data-i18n-aria="file.folder">
   <p class="ui-visually-hidden" id="live-status" role="status" aria-live="polite"></p>
   <script type="module" src="./app.js"></script>
 </body>

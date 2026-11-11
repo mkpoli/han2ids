@@ -9,6 +9,7 @@ const BITMAPS = 4;
 
 const els = {
   fileInput: document.querySelector('#file-input'),
+  folderInput: document.querySelector('#folder-input'),
   stage: document.querySelector('#stage'),
   dropEmpty: document.querySelector('#drop-empty'),
   chooseFile: document.querySelector('#choose-file'),
@@ -31,6 +32,13 @@ const els = {
   replaceImage: document.querySelector('#replace-image'),
   queueCard: document.querySelector('#queue-card'),
   queueTotal: document.querySelector('#queue-total'),
+  addImages: document.querySelector('#add-images'),
+  addFolder: document.querySelector('#add-folder'),
+  queueClear: document.querySelector('#queue-clear'),
+  queueRun: document.querySelector('#queue-run'),
+  queueProgress: document.querySelector('#queue-progress'),
+  queueCount: document.querySelector('#queue-count'),
+  queueToggle: document.querySelector('#queue-toggle'),
   itemList: document.querySelector('#item-list'),
   itemPrev: document.querySelector('#item-prev'),
   itemNext: document.querySelector('#item-next'),
@@ -67,6 +75,9 @@ const state = {
   items: [],
   selectedId: null,
   pending: [],
+  run: { total: 0, done: 0 },
+  importing: false,
+  cancelled: false,
   margin: Number(els.margin.value),
   readTimer: 0,
   drag: null,
@@ -172,6 +183,7 @@ function applyTranslations() {
   renderQueue();
   renderStage();
   renderResult();
+  renderRun();
   els.liveStatus.textContent = '';
 }
 
@@ -263,14 +275,18 @@ setLocale(initialLocale(), { persist: false });
 
 /* ---------- Files ---------- */
 
-els.chooseFile.addEventListener('click', () => els.fileInput.click());
-els.replaceImage.addEventListener('click', () => els.fileInput.click());
+for (const button of [els.chooseFile, els.replaceImage, els.addImages]) {
+  button.addEventListener('click', () => els.fileInput.click());
+}
+els.addFolder.addEventListener('click', () => els.folderInput.click());
 
-els.fileInput.addEventListener('change', () => {
-  const [file] = els.fileInput.files;
-  els.fileInput.value = '';
-  if (file) loadFile(file);
-});
+for (const input of [els.fileInput, els.folderInput]) {
+  input.addEventListener('change', () => {
+    const files = [...input.files];
+    input.value = '';
+    loadFiles(files);
+  });
+}
 
 els.stage.addEventListener('click', event => {
   if (!els.imageEditor.hidden) return;
@@ -283,7 +299,7 @@ async function loadSample(name, label) {
     const response = await fetch(`./samples/${name}`, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const blob = await response.blob();
-    await loadFile(new File([blob], label, { type: blob.type || 'image/png' }));
+    await loadFiles([new File([blob], label, { type: blob.type || 'image/png' })]);
   } catch {
     showError({ titleKey: 'error.sample.title', detailKey: 'error.sample.detail' });
   }
@@ -312,9 +328,35 @@ window.addEventListener('drop', event => {
   if (!hasFiles(event)) return;
   event.preventDefault();
   els.stage.classList.remove('is-dragover');
-  const file = [...(event.dataTransfer?.files ?? [])].find(isImageFile);
-  if (file) loadFile(file);
+  droppedFiles(event.dataTransfer).then(loadFiles);
 });
+
+/** Dropped files, walking into folders where the browser exposes them. */
+async function droppedFiles(dataTransfer) {
+  const entries = [...(dataTransfer?.items ?? [])].map(item => item.webkitGetAsEntry?.()).filter(Boolean);
+  if (!entries.length) return [...(dataTransfer?.files ?? [])].filter(isImageFile);
+  const out = [];
+  for (const entry of entries) await walkEntry(entry, out);
+  return out;
+}
+
+async function walkEntry(entry, out, depth = 0) {
+  if (entry.isFile) {
+    const file = await new Promise(resolve => entry.file(resolve, () => resolve(null)));
+    if (file && isImageFile(file)) {
+      if (entry.fullPath) Object.defineProperty(file, 'relativePath', { value: entry.fullPath.replace(/^\//, '') });
+      out.push(file);
+    }
+    return;
+  }
+  if (!entry.isDirectory || depth > 8) return;
+  const reader = entry.createReader();
+  for (;;) {
+    const batch = await new Promise(resolve => reader.readEntries(resolve, () => resolve([])));
+    if (!batch.length) break;
+    for (const child of batch) await walkEntry(child, out, depth + 1);
+  }
+}
 
 window.addEventListener('paste', event => {
   const data = event.clipboardData;
@@ -323,33 +365,55 @@ window.addEventListener('paste', event => {
   const file = item ? item.getAsFile() : [...data.files].find(isImageFile);
   if (!file) return;
   event.preventDefault();
-  loadFile(file);
+  loadFiles([file]);
 });
 
 function isImageFile(file) {
   return Boolean(file) && (file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|avif)$/i.test(file.name));
 }
 
-async function loadFile(file) {
-  if (!isImageFile(file)) {
-    showError({ titleKey: 'error.imageType.title', detailKey: 'error.imageType.detail' });
-    return;
-  }
-
-  let source;
-  try {
-    source = await addSource(file);
-  } catch {
-    showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
+async function loadFiles(files) {
+  const images = files.filter(isImageFile).sort((first, second) =>
+    fileName(first).localeCompare(fileName(second), undefined, { numeric: true, sensitivity: 'base' }));
+  if (!images.length) {
+    if (files.length) showError({ titleKey: 'error.imageType.title', detailKey: 'error.imageType.detail' });
     return;
   }
 
   clearError();
-  const items = buildItems(source, source.boxes);
-  state.items.push(...items);
-  selectItem(items[0].id);
-  renderQueue();
-  enqueue(items);
+  state.cancelled = false;
+  state.importing = true;
+  renderRun();
+
+  let first = null;
+  let failed = 0;
+  for (const file of images) {
+    if (state.cancelled) break;
+    let source;
+    try {
+      source = await addSource(file);
+    } catch {
+      failed += 1;
+      continue;
+    }
+    const items = buildItems(source, source.boxes);
+    state.items.push(...items);
+    if (!first) {
+      first = items[0];
+      selectItem(first.id);
+    }
+    renderQueue();
+    await thumbnails(source, items);
+    enqueue(items);
+  }
+
+  state.importing = false;
+  renderRun();
+  if (!first && failed) showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
+}
+
+function fileName(file) {
+  return file.relativePath || file.webkitRelativePath || file.name || '';
 }
 
 async function addSource(file) {
@@ -358,7 +422,7 @@ async function addSource(file) {
   const found = analyseImage(bitmap);
   const source = {
     id,
-    name: file.name || t('source.pasted'),
+    name: fileName(file) || t('source.pasted'),
     type: file.type || 'image/png',
     blob: file,
     width: bitmap.width,
@@ -744,6 +808,7 @@ async function quickCut() {
   state.items = keep;
   selectItem(items[0].id);
   renderQueue();
+  await thumbnails(source, items);
   enqueue(items);
 }
 
@@ -859,13 +924,67 @@ function scheduleRead(delay = READ_DELAY) {
 }
 
 function enqueue(items) {
+  state.cancelled = false;
   for (const item of items) {
     item.phase = 'queued';
     item.errorKey = null;
-    if (!state.pending.includes(item.id)) state.pending.push(item.id);
+    if (state.pending.includes(item.id)) continue;
+    state.pending.push(item.id);
+    state.run.total += 1;
     touch(item);
   }
+  renderRun();
   pump();
+}
+
+function cancelRun() {
+  state.cancelled = true;
+  state.pending.length = 0;
+  renderRun();
+}
+
+function readQueued() {
+  const waiting = state.items.filter(item => item.phase === 'queued' || item.phase === 'error');
+  if (!waiting.length) return;
+  state.run = { total: 0, done: 0 };
+  enqueue(waiting);
+}
+
+function renderRun() {
+  const waiting = state.items.some(item => item.phase === 'queued');
+  const active = pumping || state.importing;
+  els.queueRun.hidden = !active && !waiting;
+  if (els.queueRun.hidden) return;
+  const { done, total } = state.run;
+  els.queueProgress.style.setProperty('--ui-progress', `${total ? Math.round((done / total) * 100) : 0}%`);
+  els.queueCount.textContent = total ? `${done} / ${total}` : '';
+  els.queueToggle.textContent = active ? t('queue.cancel') : t('queue.read');
+}
+
+els.queueToggle.addEventListener('click', () => {
+  if (pumping || state.importing) cancelRun();
+  else readQueued();
+});
+
+els.queueClear.addEventListener('click', () => clearAll());
+
+function clearAll() {
+  cancelRun();
+  for (const item of state.items) dropItem(item);
+  for (const source of state.sources.values()) if (source.url) URL.revokeObjectURL(source.url);
+  for (const entry of bitmaps.values()) entry.bitmap.close?.();
+  bitmaps.clear();
+  state.items = [];
+  state.sources.clear();
+  state.selectedId = null;
+  state.run = { total: 0, done: 0 };
+  els.glyphImage.removeAttribute('src');
+  delete els.glyphImage.dataset.source;
+  clearError();
+  renderStage();
+  renderQueue();
+  renderResult();
+  renderRun();
 }
 
 let inference = null;
@@ -878,13 +997,19 @@ function loadInference() {
 async function pump() {
   if (pumping) return;
   pumping = true;
+  renderRun();
   try {
-    while (state.pending.length) {
+    while (state.pending.length && !state.cancelled) {
       const item = byId(state.pending.shift());
-      if (item) await readItem(item);
+      if (!item) continue;
+      await readItem(item);
+      state.run.done += 1;
+      renderRun();
     }
   } finally {
     pumping = false;
+    if (!state.pending.length && !state.importing) state.run = { total: 0, done: 0 };
+    renderRun();
   }
 }
 
@@ -1015,6 +1140,19 @@ function modelInput(bitmap, source, crop) {
 
 function background(source) {
   return source.transparent && source.inkLight ? '#000' : '#fff';
+}
+
+async function thumbnails(source, items) {
+  let bitmap;
+  try {
+    bitmap = await bitmapFor(source);
+  } catch {
+    return;
+  }
+  for (const item of items) {
+    await makeThumb(item, bitmap, source);
+    updateRow(item);
+  }
 }
 
 async function makeThumb(item, bitmap, source) {
