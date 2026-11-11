@@ -14,19 +14,21 @@ const els = {
   glyphImage: document.querySelector('#glyph-image'),
   cropBox: document.querySelector('#crop-box'),
   imageSize: document.querySelector('#image-size'),
+  viewRow: document.querySelector('#view-row'),
+  resultView: document.querySelector('#result-view'),
+  resultFrame: document.querySelector('#result-frame'),
+  resultCanvas: document.querySelector('#result-canvas'),
+  rotateHandle: document.querySelector('#rotate-handle'),
+  cleanRow: document.querySelector('.clean-row'),
   cutControls: document.querySelector('#cut-controls'),
   margin: document.querySelector('#margin'),
   marginValue: document.querySelector('#margin-value'),
   autoCut: document.querySelector('#auto-cut'),
   fullImage: document.querySelector('#full-image'),
   binarize: document.querySelector('#binarize'),
+  inkField: document.querySelector('#ink-field'),
   threshold: document.querySelector('#threshold'),
-  thresholdValue: document.querySelector('#threshold-value'),
   thresholdAuto: document.querySelector('#threshold-auto'),
-  rotateLeft: document.querySelector('#rotate-left'),
-  rotateRight: document.querySelector('#rotate-right'),
-  rotationValue: document.querySelector('#rotation-value'),
-  inputPreview: document.querySelector('#input-preview'),
   recognize: document.querySelector('#recognize'),
   replaceImage: document.querySelector('#replace-image'),
   resultCard: document.querySelector('#result-card'),
@@ -70,7 +72,9 @@ const state = {
   threshold: null,
   autoThreshold: null,
   rotation: 0,
+  view: 'result',
   modelInput: null,
+  turn: null,
   readings: [],
   requestSeq: 0,
   readTimer: 0,
@@ -276,7 +280,7 @@ els.fileInput.addEventListener('change', () => {
 });
 
 els.stage.addEventListener('click', event => {
-  if (!els.imageEditor.hidden) return;
+  if (state.natural.width) return;
   if (event.target.closest('button, a, input, label')) return;
   els.fileInput.click();
 });
@@ -330,6 +334,27 @@ function isImageFile(file) {
   return Boolean(file) && (file.type.startsWith('image/') || /\.(png|jpe?g|webp|gif|avif)$/i.test(file.name));
 }
 
+const viewRadios = [...document.querySelectorAll('input[name="view"]')];
+
+function applyView() {
+  const loaded = Boolean(state.natural.width);
+  els.viewRow.hidden = !loaded;
+  els.dropEmpty.hidden = loaded;
+  els.imageEditor.hidden = !loaded || state.view === 'result';
+  els.resultView.hidden = !loaded || state.view === 'original';
+  els.cleanRow.hidden = state.view === 'original';
+  for (const radio of viewRadios) radio.checked = radio.value === state.view;
+}
+
+for (const radio of viewRadios) {
+  radio.addEventListener('change', () => {
+    if (!radio.checked) return;
+    state.view = radio.value === 'original' ? 'original' : 'result';
+    applyView();
+    if (state.view === 'result') refreshPreview();
+  });
+}
+
 async function loadFile(file) {
   if (!isImageFile(file)) {
     showError({ titleKey: 'error.imageType.title', detailKey: 'error.imageType.detail' });
@@ -352,7 +377,7 @@ async function loadFile(file) {
   }
 
   state.modelInput = null;
-  clearInputPreview();
+  clearResult();
   els.glyphImage.src = url;
   try {
     await els.glyphImage.decode();
@@ -365,8 +390,8 @@ async function loadFile(file) {
   state.imageUrl = url;
   state.natural = { width: els.glyphImage.naturalWidth, height: els.glyphImage.naturalHeight };
 
-  els.imageEditor.hidden = false;
-  els.dropEmpty.hidden = true;
+  state.view = 'result';
+  applyView();
   els.cutControls.hidden = false;
   els.imageSize.hidden = false;
   els.imageSize.textContent = `${state.natural.width} × ${state.natural.height}`;
@@ -377,7 +402,7 @@ async function loadFile(file) {
   state.threshold = null;
   state.autoThreshold = null;
   state.rotation = 0;
-  updatePreprocessControls();
+  updateCleanupControls();
 
   resetResult();
   state.transparent = false;
@@ -684,20 +709,17 @@ els.fullImage.addEventListener('click', () => {
   setCrop({ x: 0, y: 0, w: 1, h: 1 }, 0);
 });
 
-/* ---------- Preprocess controls ---------- */
+/* ---------- Clean-up and turning ---------- */
 
-function updatePreprocessControls() {
+function updateCleanupControls() {
   const on = state.binarize;
-  const automatic = state.threshold == null;
   els.binarize.checked = on;
-  els.threshold.disabled = !on;
-  els.thresholdAuto.disabled = !on;
-  els.threshold.closest('.preprocess-threshold')?.classList.toggle('is-disabled', !on);
-  const value = on ? (state.threshold ?? state.autoThreshold ?? 128) : (state.threshold ?? 128);
-  els.threshold.value = String(Math.round(value));
-  els.thresholdValue.textContent = !on && automatic ? '—' : String(Math.round(value));
-  els.thresholdAuto.setAttribute('aria-pressed', String(on && automatic));
-  els.rotationValue.textContent = `${state.rotation}°`;
+  els.inkField.hidden = !on;
+  if (on) {
+    const value = state.threshold ?? state.autoThreshold ?? 128;
+    els.threshold.value = String(Math.round(value));
+  }
+  els.thresholdAuto.setAttribute('aria-pressed', String(on && state.threshold == null));
 }
 
 let previewFrame = 0;
@@ -709,30 +731,31 @@ function refreshPreview() {
     if (!state.natural.width) return;
     try {
       const { canvas } = makeModelInput();
-      drawInputPreview(canvas);
-      updatePreprocessControls();
+      drawResult(canvas);
+      updateCleanupControls();
     } catch {}
   });
 }
 
-function turnImage(degrees) {
-  state.rotation = (state.rotation + degrees + 360) % 360;
-  refreshPreview();
-  updatePreprocessControls();
-  scheduleRead();
+function normalizeDegrees(value) {
+  return ((value % 360) + 360) % 360;
+}
+
+function snapTurn(value) {
+  const nearest = Math.round(value / 90) * 90;
+  return Math.abs(value - nearest) < 3 ? normalizeDegrees(nearest) : value;
 }
 
 els.binarize.addEventListener('change', () => {
   state.binarize = els.binarize.checked;
   if (!state.binarize) state.autoThreshold = null;
   refreshPreview();
-  updatePreprocessControls();
+  updateCleanupControls();
   scheduleRead();
 });
 
 els.threshold.addEventListener('input', () => {
   state.threshold = Number(els.threshold.value);
-  els.thresholdValue.textContent = els.threshold.value;
   els.thresholdAuto.setAttribute('aria-pressed', 'false');
   refreshPreview();
   scheduleRead();
@@ -742,12 +765,67 @@ els.thresholdAuto.addEventListener('click', () => {
   if (!state.binarize) return;
   state.threshold = null;
   refreshPreview();
-  updatePreprocessControls();
+  updateCleanupControls();
   scheduleRead();
 });
 
-els.rotateLeft.addEventListener('click', () => turnImage(-90));
-els.rotateRight.addEventListener('click', () => turnImage(90));
+els.rotateHandle.addEventListener('pointerdown', event => {
+  if (event.button !== 0 || !state.natural.width || state.view !== 'result') return;
+  const rect = els.resultFrame.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  state.turn = {
+    cx,
+    cy,
+    start: Math.atan2(event.clientY - cy, event.clientX - cx),
+    rotation: state.rotation,
+    moved: false,
+    pointerId: event.pointerId,
+  };
+  els.rotateHandle.setPointerCapture?.(event.pointerId);
+  els.resultView.classList.add('is-turning');
+  event.preventDefault();
+});
+
+window.addEventListener('pointermove', event => {
+  const turn = state.turn;
+  if (!turn) return;
+  const angle = Math.atan2(event.clientY - turn.cy, event.clientX - turn.cx);
+  let delta = ((angle - turn.start) * 180) / Math.PI;
+  if (delta > 180) delta -= 360;
+  if (delta < -180) delta += 360;
+  state.rotation = snapTurn(normalizeDegrees(turn.rotation + delta));
+  turn.moved = true;
+  refreshPreview();
+  scheduleRead();
+  event.preventDefault();
+});
+
+function endTurn() {
+  if (!state.turn) return;
+  const moved = state.turn.moved;
+  els.rotateHandle.releasePointerCapture?.(state.turn.pointerId);
+  state.turn = null;
+  els.resultView.classList.remove('is-turning');
+  if (moved) scheduleRead(0);
+}
+
+window.addEventListener('pointerup', endTurn);
+window.addEventListener('pointercancel', endTurn);
+
+els.rotateHandle.addEventListener('keydown', event => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home'].includes(event.key)) return;
+  event.preventDefault();
+  if (event.key === 'Home') {
+    state.rotation = 0;
+  } else {
+    const step = event.shiftKey ? 90 : 5;
+    state.rotation = normalizeDegrees(state.rotation + (event.key === 'ArrowRight' ? step : -step));
+  }
+  refreshPreview();
+  scheduleRead();
+});
 
 els.recognize.addEventListener('click', () => {
   clearTimeout(state.readTimer);
@@ -785,8 +863,8 @@ async function readNow() {
   try {
     const prepared = makeModelInput();
     input = prepared.data;
-    drawInputPreview(prepared.canvas);
-    updatePreprocessControls();
+    drawResult(prepared.canvas);
+    updateCleanupControls();
   } catch {
     state.running = false;
     showError({ titleKey: 'error.preprocess.title', detailKey: 'error.preprocess.detail' });
@@ -835,6 +913,7 @@ async function readNow() {
 
 const INPUT_SIZE = 224;
 const BINARISE_SIZE = INPUT_SIZE * 2;
+const RESULT_SIZE = INPUT_SIZE * 3;
 
 function modelInputKey() {
   const { x, y, w, h } = state.crop;
@@ -857,22 +936,26 @@ function makeModelInput() {
   const ey = clamp(Math.ceil((y + h) * naturalHeight), sy + 1, naturalHeight);
   const sourceWidth = ex - sx;
   const sourceHeight = ey - sy;
-  const sideways = state.rotation === 90 || state.rotation === 270;
   const workSize = state.binarize ? BINARISE_SIZE : INPUT_SIZE;
   const scale = workSize / Math.max(sourceWidth, sourceHeight);
   const drawWidth = Math.max(1, Math.round(sourceWidth * scale));
   const drawHeight = Math.max(1, Math.round(sourceHeight * scale));
+  const radians = (state.rotation * Math.PI) / 180;
+  const cos = Math.cos(radians);
+  const sin = Math.sin(radians);
+  const rotatedWidth = Math.max(1, Math.ceil(Math.abs(drawWidth * cos) + Math.abs(drawHeight * sin) - 0.001));
+  const rotatedHeight = Math.max(1, Math.ceil(Math.abs(drawWidth * sin) + Math.abs(drawHeight * cos) - 0.001));
 
   const crop = document.createElement('canvas');
-  crop.width = sideways ? drawHeight : drawWidth;
-  crop.height = sideways ? drawWidth : drawHeight;
+  crop.width = rotatedWidth;
+  crop.height = rotatedHeight;
   const cropContext = crop.getContext('2d', { willReadFrequently: true });
   cropContext.imageSmoothingEnabled = true;
   cropContext.imageSmoothingQuality = 'high';
   cropContext.fillStyle = state.transparent && state.inkLight ? '#000' : '#fff';
   cropContext.fillRect(0, 0, crop.width, crop.height);
   cropContext.translate(crop.width / 2, crop.height / 2);
-  cropContext.rotate((state.rotation * Math.PI) / 180);
+  cropContext.rotate(radians);
   cropContext.drawImage(image, sx, sy, sourceWidth, sourceHeight,
     -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight);
 
@@ -950,15 +1033,17 @@ function makeModelInput() {
   return result;
 }
 
-function drawInputPreview(canvas) {
-  const context = els.inputPreview.getContext('2d');
-  context.clearRect(0, 0, INPUT_SIZE, INPUT_SIZE);
-  context.drawImage(canvas, 0, 0);
+function drawResult(canvas) {
+  const context = els.resultCanvas.getContext('2d');
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = 'high';
+  context.clearRect(0, 0, RESULT_SIZE, RESULT_SIZE);
+  context.drawImage(canvas, 0, 0, RESULT_SIZE, RESULT_SIZE);
 }
 
-function clearInputPreview() {
-  const context = els.inputPreview.getContext('2d');
-  context.clearRect(0, 0, INPUT_SIZE, INPUT_SIZE);
+function clearResult() {
+  const context = els.resultCanvas.getContext('2d');
+  context.clearRect(0, 0, RESULT_SIZE, RESULT_SIZE);
 }
 
 function showModelProgress(fraction) {

@@ -88,7 +88,6 @@
   <main class="page">
     <section class="intro">
       <h1 data-i18n="intro.title">Read a glyph's IDS</h1>
-      <p data-i18n="intro.body">Paste or drop a Mincho or Song glyph. Adjust the cut, then read its ideographic description sequence.</p>
     </section>
 
     <div class="workspace">
@@ -96,9 +95,22 @@
         <div class="card-head">
           <div>
             <h2 id="image-heading" data-i18n="image.title">Glyph image</h2>
-            <p class="card-sub" data-i18n="image.sub">Mincho and Song serif faces.</p>
           </div>
           <span class="ui-chip image-size" id="image-size" hidden></span>
+        </div>
+
+        <div class="view-row" id="view-row" hidden>
+          <fieldset class="ui-segmented view-switch" id="view-switch">
+            <legend class="ui-visually-hidden" data-i18n="view.legend">View</legend>
+            <label class="ui-segment">
+              <input type="radio" name="view" value="result" checked>
+              <span class="ui-segment-face" data-i18n="view.result">Result</span>
+            </label>
+            <label class="ui-segment">
+              <input type="radio" name="view" value="original">
+              <span class="ui-segment-face" data-i18n="view.original">Original</span>
+            </label>
+          </fieldset>
         </div>
 
         <div class="stage" id="stage">
@@ -140,6 +152,16 @@
             </div>
             <p class="ui-visually-hidden" id="crop-hint" data-i18n="crop.hint">Drag the handles to change the cut. Arrow keys move the cut; hold Shift and an arrow key to resize it.</p>
           </div>
+
+          <div class="result-view" id="result-view" hidden>
+            <div class="result-frame" id="result-frame">
+              <canvas id="result-canvas" width="672" height="672" role="img" aria-label="Processed result" data-i18n-aria="view.resultAlt"></canvas>
+              <button class="rotate-handle" type="button" id="rotate-handle" aria-label="Turn image" data-i18n-aria="view.turn" data-i18n-title="view.turnHint" title="Drag the handle to turn.">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 10a8 8 0 1 1 2.4 6.7M4 5v5h5"/></svg>
+                <span data-i18n="view.turnLabel">Turn</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="cut-controls" id="cut-controls" hidden>
@@ -156,45 +178,22 @@
               <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="full-image" data-i18n="cut.full">Full image</button>
             </div>
           </div>
-          <div class="preprocess" id="preprocess">
-            <div class="preprocess-controls">
-              <h3 class="preprocess-title" data-i18n="preprocess.title">Preprocess</h3>
-              <div class="preprocess-row preprocess-options">
-                <label class="ui-check-row preprocess-toggle">
-                  <input class="ui-switch" type="checkbox" id="binarize">
-                  <span class="ui-check-text" data-i18n="preprocess.binarise">Binarise</span>
-                </label>
-                <div class="ui-field preprocess-threshold">
-                  <label class="ui-label" for="threshold">
-                    <span data-i18n="preprocess.threshold">Threshold</span>
-                    <output class="range-value" id="threshold-value" for="threshold" aria-hidden="true">128</output>
-                  </label>
-                  <input class="ui-range" id="threshold" type="range" min="0" max="255" step="1" value="128" disabled>
-                </div>
-                <button class="ui-button preprocess-auto" type="button" data-size="sm" data-variant="quiet" id="threshold-auto" aria-pressed="true" disabled data-i18n="preprocess.auto">Auto</button>
-              </div>
-              <div class="preprocess-row">
-                <span class="preprocess-label" data-i18n="preprocess.rotate">Rotate</span>
-                <div class="preprocess-rotate">
-                  <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="rotate-left" data-i18n-aria="preprocess.rotateLeft" data-i18n-title="preprocess.rotateLeft">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 10a8 8 0 1 1 2.4 6.7M4 5v5h5"/></svg>
-                  </button>
-                  <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="rotate-right" data-i18n-aria="preprocess.rotateRight" data-i18n-title="preprocess.rotateRight">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 10a8 8 0 1 0-2.4 6.7M20 5v5h-5"/></svg>
-                  </button>
-                  <output class="range-value rotation-value" id="rotation-value" aria-live="polite">0°</output>
-                </div>
+          <div class="clean-row">
+            <label class="ui-check-row clean-toggle">
+              <input class="ui-switch" type="checkbox" id="binarize">
+              <span class="ui-check-text" data-i18n="clean.toggle">Black &amp; white</span>
+            </label>
+            <div class="ui-field ink-field" id="ink-field" hidden>
+              <label class="ui-label" for="threshold" data-i18n="clean.level">Ink level</label>
+              <div class="ink-controls">
+                <input class="ui-range" id="threshold" type="range" min="0" max="255" step="1" value="128">
+                <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="threshold-auto" aria-pressed="true" data-i18n="clean.auto">Auto</button>
               </div>
             </div>
-            <figure class="preprocess-preview">
-              <canvas id="input-preview" width="224" height="224" role="img" aria-label="Model input" data-i18n-aria="preprocess.input"></canvas>
-              <figcaption data-i18n="preprocess.input">Model input</figcaption>
-            </figure>
           </div>
           <div class="action-row">
-            <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Recognise</button>
+            <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Read</button>
             <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.replace">Replace</button>
-            <span class="auto-note" data-i18n="cut.autoNote">Reads automatically after each cut.</span>
           </div>
         </div>
       </section>
@@ -219,7 +218,6 @@
         <div class="result-empty" id="result-empty">
           <span class="result-mark" aria-hidden="true">字</span>
           <p data-i18n="empty.title">No reading yet.</p>
-          <p class="result-hint" data-i18n="empty.hint">The sequence appears here after a glyph is read.</p>
         </div>
 
         <div class="result-body" id="result-body" hidden>
