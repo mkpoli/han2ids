@@ -1,3 +1,11 @@
+:root:has(> head > meta[name='color-scheme'][content='light']) {
+  color-scheme: light;
+}
+
+:root:has(> head > meta[name='color-scheme'][content='dark']) {
+  color-scheme: dark;
+}
+
 /* The glyph face: Jigmo outlines for the model's output vocabulary, so rare components
    in a reading still have a glyph. See fonts/README.md. */
 @font-face {

@@ -1,5 +1,6 @@
 export function initTheme() {
   const themeRadios = [...document.querySelectorAll('input[name="theme"]')];
+  const themeMeta = document.querySelector('meta[name="color-scheme"]');
 
   function storedTheme() {
     try {
@@ -11,8 +12,7 @@ export function initTheme() {
   }
 
   function applyTheme(theme) {
-    if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
-    else delete document.documentElement.dataset.theme;
+    themeMeta.content = theme === 'light' || theme === 'dark' ? theme : 'light dark';
     for (const radio of themeRadios) radio.checked = radio.value === theme;
   }
 
@@ -26,6 +26,14 @@ export function initTheme() {
       } catch {}
     });
   }
+
+  window.addEventListener('storage', event => {
+    try {
+      if (event.storageArea === localStorage && (event.key === 'han2ids:theme' || event.key === null)) {
+        applyTheme(storedTheme());
+      }
+    } catch {}
+  });
 
   applyTheme(storedTheme());
 }

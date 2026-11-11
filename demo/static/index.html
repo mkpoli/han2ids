@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      const theme = localStorage.getItem('han2ids:theme')
+      if (theme === 'light' || theme === 'dark') document.querySelector('meta[name="color-scheme"]').content = theme
+    } catch {}
+  </script>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <title>han2ids — read a glyph's IDS</title>
   <meta name="description" content="Paste or drop a Mincho or Song glyph image, adjust the cut, and read its ideographic description sequence.">
   <script>
     try {
-      const theme = localStorage.getItem('han2ids:theme')
-      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
       const lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('han2ids:lang')
       if (lang) document.documentElement.lang = lang
     } catch {}
