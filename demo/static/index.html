@@ -92,13 +92,33 @@
     </section>
 
     <div class="workspace">
+      <section class="ui-card queue-card" id="queue-card" aria-labelledby="queue-heading" hidden>
+        <div class="card-head">
+          <h2 id="queue-heading" data-i18n="queue.title">Items</h2>
+          <span class="ui-chip queue-total" id="queue-total">0</span>
+        </div>
+        <ul class="ui-list item-list" id="item-list" role="listbox" aria-labelledby="queue-heading"></ul>
+        <div class="queue-foot">
+          <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="item-prev" data-i18n-aria="queue.prev" data-i18n-title="queue.prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="item-next" data-i18n-aria="queue.next" data-i18n-title="queue.next" aria-label="Next">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <span class="queue-position" id="queue-position"></span>
+        </div>
+      </section>
+
       <section class="ui-card input-card" aria-labelledby="image-heading">
         <div class="card-head">
           <div>
             <h2 id="image-heading" data-i18n="image.title" data-i18n-title="image.local">Glyph image</h2>
             <p class="card-sub" data-i18n="image.sub">Mincho and Song serif faces.</p>
           </div>
-          <span class="ui-chip image-size" id="image-size" hidden></span>
+          <div class="head-chips">
+            <span class="ui-chip box-count" id="box-count" hidden></span>
+            <span class="ui-chip image-size" id="image-size" hidden></span>
+          </div>
         </div>
 
         <div class="stage" id="stage">
@@ -113,6 +133,7 @@
             <div class="drop-actions">
               <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="choose-file" data-i18n="drop.choose">Choose image</button>
               <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sample" data-i18n="drop.sample">Try 疑</button>
+              <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sheet" data-i18n="drop.sheet">Try a sheet</button>
             </div>
           </div>
 
@@ -125,6 +146,7 @@
                 <span class="shade-right"></span>
                 <span class="shade-bottom"></span>
               </div>
+              <div class="box-layer" id="box-layer"></div>
               <div class="crop-box" id="crop-box" tabindex="0" role="group"
                 aria-label="Cut region" data-i18n-aria="crop.region" aria-describedby="crop-hint">
                 <span class="crop-line" aria-hidden="true"></span>
@@ -149,6 +171,10 @@
               <input class="ui-range" id="margin" type="range" min="0" max="20" step="1" value="2">
             </div>
             <div class="cut-buttons">
+              <button class="ui-button" type="button" data-size="sm" id="quick-cut">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+                <span data-i18n="cut.quick">Quick cut</span>
+              </button>
               <button class="ui-button" type="button" data-size="sm" id="auto-cut">
                 <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 12h8"/></svg>
                 <span data-i18n="cut.auto">Auto cut</span>
@@ -158,7 +184,7 @@
           </div>
           <div class="action-row">
             <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Recognise</button>
-            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.replace">Replace</button>
+            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.add">Add image</button>
             <span class="auto-note" data-i18n="cut.autoNote">Reads automatically after each cut.</span>
           </div>
         </div>
@@ -193,6 +219,7 @@
             <div class="meta-row">
               <span class="ui-chip" id="score-chip">Model score</span>
               <span class="ui-chip" data-variant="accent" id="validity-chip" data-i18n="reading.valid">Valid IDS</span>
+              <span class="ui-chip source-chip" id="source-chip" hidden></span>
             </div>
           </div>
           <div class="result-actions">

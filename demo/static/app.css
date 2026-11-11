@@ -158,8 +158,27 @@ body {
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(340px, 0.9fr);
+  grid-template-areas: 'image result';
   gap: 20px;
   align-items: stretch;
+}
+
+.workspace:has(> .queue-card:not([hidden])) {
+  grid-template-columns: 264px minmax(0, 1.3fr) minmax(320px, 0.88fr);
+  grid-template-areas: 'queue image result';
+}
+
+.input-card {
+  grid-area: image;
+}
+
+.result-card {
+  grid-area: result;
+}
+
+.queue-card {
+  grid-area: queue;
+  min-inline-size: 0;
 }
 
 .workspace > .ui-card {
@@ -189,7 +208,130 @@ body {
   line-height: 1.4;
 }
 
+.head-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ui-space-2xs);
+}
+
 .image-size {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-text-2xs);
+}
+
+.box-count {
+  border-color: transparent;
+  background: var(--ui-color-accent-soft);
+  color: var(--ui-color-accent);
+  font-size: var(--ui-text-2xs);
+}
+
+/* ---------- The item list ---------- */
+
+.item-list {
+  max-block-size: min(54vh, 560px);
+  padding-inline-end: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.item-row {
+  gap: var(--ui-space-sm);
+  padding: 5px var(--ui-space-2xs);
+}
+
+.item-thumb {
+  flex: none;
+  inline-size: 34px;
+  block-size: 34px;
+  border-radius: var(--ui-radius-sm);
+  background: #fff;
+  box-shadow: 0 0 0 1px var(--ui-color-border);
+  object-fit: contain;
+}
+
+.item-main {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-ids,
+.item-source {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.item-ids {
+  font-family: var(--glyph-font);
+  font-size: var(--ui-text-md);
+  line-height: 1.3;
+}
+
+.item-ids .idc {
+  color: var(--ui-color-ink-muted);
+}
+
+.item-ids.is-waiting::before {
+  content: '—';
+  color: var(--ui-color-ink-muted);
+}
+
+.item-source {
+  color: var(--ui-color-ink-muted);
+  font-size: var(--ui-text-2xs);
+  line-height: 1.3;
+}
+
+.item-state {
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  border: 1px solid var(--ui-color-border-strong);
+  border-radius: var(--ui-radius-pill);
+}
+
+.item-state[data-state='done'] {
+  border-color: transparent;
+  background: var(--ui-color-accent);
+}
+
+.item-state[data-state='error'] {
+  border-color: transparent;
+  background: var(--ui-color-danger);
+}
+
+.item-state[data-state='reading'] {
+  border-color: var(--ui-color-accent);
+  animation: item-pulse 1.1s var(--ui-ease) infinite;
+}
+
+@keyframes item-pulse {
+  50% {
+    background: var(--ui-color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item-state[data-state='reading'] {
+    animation: none;
+    background: var(--ui-color-accent-soft);
+  }
+}
+
+.queue-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2xs);
+}
+
+.queue-position {
+  margin-inline-start: auto;
+  color: var(--ui-color-ink-muted);
   font-family: var(--ui-font-mono);
   font-size: var(--ui-text-2xs);
 }
@@ -296,6 +438,11 @@ body {
   pointer-events: none;
 }
 
+/* With several glyphs on the sheet, every box is in play; the numbered outlines carry the cut. */
+.image-wrap[data-many] .crop-shade {
+  display: none;
+}
+
 .crop-shade > span {
   position: absolute;
   display: block;
@@ -328,8 +475,60 @@ body {
   block-size: calc(100% - var(--cut-y) - var(--cut-h));
 }
 
+.box-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.glyph-box {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--ui-color-accent) 50%, transparent);
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.glyph-box:is(:hover, :focus-visible) {
+  border-color: var(--ui-color-accent);
+  background: color-mix(in srgb, var(--ui-color-accent) 12%, transparent);
+}
+
+.glyph-box[data-selected] {
+  border-color: transparent;
+  pointer-events: none;
+}
+
+.glyph-box-number {
+  position: absolute;
+  inset-block-start: 1px;
+  inset-inline-start: 1px;
+  min-inline-size: 15px;
+  padding-inline: 3px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ui-color-accent) 70%, transparent);
+  color: var(--ui-color-on-accent);
+  font: var(--ui-weight-semibold) var(--ui-text-2xs) / 1.55 var(--ui-font-mono);
+  text-align: center;
+}
+
+.glyph-box[data-selected] .glyph-box-number {
+  background: var(--ui-color-accent);
+}
+
+.glyph-box[data-state='error'] .glyph-box-number {
+  background: var(--ui-color-danger);
+  color: var(--ui-color-on-accent);
+}
+
 .crop-box {
   position: absolute;
+  z-index: 1;
   inset-block-start: var(--cut-y);
   inset-inline-start: var(--cut-x);
   inline-size: var(--cut-w);
@@ -639,9 +838,27 @@ body {
   color: var(--ui-color-ink-soft);
 }
 
+@media (max-width: 1180px) {
+  .workspace:has(> .queue-card:not([hidden])) {
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+    grid-template-areas:
+      'queue queue'
+      'image result';
+  }
+
+  .item-list {
+    max-block-size: 232px;
+  }
+}
+
 @media (max-width: 980px) {
-  .workspace {
+  .workspace,
+  .workspace:has(> .queue-card:not([hidden])) {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'queue'
+      'image'
+      'result';
   }
 
   .result-card {
