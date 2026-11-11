@@ -4,6 +4,8 @@ import { renderIds } from './render-ids.js';
 
 export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
   let copied = false;
+  let copyFailed = false;
+  let copyTimer;
 
   function showModelProgress(fraction) {
     els.modelLoad.hidden = false;
@@ -46,7 +48,7 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
       els.scoreChip.title = deps.t('reading.scoreHint');
       els.validityChip.textContent = reading.valid ? deps.t('reading.valid') : deps.t('reading.invalid');
       els.validityChip.dataset.variant = reading.valid ? 'accent' : 'danger';
-      els.copyIds.textContent = copied ? deps.t('reading.copied') : deps.t('reading.copy');
+      els.copyIds.textContent = copied ? deps.t('reading.copied') : copyFailed ? deps.t('reading.copyFailed') : deps.t('reading.copy');
 
       const source = deps.getSource(item.sourceId);
       els.sourceChip.hidden = false;
@@ -112,27 +114,40 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
   els.copyIds.addEventListener('click', async () => {
     const reading = deps.selectedItem()?.readings[0];
     if (!reading) return;
+    let succeeded = false;
     try {
       await navigator.clipboard.writeText(reading.ids);
+      succeeded = true;
     } catch {
+      const focused = document.activeElement;
       const area = document.createElement('textarea');
-      area.value = reading.ids;
-      area.setAttribute('readonly', '');
-      area.style.position = 'fixed';
-      area.style.opacity = '0';
-      document.body.append(area);
-      area.select();
-      document.execCommand('copy');
-      area.remove();
+      try {
+        area.value = reading.ids;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.append(area);
+        area.select();
+        succeeded = document.execCommand('copy');
+      } catch {
+        succeeded = false;
+      } finally {
+        area.remove();
+        focused?.focus?.();
+      }
     }
-    copied = true;
+    clearTimeout(copyTimer);
+    copied = succeeded;
+    copyFailed = !succeeded;
     renderResult();
-    els.liveStatus.textContent = deps.t('live.copied');
-    setTimeout(() => {
+    const message = deps.t(succeeded ? 'live.copied' : 'reading.copyFailed');
+    els.liveStatus.textContent = !succeeded && els.liveStatus.textContent === message ? `${message}\u00a0` : message;
+    copyTimer = setTimeout(() => {
       copied = false;
+      copyFailed = false;
       renderResult();
     }, 1600);
   });
 
-  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announceReading: reading => { els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) }); } };
+  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; copyFailed = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announceReading: reading => { els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) }); } };
 }
