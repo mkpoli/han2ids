@@ -1,6 +1,6 @@
 import { selectElements } from './elements.js';
 import { analyseImage } from './detect.js';
-import { MIN_CUT, clamp, clampCrop, padBox } from './math.js';
+import { MIN_CUT, clamp, clampCrop, padBox } from './geometry.js';
 
 export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'marginValue', 'cropBox', 'quickCut', 'autoCut', 'fullImage'])) {
   let margin = Number(els.margin.value);

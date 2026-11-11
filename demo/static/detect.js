@@ -313,3 +313,8 @@ function normalise(box, width, height) {
     h: (box.bottom - box.top + 1) / height,
   };
 }
+
+/** Canvas colour behind the glyph: light ink on transparency needs a dark ground. */
+export function background(source) {
+  return source.transparent && source.inkLight ? '#000' : '#fff';
+}

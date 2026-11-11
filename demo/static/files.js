@@ -1,6 +1,6 @@
 import { selectElements } from './elements.js';
 import { analyseImage } from './detect.js';
-import { uid } from './math.js';
+import { uid } from './identity.js';
 
 export function createFiles(deps, els = selectElements(['chooseFile', 'fileInput', 'replaceImage', 'stage', 'imageEditor', 'trySample', 'trySheet'])) {
   const sources = new Map();

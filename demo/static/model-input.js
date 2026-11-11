@@ -1,4 +1,5 @@
-import { clamp, background } from './math.js';
+import { clamp } from './geometry.js';
+import { background } from './detect.js';
 
 export function modelInput(bitmap, source, crop) {
   const naturalWidth = source.width;

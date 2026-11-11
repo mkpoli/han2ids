@@ -1,5 +1,5 @@
 import { selectElements } from './elements.js';
-import { clamp } from './math.js';
+import { clamp } from './geometry.js';
 import { renderIds } from './render-ids.js';
 
 export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {

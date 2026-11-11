@@ -1,5 +1,7 @@
 import { selectElements } from './elements.js';
-import { uid, padBox, background } from './math.js';
+import { uid } from './identity.js';
+import { padBox } from './geometry.js';
+import { background } from './detect.js';
 import { renderIds } from './render-ids.js';
 
 export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal', 'itemList', 'queuePosition', 'itemPrev', 'itemNext'])) {

@@ -22,6 +22,7 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `static/theme.js`, `static/language.js`, `static/i18n.js` — theme and language controls.
 - `static/files.js`, `static/stage.js`, `static/queue.js` — sources, crop controls and the glyph queue.
 - `static/reading.js`, `static/model-input.js`, `static/display.js` — reading lifecycle, preprocessing and results.
+- `static/geometry.js`, `static/identity.js` — crop geometry and generated ids.
 - `static/detect.js` — the glyph cut: Otsu ink, connected components, widest-gap splitting.
 - `static/ids.js` — the operand-stack grammar, shared by the page and the worker.
 - `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
