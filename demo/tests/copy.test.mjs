@@ -25,34 +25,22 @@ class Element {
   focus() {}
 }
 
-function setup({ clipboard, legacy = true } = {}) {
+function setup({ clipboard } = {}) {
   const elements = Object.fromEntries(ELEMENT_NAMES.map(name => [name, new Element(name)]));
   const button = elements.copyIds;
   let handler;
   button.addEventListener = (type, fn) => { if (type === 'click') handler = fn; };
-  let area;
-  let removed = false;
+  let fallbackElements = 0;
   let legacyCalls = 0;
   let activeElement = button;
   const document = {
     get activeElement() { return activeElement; },
     set activeElement(value) { activeElement = value; },
-    body: { append(element) { area = element; } },
-    execCommand(command) {
-      assert.equal(command, 'copy');
-      legacyCalls++;
-      if (legacy instanceof Error) throw legacy;
-      return legacy;
-    },
+    body: { append() { fallbackElements++; } },
+    execCommand() { legacyCalls++; return true; },
     createElement(tagName) {
-      const element = new Element(tagName);
-      if (tagName === 'textarea') {
-        area = element;
-        element.value = '';
-        element.select = () => { activeElement = element; };
-        element.remove = () => { removed = true; activeElement = null; };
-      }
-      return element;
+      if (tagName === 'textarea') fallbackElements++;
+      return new Element(tagName);
     },
     createDocumentFragment: () => new Element('#fragment'),
     createTextNode: text => ({ textContent: text }),
@@ -95,8 +83,7 @@ function setup({ clipboard, legacy = true } = {}) {
 
   return {
     click: () => handler(), elements, button, document, timers, restore,
-    get area() { return area; },
-    get removed() { return removed; },
+    get fallbackElements() { return fallbackElements; },
     get legacyCalls() { return legacyCalls; },
     get activeElement() { return activeElement; },
   };
@@ -111,49 +98,45 @@ test('clipboard success announces success without fallback', async t => {
   await app.click();
   assert.equal(copied, '⿰木木');
   assert.equal(app.legacyCalls, 0);
+  assert.equal(app.fallbackElements, 0);
   assert.equal(app.elements.liveStatus.textContent, 'live.copied');
   assert.equal(app.button.textContent, 'reading.copied');
 });
 
-test('rejected clipboard and failed legacy copy announce failure and restore focus', async t => {
-  const app = setup({ clipboard: reject, legacy: false });
+test('rejected clipboard shows and announces failure without changing focus', async t => {
+  let calls = 0;
+  const app = setup({ clipboard: { writeText: async () => {
+    if (++calls > 1) throw new Error('denied');
+  } } });
   t.after(() => app.restore());
   await app.click();
-  assert.equal(app.area.value, '⿰木木');
-  assert.equal(app.legacyCalls, 1);
-  assert.equal(app.removed, true);
+  await app.click();
+  assert.equal(app.legacyCalls, 0);
+  assert.equal(app.fallbackElements, 0);
   assert.equal(app.activeElement, app.button);
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed');
   assert.equal(app.button.textContent, 'reading.copyFailed');
   [...app.timers.values()][0]();
   assert.equal(app.button.textContent, 'reading.copy');
+  assert.equal(app.elements.liveStatus.textContent, '');
 });
 
-test('throwing legacy copy announces failure, cleans up, and restores focus', async t => {
-  const app = setup({ clipboard: reject, legacy: new Error('unsupported') });
+test('missing clipboard shows and announces failure', async t => {
+  const app = setup();
   t.after(() => app.restore());
   await app.click();
-  assert.equal(app.removed, true);
+  assert.equal(app.legacyCalls, 0);
+  assert.equal(app.fallbackElements, 0);
   assert.equal(app.activeElement, app.button);
   assert.equal(app.button.textContent, 'reading.copyFailed');
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed');
-});
-
-test('successful fallback announces success and restores focus', async t => {
-  const app = setup({ clipboard: reject });
-  t.after(() => app.restore());
-  await app.click();
-  assert.equal(app.removed, true);
-  assert.equal(app.activeElement, app.button);
-  assert.equal(app.button.textContent, 'reading.copied');
-  assert.equal(app.elements.liveStatus.textContent, 'live.copied');
 });
 
 test('a new failure replaces the prior success and its timer', async t => {
   let calls = 0;
   const app = setup({ clipboard: { writeText: async () => {
     if (++calls > 1) throw new Error('denied');
-  } }, legacy: false });
+  } } });
   t.after(() => app.restore());
   await app.click();
   await app.click();
@@ -162,22 +145,56 @@ test('a new failure replaces the prior success and its timer', async t => {
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed');
 });
 
+test('a failed copy can be retried successfully', async t => {
+  let calls = 0;
+  const app = setup({ clipboard: { writeText: async () => {
+    if (++calls === 1) throw new Error('denied');
+  } } });
+  t.after(() => app.restore());
+  await app.click();
+  assert.equal(app.button.textContent, 'reading.copyFailed');
+  await app.click();
+  assert.equal(calls, 2);
+  assert.equal(app.timers.size, 1);
+  assert.equal(app.button.textContent, 'reading.copied');
+  assert.equal(app.elements.liveStatus.textContent, 'live.copied');
+});
+
+test('copy timeout preserves a newer unrelated announcement', async t => {
+  const app = setup({ clipboard: reject });
+  t.after(() => app.restore());
+  await app.click();
+  app.elements.liveStatus.textContent = 'reading completed';
+  [...app.timers.values()][0]();
+  assert.equal(app.elements.liveStatus.textContent, 'reading completed');
+});
+
+test('successful feedback clears after timeout', async t => {
+  const app = setup({ clipboard: { writeText: async () => {} } });
+  t.after(() => app.restore());
+  await app.click();
+  [...app.timers.values()][0]();
+  assert.equal(app.elements.liveStatus.textContent, '');
+});
+
+test('repeated successes change the live message after timeout', async t => {
+  const app = setup({ clipboard: { writeText: async () => {} } });
+  t.after(() => app.restore());
+  await app.click();
+  [...app.timers.values()][0]();
+  await app.click();
+  assert.equal(app.elements.liveStatus.textContent, 'live.copied\u00a0');
+});
+
 test('repeated failures change the live message for announcement', async t => {
-  const app = setup({ clipboard: reject, legacy: false });
+  const app = setup({ clipboard: reject });
   t.after(() => app.restore());
   await app.click();
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed');
+  [...app.timers.values()][0]();
+  assert.equal(app.elements.liveStatus.textContent, '');
   await app.click();
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed\u00a0');
   await app.click();
   assert.equal(app.elements.liveStatus.textContent, 'reading.copyFailed');
-});
-
-test('missing clipboard uses fallback', async t => {
-  const app = setup();
-  t.after(() => app.restore());
-  await app.click();
-  assert.equal(app.legacyCalls, 1);
-  assert.equal(app.elements.liveStatus.textContent, 'live.copied');
-  assert.equal(app.button.textContent, 'reading.copied');
 });
