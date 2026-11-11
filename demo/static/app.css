@@ -1,5 +1,3 @@
-@import './design/index.css';
-
 /* The glyph face: Jigmo outlines for the model's output vocabulary, so rare components
    in a reading still have a glyph. See fonts/README.md. */
 @font-face {
