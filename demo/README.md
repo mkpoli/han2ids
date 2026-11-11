@@ -21,6 +21,7 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `static/index.html`, `static/app.css`, `static/app.js` — the page, with no build step.
 - `static/detect.js` — the glyph cut: Otsu ink, connected components, widest-gap splitting.
 - `static/ids.js` — the operand-stack grammar, shared by the page and the worker.
+- `static/store.js` — the IndexedDB copy of the review set: images, crops, readings and status.
 - `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
 - `static/i18n.js` — the six UI locales.
 - `static/design/` — copies of the IDS Workshop's design system, with provenance in its README.
