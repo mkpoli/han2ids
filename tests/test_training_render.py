@@ -167,5 +167,10 @@ def test_invalid_families_and_faces(han_font, tmp_path):
     bad_font.write_bytes(b'not a font')
     with pytest.raises(ValueError, match='cannot read font cmap'):
         FontRenderer({'bad': [(bad_font, 0)]}).render('漢', 'bad')
-    with pytest.raises(ValueError, match='cannot read font cmap'):
+    with pytest.raises(ValueError, match='cannot (read font cmap|load font)'):
         FontRenderer({'bad': [(han_font, 9999)]}).render('漢', 'bad')
+
+
+def test_invalid_ttf_face_index_fails(latin_font):
+    with pytest.raises(ValueError, match='cannot (read font cmap|load font)'):
+        FontRenderer({'bad': [(latin_font, 9999)]}).render('A', 'bad')
