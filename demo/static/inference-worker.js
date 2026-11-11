@@ -1,13 +1,11 @@
 import * as ort from './ort/ort.wasm.min.mjs';
+import { ARITY, advance, validIds } from './ids.js';
 
 const MAX_LEN = 48;
 const BOS = 1;
 const EOS = 2;
-const ARITY = {
-  '⿰': 2, '⿱': 2, '⿲': 3, '⿳': 3, '⿴': 2, '⿵': 2, '⿶': 2, '⿷': 2,
-  '⿸': 2, '⿹': 2, '⿺': 2, '⿻': 2, '⿼': 2, '⿽': 2, '㇯': 2,
-  '⿾': 1, '⿿': 1, '〾': 1,
-};
+const PAD = 0;
+const BEAMS = 5;
 
 class ModelLoadError extends Error {
   constructor(message, options) {
@@ -109,17 +107,8 @@ async function model(onProgress) {
   return ready;
 }
 
-function advance(stack, char) {
-  while (stack.length && stack[stack.length - 1] === 0) stack.pop();
-  if (!stack.length) return;
-  stack[stack.length - 1] -= 1;
-  if (ARITY[char]) stack.push(ARITY[char]);
-  while (stack.length && stack[stack.length - 1] === 0) stack.pop();
-}
-
-function decode(model, memory, logits, step) {
-  const { itos, opIds } = model;
-  const width = itos.length;
+/** Log-softmax of one decoder position, in place of a full softmax over every step. */
+function stepLogprobs(logits, width, step) {
   const offset = step * width;
   let maximum = -Infinity;
   for (let index = 0; index < width; index += 1) {
@@ -129,56 +118,103 @@ function decode(model, memory, logits, step) {
   let sum = 0;
   for (let index = 0; index < width; index += 1) sum += Math.exp(logits[offset + index] - maximum);
   const logsum = maximum + Math.log(sum);
-
-  let best = -Infinity;
-  let choice = -1;
-  if (!model.stack.length) {
-    choice = EOS;
-    best = logits[offset + EOS] - logsum;
-  } else {
-    for (let index = 4; index < width; index += 1) {
-      if (step === 0 && !opIds.has(index)) continue;
-      const value = logits[offset + index] - logsum;
-      if (value > best) {
-        best = value;
-        choice = index;
-      }
-    }
-  }
-  if (choice < 0) throw new InferenceError('The decoder produced no allowed token.');
-  return { choice, logprob: best };
+  const out = new Float32Array(width);
+  for (let index = 0; index < width; index += 1) out[index] = logits[offset + index] - logsum;
+  return out;
 }
 
-async function run(model, input) {
+/** The k best tokens the operand stack allows here: an operator first, EOS only once every slot is filled. */
+function allowed(model, logprobs, stack, step, k) {
+  const width = model.itos.length;
+  const best = [];
+  const offer = (index, logprob) => {
+    if (best.length < k) {
+      best.push({ index, logprob });
+      best.sort((first, second) => second.logprob - first.logprob);
+    } else if (logprob > best[best.length - 1].logprob) {
+      best[best.length - 1] = { index, logprob };
+      best.sort((first, second) => second.logprob - first.logprob);
+    }
+  };
+
+  if (!stack.length) {
+    offer(EOS, logprobs[EOS]);
+    return best;
+  }
+  for (let index = 4; index < width; index += 1) {
+    if (step === 0 && !model.opIds.has(index)) continue;
+    offer(index, logprobs[index]);
+  }
+  return best;
+}
+
+function beamText(model, tokens) {
+  let text = '';
+  for (let at = 1; at < tokens.length; at += 1) {
+    const token = tokens[at];
+    if (token !== EOS && token !== PAD) text += model.itos[token];
+  }
+  return text;
+}
+
+/** Beam search over the same grammar as the CLI, newest first; score is the geometric mean. */
+async function run(model, input, width) {
   const images = new ort.Tensor('float32', input, [1, 3, 224, 224]);
   const encoded = await model.encoder.run({ images });
-  const tokens = new BigInt64Array(MAX_LEN);
-  tokens[0] = BigInt(BOS);
-  model.stack = [1];
-  let score = 0;
-  let steps = 0;
-  let text = '';
+  const vocabulary = model.itos.length;
+  let beams = [{ tokens: [BOS], stack: [1], score: 0, finished: false }];
 
   for (let step = 0; step < MAX_LEN; step += 1) {
-    const output = await model.decoder.run({
-      memory: encoded.memory,
-      tokens: new ort.Tensor('int64', tokens, [1, MAX_LEN]),
-    });
-    const { choice, logprob } = decode(model, encoded.memory, output.logits.data, step);
-    score += logprob;
-    steps += 1;
-    if (choice === EOS) break;
-    tokens[step + 1] = BigInt(choice);
-    text += model.itos[choice];
-    advance(model.stack, model.itos[choice]);
+    if (beams.every(beam => beam.finished)) break;
+    const pool = [];
+    for (const beam of beams) {
+      if (beam.finished) {
+        pool.push(beam);
+        continue;
+      }
+      const tokens = new BigInt64Array(MAX_LEN);
+      for (let at = 0; at < beam.tokens.length; at += 1) tokens[at] = BigInt(beam.tokens[at]);
+      const output = await model.decoder.run({
+        memory: encoded.memory,
+        tokens: new ort.Tensor('int64', tokens, [1, MAX_LEN]),
+      });
+      const logprobs = stepLogprobs(output.logits.data, vocabulary, beam.tokens.length - 1);
+      for (const { index, logprob } of allowed(model, logprobs, beam.stack, step, width)) {
+        if (!Number.isFinite(logprob)) continue;
+        const stack = beam.stack.slice();
+        let finished = false;
+        if (index === EOS) {
+          finished = true;
+          stack.length = 0;
+        } else {
+          advance(stack, model.itos[index]);
+        }
+        pool.push({ tokens: [...beam.tokens, index], stack, score: beam.score + logprob, finished });
+      }
+    }
+    if (!pool.length) throw new InferenceError('The decoder produced no allowed token.');
+    pool.sort((first, second) => second.score - first.score);
+    beams = pool.slice(0, width);
   }
 
-  const readingScore = Math.exp(score / Math.max(1, steps));
-  const valid = Boolean(text) && model.stack.length === 0;
-  return [{ ids: text, score: readingScore, variant: 'em', valid }];
+  const readings = [];
+  const seen = new Set();
+  for (const beam of beams) {
+    const text = beamText(model, beam.tokens);
+    if (!text || seen.has(text)) continue;
+    seen.add(text);
+    readings.push({
+      ids: text,
+      score: Math.exp(beam.score / Math.max(1, beam.tokens.length - 1)),
+      variant: 'em',
+      valid: validIds(text),
+    });
+  }
+  readings.sort((first, second) => second.score - first.score);
+  return readings;
 }
 
-async function recognize(input, { onProgress } = {}) {
+async function recognize(input, { onProgress, width = BEAMS } = {}) {
   let loaded;
   try {
     loaded = await model(onProgress);
@@ -186,17 +222,18 @@ async function recognize(input, { onProgress } = {}) {
     throw error instanceof ModelLoadError ? error : new ModelLoadError('The model could not be loaded.', { cause: error });
   }
   try {
-    return await run(loaded, input);
+    return await run(loaded, input, Math.max(1, Math.min(8, width)));
   } catch (error) {
     throw error instanceof InferenceError ? error : new InferenceError('The glyph could not be read.', { cause: error });
   }
 }
 
 self.onmessage = async event => {
-  const { type, requestId, input } = event.data || {};
+  const { type, requestId, input, width } = event.data || {};
   if (type !== 'recognize') return;
   try {
     const readings = await recognize(new Float32Array(input), {
+      width,
       onProgress: fraction => self.postMessage({ type: 'progress', fraction }),
     });
     self.postMessage({ type: 'result', requestId, readings });

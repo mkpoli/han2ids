@@ -30,12 +30,12 @@ function start() {
   return worker;
 }
 
-export function recognize(input, { onProgress } = {}) {
+export function recognize(input, { onProgress, width } = {}) {
   const active = start();
   progress = onProgress || null;
   const requestId = ++sequence;
   return new Promise((resolve, reject) => {
     pending.set(requestId, { resolve, reject });
-    active.postMessage({ type: 'recognize', requestId, input: input.buffer }, [input.buffer]);
+    active.postMessage({ type: 'recognize', requestId, width, input: input.buffer }, [input.buffer]);
   });
 }

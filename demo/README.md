@@ -9,9 +9,20 @@ uv run python demo/server.py
 ```
 
 Open <http://127.0.0.1:8402>. The first read downloads 40.2 MB of int8 models and starts ONNX Runtime
-Web in a Web Worker; later reads reuse the sessions. The cut follows the ink automatically, and the
-margin slider and handles refine it. The browser build reads one em-box crop, without the CLI's
-four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch checkpoint.
+Web in a Web Worker; later reads reuse the sessions. A sheet of glyphs is cut into one item per
+glyph, each read on its own; the margin slider and the handles refine the cut of the selected item,
+and the review panel holds the final sequence, a note and a status. The browser build reads one
+em-box crop per item, without the CLI's four-crop ensemble, and is the int8 ONNX export, not the
+canonical PyTorch checkpoint.
+
+## The decoder
+
+`inference-worker.js` runs the same operand-stack grammar as `src/han2ids/grammar.py`: an operator
+first, a token for every open slot, and `EOS` only once the stack is empty. It searches a beam of
+five, scores each reading as the geometric mean of its token probabilities, drops duplicates and
+ranks by that score. On this machine one 224 px crop takes about 0.8 s against 0.35 s for a single
+beam; the four glyphs of `sheet-grid.png` read in 5.2 s including the model load. The score is
+uncalibrated, and no accuracy figure measured on the PyTorch checkpoint carries over to this build.
 
 ## Files
 
@@ -35,6 +46,13 @@ box as the longest unbroken run of ink along either axis. The sheet is split at 
 first into rows and then into glyphs, and never past a piece that already fits one em box, so the
 halves of 明, the tiers of 曼 and the strokes of 川 stay together while neighbouring glyphs do not
 merge. Two glyphs need one blank pixel row or column between them in at least one direction.
+
+## The review set
+
+Items, source images, crops, readings, the final sequence, the note and the status live in one
+implicit local project in IndexedDB (`han2ids-ocr`), restored on the next visit and emptied by
+Clear. Export JSON writes the same fields, versioned, through a Blob download. Nothing leaves the
+browser.
 
 ## Locales
 
