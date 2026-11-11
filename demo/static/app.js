@@ -1,7 +1,11 @@
 import { DEFAULT_LOCALE, LOCALES, matchLocale } from './i18n.js';
+import { analyseImage } from './detect.js';
+import { IDC } from './ids.js';
 
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
+const THUMB = 96;
+const BITMAPS = 4;
 
 const els = {
   fileInput: document.querySelector('#file-input'),
@@ -9,18 +13,28 @@ const els = {
   dropEmpty: document.querySelector('#drop-empty'),
   chooseFile: document.querySelector('#choose-file'),
   trySample: document.querySelector('#try-sample'),
+  trySheet: document.querySelector('#try-sheet'),
   imageEditor: document.querySelector('#image-editor'),
   imageWrap: document.querySelector('#image-wrap'),
   glyphImage: document.querySelector('#glyph-image'),
+  boxLayer: document.querySelector('#box-layer'),
   cropBox: document.querySelector('#crop-box'),
   imageSize: document.querySelector('#image-size'),
+  boxCount: document.querySelector('#box-count'),
   cutControls: document.querySelector('#cut-controls'),
   margin: document.querySelector('#margin'),
   marginValue: document.querySelector('#margin-value'),
+  quickCut: document.querySelector('#quick-cut'),
   autoCut: document.querySelector('#auto-cut'),
   fullImage: document.querySelector('#full-image'),
   recognize: document.querySelector('#recognize'),
   replaceImage: document.querySelector('#replace-image'),
+  queueCard: document.querySelector('#queue-card'),
+  queueTotal: document.querySelector('#queue-total'),
+  itemList: document.querySelector('#item-list'),
+  itemPrev: document.querySelector('#item-prev'),
+  itemNext: document.querySelector('#item-next'),
+  queuePosition: document.querySelector('#queue-position'),
   resultCard: document.querySelector('#result-card'),
   readingStatus: document.querySelector('#reading-status'),
   readingStatusText: document.querySelector('#reading-status-text'),
@@ -29,6 +43,7 @@ const els = {
   idsText: document.querySelector('#ids-text'),
   scoreChip: document.querySelector('#score-chip'),
   validityChip: document.querySelector('#validity-chip'),
+  sourceChip: document.querySelector('#source-chip'),
   copyIds: document.querySelector('#copy-ids'),
   openWorkshop: document.querySelector('#open-workshop'),
   candidates: document.querySelector('#candidates'),
@@ -47,29 +62,28 @@ const els = {
   modelProgressText: document.querySelector('#model-progress-text'),
 };
 
-const IDC = /[\u2FF0-\u2FFF\u303E\u31EF]/;
-
 const state = {
-  imageUrl: '',
-  natural: { width: 0, height: 0 },
-  crop: { x: 0, y: 0, w: 1, h: 1 },
-  inkBox: null,
-  transparent: false,
-  inkLight: false,
+  sources: new Map(),
+  items: [],
+  selectedId: null,
+  pending: [],
   margin: Number(els.margin.value),
-  readings: [],
-  requestSeq: 0,
   readTimer: 0,
   drag: null,
-  busy: false,
-  loading: false,
   modelLoaded: false,
+  loading: false,
   progress: 0,
-  running: false,
-  queued: false,
   copied: false,
-  error: null,
 };
+
+const rows = new Map();
+const bitmaps = new Map();
+let clock = 0;
+let pumping = false;
+
+function uid() {
+  return crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 /* ---------- Theme ---------- */
 
@@ -155,12 +169,9 @@ function applyTranslations() {
   for (const node of document.querySelectorAll('[data-i18n-title]')) node.title = t(node.dataset.i18nTitle);
   for (const node of document.querySelectorAll('[data-i18n-alt]')) node.alt = t(node.dataset.i18nAlt);
   renderLanguage();
-  refreshStatus();
-  if (state.readings.length) updateReadingMeta();
-  if (state.error) {
-    els.errorTitle.textContent = t(state.error.titleKey);
-    els.errorDetail.textContent = t(state.error.detailKey);
-  }
+  renderQueue();
+  renderStage();
+  renderResult();
   els.liveStatus.textContent = '';
 }
 
@@ -250,7 +261,7 @@ document.addEventListener('pointerdown', event => {
 
 setLocale(initialLocale(), { persist: false });
 
-/* ---------- Image input ---------- */
+/* ---------- Files ---------- */
 
 els.chooseFile.addEventListener('click', () => els.fileInput.click());
 els.replaceImage.addEventListener('click', () => els.fileInput.click());
@@ -267,16 +278,19 @@ els.stage.addEventListener('click', event => {
   els.fileInput.click();
 });
 
-els.trySample.addEventListener('click', async () => {
+async function loadSample(name, label) {
   try {
-    const response = await fetch('./samples/sample-yi.png', { cache: 'no-cache' });
+    const response = await fetch(`./samples/${name}`, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const blob = await response.blob();
-    await loadFile(new File([blob], '疑.png', { type: blob.type || 'image/png' }));
+    await loadFile(new File([blob], label, { type: blob.type || 'image/png' }));
   } catch {
     showError({ titleKey: 'error.sample.title', detailKey: 'error.sample.detail' });
   }
-});
+}
+
+els.trySample.addEventListener('click', () => loadSample('sample-yi.png', '疑.png'));
+els.trySheet.addEventListener('click', () => loadSample('sheet-grid.png', 'sheet-grid.png'));
 
 function hasFiles(event) {
   return [...(event.dataTransfer?.types ?? [])].includes('Files');
@@ -322,239 +336,260 @@ async function loadFile(file) {
     return;
   }
 
-  state.requestSeq += 1;
-  clearTimeout(state.readTimer);
-  setBusy(false);
-
-  const url = URL.createObjectURL(file);
-  const probe = new Image();
-  probe.src = url;
+  let source;
   try {
-    await probe.decode();
+    source = await addSource(file);
   } catch {
-    URL.revokeObjectURL(url);
     showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
     return;
   }
 
-  els.glyphImage.src = url;
-  try {
-    await els.glyphImage.decode();
-  } catch {
-    URL.revokeObjectURL(url);
-    showError({ titleKey: 'error.open.title', detailKey: 'error.open.detail' });
-    return;
-  }
-  if (state.imageUrl) URL.revokeObjectURL(state.imageUrl);
-  state.imageUrl = url;
-  state.natural = { width: els.glyphImage.naturalWidth, height: els.glyphImage.naturalHeight };
-
-  els.imageEditor.hidden = false;
-  els.dropEmpty.hidden = true;
-  els.cutControls.hidden = false;
-  els.imageSize.hidden = false;
-  els.imageSize.textContent = `${state.natural.width} × ${state.natural.height}`;
-  els.margin.value = String(state.margin);
-  els.marginValue.textContent = `${state.margin}%`;
-
-  resetResult();
-  state.transparent = false;
-  state.inkLight = false;
-  updateImageBackground();
-
-  state.inkBox = analyseInk(els.glyphImage);
-  applyAutoCut(0);
-  scheduleRead(80);
+  clearError();
+  const items = buildItems(source, source.boxes);
+  state.items.push(...items);
+  selectItem(items[0].id);
+  renderQueue();
+  enqueue(items);
 }
 
-/* ---------- Ink detection and the cut ---------- */
-
-function analyseInk(image) {
-  const width = image.naturalWidth;
-  const height = image.naturalHeight;
-  state.transparent = false;
-  state.inkLight = false;
-  if (!width || !height) return null;
-
-  const scale = Math.min(1, 700 / Math.max(width, height));
-  const w = Math.max(1, Math.round(width * scale));
-  const h = Math.max(1, Math.round(height * scale));
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
-  const context = canvas.getContext('2d', { willReadFrequently: true });
-  context.drawImage(image, 0, 0, w, h);
-  const pixels = context.getImageData(0, 0, w, h).data;
-
-  const border = Math.max(1, Math.round(Math.min(w, h) * 0.02));
-  let borderCount = 0;
-  let borderOpaque = 0;
-  let borderLuma = 0;
-  const histogram = new Uint32Array(256);
-  let histogramCount = 0;
-
-  for (let y = 0; y < h; y += 1) {
-    for (let x = 0; x < w; x += 1) {
-      const offset = (y * w + x) * 4;
-      const alpha = pixels[offset + 3];
-      const luma = Math.round(0.2126 * pixels[offset] + 0.7152 * pixels[offset + 1] + 0.0722 * pixels[offset + 2]);
-      const onBorder = x < border || y < border || x >= w - border || y >= h - border;
-      if (onBorder) {
-        borderCount += 1;
-        if (alpha > 32) {
-          borderOpaque += 1;
-          borderLuma += luma;
-        }
-      }
-      if (alpha > 16) {
-        histogram[luma] += 1;
-        histogramCount += 1;
-      }
-    }
-  }
-
-  const transparentBackground = borderCount > 0 && borderOpaque / borderCount < 0.6;
-  const threshold = otsu(histogram, histogramCount);
-  const backgroundLuma = borderOpaque ? borderLuma / borderOpaque : 255;
-  const brightBackground = backgroundLuma >= threshold;
-
-  let left = w;
-  let top = h;
-  let right = -1;
-  let bottom = -1;
-  let inkLuma = 0;
-  let inkCount = 0;
-
-  for (let y = 0; y < h; y += 1) {
-    for (let x = 0; x < w; x += 1) {
-      const offset = (y * w + x) * 4;
-      const alpha = pixels[offset + 3];
-      if (alpha <= 32) continue;
-      const luma = 0.2126 * pixels[offset] + 0.7152 * pixels[offset + 1] + 0.0722 * pixels[offset + 2];
-      const ink = transparentBackground ? true : brightBackground ? luma <= threshold : luma >= threshold;
-      if (!ink) continue;
-      if (x < left) left = x;
-      if (x > right) right = x;
-      if (y < top) top = y;
-      if (y > bottom) bottom = y;
-      inkLuma += luma;
-      inkCount += 1;
-    }
-  }
-
-  if (right < left || bottom < top) {
-    updateImageBackground();
-    return null;
-  }
-
-  state.transparent = transparentBackground;
-  state.inkLight = inkCount > 0 && inkLuma / inkCount > 127;
-  updateImageBackground();
-
-  return {
-    x: left / w,
-    y: top / h,
-    w: (right - left + 1) / w,
-    h: (bottom - top + 1) / h,
+async function addSource(file) {
+  const bitmap = await createImageBitmap(file);
+  const id = uid();
+  const found = analyseImage(bitmap);
+  const source = {
+    id,
+    name: file.name || t('source.pasted'),
+    type: file.type || 'image/png',
+    blob: file,
+    width: bitmap.width,
+    height: bitmap.height,
+    url: '',
+    transparent: found.transparent,
+    inkLight: found.inkLight,
+    inkBox: found.inkBox,
+    boxes: found.boxes,
   };
+  keepBitmap(id, bitmap);
+  state.sources.set(id, source);
+  return source;
 }
 
-function updateImageBackground() {
-  els.imageWrap.style.setProperty('--image-bg', state.transparent && state.inkLight ? '#000' : '#fff');
+function sourceUrl(source) {
+  if (!source.url) source.url = URL.createObjectURL(source.blob);
+  return source.url;
 }
 
-function otsu(histogram, total) {
-  if (!total) return 127;
-  let sum = 0;
-  for (let value = 0; value < 256; value += 1) sum += value * histogram[value];
-
-  let weightBackground = 0;
-  let sumBackground = 0;
-  let best = -1;
-  let threshold = 127;
-
-  for (let value = 0; value < 256; value += 1) {
-    weightBackground += histogram[value];
-    if (!weightBackground) continue;
-    const weightForeground = total - weightBackground;
-    if (!weightForeground) break;
-    sumBackground += value * histogram[value];
-    const meanBackground = sumBackground / weightBackground;
-    const meanForeground = (sum - sumBackground) / weightForeground;
-    const between = weightBackground * weightForeground * (meanBackground - meanForeground) ** 2;
-    if (between > best) {
-      best = between;
-      threshold = value;
+function keepBitmap(id, bitmap) {
+  bitmaps.set(id, { bitmap, used: ++clock });
+  while (bitmaps.size > BITMAPS) {
+    let oldest = null;
+    for (const [key, entry] of bitmaps) {
+      if (key === id) continue;
+      if (!oldest || entry.used < oldest[1].used) oldest = [key, entry];
     }
+    if (!oldest) break;
+    oldest[1].bitmap.close?.();
+    bitmaps.delete(oldest[0]);
   }
-  return threshold;
 }
 
-function applyAutoCut(delay = READ_DELAY) {
-  if (!state.inkBox) {
-    setCrop({ x: 0, y: 0, w: 1, h: 1 }, delay);
-    return;
+async function bitmapFor(source) {
+  const cached = bitmaps.get(source.id);
+  if (cached) {
+    cached.used = ++clock;
+    return cached.bitmap;
   }
-
-  const box = state.inkBox;
-  const padding = (state.margin / 100) * Math.max(box.w * state.natural.width, box.h * state.natural.height);
-  const padX = padding / state.natural.width;
-  const padY = padding / state.natural.height;
-
-  setCrop({
-    x: box.x - padX,
-    y: box.y - padY,
-    w: box.w + 2 * padX,
-    h: box.h + 2 * padY,
-  }, delay);
+  const bitmap = await createImageBitmap(source.blob);
+  keepBitmap(source.id, bitmap);
+  return bitmap;
 }
 
-function setCrop(crop, delay = READ_DELAY) {
-  const next = {
+/* ---------- Items ---------- */
+
+function buildItems(source, boxes) {
+  const list = boxes.length ? boxes : [source.inkBox ?? { x: 0, y: 0, w: 1, h: 1 }];
+  return list.map((box, at) => ({
+    id: uid(),
+    sourceId: source.id,
+    index: at + 1,
+    box,
+    crop: padBox(box, state.margin, source),
+    margin: state.margin,
+    readings: [],
+    phase: 'queued',
+    errorKey: null,
+    thumb: null,
+    thumbUrl: '',
+    seq: 0,
+  }));
+}
+
+function itemsOf(sourceId) {
+  return state.items.filter(item => item.sourceId === sourceId);
+}
+
+function byId(id) {
+  return state.items.find(item => item.id === id) ?? null;
+}
+
+function selectedItem() {
+  return byId(state.selectedId);
+}
+
+function selectItem(id, { scroll = true } = {}) {
+  const item = byId(id);
+  if (!item) return;
+  state.selectedId = id;
+  state.copied = false;
+  clearTimeout(state.readTimer);
+  renderStage();
+  renderQueue({ scroll });
+  renderResult();
+}
+
+function stepSelection(step) {
+  if (!state.items.length) return;
+  const at = state.items.findIndex(item => item.id === state.selectedId);
+  const next = state.items[Math.min(state.items.length - 1, Math.max(0, at + step))];
+  if (next) selectItem(next.id);
+}
+
+function padBox(box, margin, source) {
+  if (!box) return { x: 0, y: 0, w: 1, h: 1 };
+  const padding = (margin / 100) * Math.max(box.w * source.width, box.h * source.height);
+  return clampCrop({
+    x: box.x - padding / source.width,
+    y: box.y - padding / source.height,
+    w: box.w + (2 * padding) / source.width,
+    h: box.h + (2 * padding) / source.height,
+  });
+}
+
+function clampCrop(crop) {
+  const out = {
     x: clamp(crop.x, 0, 1),
     y: clamp(crop.y, 0, 1),
     w: clamp(crop.w, MIN_CUT, 1),
     h: clamp(crop.h, MIN_CUT, 1),
   };
-  next.w = Math.min(next.w, 1 - next.x);
-  next.h = Math.min(next.h, 1 - next.y);
-  if (next.w < MIN_CUT) {
-    next.w = MIN_CUT;
-    next.x = Math.max(0, 1 - MIN_CUT);
+  out.w = Math.min(out.w, 1 - out.x);
+  out.h = Math.min(out.h, 1 - out.y);
+  if (out.w < MIN_CUT) {
+    out.w = MIN_CUT;
+    out.x = Math.max(0, 1 - MIN_CUT);
   }
-  if (next.h < MIN_CUT) {
-    next.h = MIN_CUT;
-    next.y = Math.max(0, 1 - MIN_CUT);
+  if (out.h < MIN_CUT) {
+    out.h = MIN_CUT;
+    out.y = Math.max(0, 1 - MIN_CUT);
   }
-  updateCrop(next);
-  scheduleRead(delay);
-}
-
-function updateCrop(next) {
-  if (['x', 'y', 'w', 'h'].every(key => next[key] === state.crop[key])) return false;
-  state.crop = next;
-  state.queued = false;
-  resetResult();
-  renderCrop();
-  return true;
-}
-
-function renderCrop() {
-  const { x, y, w, h } = state.crop;
-  els.imageWrap.style.setProperty('--cut-x', `${x * 100}%`);
-  els.imageWrap.style.setProperty('--cut-y', `${y * 100}%`);
-  els.imageWrap.style.setProperty('--cut-w', `${w * 100}%`);
-  els.imageWrap.style.setProperty('--cut-h', `${h * 100}%`);
+  return out;
 }
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
+/* ---------- The stage ---------- */
+
+function renderStage() {
+  const item = selectedItem();
+  if (!item) {
+    els.imageEditor.hidden = true;
+    els.dropEmpty.hidden = false;
+    els.cutControls.hidden = true;
+    els.imageSize.hidden = true;
+    els.boxCount.hidden = true;
+    els.boxLayer.replaceChildren();
+    return;
+  }
+
+  const source = state.sources.get(item.sourceId);
+  if (els.glyphImage.dataset.source !== source.id) {
+    els.glyphImage.src = sourceUrl(source);
+    els.glyphImage.dataset.source = source.id;
+  }
+  els.imageEditor.hidden = false;
+  els.dropEmpty.hidden = true;
+  els.cutControls.hidden = false;
+  els.imageSize.hidden = false;
+  els.imageSize.textContent = `${source.width} × ${source.height}`;
+  const count = itemsOf(source.id).length;
+  els.boxCount.hidden = count < 2;
+  els.boxCount.textContent = t('quick.boxes', { count });
+  els.imageWrap.toggleAttribute('data-many', count > 1);
+  els.imageWrap.style.setProperty('--image-bg', source.transparent && source.inkLight ? '#000' : '#fff');
+  els.margin.value = String(item.margin);
+  els.marginValue.textContent = `${item.margin}%`;
+  renderBoxes();
+  renderCrop();
+}
+
+function renderBoxes() {
+  const item = selectedItem();
+  const list = item ? itemsOf(item.sourceId) : [];
+  if (list.length < 2) {
+    els.boxLayer.replaceChildren();
+    return;
+  }
+  els.boxLayer.replaceChildren(...list.map(entry => {
+    const box = document.createElement('button');
+    box.type = 'button';
+    box.className = 'glyph-box';
+    box.tabIndex = -1;
+    box.dataset.id = entry.id;
+    box.dataset.state = entry.phase;
+    if (entry.id === item.id) box.dataset.selected = 'true';
+    box.style.insetInlineStart = `${entry.crop.x * 100}%`;
+    box.style.insetBlockStart = `${entry.crop.y * 100}%`;
+    box.style.inlineSize = `${entry.crop.w * 100}%`;
+    box.style.blockSize = `${entry.crop.h * 100}%`;
+    const number = document.createElement('span');
+    number.className = 'glyph-box-number';
+    number.textContent = String(entry.index);
+    box.append(number);
+    return box;
+  }));
+}
+
+els.boxLayer.addEventListener('click', event => {
+  const box = event.target.closest('[data-id]');
+  if (box) selectItem(box.dataset.id);
+});
+
+function renderCrop() {
+  const item = selectedItem();
+  if (!item) return;
+  const { x, y, w, h } = item.crop;
+  els.imageWrap.style.setProperty('--cut-x', `${x * 100}%`);
+  els.imageWrap.style.setProperty('--cut-y', `${y * 100}%`);
+  els.imageWrap.style.setProperty('--cut-w', `${w * 100}%`);
+  els.imageWrap.style.setProperty('--cut-h', `${h * 100}%`);
+}
+
+function setCrop(crop, delay = READ_DELAY) {
+  const item = selectedItem();
+  if (!item) return;
+  const next = clampCrop(crop);
+  const changed = ['x', 'y', 'w', 'h'].some(key => next[key] !== item.crop[key]);
+  item.crop = next;
+  if (changed) {
+    item.seq += 1;
+    item.readings = [];
+    item.phase = 'queued';
+    item.errorKey = null;
+    if (item.id === state.selectedId) {
+      state.copied = false;
+      touch(item);
+    }
+  }
+  renderCrop();
+  scheduleRead(delay);
+}
+
 /* ---------- Pointer and keyboard crop controls ---------- */
 
 els.cropBox.addEventListener('pointerdown', event => {
-  if (event.button !== 0 || !state.natural.width || state.drag) return;
+  if (event.button !== 0 || !selectedItem() || state.drag) return;
   const handle = event.target.closest('[data-handle]');
   const rect = els.imageWrap.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
@@ -563,7 +598,7 @@ els.cropBox.addEventListener('pointerdown', event => {
     mode: handle ? handle.dataset.handle : 'move',
     startX: (event.clientX - rect.left) / rect.width,
     startY: (event.clientY - rect.top) / rect.height,
-    crop: { ...state.crop },
+    crop: { ...selectedItem().crop },
     moved: false,
     target: handle ?? els.cropBox,
     pointerId: event.pointerId,
@@ -571,12 +606,14 @@ els.cropBox.addEventListener('pointerdown', event => {
   state.drag.target.setPointerCapture?.(event.pointerId);
   els.imageWrap.classList.add('is-cropping');
   els.cropBox.focus({ preventScroll: true });
+  clearTimeout(state.readTimer);
   event.preventDefault();
 });
 
 window.addEventListener('pointermove', event => {
   const drag = state.drag;
-  if (!drag || event.pointerId !== drag.pointerId) return;
+  const item = selectedItem();
+  if (!drag || !item || event.pointerId !== drag.pointerId) return;
   const rect = els.imageWrap.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
 
@@ -602,7 +639,9 @@ window.addEventListener('pointermove', event => {
     next = { x: left, y: top, w: right - left, h: bottom - top };
   }
 
-  if (updateCrop(next)) drag.moved = true;
+  item.crop = next;
+  state.drag.moved = true;
+  renderCrop();
   event.preventDefault();
 });
 
@@ -612,10 +651,7 @@ function endDrag(event) {
   state.drag = null;
   if (target.hasPointerCapture?.(pointerId)) target.releasePointerCapture(pointerId);
   els.imageWrap.classList.remove('is-cropping');
-  if (moved || state.queued) {
-    state.queued = false;
-    scheduleRead();
-  }
+  if (moved) scheduleRead();
 }
 
 window.addEventListener('pointerup', endDrag);
@@ -624,10 +660,11 @@ els.cropBox.addEventListener('lostpointercapture', endDrag);
 
 els.cropBox.addEventListener('keydown', event => {
   const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-  if (!keys.includes(event.key)) return;
+  const item = selectedItem();
+  if (!item || !keys.includes(event.key)) return;
 
   const step = event.shiftKey ? 0.02 : 0.005;
-  const crop = { ...state.crop };
+  const crop = { ...item.crop };
 
   if (event.shiftKey) {
     if (event.key === 'ArrowLeft') crop.w = Math.max(MIN_CUT, crop.w - step);
@@ -650,31 +687,185 @@ els.cropBox.addEventListener('keydown', event => {
 els.margin.addEventListener('input', () => {
   state.margin = Number(els.margin.value);
   els.marginValue.textContent = `${state.margin}%`;
-  if (state.natural.width) applyAutoCut();
+  const item = selectedItem();
+  if (!item) return;
+  item.margin = state.margin;
+  const source = state.sources.get(item.sourceId);
+  setCrop(padBox(item.box, item.margin, source));
 });
 
+els.quickCut.addEventListener('click', () => quickCut());
+
 els.autoCut.addEventListener('click', () => {
-  if (!state.natural.width) return;
-  state.inkBox = analyseInk(els.glyphImage);
-  applyAutoCut(0);
+  const item = selectedItem();
+  if (!item) return;
+  const source = state.sources.get(item.sourceId);
+  setCrop(padBox(item.box, item.margin, source), 0);
 });
 
 els.fullImage.addEventListener('click', () => {
-  if (!state.natural.width) return;
+  if (!selectedItem()) return;
   setCrop({ x: 0, y: 0, w: 1, h: 1 }, 0);
 });
 
 els.recognize.addEventListener('click', () => {
   clearTimeout(state.readTimer);
-  readNow();
+  const item = selectedItem();
+  if (item) enqueue([item]);
 });
+
+async function quickCut() {
+  const current = selectedItem();
+  if (!current) return;
+  const source = state.sources.get(current.sourceId);
+  let found;
+  try {
+    found = analyseImage(await bitmapFor(source));
+  } catch {
+    showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
+    return;
+  }
+  if (!found.boxes.length) {
+    showError({ titleKey: 'error.detect.title', detailKey: 'error.detect.detail' });
+    return;
+  }
+
+  clearError();
+  source.inkBox = found.inkBox;
+  source.boxes = found.boxes;
+  source.transparent = found.transparent;
+  source.inkLight = found.inkLight;
+
+  const at = state.items.findIndex(item => item.sourceId === source.id);
+  const keep = state.items.filter(item => item.sourceId !== source.id);
+  for (const item of itemsOf(source.id)) dropItem(item);
+  const items = buildItems(source, found.boxes);
+  keep.splice(at < 0 ? keep.length : at, 0, ...items);
+  state.items = keep;
+  selectItem(items[0].id);
+  renderQueue();
+  enqueue(items);
+}
+
+function dropItem(item) {
+  if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+  rows.delete(item.id);
+}
+
+/* ---------- The item list ---------- */
+
+function renderQueue({ scroll = false } = {}) {
+  els.queueCard.hidden = state.items.length === 0;
+  els.queueTotal.textContent = String(state.items.length);
+
+  const seen = new Set();
+  const list = state.items.map(item => {
+    seen.add(item.id);
+    return rows.get(item.id) ?? makeRow(item);
+  });
+  for (const id of [...rows.keys()]) if (!seen.has(id)) rows.delete(id);
+  els.itemList.replaceChildren(...list);
+  for (const item of state.items) updateRow(item);
+
+  const at = state.items.findIndex(item => item.id === state.selectedId);
+  els.queuePosition.textContent = at < 0 ? '' : `${at + 1} / ${state.items.length}`;
+  els.itemPrev.disabled = at <= 0;
+  els.itemNext.disabled = at < 0 || at >= state.items.length - 1;
+  if (scroll && at >= 0) rows.get(state.selectedId)?.scrollIntoView({ block: 'nearest' });
+}
+
+function makeRow(item) {
+  const row = document.createElement('li');
+  row.className = 'ui-list-row item-row';
+  row.dataset.id = item.id;
+  row.dataset.interactive = '';
+  row.setAttribute('role', 'option');
+  row.tabIndex = -1;
+
+  const thumb = document.createElement('img');
+  thumb.className = 'item-thumb';
+  thumb.alt = '';
+
+  const main = document.createElement('span');
+  main.className = 'item-main';
+  const ids = document.createElement('span');
+  ids.className = 'item-ids';
+  ids.lang = 'zh-Hani';
+  const source = document.createElement('span');
+  source.className = 'item-source';
+  main.append(ids, source);
+
+  const mark = document.createElement('span');
+  mark.className = 'item-state';
+
+  row.append(thumb, main, mark);
+  rows.set(item.id, row);
+  return row;
+}
+
+function updateRow(item) {
+  const row = rows.get(item.id);
+  if (!row) return;
+  const selected = item.id === state.selectedId;
+  row.setAttribute('aria-selected', String(selected));
+  row.tabIndex = selected ? 0 : -1;
+
+  const thumb = row.querySelector('.item-thumb');
+  if (item.thumbUrl && thumb.getAttribute('src') !== item.thumbUrl) thumb.src = item.thumbUrl;
+  if (!item.thumbUrl) thumb.removeAttribute('src');
+
+  const reading = item.readings[0];
+  const ids = row.querySelector('.item-ids');
+  if (reading) renderIds(ids, reading.ids);
+  else ids.textContent = '';
+  ids.classList.toggle('is-waiting', !reading);
+
+  const source = state.sources.get(item.sourceId);
+  const label = itemsOf(item.sourceId).length > 1 ? `${source.name} · ${item.index}` : source.name;
+  row.querySelector('.item-source').textContent = label;
+
+  const mark = row.querySelector('.item-state');
+  mark.dataset.state = item.phase;
+  mark.title = t(`state.${item.phase}`);
+  mark.setAttribute('aria-label', t(`state.${item.phase}`));
+}
+
+els.itemList.addEventListener('click', event => {
+  const row = event.target.closest('[data-id]');
+  if (row) selectItem(row.dataset.id, { scroll: false });
+});
+
+els.itemList.addEventListener('keydown', event => {
+  const keys = { ArrowDown: 1, ArrowUp: -1, Home: 'first', End: 'last' };
+  if (!(event.key in keys) || !state.items.length) return;
+  event.preventDefault();
+  const step = keys[event.key];
+  if (step === 'first') selectItem(state.items[0].id);
+  else if (step === 'last') selectItem(state.items[state.items.length - 1].id);
+  else stepSelection(step);
+  rows.get(state.selectedId)?.focus({ preventScroll: true });
+});
+
+els.itemPrev.addEventListener('click', () => stepSelection(-1));
+els.itemNext.addEventListener('click', () => stepSelection(1));
 
 /* ---------- Reading ---------- */
 
 function scheduleRead(delay = READ_DELAY) {
   clearTimeout(state.readTimer);
-  if (!state.natural.width) return;
-  state.readTimer = setTimeout(readNow, delay);
+  const item = selectedItem();
+  if (!item || state.drag) return;
+  state.readTimer = setTimeout(() => enqueue([item]), delay);
+}
+
+function enqueue(items) {
+  for (const item of items) {
+    item.phase = 'queued';
+    item.errorKey = null;
+    if (!state.pending.includes(item.id)) state.pending.push(item.id);
+    touch(item);
+  }
+  pump();
 }
 
 let inference = null;
@@ -684,79 +875,95 @@ function loadInference() {
   return inference;
 }
 
-async function readNow() {
-  if (!state.natural.width) return;
-  if (state.running || state.drag) {
-    state.queued = true;
-    return;
+async function pump() {
+  if (pumping) return;
+  pumping = true;
+  try {
+    while (state.pending.length) {
+      const item = byId(state.pending.shift());
+      if (item) await readItem(item);
+    }
+  } finally {
+    pumping = false;
   }
+}
 
-  state.running = true;
-  const request = ++state.requestSeq;
-  setBusy(true);
-  clearError();
+async function readItem(item) {
+  const seq = ++item.seq;
+  item.phase = 'reading';
+  item.errorKey = null;
+  touch(item);
 
+  const source = state.sources.get(item.sourceId);
   let input;
   try {
-    input = makeModelInput();
+    const bitmap = await bitmapFor(source);
+    if (item.seq !== seq) return;
+    input = modelInput(bitmap, source, item.crop);
+    await makeThumb(item, bitmap, source);
   } catch {
-    state.running = false;
-    showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
+    if (item.seq === seq) fail(item, 'error.cut');
     return;
   }
 
   const firstLoad = !state.modelLoaded;
-  let active = true;
   if (firstLoad) {
     state.loading = true;
     state.progress = 0;
     showModelProgress(0);
-    setStatus('status.loading', 'busy');
+    if (item.id === state.selectedId) setStatus('status.loading', 'busy');
   }
 
   try {
     const { recognize } = await loadInference();
     const readings = await recognize(input, {
       onProgress(fraction) {
-        if (!active || !firstLoad || !state.loading) return;
+        if (!firstLoad || !state.loading) return;
         state.progress = Math.max(state.progress, fraction);
         showModelProgress(state.progress);
       },
     });
     state.modelLoaded = true;
-    if (request !== state.requestSeq) return;
     state.loading = false;
     hideModelProgress();
-    showReadings(readings);
+    if (item.seq !== seq) return;
+    if (!readings.length) {
+      fail(item, 'error.noReading');
+      return;
+    }
+    item.readings = readings;
+    item.phase = 'done';
+    touch(item);
+    if (item.id === state.selectedId) {
+      els.liveStatus.textContent = t('live.read', {
+        ids: readings[0].ids,
+        score: (Math.round(readings[0].score * 1000) / 10).toFixed(1),
+      });
+    }
   } catch (error) {
-    if (request !== state.requestSeq) return;
     state.loading = false;
     hideModelProgress();
-    const modelError = error?.name === 'ModelLoadError' || !state.modelLoaded;
-    showError({
-      titleKey: modelError ? 'error.model.title' : 'error.read.title',
-      detailKey: modelError ? 'error.model.detail' : 'error.read.detail',
-    });
-  } finally {
-    active = false;
-    state.running = false;
-    if (request !== state.requestSeq) {
-      state.loading = false;
-      hideModelProgress();
-      setBusy(false);
-    }
-    if (state.queued && !state.drag) {
-      state.queued = false;
-      readNow();
-    }
+    if (item.seq !== seq) return;
+    fail(item, error?.name === 'ModelLoadError' || !state.modelLoaded ? 'error.model' : 'error.read');
   }
 }
 
-function makeModelInput() {
-  const image = els.glyphImage;
-  const naturalWidth = image.naturalWidth;
-  const naturalHeight = image.naturalHeight;
-  const { x, y, w, h } = state.crop;
+function fail(item, key) {
+  item.phase = 'error';
+  item.errorKey = key;
+  touch(item);
+}
+
+function touch(item) {
+  updateRow(item);
+  renderBoxes();
+  if (item.id === state.selectedId) renderResult();
+}
+
+function modelInput(bitmap, source, crop) {
+  const naturalWidth = source.width;
+  const naturalHeight = source.height;
+  const { x, y, w, h } = crop;
 
   const sx = clamp(Math.floor(x * naturalWidth), 0, naturalWidth - 1);
   const sy = clamp(Math.floor(y * naturalHeight), 0, naturalHeight - 1);
@@ -774,9 +981,9 @@ function makeModelInput() {
   const context = canvas.getContext('2d', { willReadFrequently: true });
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.fillStyle = state.transparent && state.inkLight ? '#000' : '#fff';
+  context.fillStyle = background(source);
   context.fillRect(0, 0, width, height);
-  context.drawImage(image, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
+  context.drawImage(bitmap, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
   const pixels = context.getImageData(0, 0, width, height).data;
 
   const gray = new Float32Array(width * height);
@@ -806,6 +1013,30 @@ function makeModelInput() {
   return data;
 }
 
+function background(source) {
+  return source.transparent && source.inkLight ? '#000' : '#fff';
+}
+
+async function makeThumb(item, bitmap, source) {
+  const sx = Math.max(0, Math.floor(item.crop.x * source.width));
+  const sy = Math.max(0, Math.floor(item.crop.y * source.height));
+  const sw = Math.max(1, Math.round(item.crop.w * source.width));
+  const sh = Math.max(1, Math.round(item.crop.h * source.height));
+  const scale = Math.min(1, THUMB / Math.max(sw, sh));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, Math.round(sw * scale));
+  canvas.height = Math.max(1, Math.round(sh * scale));
+  const context = canvas.getContext('2d');
+  context.fillStyle = background(source);
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(bitmap, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) return;
+  if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+  item.thumb = blob;
+  item.thumbUrl = URL.createObjectURL(blob);
+}
+
 function showModelProgress(fraction) {
   els.modelLoad.hidden = false;
   const percent = Math.round(clamp(fraction, 0, 1) * 100);
@@ -817,45 +1048,60 @@ function hideModelProgress() {
   els.modelLoad.hidden = true;
 }
 
-function showReadings(readings) {
-  state.loading = false;
-  hideModelProgress();
-  setBusy(false);
-  if (!readings.length) {
-    showError({ titleKey: 'error.noReading.title', detailKey: 'error.noReading.detail' });
+/* ---------- The reading ---------- */
+
+function renderResult() {
+  const item = selectedItem();
+  if (!item) {
+    els.resultEmpty.hidden = false;
+    els.resultBody.hidden = true;
+    els.resultError.hidden = true;
+    els.readingStatus.hidden = true;
+    els.candidates.hidden = true;
+    els.idsText.replaceChildren();
     return;
   }
 
-  state.readings = readings;
-  state.error = null;
-  state.copied = false;
-  const best = readings[0];
-  const score = Math.round(best.score * 1000) / 10;
+  const reading = item.readings[0];
+  els.resultBody.hidden = !reading;
+  els.resultEmpty.hidden = Boolean(reading) || item.phase === 'error';
+  els.resultError.hidden = item.phase !== 'error';
+  els.resultCard.setAttribute('aria-busy', String(item.phase === 'reading'));
 
-  renderIds(els.idsText, best.ids);
-  updateReadingMeta();
-  els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(best.ids)}`;
+  if (item.phase === 'error' && item.errorKey) {
+    els.errorTitle.textContent = t(`${item.errorKey}.title`);
+    els.errorDetail.textContent = t(`${item.errorKey}.detail`);
+  }
 
-  const alternatives = readings.slice(1);
-  els.candidateList.replaceChildren(...alternatives.map(candidateRow));
-  els.candidates.hidden = alternatives.length === 0;
+  if (reading) {
+    renderIds(els.idsText, reading.ids);
+    els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(reading.ids)}`;
+    const score = Math.round(reading.score * 1000) / 10;
+    els.scoreChip.textContent = t('reading.score', { value: score.toFixed(1) });
+    els.scoreChip.title = t('reading.scoreHint');
+    els.validityChip.textContent = reading.valid ? t('reading.valid') : t('reading.invalid');
+    els.validityChip.dataset.variant = reading.valid ? 'accent' : 'danger';
+    els.copyIds.textContent = state.copied ? t('reading.copied') : t('reading.copy');
 
-  els.resultEmpty.hidden = true;
-  els.resultBody.hidden = false;
-  els.resultError.hidden = true;
-  setStatus('status.ready', 'idle');
-  els.liveStatus.textContent = t('live.read', { ids: best.ids, score: score.toFixed(1) });
-}
+    const source = state.sources.get(item.sourceId);
+    els.sourceChip.hidden = false;
+    els.sourceChip.textContent = itemsOf(item.sourceId).length > 1
+      ? `${source.name} · ${item.index}`
+      : source.name;
+    els.sourceChip.title = source.name;
 
-function updateReadingMeta() {
-  if (!state.readings.length) return;
-  const best = state.readings[0];
-  const score = Math.round(best.score * 1000) / 10;
-  els.scoreChip.textContent = t('reading.score', { value: score.toFixed(1) });
-  els.scoreChip.title = t('reading.scoreHint');
-  els.validityChip.textContent = best.valid ? t('reading.valid') : t('reading.invalid');
-  els.validityChip.dataset.variant = best.valid ? 'accent' : 'danger';
-  els.copyIds.textContent = state.copied ? t('reading.copied') : t('reading.copy');
+    const alternatives = item.readings.slice(1);
+    els.candidateList.replaceChildren(...alternatives.map(candidateRow));
+    els.candidates.hidden = alternatives.length === 0;
+  } else {
+    els.sourceChip.hidden = true;
+    els.candidates.hidden = true;
+  }
+
+  if (item.phase === 'reading') setStatus(state.loading ? 'status.loading' : 'status.reading', 'busy');
+  else if (item.phase === 'error') setStatus('status.error', 'error');
+  else if (item.phase === 'queued') setStatus('status.queued', 'idle');
+  else setStatus('status.ready', 'idle');
 }
 
 function candidateRow(reading, index) {
@@ -898,76 +1144,23 @@ function renderIds(element, text) {
   element.replaceChildren(fragment);
 }
 
-
-/* ---------- Result state ---------- */
-
-function resetResult() {
-  state.readings = [];
-  state.error = null;
-  state.copied = false;
-  if (!state.loading) {
-    state.progress = 0;
-    hideModelProgress();
-  }
-  state.requestSeq += 1;
-  els.resultBody.hidden = true;
-  els.resultEmpty.hidden = false;
-  els.resultError.hidden = true;
-  els.candidates.hidden = true;
-  els.idsText.replaceChildren();
-  els.candidateList.replaceChildren();
-  els.openWorkshop.removeAttribute('href');
-  els.liveStatus.textContent = '';
-  setBusy(state.loading);
-}
-
-function setBusy(busy) {
-  state.busy = busy;
-  els.resultCard.setAttribute('aria-busy', String(busy));
-  if (busy) {
-    els.recognize.setAttribute('aria-busy', 'true');
-    setStatus(state.loading ? 'status.loading' : 'status.reading', 'busy');
-  } else {
-    els.recognize.removeAttribute('aria-busy');
-    if (!els.resultError.hidden) setStatus('status.error', 'error');
-    else if (state.readings.length) setStatus('status.ready', 'idle');
-    else els.readingStatus.hidden = true;
-  }
-}
-
 function setStatus(key, kind) {
   els.readingStatus.hidden = false;
   els.readingStatus.dataset.state = kind;
   els.readingStatusText.textContent = t(key);
 }
 
-function refreshStatus() {
-  if (els.readingStatus.hidden) return;
-  const kind = els.readingStatus.dataset.state;
-  const key = kind === 'busy'
-    ? (state.loading ? 'status.loading' : 'status.reading')
-    : kind === 'error' ? 'status.error' : 'status.ready';
-  els.readingStatusText.textContent = t(key);
-}
-
 function clearError() {
-  state.error = null;
   els.resultError.hidden = true;
 }
 
 function showError({ titleKey, detailKey }) {
   clearTimeout(state.readTimer);
-  state.error = { titleKey, detailKey };
   state.loading = false;
   hideModelProgress();
-  setBusy(false);
   els.resultError.hidden = false;
   els.errorTitle.textContent = t(titleKey);
   els.errorDetail.textContent = t(detailKey);
-  if (!state.readings.length) {
-    els.resultEmpty.hidden = true;
-    els.resultBody.hidden = true;
-  }
   setStatus('status.error', 'error');
   els.liveStatus.textContent = t(titleKey);
 }
@@ -975,13 +1168,11 @@ function showError({ titleKey, detailKey }) {
 /* ---------- Copy ---------- */
 
 els.copyIds.addEventListener('click', async () => {
-  const reading = state.readings[0];
+  const reading = selectedItem()?.readings[0];
   if (!reading) return;
-  const request = state.requestSeq;
   try {
     await navigator.clipboard.writeText(reading.ids);
   } catch {
-    if (request !== state.requestSeq) return;
     const area = document.createElement('textarea');
     area.value = reading.ids;
     area.setAttribute('readonly', '');
@@ -992,13 +1183,11 @@ els.copyIds.addEventListener('click', async () => {
     document.execCommand('copy');
     area.remove();
   }
-  if (request !== state.requestSeq) return;
   state.copied = true;
-  updateReadingMeta();
+  renderResult();
   els.liveStatus.textContent = t('live.copied');
   setTimeout(() => {
-    if (state.readings[0] !== reading) return;
     state.copied = false;
-    updateReadingMeta();
+    renderResult();
   }, 1600);
 });
