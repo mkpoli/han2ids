@@ -7,7 +7,8 @@ const MIN_CUT = 0.02;
 const READ_DELAY = 280;
 const EXPORT_VERSION = 1;
 const MODEL = 'han2ids v0.4 int8 ONNX';
-const DECODE = 'greedy, operand-stack mask';
+const BEAMS = 5;
+const DECODE = `beam width ${BEAMS}, operand-stack mask`;
 const THUMB = 96;
 const BITMAPS = 4;
 
@@ -1277,6 +1278,7 @@ async function readItem(item) {
   try {
     const { recognize } = await loadInference();
     const readings = await recognize(input, {
+      width: BEAMS,
       onProgress(fraction) {
         if (!firstLoad || !state.loading) return;
         state.progress = Math.max(state.progress, fraction);
@@ -1486,9 +1488,8 @@ function renderResult() {
     els.skipItem.setAttribute('aria-pressed', String(item.status === 'skipped'));
     els.skipItem.dataset.variant = item.status === 'skipped' ? 'selected' : 'flat';
 
-    const alternatives = item.readings.slice(1);
-    els.candidateList.replaceChildren(...alternatives.map(candidateRow));
-    els.candidates.hidden = alternatives.length === 0;
+    els.candidateList.replaceChildren(...item.readings.map((reading, index) => candidateRow(reading, index, item)));
+    els.candidates.hidden = item.readings.length < 2;
   } else {
     els.sourceChip.hidden = true;
     els.cropChip.hidden = true;
@@ -1547,13 +1548,18 @@ els.rereadItem.addEventListener('click', () => {
   enqueue([item]);
 });
 
-function candidateRow(reading, index) {
+function candidateRow(reading, index, item) {
   const row = document.createElement('li');
-  row.className = 'ui-list-row';
+  row.className = 'ui-list-row candidate-row';
+  row.dataset.interactive = '';
+  row.dataset.rank = String(index + 1);
+  row.setAttribute('role', 'option');
+  row.setAttribute('aria-selected', String(reading.ids === item.final));
+  row.tabIndex = -1;
 
-  const rank = document.createElement('span');
+  const rank = document.createElement('kbd');
   rank.className = 'candidate-rank';
-  rank.textContent = String(index + 2);
+  rank.textContent = String(index + 1);
 
   const ids = document.createElement('span');
   ids.className = 'candidate-ids';
@@ -1563,10 +1569,42 @@ function candidateRow(reading, index) {
   const score = document.createElement('span');
   score.className = 'ui-list-row-note';
   score.textContent = `${(reading.score * 100).toFixed(1)}%`;
+  if (!reading.valid) {
+    row.dataset.invalid = 'true';
+    score.title = t('reading.invalid');
+  }
 
   row.append(rank, ids, score);
   return row;
 }
+
+function pickCandidate(rank) {
+  const item = selectedItem();
+  const reading = item?.readings[rank - 1];
+  if (!reading) return;
+  item.final = reading.ids;
+  item.edited = false;
+  item.updated = Date.now();
+  mark({ item });
+  updateRow(item);
+  renderResult();
+}
+
+els.candidateList.addEventListener('click', event => {
+  const row = event.target.closest('[data-rank]');
+  if (row) pickCandidate(Number(row.dataset.rank));
+});
+
+window.addEventListener('keydown', event => {
+  if (event.metaKey || event.ctrlKey || event.altKey) return;
+  if (!/^[1-5]$/.test(event.key)) return;
+  const target = event.composedPath()[0];
+  if (target instanceof Element && target.matches(':read-write, input, textarea, select')) return;
+  const item = selectedItem();
+  if (!item?.readings.length) return;
+  event.preventDefault();
+  pickCandidate(Number(event.key));
+});
 
 function renderIds(element, text) {
   const fragment = document.createDocumentFragment();
