@@ -2,12 +2,16 @@ import { selectElements } from './elements.js';
 import { analyseImage } from './detect.js';
 import { MIN_CUT, clamp, clampCrop, padBox } from './geometry.js';
 
-export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'marginValue', 'cropBox', 'quickCut', 'autoCut', 'fullImage'])) {
+const CROP_ANNOUNCE_DELAY = 250;
+
+export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'marginValue', 'cropBox', 'cropState', 'cropLive', 'quickCut', 'autoCut', 'fullImage'])) {
   let margin = Number(els.margin.value);
   let drag = null;
+  let cropAnnounceTimer = 0;
 
   function renderStage() {
     const item = deps.selectedItem();
+    resetCropAnnouncement();
     if (!item) {
       els.imageEditor.hidden = true;
       els.dropEmpty.hidden = false;
@@ -15,6 +19,7 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
       els.imageSize.hidden = true;
       els.boxCount.hidden = true;
       els.boxLayer.replaceChildren();
+      els.cropState.textContent = '';
       return;
     }
 
@@ -79,6 +84,35 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     els.imageWrap.style.setProperty('--cut-y', `${y * 100}%`);
     els.imageWrap.style.setProperty('--cut-w', `${w * 100}%`);
     els.imageWrap.style.setProperty('--cut-h', `${h * 100}%`);
+    updateCropDescription();
+  }
+
+  function updateCropDescription() {
+    const item = deps.selectedItem();
+    if (!item) {
+      els.cropState.textContent = '';
+      return;
+    }
+    const format = new Intl.NumberFormat(document.documentElement.lang || 'en', { maximumFractionDigits: 1 });
+    const { x, y, w, h } = item.crop;
+    els.cropState.textContent = deps.t('crop.state', {
+      x: format.format(x * 100), y: format.format(y * 100),
+      w: format.format(w * 100), h: format.format(h * 100),
+    });
+  }
+
+  function resetCropAnnouncement() {
+    clearTimeout(cropAnnounceTimer);
+    els.cropLive.textContent = '';
+  }
+
+  function announceCrop() {
+    if (drag) return;
+    clearTimeout(cropAnnounceTimer);
+    els.cropLive.textContent = '';
+    cropAnnounceTimer = setTimeout(() => {
+      els.cropLive.textContent = els.cropState.textContent;
+    }, CROP_ANNOUNCE_DELAY);
   }
 
   function setCrop(crop, delay) {
@@ -87,7 +121,10 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     const next = clampCrop(crop);
     const changed = ['x', 'y', 'w', 'h'].some(key => next[key] !== item.crop[key]);
     item.crop = next;
-    if (changed) deps.onCropChanged(item);
+    if (changed) {
+      deps.onCropChanged(item);
+      announceCrop();
+    }
     renderCrop();
     deps.scheduleRead(delay);
   }
@@ -111,6 +148,7 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     };
     drag.target.setPointerCapture?.(event.pointerId);
     els.imageWrap.classList.add('is-cropping');
+    resetCropAnnouncement();
     els.cropBox.focus({ preventScroll: true });
     deps.cancelScheduled();
     event.preventDefault();
@@ -156,12 +194,17 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     drag = null;
     if (target.hasPointerCapture?.(pointerId)) target.releasePointerCapture(pointerId);
     els.imageWrap.classList.remove('is-cropping');
-    if (moved) deps.scheduleRead();
+    if (moved) {
+      deps.scheduleRead();
+      announceCrop();
+    }
   }
 
   window.addEventListener('pointerup', endDrag);
   window.addEventListener('pointercancel', endDrag);
   els.cropBox.addEventListener('lostpointercapture', endDrag);
+
+  els.cropBox.addEventListener('focus', () => announceCrop());
 
   els.cropBox.addEventListener('keydown', event => {
     const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
