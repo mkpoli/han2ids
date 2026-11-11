@@ -102,12 +102,20 @@
           <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="add-folder" data-i18n="queue.folder">Add folder</button>
           <button class="ui-button queue-clear" type="button" data-size="sm" data-variant="quiet" id="queue-clear" data-i18n="queue.clear">Clear</button>
         </div>
+        <input class="ui-input queue-search" id="item-search" type="search" autocomplete="off" spellcheck="false" data-i18n-aria="queue.search" data-i18n-placeholder="queue.search" aria-label="Search">
+        <div class="queue-filters" id="queue-filters" role="group" data-i18n-aria="queue.filter" aria-label="Filter">
+          <button class="ui-chip" type="button" data-interactive data-filter="all" aria-current="true"><span data-i18n="filter.all">All</span><span class="filter-count" data-count="all">0</span></button>
+          <button class="ui-chip" type="button" data-interactive data-filter="review" aria-current="false"><span data-i18n="filter.review">Needs review</span><span class="filter-count" data-count="review">0</span></button>
+          <button class="ui-chip" type="button" data-interactive data-filter="confirmed" aria-current="false"><span data-i18n="filter.confirmed">Confirmed</span><span class="filter-count" data-count="confirmed">0</span></button>
+          <button class="ui-chip" type="button" data-interactive data-filter="skipped" aria-current="false"><span data-i18n="filter.skipped">Skipped</span><span class="filter-count" data-count="skipped">0</span></button>
+        </div>
         <div class="queue-run" id="queue-run" hidden>
           <div class="ui-progress" id="queue-progress" aria-hidden="true"></div>
           <span class="queue-count" id="queue-count"></span>
           <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="queue-toggle" data-i18n="queue.cancel">Cancel</button>
         </div>
         <ul class="ui-list item-list" id="item-list" role="listbox" aria-labelledby="queue-heading"></ul>
+        <p class="ui-empty queue-empty" id="queue-empty" data-i18n="queue.none" hidden>No items match.</p>
         <div class="queue-foot">
           <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="item-prev" data-i18n-aria="queue.prev" data-i18n-title="queue.prev" aria-label="Previous">
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m15 18-6-6 6-6"/></svg>
@@ -229,15 +237,31 @@
               <span class="ui-chip" id="score-chip">Model score</span>
               <span class="ui-chip" data-variant="accent" id="validity-chip" data-i18n="reading.valid">Valid IDS</span>
               <span class="ui-chip source-chip" id="source-chip" hidden></span>
+              <span class="ui-chip crop-chip" id="crop-chip" hidden></span>
+            </div>
+          </div>
+          <div class="candidates" id="candidates" hidden>
+            <h3 data-i18n="reading.other">Other readings</h3>
+            <ul class="ui-list" id="candidate-list"></ul>
+          </div>
+          <div class="review">
+            <div class="ui-field">
+              <label class="ui-label" for="final-ids" data-i18n="review.final">Final IDS</label>
+              <input class="ui-input final-ids" id="final-ids" type="text" lang="zh-Hani" spellcheck="false" autocomplete="off" autocapitalize="off">
+            </div>
+            <div class="ui-field">
+              <label class="ui-label" for="item-note" data-i18n="review.note">Note</label>
+              <textarea class="ui-textarea item-note" id="item-note" rows="2"></textarea>
+            </div>
+            <div class="review-actions">
+              <button class="ui-button" type="button" data-variant="primary" id="confirm-item" aria-pressed="false" data-i18n="review.confirm">Confirm</button>
+              <button class="ui-button" type="button" id="skip-item" aria-pressed="false" data-i18n="review.skip">Skip</button>
+              <button class="ui-button" type="button" data-variant="quiet" id="reread-item" data-i18n="review.reread">Read again</button>
             </div>
           </div>
           <div class="result-actions">
             <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="copy-ids" data-i18n="reading.copy">Copy IDS</button>
             <a class="ui-button" data-size="lg" id="open-workshop" href="https://ids.mkpo.li/" target="_blank" rel="noreferrer" data-i18n="reading.open">Open in IDS Workshop</a>
-          </div>
-          <div class="candidates" id="candidates" hidden>
-            <h3 data-i18n="reading.other">Other readings</h3>
-            <ul class="ui-list" id="candidate-list"></ul>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import { DEFAULT_LOCALE, LOCALES, matchLocale } from './i18n.js';
 import { analyseImage } from './detect.js';
-import { IDC } from './ids.js';
+import { IDC, validIds } from './ids.js';
 
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
@@ -35,6 +35,9 @@ const els = {
   addImages: document.querySelector('#add-images'),
   addFolder: document.querySelector('#add-folder'),
   queueClear: document.querySelector('#queue-clear'),
+  itemSearch: document.querySelector('#item-search'),
+  queueFilters: document.querySelector('#queue-filters'),
+  queueEmpty: document.querySelector('#queue-empty'),
   queueRun: document.querySelector('#queue-run'),
   queueProgress: document.querySelector('#queue-progress'),
   queueCount: document.querySelector('#queue-count'),
@@ -52,6 +55,12 @@ const els = {
   scoreChip: document.querySelector('#score-chip'),
   validityChip: document.querySelector('#validity-chip'),
   sourceChip: document.querySelector('#source-chip'),
+  cropChip: document.querySelector('#crop-chip'),
+  finalIds: document.querySelector('#final-ids'),
+  itemNote: document.querySelector('#item-note'),
+  confirmItem: document.querySelector('#confirm-item'),
+  skipItem: document.querySelector('#skip-item'),
+  rereadItem: document.querySelector('#reread-item'),
   copyIds: document.querySelector('#copy-ids'),
   openWorkshop: document.querySelector('#open-workshop'),
   candidates: document.querySelector('#candidates'),
@@ -78,6 +87,8 @@ const state = {
   run: { total: 0, done: 0 },
   importing: false,
   cancelled: false,
+  filter: 'all',
+  search: '',
   margin: Number(els.margin.value),
   readTimer: 0,
   drag: null,
@@ -179,6 +190,7 @@ function applyTranslations() {
   for (const node of document.querySelectorAll('[data-i18n-aria]')) node.setAttribute('aria-label', t(node.dataset.i18nAria));
   for (const node of document.querySelectorAll('[data-i18n-title]')) node.title = t(node.dataset.i18nTitle);
   for (const node of document.querySelectorAll('[data-i18n-alt]')) node.alt = t(node.dataset.i18nAlt);
+  for (const node of document.querySelectorAll('[data-i18n-placeholder]')) node.placeholder = t(node.dataset.i18nPlaceholder);
   renderLanguage();
   renderQueue();
   renderStage();
@@ -480,12 +492,52 @@ function buildItems(source, boxes) {
     crop: padBox(box, state.margin, source),
     margin: state.margin,
     readings: [],
+    final: '',
+    edited: false,
+    note: '',
+    status: 'review',
     phase: 'queued',
     errorKey: null,
     thumb: null,
     thumbUrl: '',
     seq: 0,
   }));
+}
+
+function visibleItems() {
+  const needle = state.search.trim().toLowerCase();
+  return state.items.filter(item => {
+    if (state.filter !== 'all' && item.status !== state.filter) return false;
+    if (!needle) return true;
+    const source = state.sources.get(item.sourceId);
+    const text = `${source?.name ?? ''} ${item.final} ${item.readings.map(reading => reading.ids).join(' ')}`;
+    return text.toLowerCase().includes(needle);
+  });
+}
+
+function rowState(item) {
+  return item.phase === 'done' ? item.status : item.phase;
+}
+
+function setStatusOf(item, status) {
+  const before = visibleItems();
+  const at = before.findIndex(entry => entry.id === item.id);
+  const decided = item.status !== status;
+  item.status = decided ? status : 'review';
+  updateRow(item);
+
+  const after = visibleItems();
+  const stillThere = after.findIndex(entry => entry.id === item.id);
+  renderQueue();
+  if (stillThere >= 0) {
+    const next = decided ? after[stillThere + 1] : null;
+    if (next) selectItem(next.id);
+    else renderResult();
+    return;
+  }
+  const next = after[Math.min(Math.max(at, 0), after.length - 1)];
+  if (next) selectItem(next.id);
+  else renderResult();
 }
 
 function itemsOf(sourceId) {
@@ -512,9 +564,10 @@ function selectItem(id, { scroll = true } = {}) {
 }
 
 function stepSelection(step) {
-  if (!state.items.length) return;
-  const at = state.items.findIndex(item => item.id === state.selectedId);
-  const next = state.items[Math.min(state.items.length - 1, Math.max(0, at + step))];
+  const list = visibleItems();
+  if (!list.length) return;
+  const at = list.findIndex(item => item.id === state.selectedId);
+  const next = at < 0 ? list[0] : list[Math.min(list.length - 1, Math.max(0, at + step))];
   if (next) selectItem(next.id);
 }
 
@@ -823,21 +876,45 @@ function renderQueue({ scroll = false } = {}) {
   els.queueCard.hidden = state.items.length === 0;
   els.queueTotal.textContent = String(state.items.length);
 
-  const seen = new Set();
-  const list = state.items.map(item => {
-    seen.add(item.id);
-    return rows.get(item.id) ?? makeRow(item);
-  });
+  const seen = new Set(state.items.map(item => item.id));
   for (const id of [...rows.keys()]) if (!seen.has(id)) rows.delete(id);
-  els.itemList.replaceChildren(...list);
-  for (const item of state.items) updateRow(item);
 
-  const at = state.items.findIndex(item => item.id === state.selectedId);
-  els.queuePosition.textContent = at < 0 ? '' : `${at + 1} / ${state.items.length}`;
+  const list = visibleItems();
+  els.itemList.replaceChildren(...list.map(item => rows.get(item.id) ?? makeRow(item)));
+  for (const item of list) updateRow(item);
+  els.itemList.hidden = list.length === 0;
+  els.queueEmpty.hidden = list.length > 0;
+  renderCounts();
+
+  const at = list.findIndex(item => item.id === state.selectedId);
+  els.queuePosition.textContent = at < 0 ? '' : `${at + 1} / ${list.length}`;
   els.itemPrev.disabled = at <= 0;
-  els.itemNext.disabled = at < 0 || at >= state.items.length - 1;
+  els.itemNext.disabled = at < 0 || at >= list.length - 1;
   if (scroll && at >= 0) rows.get(state.selectedId)?.scrollIntoView({ block: 'nearest' });
 }
+
+function renderCounts() {
+  const counts = { all: state.items.length, review: 0, confirmed: 0, skipped: 0 };
+  for (const item of state.items) counts[item.status] += 1;
+  for (const node of els.queueFilters.querySelectorAll('[data-count]')) {
+    node.textContent = String(counts[node.dataset.count]);
+  }
+  for (const button of els.queueFilters.querySelectorAll('[data-filter]')) {
+    button.setAttribute('aria-current', String(button.dataset.filter === state.filter));
+  }
+}
+
+els.queueFilters.addEventListener('click', event => {
+  const button = event.target.closest('[data-filter]');
+  if (!button) return;
+  state.filter = button.dataset.filter;
+  renderQueue({ scroll: true });
+});
+
+els.itemSearch.addEventListener('input', () => {
+  state.search = els.itemSearch.value;
+  renderQueue({ scroll: true });
+});
 
 function makeRow(item) {
   const row = document.createElement('li');
@@ -879,20 +956,22 @@ function updateRow(item) {
   if (item.thumbUrl && thumb.getAttribute('src') !== item.thumbUrl) thumb.src = item.thumbUrl;
   if (!item.thumbUrl) thumb.removeAttribute('src');
 
-  const reading = item.readings[0];
   const ids = row.querySelector('.item-ids');
-  if (reading) renderIds(ids, reading.ids);
+  if (item.final) renderIds(ids, item.final);
   else ids.textContent = '';
-  ids.classList.toggle('is-waiting', !reading);
+  ids.classList.toggle('is-waiting', !item.final);
 
   const source = state.sources.get(item.sourceId);
   const label = itemsOf(item.sourceId).length > 1 ? `${source.name} · ${item.index}` : source.name;
-  row.querySelector('.item-source').textContent = label;
+  const note = row.querySelector('.item-source');
+  note.textContent = item.note ? `${label} · ${item.note}` : label;
+  note.title = note.textContent;
 
   const mark = row.querySelector('.item-state');
-  mark.dataset.state = item.phase;
-  mark.title = t(`state.${item.phase}`);
-  mark.setAttribute('aria-label', t(`state.${item.phase}`));
+  const kind = rowState(item);
+  mark.dataset.state = kind;
+  mark.title = t(`state.${kind}`);
+  mark.setAttribute('aria-label', t(`state.${kind}`));
 }
 
 els.itemList.addEventListener('click', event => {
@@ -978,6 +1057,9 @@ function clearAll() {
   state.sources.clear();
   state.selectedId = null;
   state.run = { total: 0, done: 0 };
+  state.filter = 'all';
+  state.search = '';
+  els.itemSearch.value = '';
   els.glyphImage.removeAttribute('src');
   delete els.glyphImage.dataset.source;
   clearError();
@@ -1058,6 +1140,7 @@ async function readItem(item) {
     }
     item.readings = readings;
     item.phase = 'done';
+    if (!item.edited) item.final = readings[0].ids;
     touch(item);
     if (item.id === state.selectedId) {
       els.liveStatus.textContent = t('live.read', {
@@ -1200,9 +1283,9 @@ function renderResult() {
     return;
   }
 
-  const reading = item.readings[0];
-  els.resultBody.hidden = !reading;
-  els.resultEmpty.hidden = Boolean(reading) || item.phase === 'error';
+  const ready = item.readings.length > 0;
+  els.resultBody.hidden = !ready;
+  els.resultEmpty.hidden = ready || item.phase === 'error';
   els.resultError.hidden = item.phase !== 'error';
   els.resultCard.setAttribute('aria-busy', String(item.phase === 'reading'));
 
@@ -1211,15 +1294,21 @@ function renderResult() {
     els.errorDetail.textContent = t(`${item.errorKey}.detail`);
   }
 
-  if (reading) {
-    renderIds(els.idsText, reading.ids);
-    els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(reading.ids)}`;
-    const score = Math.round(reading.score * 1000) / 10;
-    els.scoreChip.textContent = t('reading.score', { value: score.toFixed(1) });
-    els.scoreChip.title = t('reading.scoreHint');
-    els.validityChip.textContent = reading.valid ? t('reading.valid') : t('reading.invalid');
-    els.validityChip.dataset.variant = reading.valid ? 'accent' : 'danger';
+  if (ready) {
+    renderIds(els.idsText, item.final);
+    els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(item.final)}`;
     els.copyIds.textContent = state.copied ? t('reading.copied') : t('reading.copy');
+
+    const match = item.readings.find(reading => reading.ids === item.final);
+    els.scoreChip.hidden = !match;
+    if (match) {
+      els.scoreChip.textContent = t('reading.score', { value: (Math.round(match.score * 1000) / 10).toFixed(1) });
+      els.scoreChip.title = t('reading.scoreHint');
+    }
+
+    const valid = validIds(item.final);
+    els.validityChip.textContent = valid ? t('reading.valid') : t('reading.invalid');
+    els.validityChip.dataset.variant = valid ? 'accent' : 'danger';
 
     const source = state.sources.get(item.sourceId);
     els.sourceChip.hidden = false;
@@ -1228,11 +1317,24 @@ function renderResult() {
       : source.name;
     els.sourceChip.title = source.name;
 
+    const crop = cropPixels(item, source);
+    els.cropChip.hidden = false;
+    els.cropChip.textContent = `${crop.w} × ${crop.h}`;
+    els.cropChip.title = t('review.cropHint', crop);
+
+    if (document.activeElement !== els.finalIds) els.finalIds.value = item.final;
+    if (document.activeElement !== els.itemNote) els.itemNote.value = item.note;
+    els.confirmItem.setAttribute('aria-pressed', String(item.status === 'confirmed'));
+    els.confirmItem.dataset.variant = item.status === 'confirmed' ? 'accent' : 'primary';
+    els.skipItem.setAttribute('aria-pressed', String(item.status === 'skipped'));
+    els.skipItem.dataset.variant = item.status === 'skipped' ? 'selected' : 'flat';
+
     const alternatives = item.readings.slice(1);
     els.candidateList.replaceChildren(...alternatives.map(candidateRow));
     els.candidates.hidden = alternatives.length === 0;
   } else {
     els.sourceChip.hidden = true;
+    els.cropChip.hidden = true;
     els.candidates.hidden = true;
   }
 
@@ -1241,6 +1343,48 @@ function renderResult() {
   else if (item.phase === 'queued') setStatus('status.queued', 'idle');
   else setStatus('status.ready', 'idle');
 }
+
+function cropPixels(item, source) {
+  return {
+    x: Math.round(item.crop.x * source.width),
+    y: Math.round(item.crop.y * source.height),
+    w: Math.round(item.crop.w * source.width),
+    h: Math.round(item.crop.h * source.height),
+  };
+}
+
+els.finalIds.addEventListener('input', () => {
+  const item = selectedItem();
+  if (!item) return;
+  item.final = els.finalIds.value;
+  item.edited = true;
+  updateRow(item);
+  renderResult();
+});
+
+els.itemNote.addEventListener('input', () => {
+  const item = selectedItem();
+  if (!item) return;
+  item.note = els.itemNote.value;
+  updateRow(item);
+});
+
+els.confirmItem.addEventListener('click', () => {
+  const item = selectedItem();
+  if (item) setStatusOf(item, 'confirmed');
+});
+
+els.skipItem.addEventListener('click', () => {
+  const item = selectedItem();
+  if (item) setStatusOf(item, 'skipped');
+});
+
+els.rereadItem.addEventListener('click', () => {
+  const item = selectedItem();
+  if (!item) return;
+  item.edited = false;
+  enqueue([item]);
+});
 
 function candidateRow(reading, index) {
   const row = document.createElement('li');
@@ -1306,13 +1450,13 @@ function showError({ titleKey, detailKey }) {
 /* ---------- Copy ---------- */
 
 els.copyIds.addEventListener('click', async () => {
-  const reading = selectedItem()?.readings[0];
-  if (!reading) return;
+  const text = selectedItem()?.final;
+  if (!text) return;
   try {
-    await navigator.clipboard.writeText(reading.ids);
+    await navigator.clipboard.writeText(text);
   } catch {
     const area = document.createElement('textarea');
-    area.value = reading.ids;
+    area.value = text;
     area.setAttribute('readonly', '');
     area.style.position = 'fixed';
     area.style.opacity = '0';

@@ -29,7 +29,7 @@ for (const [locale, entry] of Object.entries(LOCALES)) {
 const html = readFileSync(new URL('./static/index.html', import.meta.url), 'utf8')
 const script = readFileSync(new URL('./static/app.js', import.meta.url), 'utf8')
 const used = new Set()
-for (const match of html.matchAll(/data-i18n(?:-aria|-title|-alt)?="([^"]+)"/g)) used.add(match[1])
+for (const match of html.matchAll(/data-i18n(?:-aria|-title|-alt|-placeholder)?="([^"]+)"/g)) used.add(match[1])
 for (const match of script.matchAll(/(?<![A-Za-z0-9_$])t\('([^']+)'/g)) used.add(match[1])
 for (const match of script.matchAll(/(?:titleKey|detailKey): '([^']+)'/g)) used.add(match[1])
 // Keys chosen in ternaries, such as the network/read error pair, still appear as literals.
