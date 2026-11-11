@@ -237,7 +237,7 @@ body {
 
 .item-row {
   gap: var(--ui-space-sm);
-  padding: 5px var(--ui-space-2xs);
+  padding: 7px var(--ui-space-2xs);
 }
 
 .item-thumb {
