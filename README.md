@@ -8,11 +8,12 @@ out of scope, so the model does not spend capacity on shapes it is not meant to 
 
 ![han2ids v0.3 capability gallery](docs/gallery-v0.3-cover.png)
 
-Status: v0.4, a clean 35.2M model continued from v0.3 on the corrected Noto/IPAmj/Jigmo em-box set. On
-the 8,730-row test it reaches 84.54% exact IDS, 87.79% exact-or-same-tree, and 100% valid. v0.3 was
-82.88% exact. Noto 93.32%, IPAmj 84.63%, Jigmo 81.80%. See `docs/v0.4-plan.md`, `docs/leak.md` and
-`docs/v0.4-results.json`. The v0.1→v0.2 comparison is leaked: 89.9% of current test characters were in
-v0.1's training split.
+Status: v0.4, a 35.2M model continued from v0.3 on Noto, IPAmj and Jigmo renders. On the original
+8,730-image test, v0.4 matched 84.54% of the reference strings. That test clips glyphs; its published
+same-tree score also includes character-wide overrides. The references have not been independently
+reviewed against each image. See the [benchmark results](benchmark/RESULTS.md),
+[protocol](benchmark/PROTOCOL.md) and [leak audit](docs/leak.md): v0.1's training split included 89.9%
+of the current test characters.
 
 ## Install
 
