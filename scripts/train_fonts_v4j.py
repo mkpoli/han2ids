@@ -27,11 +27,23 @@ from han2ids.status import gold
 from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
 
 
+def select_rows(rows, array):
+    if len(rows) != len(array):
+        raise ValueError(f"Manifest rows ({len(rows)}) and image array ({len(array)}) differ in length")
+    return [(i, row) for i, row in enumerate(rows) if row["font"] == "jigmo"]
+
+
+def load_rows(cache, split):
+    rows = [json.loads(line) for line in (cache / f"{split}.jsonl").read_text().splitlines()]
+    array = np.load(cache / f"{split}.npy", mmap_mode="r")
+    return select_rows(rows, array), array
+
+
 class Rows(Dataset):
     def __init__(self, rows, array, vocab):
-        self.rows, self.array, self.vocab = rows, array, vocab
+        self.array, self.vocab = array, vocab
         self.items = []
-        for i, row in enumerate(rows):
+        for i, row in rows:
             ids = gold(row['char'], row['font'], row['ids'])
             if all(ch in vocab.stoi for ch in ids if ch not in '⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯'):
                 self.items.append((i, ids))
@@ -55,12 +67,14 @@ def collate(batch):
 
 
 @torch.no_grad()
-def evaluate(model, rows, array, vocab, batch=32):
+def evaluate(model, rows, array, vocab, batch=32, device="cuda"):
     model.eval(); exact = valid = total = 0
     for start in range(0, len(rows), batch):
-        x = torch.from_numpy(np.asarray(array[start:start + batch]).copy()).float().div_(255).unsqueeze(1).repeat(1, 3, 1, 1).sub_(0.5).div_(0.5).cuda()
+        selected = rows[start:start + batch]
+        indices = [i for i, _ in selected]
+        x = torch.from_numpy(np.asarray(array[indices]).copy()).float().div_(255).unsqueeze(1).repeat(1, 3, 1, 1).sub_(0.5).div_(0.5).to(device)
         tokens, _ = generate(model, x, vocab.itos)
-        for pred, row in zip(tokens, rows[start:start + batch]):
+        for pred, (_, row) in zip(tokens, selected):
             text = vocab.decode(pred.tolist()); g = gold(row['char'], row['font'], row['ids'])
             exact += text == g; valid += valid_ids(text); total += 1
     return exact / max(1, total), valid / max(1, total), total
@@ -75,12 +89,8 @@ def main():
     parser.add_argument("--batch-size", type=int, default=32)
     args = parser.parse_args()
 
-    train = [json.loads(line) for line in (args.cache / "train.jsonl").read_text().splitlines()]
-    val = [json.loads(line) for line in (args.cache / "val.jsonl").read_text().splitlines()]
-    train = [row for row in train if row["font"] == "jigmo"]
-    val = [row for row in val if row["font"] == "jigmo"]
-    train_array = np.load(args.cache / "train.npy", mmap_mode="r")
-    val_array = np.load(args.cache / "val.npy", mmap_mode="r")
+    train, train_array = load_rows(args.cache, "train")
+    val, val_array = load_rows(args.cache, "val")
 
     payload = torch.load(args.init, map_location="cpu", weights_only=False)
     vocab = Vocabulary(payload["itos"])
