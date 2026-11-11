@@ -63,3 +63,5 @@ uv run --extra dev pytest
 node demo/check-i18n.mjs
 node --test demo/tests/*.test.mjs
 ```
+
+For the optional browser check, see the setup in `check-modules.mjs`.
