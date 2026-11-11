@@ -55,7 +55,7 @@ A seed-20261112 random sample contains 256 characters and 477 clean images. Each
 
 ## Original crop audit
 
-The supplied fonts and renderer reproduced all 8,730 original uint8 images byte-for-byte. A larger-canvas re-render found foreground outside the old crop at the top in 8,713 images, at the left in 7,451 and at the right in 7,752; 8,719 lost ink on at least one side. The top row below shows original images and the bottom row their complete, ink-fitted renders. The columns use Noto Serif CJK JP, IPAmj Mincho and Jigmo, repeated for two characters. Font provenance and hashes are in the [clean bundle](results/clean/bundle.json).
+The supplied fonts and renderer reproduced all 8,730 original uint8 images byte-for-byte. The [pixel hashes](results/legacy-verification/rows.jsonl.gz) and [counts](results/legacy-verification/summary.json) are published; original images are absent, so independent comparison with the originals requires the source array. A larger-canvas re-render found foreground outside the old crop at the top in 8,713 images, at the left in 7,451 and at the right in 7,752; 8,719 lost ink on at least one side. The top row below shows original images and the bottom row their complete, ink-fitted renders. The columns use Noto Serif CJK JP, IPAmj Mincho and Jigmo, repeated for two characters. Font provenance and hashes are in the [clean bundle](results/clean/bundle.json).
 
 ![Original crop above, complete render below](results/crop-audit.png)
 
