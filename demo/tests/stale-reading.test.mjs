@@ -38,10 +38,11 @@ function setup() {
     setTimeout(fn) { const id = ++nextTimer; timers.set(id, fn); return id; },
     clearTimeout(id) { timers.delete(id); },
   });
-  const source = { id: 's', width: 100, height: 100, transparent: false, inkLight: false };
+  const source = { id: 's', width: 100, height: 100, prep: { turn: 0, enlarge: 1 } };
   const item = { id: 'i', sourceId: 's', crop: { x: 0.1, y: 0.1, w: 0.5, h: 0.5 },
     box: { x: 0.1, y: 0.1, w: 0.5, h: 0.5 }, margin: 2,
     readings: [], phase: 'queued', errorKey: null, seq: 0 };
+  const other = { ...item, id: 'j', crop: { x: 0.6, y: 0.1, w: 0.3, h: 0.3 } };
   let stage, reading;
   stage = createStage({
     selectedItem: () => item, getSource: () => source, itemsOf: () => [item],
@@ -49,13 +50,13 @@ function setup() {
     cancelScheduled: () => reading.cancelScheduled(),
   }, els);
   reading = createReading({
-    selectedItem: () => item, byId: () => item, getSource: () => source,
-    isDragging: () => stage.isDragging(), bitmapFor: async () => ({}), makeThumb: async () => {},
-    touch() {}, cropInvalidated() {}, showModelProgress() {}, hideModelProgress() {}, setStatus() {},
+    selectedItem: () => item, byId: id => [item, other].find(entry => entry.id === id) ?? null, getSource: () => source,
+    isDragging: () => stage.isDragging(), preparedFor: async () => ({ width: 100, height: 100 }), makeThumb: async () => {},
+    touch() {}, invalidated() {}, showModelProgress() {}, hideModelProgress() {}, setStatus() {},
     announceReading() {}, showError() {},
     loadInference: async () => ({ recognize: () => new Promise((resolve, reject) => calls.push({ resolve, reject })) }),
   }, els);
-  return { stage, reading, item, window, element, calls, timers,
+  return { stage, reading, item, other, window, element, calls, timers,
     flushTimers() { const pending = [...timers.values()]; timers.clear(); for (const fn of pending) fn(); },
   };
 }
@@ -94,4 +95,34 @@ test('an edited crop rejects an in-flight reading and enqueues the replacement',
   assert.equal(app.calls.length, 2);
   app.calls[1].resolve(result('fresh')); await tick();
   assert.equal(app.item.readings[0].ids, 'fresh');
+});
+
+test('restarting an image discards every reading, drops queued reads and reads the selected item first', async () => {
+  const app = setup();
+  app.item.readings = result('old'); app.item.phase = 'done';
+  app.other.readings = result('other'); app.other.phase = 'done';
+  app.reading.enqueue([app.item, app.other]);
+  await tick();
+  assert.equal(app.calls.length, 1);
+  app.reading.restart([app.other, app.item]);
+  for (const entry of [app.item, app.other]) {
+    assert.deepEqual(entry.readings, []);
+    assert.equal(entry.phase, 'queued');
+  }
+  app.calls[0].resolve(result('stale'));
+  await tick();
+  assert.deepEqual(app.item.readings, []);
+  assert.equal(app.calls.length, 1, 'the queued read waits for the restart');
+  app.flushTimers(); await tick();
+  assert.equal(app.calls.length, 2);
+  app.calls[1].resolve(result('fresh')); await tick();
+  assert.equal(app.item.readings[0].ids, 'fresh');
+  assert.equal(app.other.phase, 'reading');
+});
+
+test('a restart without reading leaves both items waiting', () => {
+  const app = setup();
+  app.reading.restart([app.item, app.other], { read: false });
+  assert.equal(app.timers.size, 0);
+  assert.equal(app.item.phase, 'queued');
 });

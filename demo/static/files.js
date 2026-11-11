@@ -103,9 +103,11 @@ export function createFiles(deps, els = selectElements(['chooseFile', 'fileInput
       blob: file,
       width: bitmap.width,
       height: bitmap.height,
-      url: '',
-      transparent: found.transparent,
-      inkLight: found.inkLight,
+      paper: paperOf(bitmap, found),
+      // Black and white, specks and enlarging carry over from the image on the stage; the turn
+      // and a hand-set ink level belong to each image.
+      prep: { ...deps.currentPrep(), turn: 0, ink: null },
+      cut: 0,
       inkBox: found.inkBox,
       boxes: found.boxes,
     };
@@ -114,9 +116,33 @@ export function createFiles(deps, els = selectElements(['chooseFile', 'fileInput
     return source;
   }
 
-  function sourceUrl(source) {
-    if (!source.url) source.url = URL.createObjectURL(source.blob);
-    return source.url;
+  /** Colour behind a transparent image and in the corners a turn opens up. */
+  function paperOf(bitmap, found) {
+    if (found.transparent) return found.inkLight ? '#000' : '#fff';
+    const scale = Math.min(1, 128 / Math.max(bitmap.width, bitmap.height));
+    const w = Math.max(1, Math.round(bitmap.width * scale));
+    const h = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    context.drawImage(bitmap, 0, 0, w, h);
+    const pixels = context.getImageData(0, 0, w, h).data;
+    const border = Math.max(1, Math.round(Math.min(w, h) * 0.02));
+    const sum = [0, 0, 0];
+    let count = 0;
+    for (let y = 0; y < h; y += 1) {
+      for (let x = 0; x < w; x += 1) {
+        if (x >= border && y >= border && x < w - border && y < h - border) continue;
+        const offset = (y * w + x) * 4;
+        sum[0] += pixels[offset];
+        sum[1] += pixels[offset + 1];
+        sum[2] += pixels[offset + 2];
+        count += 1;
+      }
+    }
+    const [r, g, b] = sum.map(value => Math.round(value / Math.max(1, count)));
+    return `rgb(${r} ${g} ${b})`;
   }
 
   function keepBitmap(id, bitmap) {
@@ -147,9 +173,7 @@ export function createFiles(deps, els = selectElements(['chooseFile', 'fileInput
   function updateAnalysis(source, found) {
     source.inkBox = found.inkBox;
     source.boxes = found.boxes;
-    source.transparent = found.transparent;
-    source.inkLight = found.inkLight;
   }
 
-  return { getSource: id => sources.get(id), sourceUrl, bitmapFor, updateAnalysis };
+  return { getSource: id => sources.get(id), bitmapFor, updateAnalysis };
 }

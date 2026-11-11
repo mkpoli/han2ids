@@ -1,23 +1,27 @@
 import { initTheme } from './theme.js';
 import { createLanguage } from './language.js';
 import { createFiles } from './files.js';
+import { createFrames, preparedCanvas } from './frames.js';
 import { createStage } from './stage.js';
+import { createPreparation } from './preparation.js';
 import { createQueue } from './queue.js';
 import { createReading } from './reading.js';
 import { createDisplay } from './display.js';
+import { nearestItem } from './geometry.js';
 
 initTheme();
 const language = createLanguage({ onTranslationsChanged() {
   queue.renderQueue(); stage.renderStage(); display.renderResult(); display.clearLive();
 } });
 const t = (...args) => language.t(...args);
-const files = createFiles({ t, onError: error => reading.showError(error), onSourceLoaded(source) {
+const files = createFiles({ t, currentPrep: () => preparation.currentPrep(), onError: error => reading.showError(error), onSourceLoaded(source) {
   display.clearError();
   const items = queue.add(source);
   queue.selectItem(items[0].id);
   queue.renderQueue();
   reading.enqueue(items);
 } });
+const frames = createFrames({ t, bitmapFor: source => files.bitmapFor(source) });
 const queue = createQueue({ t, getMargin: () => stage.getMargin(), getSource: id => files.getSource(id), onSelect({ scroll }) {
   display.clearCopied();
   reading.cancelScheduled();
@@ -27,24 +31,31 @@ const queue = createQueue({ t, getMargin: () => stage.getMargin(), getSource: id
 } });
 const stage = createStage({
   t, selectedItem: () => queue.selectedItem(), itemsOf: id => queue.itemsOf(id),
-  getSource: id => files.getSource(id), sourceUrl: source => files.sourceUrl(source),
-  bitmapFor: source => files.bitmapFor(source), selectItem: id => queue.selectItem(id),
+  getSource: id => files.getSource(id), frameFor: source => frames.frameFor(source),
+  onSourceShown: source => preparation.render(source), selectItem: id => queue.selectItem(id),
   scheduleRead: delay => reading.scheduleRead(delay), cancelScheduled: () => reading.cancelScheduled(),
   onCropChanged: item => reading.cropChanged(item), showError: error => reading.showError(error),
-  clearError: () => display.clearError(), onQuickCut(source, found) {
+  clearError: () => display.clearError(), onRecut(source, found, focus) {
     files.updateAnalysis(source, found);
     const items = queue.replaceSource(source, found.boxes);
-    queue.selectItem(items[0].id);
+    const chosen = nearestItem(items, focus) ?? items[0];
+    queue.selectItem(chosen.id);
     queue.renderQueue();
-    reading.enqueue(items);
+    reading.enqueue([chosen, ...items.filter(item => item !== chosen)]);
   },
+});
+const preparation = createPreparation({
+  t, selectedItem: () => queue.selectedItem(), getSource: id => files.getSource(id), itemsOf: id => queue.itemsOf(id),
+  frameFor: source => frames.frameFor(source), peekFrame: id => frames.peek(id),
+  restart: (items, options) => reading.restart(items, options), renderStage: () => stage.renderStage(),
+  recut: (source, options) => stage.recut(source, options), announce: text => display.announce(text),
 });
 const display = createDisplay({ t, selectedItem: () => queue.selectedItem(),
   getSource: id => files.getSource(id), itemsOf: id => queue.itemsOf(id), isLoading: () => reading.isLoading() });
 const reading = createReading({
   selectedItem: () => queue.selectedItem(), byId: id => queue.byId(id), isDragging: () => stage.isDragging(),
-  getSource: id => files.getSource(id), bitmapFor: source => files.bitmapFor(source),
-  makeThumb: (item, bitmap, source) => queue.makeThumb(item, bitmap, source),
+  getSource: id => files.getSource(id), preparedFor: async source => preparedCanvas(await frames.frameFor(source)),
+  makeThumb: (item, image) => queue.makeThumb(item, image),
   showModelProgress: fraction => display.showModelProgress(fraction), hideModelProgress: () => display.hideModelProgress(),
   setStatus: (key, kind) => display.setStatus(key, kind), showError: error => display.showError(error),
   announceReading: item => display.announceReading(item),
@@ -52,7 +63,7 @@ const reading = createReading({
     queue.updateRow(item); stage.renderBoxes();
     if (item.id === queue.selectedItem()?.id) display.renderResult();
   },
-  cropInvalidated(item) {
+  invalidated(item) {
     display.clearCopied();
     queue.updateRow(item); stage.renderBoxes(); display.renderResult();
   },

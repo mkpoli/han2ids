@@ -183,6 +183,32 @@ try {
   assert.equal(await rows.nth(0).getAttribute('aria-selected'), 'true');
   console.log('PASS sheet queue, per-item reads and thumbnails, keyboard navigation and quick cut');
 
+  const rereadSheet = async () => {
+    for (const ids of ['⿰日月', '⿱日又', '川', '二']) await answer(await waitCall(), ids);
+    await page.waitForFunction(() => [...document.querySelectorAll('#item-list .item-state')].every(mark => mark.dataset.state === 'done'));
+    assert.equal(await rows.count(), 4, 'preparation keeps one item per glyph');
+  };
+  await page.locator('label:has(#prep-bw)').click();
+  await rereadSheet();
+  assert.equal(await page.locator('#frame canvas.frame-prepared').isVisible(), true, 'black and white is on the stage');
+  await shot('prepared-sheet');
+  await page.locator('#compare').hover();
+  await page.mouse.down();
+  assert.equal(await page.locator('#frame').evaluate(el => el.classList.contains('is-comparing')), true, 'Original shows while held');
+  await page.mouse.up();
+  assert.equal(await page.locator('#frame').evaluate(el => el.classList.contains('is-comparing')), false);
+  await page.locator('#turn-right').click();
+  await rereadSheet();
+  assert.equal(await page.locator('#turn-surface').getAttribute('aria-valuenow'), '90');
+  await page.locator('label:has(input[name="enlarge"][value="2"])').click();
+  await rereadSheet();
+  await visible('896 × 896');
+  await page.locator('#prep-reset').click();
+  await rereadSheet();
+  await visible('448 × 448');
+  assert.equal(await page.locator('#prep-bw').isChecked(), false);
+  console.log('PASS preparation: black and white, Original, turn, enlarge and reset reread every glyph');
+
   await page.goto(`${origin}/ocr/?lang=en`);
   await visible('No reading yet.');
   await page.getByRole('button', { name: 'Try 疑' }).click();

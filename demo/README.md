@@ -13,6 +13,11 @@ Web in a Web Worker; later reads reuse the sessions. The cut follows the ink aut
 margin slider and handles refine it. The browser build reads one em-box crop, without the CLI's
 four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch checkpoint.
 
+Preparing an image is optional and applies to every glyph cut from it. The model reads what the
+stage shows: the image turned by hand or straightened, in black and white with an adjustable ink
+level and specks removed, and enlarged 2× or 4×. Holding Original shows the image without black and
+white. After a turn the glyphs are found again in the turned image.
+
 ## Files
 
 - `server.py` — a local static server for the page.
@@ -24,6 +29,8 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `static/reading.js`, `static/model-input.js`, `static/display.js` — reading lifecycle, preprocessing and results.
 - `static/geometry.js`, `static/identity.js` — crop geometry and generated ids.
 - `static/detect.js` — the glyph cut: Otsu ink, connected components, widest-gap splitting.
+- `static/prepare.js`, `static/frames.js`, `static/preparation.js` — image preparation: the turned and
+  enlarged frame, black and white, specks and skew, and the Prepare panel.
 - `static/ids.js` — the operand-stack grammar, shared by the page and the worker.
 - `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
 - `static/i18n.js` — the six UI locales.

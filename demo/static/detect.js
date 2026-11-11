@@ -125,7 +125,8 @@ function binarise(data, width, height) {
   return { mask, transparent, inkLight: inkCount > 0 && inkLuma / inkCount > 127 };
 }
 
-function otsu(histogram, total) {
+/** Otsu's threshold: the grey level that best splits the histogram into two classes. */
+export function otsu(histogram, total) {
   if (!total) return 127;
   let sum = 0;
   for (let value = 0; value < 256; value += 1) sum += value * histogram[value];
@@ -312,9 +313,4 @@ function normalise(box, width, height) {
     w: (box.right - box.left + 1) / width,
     h: (box.bottom - box.top + 1) / height,
   };
-}
-
-/** Canvas colour behind the glyph: light ink on transparency needs a dark ground. */
-export function background(source) {
-  return source.transparent && source.inkLight ? '#000' : '#fff';
 }

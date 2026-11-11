@@ -1,9 +1,9 @@
 import { clamp } from './geometry.js';
-import { background } from './detect.js';
 
-export function modelInput(bitmap, source, crop) {
-  const naturalWidth = source.width;
-  const naturalHeight = source.height;
+/** The model's 224 × 224 input for a cut of the prepared image. */
+export function modelInput(image, crop) {
+  const naturalWidth = image.width;
+  const naturalHeight = image.height;
   const { x, y, w, h } = crop;
 
   const sx = clamp(Math.floor(x * naturalWidth), 0, naturalWidth - 1);
@@ -22,9 +22,7 @@ export function modelInput(bitmap, source, crop) {
   const context = canvas.getContext('2d', { willReadFrequently: true });
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.fillStyle = background(source);
-  context.fillRect(0, 0, width, height);
-  context.drawImage(bitmap, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
+  context.drawImage(image, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
   const pixels = context.getImageData(0, 0, width, height).data;
 
   const gray = new Float32Array(width * height);

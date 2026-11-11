@@ -1,42 +1,61 @@
 import { selectElements } from './elements.js';
 import { analyseImage } from './detect.js';
+import { preparedCanvas } from './frames.js';
 import { MIN_CUT, clamp, clampCrop, padBox } from './geometry.js';
+import { frameSize } from './prepare.js';
 
-export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'marginValue', 'cropBox', 'quickCut', 'autoCut', 'fullImage'])) {
+export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'stageBar', 'actionRow', 'prep', 'imageSize', 'boxCount', 'boxLayer', 'frame', 'imageWrap', 'marginValue', 'cropBox', 'quickCut', 'autoCut', 'fullImage'])) {
   let margin = Number(els.margin.value);
   let drag = null;
+  let shownFrame = 0;
 
   function renderStage() {
     const item = deps.selectedItem();
+    const source = item ? deps.getSource(item.sourceId) : null;
+    els.imageEditor.hidden = !item;
+    els.dropEmpty.hidden = Boolean(item);
+    els.stageBar.hidden = !item;
+    els.actionRow.hidden = !item;
+    els.prep.disabled = !item;
+    els.imageSize.hidden = !item;
+    deps.onSourceShown(source);
     if (!item) {
-      els.imageEditor.hidden = true;
-      els.dropEmpty.hidden = false;
-      els.cutControls.hidden = true;
-      els.imageSize.hidden = true;
       els.boxCount.hidden = true;
       els.boxLayer.replaceChildren();
+      els.frame.replaceChildren();
       return;
     }
 
-    const source = deps.getSource(item.sourceId);
-    if (els.glyphImage.dataset.source !== source.id) {
-      els.glyphImage.src = deps.sourceUrl(source);
-      els.glyphImage.dataset.source = source.id;
-    }
-    els.imageEditor.hidden = false;
-    els.dropEmpty.hidden = true;
-    els.cutControls.hidden = false;
-    els.imageSize.hidden = false;
-    els.imageSize.textContent = `${source.width} × ${source.height}`;
+    const { width, height } = frameSize(source);
+    els.imageSize.textContent = `${width} × ${height}`;
+    els.imageWrap.style.setProperty('--frame-ratio', String(width / height));
     const count = deps.itemsOf(source.id).length;
     els.boxCount.hidden = count < 2;
     els.boxCount.textContent = deps.t('quick.boxes', { count });
     els.imageWrap.toggleAttribute('data-many', count > 1);
-    els.imageWrap.style.setProperty('--image-bg', source.transparent && source.inkLight ? '#000' : '#fff');
     els.margin.value = String(item.margin);
     els.marginValue.textContent = `${item.margin}%`;
     renderBoxes();
     renderCrop();
+    showFrame(source);
+  }
+
+  /** Puts the source's prepared frame on the stage once it is drawn. */
+  async function showFrame(source) {
+    const ticket = ++shownFrame;
+    let frame;
+    try {
+      frame = await deps.frameFor(source);
+    } catch {
+      return;
+    }
+    if (ticket !== shownFrame) return;
+    const canvases = frame.prepared ? [frame.original, frame.prepared] : [frame.original];
+    const current = [...els.frame.children];
+    if (current.length !== canvases.length || canvases.some((canvas, at) => current[at] !== canvas)) {
+      els.frame.replaceChildren(...canvases);
+    }
+    deps.onSourceShown(source);
   }
 
   function renderBoxes() {
@@ -196,16 +215,19 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     if (!item) return;
     item.margin = margin;
     const source = deps.getSource(item.sourceId);
-    setCrop(padBox(item.box, item.margin, source));
+    setCrop(padBox(item.box, item.margin, frameSize(source)));
   });
 
-  els.quickCut.addEventListener('click', () => quickCut());
+  els.quickCut.addEventListener('click', () => {
+    const item = deps.selectedItem();
+    if (item) recut(deps.getSource(item.sourceId));
+  });
 
   els.autoCut.addEventListener('click', () => {
     const item = deps.selectedItem();
     if (!item) return;
     const source = deps.getSource(item.sourceId);
-    setCrop(padBox(item.box, item.margin, source), 0);
+    setCrop(padBox(item.box, item.margin, frameSize(source)), 0);
   });
 
   els.fullImage.addEventListener('click', () => {
@@ -213,25 +235,29 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     setCrop({ x: 0, y: 0, w: 1, h: 1 }, 0);
   });
 
-  async function quickCut() {
-    const current = deps.selectedItem();
-    if (!current) return;
-    const source = deps.getSource(current.sourceId);
+  /**
+   * Finds the glyphs in a source's prepared frame again. After a turn, `focus` is where the
+   * selected cut went, and finding nothing falls back to the whole frame.
+   */
+  async function recut(source, { focus = null, afterTurn = false } = {}) {
+    const ticket = ++source.cut;
     let found;
     try {
-      found = analyseImage(await deps.bitmapFor(source));
+      const frame = await deps.frameFor(source);
+      if (ticket !== source.cut) return;
+      found = analyseImage(preparedCanvas(frame));
     } catch {
-      deps.showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
+      if (ticket === source.cut) deps.showError({ titleKey: 'error.cut.title', detailKey: 'error.cut.detail' });
       return;
     }
-    if (!found.boxes.length) {
+    if (!found.boxes.length && !afterTurn) {
       deps.showError({ titleKey: 'error.detect.title', detailKey: 'error.detect.detail' });
       return;
     }
 
     deps.clearError();
-    deps.onQuickCut(source, found);
+    deps.onRecut(source, found, focus);
   }
 
-  return { renderStage, renderBoxes, setCrop, getMargin: () => margin, isDragging: () => Boolean(drag) };
+  return { renderStage, renderBoxes, setCrop, recut, getMargin: () => margin, isDragging: () => Boolean(drag) };
 }

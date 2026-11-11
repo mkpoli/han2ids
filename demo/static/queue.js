@@ -1,7 +1,7 @@
 import { selectElements } from './elements.js';
 import { uid } from './identity.js';
 import { padBox } from './geometry.js';
-import { background } from './detect.js';
+import { frameSize } from './prepare.js';
 import { renderIds } from './render-ids.js';
 
 export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal', 'itemList', 'queuePosition', 'itemPrev', 'itemNext'])) {
@@ -18,7 +18,7 @@ export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal
       sourceId: source.id,
       index: at + 1,
       box,
-      crop: padBox(box, deps.getMargin(), source),
+      crop: padBox(box, deps.getMargin(), frameSize(source)),
       margin: deps.getMargin(),
       readings: [],
       phase: 'queued',
@@ -150,19 +150,17 @@ export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal
 
   els.itemPrev.addEventListener('click', () => stepSelection(-1));
   els.itemNext.addEventListener('click', () => stepSelection(1));
-  async function makeThumb(item, bitmap, source) {
-    const sx = Math.max(0, Math.floor(item.crop.x * source.width));
-    const sy = Math.max(0, Math.floor(item.crop.y * source.height));
-    const sw = Math.max(1, Math.round(item.crop.w * source.width));
-    const sh = Math.max(1, Math.round(item.crop.h * source.height));
+  async function makeThumb(item, image) {
+    const sx = Math.max(0, Math.floor(item.crop.x * image.width));
+    const sy = Math.max(0, Math.floor(item.crop.y * image.height));
+    const sw = Math.max(1, Math.round(item.crop.w * image.width));
+    const sh = Math.max(1, Math.round(item.crop.h * image.height));
     const scale = Math.min(1, THUMB / Math.max(sw, sh));
     const canvas = document.createElement('canvas');
     canvas.width = Math.max(1, Math.round(sw * scale));
     canvas.height = Math.max(1, Math.round(sh * scale));
     const context = canvas.getContext('2d');
-    context.fillStyle = background(source);
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(bitmap, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+    context.drawImage(image, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) return;
     if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);

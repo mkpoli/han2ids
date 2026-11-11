@@ -4,6 +4,7 @@ import { modelInput } from './model-input.js';
 export function createReading(deps, els = selectElements(['recognize'])) {
   const READ_DELAY = 280;
   let readTimer = 0;
+  let restartTimer = 0;
   let pending = [];
   let modelLoaded = false;
   let loading = false;
@@ -62,10 +63,10 @@ export function createReading(deps, els = selectElements(['recognize'])) {
     const source = deps.getSource(item.sourceId);
     let input;
     try {
-      const bitmap = await deps.bitmapFor(source);
+      const image = await deps.preparedFor(source);
       if (item.seq !== seq) return;
-      input = modelInput(bitmap, source, item.crop);
-      await deps.makeThumb(item, bitmap, source);
+      input = modelInput(image, item.crop);
+      await deps.makeThumb(item, image);
     } catch {
       if (item.seq === seq) fail(item, 'error.cut');
       return;
@@ -117,12 +118,26 @@ export function createReading(deps, els = selectElements(['recognize'])) {
   }
 
 
-  function cropChanged(item) {
+  function discard(item) {
     item.seq += 1;
     item.readings = [];
     item.phase = 'queued';
     item.errorKey = null;
-    deps.cropInvalidated(item);
+    deps.invalidated(item);
+  }
+
+  /** Discards the readings of the given items and, unless `read` is false, reads them again. */
+  function restart(items, { delay = READ_DELAY, read = true } = {}) {
+    const ids = new Set(items.map(item => item.id));
+    pending = pending.filter(id => !ids.has(id));
+    for (const item of items) discard(item);
+    const selected = deps.selectedItem();
+    if (selected && ids.has(selected.id)) clearTimeout(readTimer);
+    clearTimeout(restartTimer);
+    if (!read) return;
+    const first = items.find(item => item.id === selected?.id);
+    const order = first ? [first, ...items.filter(item => item !== first)] : items;
+    restartTimer = setTimeout(() => enqueue(order.filter(item => deps.byId(item.id))), delay);
   }
   function showError(error) {
     clearTimeout(readTimer);
@@ -130,7 +145,7 @@ export function createReading(deps, els = selectElements(['recognize'])) {
     deps.hideModelProgress();
     deps.showError(error);
   }
-  return { scheduleRead, enqueue, cropChanged, showError,
+  return { scheduleRead, enqueue, cropChanged: discard, restart, showError,
     cancelScheduled: () => clearTimeout(readTimer), isLoading: () => loading };
 
 }

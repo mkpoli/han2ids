@@ -91,7 +91,6 @@
   <main class="page">
     <section class="intro">
       <h1 data-i18n="intro.title">Read a glyph's IDS</h1>
-      <p data-i18n="intro.body">Paste or drop a Mincho or Song glyph. Adjust the cut, then read its ideographic description sequence.</p>
     </section>
 
     <div class="workspace">
@@ -114,82 +113,171 @@
 
       <section class="ui-card input-card" aria-labelledby="image-heading">
         <div class="card-head">
-          <div>
-            <h2 id="image-heading" data-i18n="image.title" data-i18n-title="image.local">Glyph image</h2>
-            <p class="card-sub" data-i18n="image.sub">Mincho and Song serif faces.</p>
-          </div>
+          <h2 id="image-heading" data-i18n="image.title" data-i18n-title="image.local">Glyph image</h2>
           <div class="head-chips">
             <span class="ui-chip box-count" id="box-count" hidden></span>
             <span class="ui-chip image-size" id="image-size" hidden></span>
           </div>
         </div>
 
-        <div class="stage" id="stage">
-          <div class="drop-empty" id="drop-empty">
-            <span class="drop-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="26" height="26" focusable="false">
-                <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 5h16v14H4zM4 16l4.5-4 3.5 3 3-2.5 5 4M15 9h.01"/>
-              </svg>
-            </span>
-            <p class="drop-title" data-i18n="drop.title">Paste or drop a glyph image</p>
-            <p class="drop-hint" data-i18n="drop.hint">PNG, JPEG, or WebP. Paste with ⌘V / Ctrl+V.</p>
-            <div class="drop-actions">
-              <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="choose-file" data-i18n="drop.choose">Choose image</button>
-              <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sample" data-i18n="drop.sample">Try 疑</button>
-              <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sheet" data-i18n="drop.sheet">Try a sheet</button>
+        <div class="editor">
+          <div class="editor-main">
+            <div class="stage" id="stage">
+              <div class="drop-empty" id="drop-empty">
+                <span class="drop-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="26" height="26" focusable="false">
+                    <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M4 5h16v14H4zM4 16l4.5-4 3.5 3 3-2.5 5 4M15 9h.01"/>
+                  </svg>
+                </span>
+                <p class="drop-title" data-i18n="drop.title">Paste or drop a glyph image</p>
+                <p class="drop-hint" data-i18n="drop.hint">PNG, JPEG, or WebP. Paste with ⌘V / Ctrl+V.</p>
+                <div class="drop-actions">
+                  <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="choose-file" data-i18n="drop.choose">Choose image</button>
+                  <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sample" data-i18n="drop.sample">Try 疑</button>
+                  <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="try-sheet" data-i18n="drop.sheet">Try a sheet</button>
+                </div>
+              </div>
+
+              <div class="stage-bar" id="stage-bar" hidden>
+                <fieldset class="ui-segmented tool-switch">
+                  <legend class="ui-visually-hidden" data-i18n="tool.legend">Drag to</legend>
+                  <label class="ui-segment">
+                    <input type="radio" name="tool" value="cut" checked>
+                    <span class="ui-segment-face">
+                      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M7 3v14h14M3 7h14v14"/></svg>
+                      <span data-i18n="tool.cut">Cut</span>
+                    </span>
+                  </label>
+                  <label class="ui-segment">
+                    <input type="radio" name="tool" value="turn">
+                    <span class="ui-segment-face">
+                      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 1 1-2.6-5.9M20 4v4.5h-4.5"/></svg>
+                      <span data-i18n="tool.turn">Turn</span>
+                    </span>
+                  </label>
+                </fieldset>
+                <button class="ui-button compare-button" type="button" data-size="sm" id="compare" aria-pressed="false"
+                  title="Hold to see the original" data-i18n-title="compare.hint" aria-describedby="compare-hint" hidden>
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 4v16"/><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="currentColor" d="M12 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6z"/></svg>
+                  <span data-i18n="compare.label">Original</span>
+                </button>
+                <p class="ui-visually-hidden" id="compare-hint" data-i18n="compare.hint">Hold to see the original.</p>
+              </div>
+
+              <div class="image-editor" id="image-editor" hidden>
+                <div class="image-wrap" id="image-wrap" data-tool="cut">
+                  <div class="frame" id="frame"></div>
+                  <div class="crop-shade" aria-hidden="true">
+                    <span class="shade-top"></span>
+                    <span class="shade-left"></span>
+                    <span class="shade-right"></span>
+                    <span class="shade-bottom"></span>
+                  </div>
+                  <div class="box-layer" id="box-layer"></div>
+                  <div class="crop-box" id="crop-box" tabindex="0" role="group"
+                    aria-label="Cut region" data-i18n-aria="crop.region" aria-describedby="crop-hint">
+                    <span class="crop-line" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="nw" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="n" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="ne" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="e" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="se" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="s" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="sw" aria-hidden="true"></span>
+                    <span class="crop-handle" data-handle="w" aria-hidden="true"></span>
+                  </div>
+                  <div class="turn-surface" id="turn-surface" tabindex="0" role="slider" hidden
+                    aria-label="Turn the image" data-i18n-aria="turn.label" aria-describedby="turn-hint"
+                    aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0"></div>
+                </div>
+                <p class="ui-visually-hidden" id="crop-hint" data-i18n="crop.hint">Drag the handles to change the cut. Arrow keys move the cut; hold Shift and an arrow key to resize it.</p>
+                <p class="ui-visually-hidden" id="turn-hint" data-i18n="turn.hint">Drag to turn the image. Arrow keys turn it a little; Page Up and Page Down turn it a quarter.</p>
+              </div>
+            </div>
+
+            <div class="action-row" id="action-row" hidden>
+              <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize"
+                title="Reads automatically after each cut." data-i18n-title="cut.autoNote" data-i18n="action.recognize">Recognise</button>
+              <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.add">Add image</button>
             </div>
           </div>
 
-          <div class="image-editor" id="image-editor" hidden>
-            <div class="image-wrap" id="image-wrap">
-              <img id="glyph-image" alt="The glyph you chose" data-i18n-alt="image.alt" draggable="false">
-              <div class="crop-shade" aria-hidden="true">
-                <span class="shade-top"></span>
-                <span class="shade-left"></span>
-                <span class="shade-right"></span>
-                <span class="shade-bottom"></span>
-              </div>
-              <div class="box-layer" id="box-layer"></div>
-              <div class="crop-box" id="crop-box" tabindex="0" role="group"
-                aria-label="Cut region" data-i18n-aria="crop.region" aria-describedby="crop-hint">
-                <span class="crop-line" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="nw" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="n" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="ne" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="e" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="se" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="s" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="sw" aria-hidden="true"></span>
-                <span class="crop-handle" data-handle="w" aria-hidden="true"></span>
-              </div>
-            </div>
-            <p class="ui-visually-hidden" id="crop-hint" data-i18n="crop.hint">Drag the handles to change the cut. Arrow keys move the cut; hold Shift and an arrow key to resize it.</p>
-          </div>
-        </div>
+          <fieldset class="prep" id="prep" disabled>
+            <legend class="prep-head">
+              <span data-i18n="prep.title">Prepare</span>
+            </legend>
+            <button class="ui-button prep-reset" type="button" data-size="xs" data-variant="quiet" id="prep-reset" hidden>
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/></svg>
+              <span data-i18n="prep.reset">Reset</span>
+            </button>
 
-        <div class="cut-controls" id="cut-controls" hidden>
-          <div class="cut-row">
-            <div class="ui-field cut-field">
-              <label class="ui-label" for="margin"><span data-i18n="cut.margin">Cut margin</span> <output class="range-value" id="margin-value" for="margin" aria-hidden="true">2%</output></label>
-              <input class="ui-range" id="margin" type="range" min="0" max="20" step="1" value="2">
-            </div>
-            <div class="cut-buttons">
-              <button class="ui-button" type="button" data-size="sm" id="quick-cut">
-                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
-                <span data-i18n="cut.quick">Quick cut</span>
-              </button>
-              <button class="ui-button" type="button" data-size="sm" id="auto-cut">
-                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 12h8"/></svg>
-                <span data-i18n="cut.auto">Auto cut</span>
-              </button>
-              <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="full-image" data-i18n="cut.full">Full image</button>
-            </div>
-          </div>
-          <div class="action-row">
-            <button class="ui-button" type="button" data-variant="primary" data-size="lg" id="recognize" data-i18n="action.recognize">Recognise</button>
-            <button class="ui-button" type="button" data-size="lg" data-variant="quiet" id="replace-image" data-i18n="action.add">Add image</button>
-            <span class="auto-note" data-i18n="cut.autoNote">Reads automatically after each cut.</span>
-          </div>
+            <section class="prep-section" aria-labelledby="prep-cut">
+              <h3 class="prep-label" id="prep-cut" data-i18n="prep.cut">Cut</h3>
+              <div class="ui-field cut-field">
+                <label class="ui-label" for="margin"><span data-i18n="cut.margin">Margin</span> <output class="range-value" id="margin-value" for="margin" aria-hidden="true">2%</output></label>
+                <input class="ui-range" id="margin" type="range" min="0" max="20" step="1" value="2">
+              </div>
+              <div class="prep-buttons">
+                <button class="ui-button" type="button" data-size="sm" id="quick-cut">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+                  <span data-i18n="cut.quick">Quick cut</span>
+                </button>
+                <button class="ui-button" type="button" data-size="sm" id="auto-cut">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M8 12h8"/></svg>
+                  <span data-i18n="cut.auto">Auto cut</span>
+                </button>
+                <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="full-image" data-i18n="cut.full">Full image</button>
+              </div>
+            </section>
+
+            <section class="prep-section" aria-labelledby="prep-turn">
+              <h3 class="prep-label" id="prep-turn" data-i18n="prep.turn">Turn</h3>
+              <div class="prep-buttons">
+                <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="turn-left" aria-label="Turn left" data-i18n-aria="prep.turnLeft" title="Turn left" data-i18n-title="prep.turnLeft">
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><rect x="4" y="11" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M20 15a8 8 0 0 0-8-8H8M11 4 8 7l3 3"/></svg>
+                </button>
+                <button class="ui-button" type="button" data-size="sm" data-variant="quiet" id="turn-right" aria-label="Turn right" data-i18n-aria="prep.turnRight" title="Turn right" data-i18n-title="prep.turnRight">
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><rect x="11" y="11" width="9" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 15a8 8 0 0 1 8-8h4M13 4l3 3-3 3"/></svg>
+                </button>
+                <button class="ui-button straighten-button" type="button" data-size="sm" id="straighten">
+                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M3 20h18M7 16 17 6M12 3v3M3 12h3"/></svg>
+                  <span data-i18n="prep.straighten">Straighten</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="prep-section" aria-labelledby="prep-clean">
+              <h3 class="prep-label" id="prep-clean" data-i18n="prep.clean">Clean up</h3>
+              <label class="ui-switch-row prep-switch">
+                <span data-i18n="prep.bw">Black and white</span>
+                <input class="ui-switch" type="checkbox" role="switch" id="prep-bw">
+              </label>
+              <div class="ink-field" id="ink-field" hidden>
+                <div class="ink-head">
+                  <label class="ui-label" for="ink" data-i18n="prep.ink">Ink</label>
+                  <button class="ui-button" type="button" data-size="xs" data-variant="quiet" id="ink-auto" aria-pressed="true" data-i18n="prep.inkAuto">Auto</button>
+                </div>
+                <input class="ui-range" id="ink" type="range" min="1" max="254" step="1" value="128" aria-describedby="ink-ends">
+                <div class="range-ends" id="ink-ends">
+                  <span data-i18n="prep.less">Less</span>
+                  <span data-i18n="prep.more">More</span>
+                </div>
+              </div>
+              <label class="ui-switch-row prep-switch" id="specks-row" hidden>
+                <span data-i18n="prep.specks">Remove specks</span>
+                <input class="ui-switch" type="checkbox" role="switch" id="prep-specks">
+              </label>
+            </section>
+
+            <section class="prep-section prep-enlarge" aria-labelledby="prep-enlarge">
+              <h3 class="prep-label" id="prep-enlarge" data-i18n="prep.enlarge">Enlarge</h3>
+              <div class="ui-segmented enlarge-switch" role="radiogroup" aria-labelledby="prep-enlarge">
+                <label class="ui-segment"><input type="radio" name="enlarge" value="1" checked><span class="ui-segment-face">1×</span></label>
+                <label class="ui-segment"><input type="radio" name="enlarge" value="2"><span class="ui-segment-face">2×</span></label>
+                <label class="ui-segment"><input type="radio" name="enlarge" value="4"><span class="ui-segment-face">4×</span></label>
+              </div>
+            </section>
+          </fieldset>
         </div>
       </section>
 
@@ -213,7 +301,6 @@
         <div class="result-empty" id="result-empty">
           <span class="result-mark" aria-hidden="true">字</span>
           <p data-i18n="empty.title">No reading yet.</p>
-          <p class="result-hint" data-i18n="empty.hint">The sequence appears here after a glyph is read.</p>
         </div>
 
         <div class="result-body" id="result-body" hidden>

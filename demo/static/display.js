@@ -134,5 +134,5 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
     }, 1600);
   });
 
-  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announceReading: reading => { els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) }); } };
+  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announce: text => { els.liveStatus.textContent = text; }, announceReading: reading => { els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) }); } };
 }
