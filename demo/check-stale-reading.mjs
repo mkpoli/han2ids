@@ -23,6 +23,8 @@ function setup() {
       event.target ??= this;
       for (const handler of this.listeners[type] ?? []) handler(event);
     }
+    get href() { return this.getAttribute('href'); }
+    set href(value) { this.setAttribute('href', value); }
     setAttribute(name, value) { this.attributes[name] = value; }
     removeAttribute(name) { delete this.attributes[name]; }
     getAttribute(name) { return this.attributes[name] ?? null; }
@@ -86,6 +88,7 @@ test('crop mutation immediately removes readings and rejects old success and err
   for (const failure of [false, true]) {
     const app = prepare();
     app.showReadings(reading('old'));
+    assert.equal(app.element('open-workshop').getAttribute('href'), 'https://ids.mkpo.li/?ids=old');
     app.readNow();
     await tick();
     app.setCrop({ x: 0.2, y: 0.1, w: 0.5, h: 0.5 });
