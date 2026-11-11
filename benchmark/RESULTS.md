@@ -1,6 +1,6 @@
 # Glyph-to-IDS benchmark
 
-These scores measure agreement with **unreviewed** BabelStone-derived labels. They do not establish whether an IDS describes the glyph in the image. [The protocol](PROTOCOL.md) defines the evaluator, datasets and review procedure.
+These scores measure agreement with BabelStone-derived labels, **unreviewed** outside a 181-image [reviewed sample](#reviewed-sample). Elsewhere they do not establish whether an IDS describes the glyph in the image. [The protocol](PROTOCOL.md) defines the evaluator, datasets and review procedure.
 
 ## Clean renders
 
@@ -18,6 +18,21 @@ The clean track contains 8,730 images of 4,752 characters in Noto Serif CJK JP, 
 The expanded range applies six positional component-family rules and bounded, selective expansion using a pinned CHISE snapshot. The lower end counts unresolved comparisons as misses; the upper end counts them as matches. It is a sensitivity to these rules, not a bound on visual correctness. The source has 3,999 unparseable and 511 ambiguous definitions; 241 pairs or larger groups of distinct components have the same single-level normalized definition. The upper and lower ends differ on 562 v0.4 images and 882 GlyphStudio images. Human review is needed to determine which alternatives describe each glyph.
 
 For v0.4 versus GlyphStudio, the lower-end difference is **1.09 percentage points**; the paired character-cluster bootstrap interval is **−0.09 to 2.26 points** (v0.4 minus GlyphStudio). This interval describes sampling variation under the stated rules and data; it does not validate the labels or establish practical equivalence.
+
+## Reviewed sample
+
+A seed-20261112 random sample of 100 clean-track characters, 181 images, was checked by eye. One reviewer saw each image beside its source label, without model outputs, and accepted all 181 in a single three-minute pass on 2026-11-12. No label changed, so the table restricts the clean-track scores to the sample. The [reviewed bundle](results/reviewed/bundle.json) holds the references, predictions and scores, and the [review record](results/reviewed/review/review.json) binds the [annotations](results/reviewed/review/annotations.jsonl) to the packet; the images are in the clean bundle.
+
+| Reader | Exact | Same-axis structure | Component family | Expanded sensitivity | Component F1 | Tree similarity |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| han2ids font pilot | 51.67% | 51.67% | 51.67% | 52.67–63.67% | 74.36% | 80.91% |
+| han2ids v0.1 | 91.50% | 91.50% | 92.83% | 95.83–97.00% | 95.36% | 96.41% |
+| han2ids v0.2 | 80.50% | 81.50% | 81.50% | 85.67–91.00% | 89.56% | 91.91% |
+| han2ids v0.3 | 81.00% | 81.00% | 81.00% | 86.50–91.33% | 89.06% | 91.54% |
+| han2ids v0.4 | 82.67% | 82.67% | 82.67% | 86.17–90.67% | 90.01% | 92.48% |
+| GlyphStudio 0.1.0 | 50.00% | 51.00% | 58.67% | 80.67–91.67% | 71.78% | 76.99% |
+
+For v0.4 versus GlyphStudio, the same-axis difference is **31.67 percentage points**, with a paired character-cluster bootstrap interval of **21.00 to 42.67 points**. The lower-end expanded difference is **5.50 points**, interval **−3.50 to 15.00 points**. The review confirms the preferred label only; it lists no alternative descriptions, so the expanded range stays a sensitivity to the rules. The accepted label for U+49B3 in IPAmj Mincho is `⿵門鄉`, while the [font variant notes](../docs/font-variants.md) record that face as printing a different form of 鄉.
 
 ## Matched style track
 
@@ -47,7 +62,7 @@ A seed-20261112 random sample contains 256 characters and 477 clean images. Each
 
 ## Conditions and limitations
 
-- **References:** All 10,076 clean and style images have unreviewed labels. The evaluation uses the source manifest's first usable IDS; a regional sequence and the visible font form may differ. GlyphStudio's enhanced IDS notation is not fully supported: on the clean track 47 top-one outputs are unsupported and nine malformed under this evaluator. Unsupported outputs remain in the score denominator and are reported separately.
+- **References:** Of the 10,076 clean and style images, 181 have labels accepted by one reviewer; the rest are unreviewed. The evaluation uses the source manifest's first usable IDS; a regional sequence and the visible font form may differ. GlyphStudio's enhanced IDS notation is not fully supported: on the clean track 47 top-one outputs are unsupported and nine malformed under this evaluator. Unsupported outputs remain in the score denominator and are reported separately.
 - **Training exposure:** Noto, IPAmj and Jigmo were training families for han2ids v0.3 and v0.4; test characters were held out in that split. The v0.3 vocabulary was assembled from all label records. The repository's [leak audit](../docs/leak.md) found 89.9% of the current test characters in v0.1 training. Font and character exposure for GlyphStudio is unknown. A new typeface or render alone does not prove held-out exposure.
 - **Decoding:** Full-track han2ids results use batched greedy em-box decoding without TTA; GlyphStudio uses its shipped ensemble beam and canonicalization. They are application configurations with different compute budgets. Batched han2ids confidence values are not comparable to single-image CLI scores. The font-v0.1 and v0.2 checkpoints are byte-identical; v0.4a and v0.4 are also byte-identical.
 - **Partial credit:** Component F1 compares component multisets; it ignores placement. Ordered tree similarity counts insertions and deletions as one and substitutions as two, allowing deletion with child promotion. Neither value is a probability of a correct glyph. Same-axis regrouping deliberately preserves order while ignoring grouping and proportions.
