@@ -1,6 +1,7 @@
 import { DEFAULT_LOCALE, LOCALES, matchLocale } from './i18n.js';
 import { analyseImage } from './detect.js';
 import { IDC, validIds } from './ids.js';
+import * as store from './store.js';
 
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
@@ -105,6 +106,85 @@ let pumping = false;
 
 function uid() {
   return crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+/* ---------- Local storage of the review set ---------- */
+
+const dirty = { sources: new Set(), items: new Set(), dropItems: new Set(), order: false };
+let saveTimer = 0;
+let storage = true;
+
+function mark({ source, item, items, order, dropItem } = {}) {
+  if (source) dirty.sources.add(source.id);
+  if (item) dirty.items.add(item.id);
+  for (const entry of items ?? []) dirty.items.add(entry.id);
+  if (dropItem) {
+    dirty.dropItems.add(dropItem);
+    dirty.items.delete(dropItem);
+  }
+  if (order) dirty.order = true;
+  if (!storage || saveTimer) return;
+  saveTimer = setTimeout(flush, 350);
+}
+
+async function flush() {
+  saveTimer = 0;
+  if (!storage) return;
+  const payload = {
+    sources: [...dirty.sources].map(id => state.sources.get(id)).filter(Boolean).map(packSource),
+    items: [...dirty.items].map(id => byId(id)).filter(Boolean).map(packItem),
+    dropItems: [...dirty.dropItems],
+    order: dirty.order ? state.items.map(item => item.id) : null,
+  };
+  dirty.sources.clear();
+  dirty.items.clear();
+  dirty.dropItems.clear();
+  dirty.order = false;
+  try {
+    await store.save(payload);
+  } catch (error) {
+    storage = false;
+    console.warn('The review set could not be saved in this browser.', error);
+  }
+}
+
+function packSource(source) {
+  const { url, ...rest } = source;
+  return rest;
+}
+
+function packItem(item) {
+  const { thumbUrl, seq, ...rest } = item;
+  return { ...rest, phase: item.phase === 'reading' ? 'queued' : item.phase };
+}
+
+async function restore() {
+  let saved;
+  try {
+    saved = await store.load();
+  } catch (error) {
+    storage = false;
+    console.warn('The review set could not be read from this browser.', error);
+    return;
+  }
+  if (!saved.items.length || state.items.length) return;
+
+  for (const source of saved.sources) state.sources.set(source.id, { ...source, url: '' });
+  const order = new Map(saved.order.map((id, at) => [id, at]));
+  state.items = saved.items
+    .filter(item => state.sources.has(item.sourceId))
+    .sort((first, second) => (order.get(first.id) ?? 1e9) - (order.get(second.id) ?? 1e9))
+    .map(item => ({
+      ...item,
+      phase: item.phase === 'reading' ? 'queued' : item.phase,
+      thumbUrl: item.thumb ? URL.createObjectURL(item.thumb) : '',
+      seq: 0,
+    }));
+  if (!state.items.length) return;
+  state.margin = state.items[0].margin;
+  selectItem(state.items[0].id);
+  renderQueue();
+  renderRun();
 }
 
 /* ---------- Theme ---------- */
@@ -410,6 +490,7 @@ async function loadFiles(files) {
     }
     const items = buildItems(source, source.boxes);
     state.items.push(...items);
+    mark({ source, items, order: true });
     if (!first) {
       first = items[0];
       selectItem(first.id);
@@ -496,6 +577,8 @@ function buildItems(source, boxes) {
     edited: false,
     note: '',
     status: 'review',
+    created: Date.now(),
+    updated: Date.now(),
     phase: 'queued',
     errorKey: null,
     thumb: null,
@@ -524,6 +607,8 @@ function setStatusOf(item, status) {
   const at = before.findIndex(entry => entry.id === item.id);
   const decided = item.status !== status;
   item.status = decided ? status : 'review';
+  item.updated = Date.now();
+  mark({ item });
   updateRow(item);
 
   const after = visibleItems();
@@ -699,6 +784,8 @@ function setCrop(crop, delay = READ_DELAY) {
       touch(item);
     }
   }
+  item.updated = Date.now();
+  mark({ item });
   renderCrop();
   scheduleRead(delay);
 }
@@ -807,6 +894,7 @@ els.margin.addEventListener('input', () => {
   const item = selectedItem();
   if (!item) return;
   item.margin = state.margin;
+  mark({ item });
   const source = state.sources.get(item.sourceId);
   setCrop(padBox(item.box, item.margin, source));
 });
@@ -855,10 +943,14 @@ async function quickCut() {
 
   const at = state.items.findIndex(item => item.sourceId === source.id);
   const keep = state.items.filter(item => item.sourceId !== source.id);
-  for (const item of itemsOf(source.id)) dropItem(item);
+  for (const item of itemsOf(source.id)) {
+    dropItem(item);
+    mark({ dropItem: item.id });
+  }
   const items = buildItems(source, found.boxes);
   keep.splice(at < 0 ? keep.length : at, 0, ...items);
   state.items = keep;
+  mark({ source, items, order: true });
   selectItem(items[0].id);
   renderQueue();
   await thumbnails(source, items);
@@ -1049,6 +1141,13 @@ els.queueClear.addEventListener('click', () => clearAll());
 
 function clearAll() {
   cancelRun();
+  clearTimeout(saveTimer);
+  saveTimer = 0;
+  dirty.sources.clear();
+  dirty.items.clear();
+  dirty.dropItems.clear();
+  dirty.order = false;
+  if (storage) store.clear().catch(error => console.warn('The review set could not be cleared.', error));
   for (const item of state.items) dropItem(item);
   for (const source of state.sources.values()) if (source.url) URL.revokeObjectURL(source.url);
   for (const entry of bitmaps.values()) entry.bitmap.close?.();
@@ -1141,6 +1240,8 @@ async function readItem(item) {
     item.readings = readings;
     item.phase = 'done';
     if (!item.edited) item.final = readings[0].ids;
+    item.updated = Date.now();
+    mark({ item });
     touch(item);
     if (item.id === state.selectedId) {
       els.liveStatus.textContent = t('live.read', {
@@ -1158,6 +1259,7 @@ async function readItem(item) {
 
 function fail(item, key) {
   item.phase = 'error';
+  mark({ item });
   item.errorKey = key;
   touch(item);
 }
@@ -1256,6 +1358,7 @@ async function makeThumb(item, bitmap, source) {
   if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
   item.thumb = blob;
   item.thumbUrl = URL.createObjectURL(blob);
+  mark({ item });
 }
 
 function showModelProgress(fraction) {
@@ -1358,6 +1461,8 @@ els.finalIds.addEventListener('input', () => {
   if (!item) return;
   item.final = els.finalIds.value;
   item.edited = true;
+  item.updated = Date.now();
+  mark({ item });
   updateRow(item);
   renderResult();
 });
@@ -1366,6 +1471,8 @@ els.itemNote.addEventListener('input', () => {
   const item = selectedItem();
   if (!item) return;
   item.note = els.itemNote.value;
+  item.updated = Date.now();
+  mark({ item });
   updateRow(item);
 });
 
@@ -1473,3 +1580,7 @@ els.copyIds.addEventListener('click', async () => {
     renderResult();
   }, 1600);
 });
+
+/* ---------- Start ---------- */
+
+restore();
