@@ -235,7 +235,7 @@ body {
   gap: var(--ui-space-2xs);
 }
 
-.queue-clear {
+.queue-export {
   margin-inline-start: auto;
 }
 

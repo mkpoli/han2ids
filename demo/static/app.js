@@ -5,6 +5,9 @@ import * as store from './store.js';
 
 const MIN_CUT = 0.02;
 const READ_DELAY = 280;
+const EXPORT_VERSION = 1;
+const MODEL = 'han2ids v0.4 int8 ONNX';
+const DECODE = 'greedy, operand-stack mask';
 const THUMB = 96;
 const BITMAPS = 4;
 
@@ -35,6 +38,7 @@ const els = {
   queueTotal: document.querySelector('#queue-total'),
   addImages: document.querySelector('#add-images'),
   addFolder: document.querySelector('#add-folder'),
+  queueExport: document.querySelector('#queue-export'),
   queueClear: document.querySelector('#queue-clear'),
   itemSearch: document.querySelector('#item-search'),
   queueFilters: document.querySelector('#queue-filters'),
@@ -1136,6 +1140,56 @@ els.queueToggle.addEventListener('click', () => {
   if (pumping || state.importing) cancelRun();
   else readQueued();
 });
+
+els.queueExport.addEventListener('click', () => exportJson());
+
+function exportJson() {
+  if (!state.items.length) return;
+  const payload = {
+    format: 'han2ids-ocr',
+    version: EXPORT_VERSION,
+    exported: new Date().toISOString(),
+    model: MODEL,
+    decode: DECODE,
+    items: state.items.map(item => {
+      const source = state.sources.get(item.sourceId);
+      return {
+        id: item.id,
+        source: { name: source?.name ?? '', width: source?.width ?? 0, height: source?.height ?? 0 },
+        index: item.index,
+        box: item.box,
+        crop: { ...item.crop, pixels: source ? cropPixels(item, source) : null },
+        margin: item.margin,
+        candidates: item.readings.map(reading => ({
+          ids: reading.ids,
+          score: reading.score,
+          valid: reading.valid,
+        })),
+        final: item.final,
+        valid: validIds(item.final),
+        edited: item.edited,
+        status: item.status,
+        note: item.note,
+        created: new Date(item.created ?? Date.now()).toISOString(),
+        updated: new Date(item.updated ?? Date.now()).toISOString(),
+      };
+    }),
+  };
+
+  const stamp = new Date();
+  const pad = value => String(value).padStart(2, '0');
+  const name = `han2ids-ocr-${stamp.getFullYear()}${pad(stamp.getMonth() + 1)}${pad(stamp.getDate())}`
+    + `-${pad(stamp.getHours())}${pad(stamp.getMinutes())}.json`;
+  const url = URL.createObjectURL(new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: 'application/json' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = name;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+  els.liveStatus.textContent = t('live.exported', { count: state.items.length });
+}
 
 els.queueClear.addEventListener('click', () => clearAll());
 
