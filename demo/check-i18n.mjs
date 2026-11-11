@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Checks that every locale has the same keys and that the page uses only those keys.
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { DEFAULT_LOCALE, LOCALES } from './static/i18n.js'
 
 const failures = []
@@ -27,13 +29,25 @@ for (const [locale, entry] of Object.entries(LOCALES)) {
 }
 
 const html = readFileSync(new URL('./static/index.html', import.meta.url), 'utf8')
-const script = readFileSync(new URL('./static/app.js', import.meta.url), 'utf8')
+const staticDir = fileURLToPath(new URL('./static/', import.meta.url))
+function* modules(dir) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'ort' || entry.name === 'design') continue
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) yield* modules(path)
+    else if (entry.name.endsWith('.js') && path !== join(staticDir, 'i18n.js')) yield path
+  }
+}
 const used = new Set()
 for (const match of html.matchAll(/data-i18n(?:-aria|-title|-alt)?="([^"]+)"/g)) used.add(match[1])
-for (const match of script.matchAll(/(?<![A-Za-z0-9_$])t\('([^']+)'/g)) used.add(match[1])
-for (const match of script.matchAll(/(?:titleKey|detailKey): '([^']+)'/g)) used.add(match[1])
-// Keys chosen in ternaries, such as the network/read error pair, still appear as literals.
-for (const key of keys) if (script.includes(`'${key}'`)) used.add(key)
+for (const path of modules(staticDir)) {
+  const script = readFileSync(path, 'utf8')
+  for (const match of script.matchAll(/(?<![A-Za-z0-9_$])(?:t|setStatus)\(\s*['"]([^'"]+)['"]/g)) used.add(match[1])
+  for (const match of script.matchAll(/(?:titleKey|detailKey):\s*['"]([^'"]+)['"]/g)) used.add(match[1])
+  // Also catch keys chosen in ternaries, including misspellings.
+  for (const match of script.matchAll(/['"]((?:error\.[\w.]+\.(?:title|detail)|status\.[\w.]+))['"]/g)) used.add(match[1])
+  for (const key of keys) if (script.includes(`'${key}'`) || script.includes(`"${key}"`)) used.add(key)
+}
 for (const key of used) {
   if (!(key in base)) failures.push(`page uses unknown key ${key}`)
 }
