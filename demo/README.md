@@ -47,4 +47,5 @@ per-file limit. ONNX Runtime Web is MIT; the model export comes from `scripts/ex
 ```sh
 uv run --extra dev pytest
 node demo/check-i18n.mjs
+node --test demo/check-stale-reading.mjs
 ```

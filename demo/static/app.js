@@ -510,24 +510,33 @@ function applyAutoCut(delay = READ_DELAY) {
 }
 
 function setCrop(crop, delay = READ_DELAY) {
-  state.crop = {
+  const next = {
     x: clamp(crop.x, 0, 1),
     y: clamp(crop.y, 0, 1),
     w: clamp(crop.w, MIN_CUT, 1),
     h: clamp(crop.h, MIN_CUT, 1),
   };
-  state.crop.w = Math.min(state.crop.w, 1 - state.crop.x);
-  state.crop.h = Math.min(state.crop.h, 1 - state.crop.y);
-  if (state.crop.w < MIN_CUT) {
-    state.crop.w = MIN_CUT;
-    state.crop.x = Math.max(0, 1 - MIN_CUT);
+  next.w = Math.min(next.w, 1 - next.x);
+  next.h = Math.min(next.h, 1 - next.y);
+  if (next.w < MIN_CUT) {
+    next.w = MIN_CUT;
+    next.x = Math.max(0, 1 - MIN_CUT);
   }
-  if (state.crop.h < MIN_CUT) {
-    state.crop.h = MIN_CUT;
-    state.crop.y = Math.max(0, 1 - MIN_CUT);
+  if (next.h < MIN_CUT) {
+    next.h = MIN_CUT;
+    next.y = Math.max(0, 1 - MIN_CUT);
   }
-  renderCrop();
+  updateCrop(next);
   scheduleRead(delay);
+}
+
+function updateCrop(next) {
+  if (['x', 'y', 'w', 'h'].every(key => next[key] === state.crop[key])) return false;
+  state.crop = next;
+  state.queued = false;
+  resetResult();
+  renderCrop();
+  return true;
 }
 
 function renderCrop() {
@@ -545,7 +554,7 @@ function clamp(value, min, max) {
 /* ---------- Pointer and keyboard crop controls ---------- */
 
 els.cropBox.addEventListener('pointerdown', event => {
-  if (event.button !== 0 || !state.natural.width) return;
+  if (event.button !== 0 || !state.natural.width || state.drag) return;
   const handle = event.target.closest('[data-handle]');
   const rect = els.imageWrap.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
@@ -562,13 +571,12 @@ els.cropBox.addEventListener('pointerdown', event => {
   state.drag.target.setPointerCapture?.(event.pointerId);
   els.imageWrap.classList.add('is-cropping');
   els.cropBox.focus({ preventScroll: true });
-  clearTimeout(state.readTimer);
   event.preventDefault();
 });
 
 window.addEventListener('pointermove', event => {
   const drag = state.drag;
-  if (!drag) return;
+  if (!drag || event.pointerId !== drag.pointerId) return;
   const rect = els.imageWrap.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
 
@@ -594,23 +602,25 @@ window.addEventListener('pointermove', event => {
     next = { x: left, y: top, w: right - left, h: bottom - top };
   }
 
-  state.crop = next;
-  state.drag.moved = true;
-  renderCrop();
+  if (updateCrop(next)) drag.moved = true;
   event.preventDefault();
 });
 
-function endDrag() {
-  if (!state.drag) return;
+function endDrag(event) {
+  if (!state.drag || event.pointerId !== state.drag.pointerId) return;
   const { target, pointerId, moved } = state.drag;
-  target.releasePointerCapture?.(pointerId);
   state.drag = null;
+  if (target.hasPointerCapture?.(pointerId)) target.releasePointerCapture(pointerId);
   els.imageWrap.classList.remove('is-cropping');
-  if (moved) scheduleRead();
+  if (moved || state.queued) {
+    state.queued = false;
+    scheduleRead();
+  }
 }
 
 window.addEventListener('pointerup', endDrag);
 window.addEventListener('pointercancel', endDrag);
+els.cropBox.addEventListener('lostpointercapture', endDrag);
 
 els.cropBox.addEventListener('keydown', event => {
   const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
@@ -676,7 +686,7 @@ function loadInference() {
 
 async function readNow() {
   if (!state.natural.width) return;
-  if (state.running) {
+  if (state.running || state.drag) {
     state.queued = true;
     return;
   }
@@ -728,7 +738,7 @@ async function readNow() {
     });
   } finally {
     state.running = false;
-    if (state.queued) {
+    if (state.queued && !state.drag) {
       state.queued = false;
       readNow();
     }
@@ -897,6 +907,8 @@ function resetResult() {
   els.resultError.hidden = true;
   els.candidates.hidden = true;
   els.idsText.replaceChildren();
+  els.candidateList.replaceChildren();
+  els.openWorkshop.removeAttribute('href');
   els.liveStatus.textContent = '';
   setBusy(false);
 }
@@ -957,9 +969,11 @@ function showError({ titleKey, detailKey }) {
 els.copyIds.addEventListener('click', async () => {
   const reading = state.readings[0];
   if (!reading) return;
+  const request = state.requestSeq;
   try {
     await navigator.clipboard.writeText(reading.ids);
   } catch {
+    if (request !== state.requestSeq) return;
     const area = document.createElement('textarea');
     area.value = reading.ids;
     area.setAttribute('readonly', '');
@@ -970,10 +984,12 @@ els.copyIds.addEventListener('click', async () => {
     document.execCommand('copy');
     area.remove();
   }
+  if (request !== state.requestSeq) return;
   state.copied = true;
   updateReadingMeta();
   els.liveStatus.textContent = t('live.copied');
   setTimeout(() => {
+    if (state.readings[0] !== reading) return;
     state.copied = false;
     updateReadingMeta();
   }, 1600);
