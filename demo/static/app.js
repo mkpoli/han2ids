@@ -706,6 +706,7 @@ async function readNow() {
   }
 
   const firstLoad = !state.modelLoaded;
+  let active = true;
   if (firstLoad) {
     state.loading = true;
     state.progress = 0;
@@ -717,13 +718,13 @@ async function readNow() {
     const { recognize } = await loadInference();
     const readings = await recognize(input, {
       onProgress(fraction) {
-        if (request !== state.requestSeq || !firstLoad || !state.loading) return;
+        if (!active || !firstLoad || !state.loading) return;
         state.progress = Math.max(state.progress, fraction);
         showModelProgress(state.progress);
       },
     });
-    if (request !== state.requestSeq) return;
     state.modelLoaded = true;
+    if (request !== state.requestSeq) return;
     state.loading = false;
     hideModelProgress();
     showReadings(readings);
@@ -737,7 +738,13 @@ async function readNow() {
       detailKey: modelError ? 'error.model.detail' : 'error.read.detail',
     });
   } finally {
+    active = false;
     state.running = false;
+    if (request !== state.requestSeq) {
+      state.loading = false;
+      hideModelProgress();
+      setBusy(false);
+    }
     if (state.queued && !state.drag) {
       state.queued = false;
       readNow();
@@ -898,10 +905,11 @@ function resetResult() {
   state.readings = [];
   state.error = null;
   state.copied = false;
-  state.loading = false;
-  state.progress = 0;
+  if (!state.loading) {
+    state.progress = 0;
+    hideModelProgress();
+  }
   state.requestSeq += 1;
-  hideModelProgress();
   els.resultBody.hidden = true;
   els.resultEmpty.hidden = false;
   els.resultError.hidden = true;
@@ -910,7 +918,7 @@ function resetResult() {
   els.candidateList.replaceChildren();
   els.openWorkshop.removeAttribute('href');
   els.liveStatus.textContent = '';
-  setBusy(false);
+  setBusy(state.loading);
 }
 
 function setBusy(busy) {

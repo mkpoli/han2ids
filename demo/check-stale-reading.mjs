@@ -68,7 +68,7 @@ function setup() {
   const source = readFileSync(new URL('./static/app.js', import.meta.url), 'utf8')
     .replace(/^import .*?;\s*/, '');
   context.calls = calls;
-  runInNewContext(`${source}\nmakeModelInput = () => new Float32Array(1);\nloadInference = async () => ({ recognize: () => new Promise((resolve, reject) => calls.push({ resolve, reject })) });\nglobalThis.app = { state, setCrop, readNow, showReadings, resetResult };`, context);
+  runInNewContext(`${source}\nmakeModelInput = () => new Float32Array(1);\nloadInference = async () => ({ recognize: (input, options) => new Promise((resolve, reject) => calls.push({ resolve, reject, ...options })) });\nglobalThis.app = { state, setCrop, readNow, showReadings, resetResult };`, context);
   return { ...context, ...context.app, element, calls, clipboard, timers,
     flushTimers() { const pending = [...timers.values()]; timers.clear(); for (const fn of pending) fn(); },
   };
@@ -108,6 +108,55 @@ test('crop mutation immediately removes readings and rejects old success and err
     assert.equal(app.state.readings[0].ids, 'fresh');
     assert.equal(app.element('result-body').hidden, false);
   }
+});
+
+test('model download progress survives crop changes while stale results are rejected', async () => {
+  const app = prepare();
+  app.readNow();
+  await tick();
+  app.calls[0].onProgress(0.2);
+  assert.equal(app.element('model-progress-text').textContent, '20%');
+  app.setCrop({ x: 0.2, y: 0.1, w: 0.5, h: 0.5 });
+  assert.equal(app.element('model-load').hidden, false);
+  assert.equal(app.state.loading, true);
+  assert.equal(app.element('reading-status-text').textContent, 'status.loading');
+  app.calls[0].onProgress(0.5);
+  assert.equal(app.element('model-progress-text').textContent, '50%');
+  app.flushTimers();
+  assert.equal(app.state.queued, true);
+  app.calls[0].resolve(reading('stale'));
+  await tick();
+  assert.equal(app.state.readings.length, 0);
+  assert.equal(app.state.modelLoaded, true);
+  assert.equal(app.calls.length, 2);
+  assert.equal(app.element('model-load').hidden, true);
+  app.calls[1].resolve(reading('fresh'));
+  await tick();
+  assert.equal(app.state.readings[0].ids, 'fresh');
+});
+
+test('stale model load failure clears progress and a queued retry starts cleanly', async () => {
+  const app = prepare();
+  app.readNow();
+  await tick();
+  app.calls[0].onProgress(0.3);
+  app.setCrop({ x: 0.2, y: 0.1, w: 0.5, h: 0.5 });
+  app.flushTimers();
+  app.calls[0].reject(Object.assign(new Error('download failed'), { name: 'ModelLoadError' }));
+  await tick();
+  assert.equal(app.element('result-error').hidden, true);
+  assert.equal(app.state.readings.length, 0);
+  assert.equal(app.calls.length, 2);
+  assert.equal(app.state.loading, true);
+  assert.equal(app.element('model-progress-text').textContent, '0%');
+  app.calls[0].onProgress(0.9);
+  assert.equal(app.element('model-progress-text').textContent, '0%');
+  app.calls[1].onProgress(0.4);
+  assert.equal(app.element('model-progress-text').textContent, '40%');
+  app.calls[1].resolve(reading('fresh'));
+  await tick();
+  assert.equal(app.state.readings[0].ids, 'fresh');
+  assert.equal(app.element('model-load').hidden, true);
 });
 
 test('drag holds queued inference until release and invalidates on actual movement', async () => {
