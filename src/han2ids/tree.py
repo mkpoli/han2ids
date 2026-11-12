@@ -1,6 +1,8 @@
 """Normalise IDS trees that only differ in how equal-axis operators are nested."""
 from __future__ import annotations
 
+from .tokenizer import split
+
 ARITY = {
     "⿰": 2, "⿱": 2, "⿲": 3, "⿳": 3, "⿴": 2, "⿵": 2, "⿶": 2, "⿷": 2,
     "⿸": 2, "⿹": 2, "⿺": 2, "⿻": 2, "⿼": 2, "⿽": 2, "⿾": 1, "⿿": 1,
@@ -10,7 +12,7 @@ VERTICAL = {"⿱", "⿳"}
 HORIZONTAL = {"⿰", "⿲"}
 
 
-def parse(text: str, at: int = 0):
+def parse(text: list[str], at: int = 0):
     char = text[at]
     if char not in ARITY:
         return char, at + 1
@@ -58,8 +60,9 @@ def render(node) -> str:
 
 def normalise(text: str) -> str:
     try:
-        tree, end = parse(text)
-        if end != len(text):
+        tokens = split(text)
+        tree, end = parse(tokens)
+        if end != len(tokens):
             return text
         return render(flatten(tree))
     except (IndexError, RecursionError):

@@ -5,7 +5,7 @@ import math
 
 import torch
 
-from .tokenizer import BOS, EOS, PAD
+from .tokenizer import BOS, EOS, PAD, split
 
 ARITY = {
     "⿰": 2, "⿱": 2, "⿲": 3, "⿳": 3, "⿴": 2, "⿵": 2, "⿶": 2, "⿷": 2,
@@ -32,7 +32,7 @@ def valid_ids(text: str) -> bool:
     if not text or text[0] not in ARITY:
         return False
     stack = [1]
-    for char in text:
+    for char in split(text):
         if not advance(stack, char):
             return False
     return not stack
