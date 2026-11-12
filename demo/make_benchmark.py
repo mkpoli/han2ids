@@ -63,8 +63,11 @@ def main() -> int:
         counts = next(iter(scores["runs"].values()))["aggregate"]
         tracks.append({"id": track, "images": counts["sample_count"], "characters": counts["character_count"],
                        "reviewed": track == "reviewed", "rows": rows})
+    summary = json.loads((RESULTS / "faces" / "summary.json").read_text(encoding="utf-8"))
+    faces = [{"name": face["name"], "characters": face["characters"],
+              "scores": face["agreement"]} for face in summary["faces"]]
     order = sorted(readers.values(), key=lambda who: (who["group"] != "han2ids", who["id"] != "pilot", who["id"]))
-    TARGET.write_text(json.dumps({"readers": order, "tracks": tracks}, ensure_ascii=False, indent=1) + "\n")
+    TARGET.write_text(json.dumps({"readers": order, "tracks": tracks, "faces": faces}, ensure_ascii=False, indent=1) + "\n")
     print(f"{TARGET}\t{len(order)} readers, {len(tracks)} tracks")
     return 0
 

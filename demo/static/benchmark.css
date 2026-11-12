@@ -197,6 +197,39 @@
   transition: inset-inline-start 0.25s ease, inline-size 0.25s ease;
 }
 
+.bench-tick {
+  position: absolute;
+  inset-block: 0 6px;
+  inline-size: 2px;
+  margin-inline-start: -1px;
+  background: var(--ui-color-ink);
+  box-shadow: 0 0 0 1px var(--ui-color-surface);
+}
+
+.bench-tick-key {
+  inline-size: 2px;
+  block-size: 10px;
+  background: var(--ui-color-ink);
+}
+
+.bench-key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-xs);
+}
+
+.bench-faces {
+  grid-column: 1 / -1;
+}
+
+.bench-faces .bench-row {
+  --bench-label: 220px;
+}
+
+.bench-faces .bench-axis {
+  --bench-label: 220px;
+}
+
 .bench-value {
   color: var(--ui-color-ink);
   font-size: var(--ui-text-sm);

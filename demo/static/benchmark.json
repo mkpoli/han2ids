@@ -31,6 +31,12 @@
    "overlap": false
   },
   {
+   "id": "v0.5",
+   "name": "han2ids v0.5",
+   "group": "han2ids",
+   "overlap": false
+  },
+  {
    "id": "glyphstudio",
    "name": "GlyphStudio 0.1.0",
    "group": "external",
@@ -109,6 +115,17 @@
       82.73,
       90.21
      ]
+    },
+    "v0.5": {
+     "exact": 83.77,
+     "sameAxis": 84.07,
+     "family": 84.24,
+     "f1": 91.31,
+     "tree": 93.18,
+     "expanded": [
+      85.98,
+      91.95
+     ]
     }
    }
   },
@@ -183,6 +200,17 @@
       86.17,
       90.67
      ]
+    },
+    "v0.5": {
+     "exact": 83.5,
+     "sameAxis": 83.5,
+     "family": 83.5,
+     "f1": 89.84,
+     "tree": 92.04,
+     "expanded": [
+      86.67,
+      91.17
+     ]
     }
    }
   },
@@ -256,6 +284,17 @@
      "expanded": [
       88.19,
       93.98
+     ]
+    },
+    "v0.5": {
+     "exact": 90.64,
+     "sameAxis": 90.64,
+     "family": 90.64,
+     "f1": 94.28,
+     "tree": 95.46,
+     "expanded": [
+      91.31,
+      95.1
      ]
     }
    }
@@ -337,7 +376,109 @@
       90.36,
       97.14
      ]
+    },
+    "v0.5": {
+     "exact": 84.11,
+     "sameAxis": 84.11,
+     "family": 84.11,
+     "f1": 91.15,
+     "tree": 92.94,
+     "top5": 91.34,
+     "expanded": [
+      93.1,
+      96.61
+     ]
     }
+   }
+  }
+ ],
+ "faces": [
+  {
+   "name": "Hiragino Mincho ProN W3",
+   "characters": 536,
+   "scores": {
+    "v0.4": 91.42,
+    "v0.5": 92.35
+   }
+  },
+  {
+   "name": "Yu Mincho",
+   "characters": 636,
+   "scores": {
+    "v0.4": 90.88,
+    "v0.5": 91.98
+   }
+  },
+  {
+   "name": "MS Mincho",
+   "characters": 620,
+   "scores": {
+    "v0.4": 91.13,
+    "v0.5": 93.23
+   }
+  },
+  {
+   "name": "BIZ UDMincho",
+   "characters": 465,
+   "scores": {
+    "v0.4": 91.4,
+    "v0.5": 92.9
+   }
+  },
+  {
+   "name": "HG Mincho E",
+   "characters": 465,
+   "scores": {
+    "v0.4": 89.46,
+    "v0.5": 91.18
+   }
+  },
+  {
+   "name": "MingLiU",
+   "characters": 1345,
+   "scores": {
+    "v0.4": 87.06,
+    "v0.5": 91.38
+   }
+  },
+  {
+   "name": "MingLiU-ExtB",
+   "characters": 1500,
+   "scores": {
+    "v0.4": 70.87,
+    "v0.5": 75.6
+   }
+  },
+  {
+   "name": "TW-Sung",
+   "characters": 1344,
+   "scores": {
+    "v0.4": 88.32,
+    "v0.5": 91.44
+   }
+  },
+  {
+   "name": "TW-Sung-Ext-B",
+   "characters": 1500,
+   "scores": {
+    "v0.4": 69.87,
+    "v0.5": 75.47
+   }
+  },
+  {
+   "name": "Noto Serif CJK SC",
+   "characters": 1453,
+   "scores": {
+    "v0.4": 92.5,
+    "v0.5": 94.01
+   }
+  },
+  {
+   "name": "Noto Serif CJK TC",
+   "characters": 1453,
+   "scores": {
+    "v0.4": 91.4,
+    "v0.5": 93.32
    }
   }
  ]

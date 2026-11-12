@@ -24,7 +24,7 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `static/reading.js`, `static/display.js` — reading lifecycle and results.
 - `static/prepare.js`, `static/model-input.js` — the frame the model reads, from the cut's pixels.
 - `static/benchmark.html`, `static/benchmark.js`, `static/benchmark.css` — the benchmark page, linked from the header.
-- `make_benchmark.py` — writes `static/benchmark.json` from the scores in `benchmark/results/`; run it after publishing new scores.
+- `make_benchmark.py` — writes `static/benchmark.json` from the scores and the faces summary in `benchmark/results/`; run it after publishing new scores.
 - `static/geometry.js`, `static/identity.js` — crop geometry and generated ids.
 - `static/detect.js` — the glyph cut: Otsu ink, connected components, widest-gap splitting.
 - `static/ids.js` — the operand-stack grammar, shared by the page and the worker.
