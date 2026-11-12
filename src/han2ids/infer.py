@@ -8,6 +8,7 @@ import numpy as np
 import torch
 from PIL import Image, ImageOps
 
+from .forms import unify
 from .grammar import generate, generate_beam, valid_ids
 from .model import GlyphIDS
 from .tokenizer import Vocabulary
@@ -66,7 +67,6 @@ class Reading:
 
     @property
     def unified(self) -> str:
-        from .status import unify
         return unify(self.ids)
 
 

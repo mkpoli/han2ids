@@ -5,7 +5,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from .labels import base_labels
-from .tokenizer import selector
+from .forms import UNIFIED, unify
 from .tree import normalise
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -34,12 +34,7 @@ for line in (ROOT / 'data/component-variants.tsv').read_text().splitlines():
 for left, right in [('丹', '⿻⿵冂丨一'), ('半', '⿻八𰀁'), ('鄉', '⿲乡皀阝'),
                     ('徵', '⿲彳⿱山王攵'), ('奏', '𡗗夭')]:
     COMPONENTS[right] = left
-UNIFIED = {}
-for line in (ROOT / 'data/unified-forms.tsv').read_text().splitlines():
-    if line and not line.startswith('#'):
-        form, unified = line.split('\t')[:2]
-        UNIFIED[form] = unified
-        COMPONENTS[form] = unified
+COMPONENTS.update(UNIFIED)
 ORDERED = sorted(COMPONENTS, key=len, reverse=True)
 
 
@@ -54,13 +49,6 @@ def expand(text: str, trail=()) -> str:
         else expand(GOLD[char], trail + (char,))
         for char in text
     )
-
-
-def unify(text: str) -> str:
-    """The reading with printed forms replaced by the components that stand for them."""
-    for form in sorted(UNIFIED, key=len, reverse=True):
-        text = text.replace(form, UNIFIED[form])
-    return ''.join(char for char in text if not selector(char))
 
 
 def variant_form(text: str) -> str:

@@ -54,13 +54,13 @@ spellings, U+306A9 `辱` is `⿸辰寸`, U+3423 `庫` is `⿸广車`, U+3793 `�
 ## Printed forms and the unified reading
 
 A reading names the form the image prints. Where the form is a registered variation sequence, the
-component carries its selector; `han2ids.status.unify` gives the unified reading, with every listed
-form replaced by the component that stands for it. `data/unified-forms.tsv` holds the forms and
+component carries its selector; `han2ids.forms.unify` gives the unified reading, with every listed
+form replaced by the component that stands for it. `src/han2ids/unified-forms.tsv` holds the forms and
 `data/font-label-overrides.tsv` the label of each reviewed face.
 
 䦳 (U+49B3) prints three forms of its inner component:
 
-| face | middle of the component | reading | unified |
+| face | middle of the component | label | unified |
 | --- | --- | --- | --- |
 | Noto Serif CJK JP | 良, with a slanted last stroke | `⿵門鄉` | `⿵門鄉` |
 | IPAmj | 皀 (白 over 匕) | `⿵門鄕󠄂` | `⿵門鄉` |

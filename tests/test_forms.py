@@ -1,5 +1,6 @@
 from han2ids.grammar import valid_ids
-from han2ids.status import classify, gold, unify
+from han2ids.forms import unify
+from han2ids.status import classify, gold
 from han2ids.tokenizer import Vocabulary, split
 from han2ids.tree import normalise
 
@@ -25,3 +26,8 @@ def test_three_faces_three_forms_one_unified_reading():
 def test_another_form_is_a_variant():
     assert classify("䦳", "ipamj", NOTO, "") == "variant"
     assert classify("䦳", "jigmo", JIGMO, "") == "exact"
+
+
+def test_selector_on_an_operator_is_invalid():
+    assert not valid_ids("⿰\uFE00")
+    assert not valid_ids("⿰\uFE00亻五")

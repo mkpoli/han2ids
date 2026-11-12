@@ -33,6 +33,8 @@ def valid_ids(text: str) -> bool:
         return False
     stack = [1]
     for char in split(text):
+        if len(char) > 1 and char[0] in ARITY:
+            return False
         if not advance(stack, char):
             return False
     return not stack
