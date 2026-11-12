@@ -8,6 +8,8 @@ import { defineConfig } from 'vite'
 const root = fileURLToPath(new URL('..', import.meta.url))
 const DECKS = `${root}build/review/decks.json`
 const ANSWERS = `${root}data/review/answers.json`
+// Jigmo covers every character the labels use; scripts/fetch_fonts.py puts it here.
+const FONTS = `${root}cache/fonts/jigmo/`
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' }
 
 function desk() {
@@ -33,6 +35,13 @@ function desk() {
           res.setHeader('Content-Type', TYPES[extname(item.image)] ?? 'application/octet-stream')
           res.setHeader('Cache-Control', 'max-age=3600')
           return createReadStream(item.image).pipe(res)
+        }
+        const font = /^\/fonts\/(Jigmo[23]?\.ttf)$/.exec(url.pathname)
+        if (font) {
+          if (!existsSync(FONTS + font[1])) return json(res, 404, { error: 'Run scripts/fetch_fonts.py first.' })
+          res.setHeader('Content-Type', 'font/ttf')
+          res.setHeader('Cache-Control', 'max-age=86400')
+          return createReadStream(FONTS + font[1]).pipe(res)
         }
         if (url.pathname === '/api/answers' && req.method === 'GET') return json(res, 200, answers())
         const one = /^\/api\/answers\/([A-Za-z0-9_.-]+)$/.exec(url.pathname)

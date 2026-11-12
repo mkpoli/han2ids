@@ -6,6 +6,7 @@ is kept with one key, or a sequence is written in the IDS Workshop's editor
 `data/review/answers.json`.
 
 ```sh
+uv run python scripts/fetch_fonts.py   # once: Jigmo, which draws the sequences
 cd review
 bun install
 bun run dev        # http://localhost:8430

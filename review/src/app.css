@@ -1,6 +1,11 @@
 /* The review desk: reference glyph in a sticky left column, readings and the editor on the right. */
+/* Jigmo draws every character of the labels, the supplementary planes included. */
+@font-face { font-family: "Desk Jigmo"; src: url("/fonts/Jigmo.ttf") format("truetype"); font-display: swap; unicode-range: U+2E80-2FDF, U+3000-303F, U+3100-312F, U+31A0-31EF, U+3400-9FFF, U+F900-FAFF, U+FE00-FE0F, U+E0100-E01EF; }
+@font-face { font-family: "Desk Jigmo"; src: url("/fonts/Jigmo2.ttf") format("truetype"); font-display: swap; unicode-range: U+20000-2FFFF; }
+@font-face { font-family: "Desk Jigmo"; src: url("/fonts/Jigmo3.ttf") format("truetype"); font-display: swap; unicode-range: U+30000-3FFFF; }
 :root {
-  --glyph: "IDS Numbered", "IDS Strokes", "IDS Parts", "IDS Operators", "Noto Serif CJK JP", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", serif;
+  --glyph: "IDS Numbered", "IDS Strokes", "IDS Operators", "Desk Jigmo", "IDS Parts", "Noto Serif CJK JP", "Hiragino Mincho ProN", "Yu Mincho", "Songti SC", serif;
+  --ids-glyph-fallback: "Desk Jigmo", var(--fallback-font, "IDS Fallback");
   --ids-surface: var(--ui-color-surface); --ids-surface-subtle: var(--ui-color-surface-sunken); --ids-surface-selected: var(--ui-color-accent-soft);
   --ids-ink: var(--ui-color-ink); --ids-ink-soft: var(--ui-color-ink-soft); --ids-muted: var(--ui-color-ink-muted);
   --ids-line: var(--ui-color-border); --ids-line-strong: var(--ui-color-border-strong); --ids-control-border: var(--ui-color-control-border);
