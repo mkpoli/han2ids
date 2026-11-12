@@ -11,3 +11,5 @@ demo/static/models/
 demo/static/ort/
 
 deploy/.wrangler/
+review/node_modules/
+review/dist/
