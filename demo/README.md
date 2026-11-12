@@ -56,6 +56,7 @@ bunx wrangler@4.158.0 deploy --config deploy/wrangler.ocr.jsonc
 
 The Worker serves the static page at `ids.mkpo.li/ocr`. The int8 files are each below the 25 MiB
 per-file limit. ONNX Runtime Web is MIT; the model export comes from `scripts/export_onnx.py`.
+The unversioned assets require cache revalidation; error responses are not stored.
 
 ## Checks
 
@@ -63,6 +64,7 @@ per-file limit. ONNX Runtime Web is MIT; the model export comes from `scripts/ex
 uv run --extra dev pytest
 node demo/check-i18n.mjs
 node --test demo/tests/*.test.mjs
+node --test deploy/ocr-worker.test.mjs
 ```
 
 For the optional browser check, see the setup in `check-modules.mjs`.
