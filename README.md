@@ -33,13 +33,14 @@ uv run han2ids samples/疑.png
 ```
 
 The default checkpoint is `models/han2ids-v0.4.pt`. Point at another with `--checkpoint`, or set
-`HAN2IDS_MODEL`. `--json` prints the IDS, confidence and the chosen preprocessing variant;
+`HAN2IDS_MODEL`. Each line gives the reading of the printed form, the unified reading and the
+confidence; see `docs/font-variants.md`. `--json` adds the chosen preprocessing variant;
 `--top-k 3` returns ranked beam alternatives; see `docs/multiple-ids.md`. `--no-tta` uses the em-box render only.
 
 ```console
 $ uv run han2ids samples/疑.png samples/字.png
-samples/疑.png	⿰𠤕⿱龴疋	0.956
-samples/字.png	⿱宀子	0.940
+samples/疑.png	⿰𠤕⿱龴疋	⿰𠤕⿱龴疋	0.956
+samples/字.png	⿱宀子	⿱宀子	0.940
 ```
 
 ## Demo

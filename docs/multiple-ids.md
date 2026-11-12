@@ -5,9 +5,9 @@ candidate is syntactically valid.
 
 ```console
 $ han2ids samples/疑-ipamj.png --top-k 3
-samples/疑-ipamj.png  1  ⿰𠤕⿱龴疋  0.843
-samples/疑-ipamj.png  2  ⿰⿱匕矢⿱龴疋  0.780
-samples/疑-ipamj.png  3  ⿱⿰匕龴疋  0.508
+samples/疑-ipamj.png  1  ⿰𠤕⿱龴疋  ⿰𠤕⿱龴疋  0.843
+samples/疑-ipamj.png  2  ⿰⿱匕矢⿱龴疋  ⿰⿱匕矢⿱龴疋  0.780
+samples/疑-ipamj.png  3  ⿱⿰匕龴疋  ⿱⿰匕龴疋  0.508
 ```
 
 The score is the geometric mean token probability. Candidates are deduplicated after decoding.

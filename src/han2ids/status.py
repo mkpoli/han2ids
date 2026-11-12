@@ -5,6 +5,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from .labels import base_labels
+from .forms import UNIFIED, unify
 from .tree import normalise
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +34,7 @@ for line in (ROOT / 'data/component-variants.tsv').read_text().splitlines():
 for left, right in [('丹', '⿻⿵冂丨一'), ('半', '⿻八𰀁'), ('鄉', '⿲乡皀阝'),
                     ('徵', '⿲彳⿱山王攵'), ('奏', '𡗗夭')]:
     COMPONENTS[right] = left
+COMPONENTS.update(UNIFIED)
 ORDERED = sorted(COMPONENTS, key=len, reverse=True)
 
 

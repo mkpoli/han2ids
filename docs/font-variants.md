@@ -27,7 +27,6 @@ Reviewed cases (BabelStone region tags and Unicode IVD):
 | U+2DD65 | Jigmo | BabelStone gives `⿸𦫺用` for T and `⿱艹⿸厂用` for J; Jigmo prints the J form |
 | U+4885 | IPAmj | 𦥑 against the preview's 臼 |
 | U+4635 | IPAmj | 彔 against the preview's 录 |
-| U+49B3 | IPAmj | expanded 鄉 against the preview's 鄉 |
 | U+51D1 | Noto | 𡗗+夭 against the preview's 奏 |
 | U+53A7 | IPAmj | 眞 against the preview's 真 |
 | U+55AD | IPAmj | 彥 against the preview's 彦 |
@@ -52,6 +51,28 @@ spellings, U+306A9 `辱` is `⿸辰寸`, U+3423 `庫` is `⿸广車`, U+3793 `�
 `罡` is `罒+正`; U+3DBE `⿳覀一火` and `⿱覀灭` are the same. `src/han2ids/tree.py` normalises equal-axis operator nesting (`⿱⿱ABC` = `⿳ABC`,
 `⿰⿰ABC` = `⿲ABC`), and `data/equivalence-overrides.tsv` records the reviewed rare cases.
 
+## Printed forms and the unified reading
+
+A reading names the form the image prints. Where the form is a registered variation sequence, the
+component carries its selector; `han2ids.forms.unify` gives the unified reading, with every listed
+form replaced by the component that stands for it. `src/han2ids/unified-forms.tsv` holds the forms and
+`data/font-label-overrides.tsv` the label of each reviewed face.
+
+䦳 (U+49B3) prints three forms of its inner component:
+
+| face | middle of the component | label | unified |
+| --- | --- | --- | --- |
+| Noto Serif CJK JP | 良, with a slanted last stroke | `⿵門鄉` | `⿵門鄉` |
+| IPAmj | 皀 (白 over 匕) | `⿵門鄕󠄂` | `⿵門鄉` |
+| Jigmo | a dot, 日 and two level ticks | `⿵門鄕󠄁` | `⿵門鄉` |
+
+`鄕󠄂` is U+9115 U+E0102 (Moji_Joho MJ026366, Hanyo-Denshi IP9115) and `鄕󠄁` is U+9115 U+E0101
+(Moji_Joho MJ026367, Hanyo-Denshi JC9276), the Japanese source glyph whose middle BabelStone lists as
+the unencoded component `{74}`. U+E0102 was chosen over U+E0105 by eye from IPAmj at 560 px; the two
+are close and the choice is uncertain. The 50 dataset images whose label holds 鄉, 鄕, 鄊 or 郷 were
+reviewed the same way on 2026-11-12: 響 prints 郷 in all three faces, 饗 the Japanese source form,
+and 嚮 that form with a bar for the dot, which has no registered sequence and is labelled `〾⿱鄕󠄁向`.
+
 ## Consequence for training
 
 The current checkpoints use one gold label per character. A font-aware model needs either:
@@ -62,4 +83,5 @@ The current checkpoints use one gold label per character. A font-aware model nee
 The second is already exposed by `han2ids --top-k`; see `docs/multiple-ids.md`.
 
 Sources: BabelStone IDS <https://www.babelstone.co.uk/CJK/IDS.TXT>; Unicode IVD
-<https://www.unicode.org/reports/tr37/>; review notes of 2026-11-10.
+<https://www.unicode.org/reports/tr37/> and its sequence list of 2022-09-13
+<https://www.unicode.org/ivd/data/2022-09-13/IVD_Sequences.txt>; review notes of 2026-11-10.

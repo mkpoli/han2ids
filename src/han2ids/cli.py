@@ -28,20 +28,20 @@ def main(argv: list[str] | None = None) -> int:
                 readings = reader.read_topk(opened, k=args.top_k, tta=not args.no_tta)
             if args.json:
                 print(json.dumps({"image": str(image), "readings": [
-                    {"ids": item.ids, "confidence": round(item.confidence, 4), "variant": item.variant, "valid": item.valid}
+                    {"ids": item.ids, "unified": item.unified, "confidence": round(item.confidence, 4), "variant": item.variant, "valid": item.valid}
                     for item in readings]}, ensure_ascii=False))
             else:
                 for index, item in enumerate(readings):
-                    print(f"{image}\t{index + 1}\t{item.ids}\t{item.confidence:.3f}")
+                    print(f"{image}\t{index + 1}\t{item.ids}\t{item.unified}\t{item.confidence:.3f}")
             continue
         reading = reader.read_path(image, tta=not args.no_tta)
         if args.json:
             print(json.dumps({
-                "image": str(image), "ids": reading.ids, "confidence": round(reading.confidence, 4),
+                "image": str(image), "ids": reading.ids, "unified": reading.unified, "confidence": round(reading.confidence, 4),
                 "variant": reading.variant, "valid": reading.valid,
             }, ensure_ascii=False))
         else:
-            print(f"{image}\t{reading.ids}\t{reading.confidence:.3f}")
+            print(f"{image}\t{reading.ids}\t{reading.unified}\t{reading.confidence:.3f}")
     return 0
 
 
