@@ -71,3 +71,16 @@ test('redirects the OCR root with its query', async () => {
   assert.equal(response.status, 308);
   assert.equal(response.headers.get('location'), 'https://example.com/ocr/?lang=ja');
 });
+
+test('keeps asset redirects under the OCR prefix', async () => {
+  for (const location of ['/benchmark', 'https://example.com/benchmark']) {
+    const mock = assets(307, { location });
+    const response = await worker.fetch(new Request('https://example.com/ocr/benchmark.html?lang=ja'), mock.env);
+    assert.equal(response.status, 307);
+    assert.equal(response.headers.get('location'), '/ocr/benchmark');
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+  }
+  const elsewhere = assets(302, { location: 'https://other.example/x' });
+  const response = await worker.fetch(new Request('https://example.com/ocr/x'), elsewhere.env);
+  assert.equal(response.headers.get('location'), 'https://other.example/x');
+});

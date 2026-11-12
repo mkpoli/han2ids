@@ -13,6 +13,12 @@ export default {
       const target = new URL(path + url.search, url.origin);
       const response = await env.ASSETS.fetch(new Request(target, request));
       const result = new Response(response.body, response);
+      // The asset store answers from the site root; keep its redirects under /ocr.
+      const location = response.headers.get('Location');
+      if (response.status >= 300 && response.status < 400 && location) {
+        const next = new URL(location, target);
+        if (next.origin === url.origin) result.headers.set('Location', `/ocr${next.pathname}${next.search}`);
+      }
       if (response.ok || response.status === 304) {
         // Asset URLs are unversioned; validate stored bytes against the current deployment.
         if (!/(?:^|,)\s*no-store\s*(?:,|$)/i.test(response.headers.get('Cache-Control') || '')) {
