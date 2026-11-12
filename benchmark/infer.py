@@ -111,6 +111,8 @@ class HanAdapter:
         import torch
         from han2ids.infer import Han2IDS, tensor, variants
         from han2ids.grammar import generate, valid_ids
+        from han2ids.forms import unify
+        self.unify = unify
         torch.set_num_threads(args.threads)
         self.torch, self.tensor, self.variants = torch, tensor, variants
         self.generate, self.valid_ids = generate, valid_ids
@@ -126,14 +128,14 @@ class HanAdapter:
             # one call to the same grammar-constrained greedy decoder.
             batch = self.torch.stack([self.tensor(self.variants(image)[0][1]) for image in images])
             tokens, confidence = self.generate(self.reader.model, batch.to(self.reader.device), self.reader.itos)
-            return [[{"text": text, "score": float(confidence[i]), "variant": "em",
+            return [[{"text": self.unify(text), "score": float(confidence[i]), "variant": "em",
                       "valid": bool(self.valid_ids(text))}]
                     for i, text in enumerate(self.reader.vocab.decode(row.tolist()) for row in tokens)]
         results = []
         for image in images:
             readings = ([self.reader.read(image, tta=self.tta)] if self.decode == "greedy"
                         else self.reader.read_topk(image, k=5, tta=self.tta))
-            results.append([{"text": x.ids, "score": float(x.confidence),
+            results.append([{"text": self.unify(x.ids), "score": float(x.confidence),
                              "variant": x.variant, "valid": bool(x.valid)} for x in readings])
         return results
 
@@ -202,6 +204,7 @@ def run(args, adapter_factory=None):
                      "batch_size": args.batch_size, "threads": args.threads,
                      "limit": args.limit, "decode": args.decode if args.system == "han2ids" else "shipped-ensemble-beam",
                      "tta": not args.no_tta if args.system == "han2ids" else None,
+                     "reading": "unified" if args.system == "han2ids" else None,
                      "score_note": ("Shipped batched decoder can accumulate extra EOS scores for finished rows; "
                                     "scores are not comparable to single-image CLI confidence"
                                     if args.system == "han2ids" and args.decode == "greedy-batched" else None),
