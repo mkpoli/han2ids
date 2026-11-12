@@ -34,6 +34,7 @@ const stage = createStage({
   onCropChanged: item => reading.cropChanged(item), showError: error => reading.showError(error),
   clearError: () => display.clearError(),
   onCleanChanged() {
+    for (const item of queue.all()) reading.cropChanged(item);
     reading.enqueue(queue.all());
   },
   onQuickCut(source, found) {

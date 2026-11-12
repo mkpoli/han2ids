@@ -13,7 +13,8 @@ export const RAW = { flatten: false, levels: false, despeckle: false, deskew: fa
 export function prepare({ data, width, height }, options = {}) {
   const o = { ...DEFAULTS, ...options };
   let image = luminance(data, width, height);
-  if (borderMedian(image) < 0.5) image = map(image, value => 1 - value);
+  // Light ink on a dark ground: the border sits on the dark side of the image's own split.
+  if (borderMedian(image) <= otsu(image).threshold) image = map(image, value => 1 - value);
   if (o.flatten) image = flatten(image);
   const split = otsu(image);
   if (o.levels) image = levels(image, split, o.contrast);
@@ -184,7 +185,7 @@ function levels(image, { ink, paper }, contrast) {
 
 /** Erase ink pieces far smaller than any stroke. */
 function despeckle({ pixels, w, h }, cut) {
-  const limit = Math.max(2, 0.02 * Math.max(w, h));
+  const limit = 0.02 * Math.max(w, h);
   const seen = new Uint8Array(w * h);
   const stack = [];
   for (let start = 0; start < pixels.length; start += 1) {

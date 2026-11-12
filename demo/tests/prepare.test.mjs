@@ -44,7 +44,8 @@ test('ink is framed with the margin on its longer side, centred', () => {
 });
 
 test('grey paper, shade and light-on-dark all come out as black ink on white', () => {
-  for (const options of [{ paper: 200, ink: 60 }, { paper: 230, ink: 40, shade: true }, { paper: 20, ink: 235 }]) {
+  for (const options of [{ paper: 200, ink: 60 }, { paper: 230, ink: 40, shade: true }, { paper: 20, ink: 235 },
+    { paper: 100, ink: 20 }, { paper: 150, ink: 250 }]) {
     const { view } = prepare(page(options));
     assert.ok(view[0] > 0.95, `paper ${JSON.stringify(options)}`);
     assert.ok(view[(SIZE / 2) * SIZE + SIZE / 2] < 0.05, `ink ${JSON.stringify(options)}`);
@@ -76,4 +77,14 @@ test('the tensor repeats the frame on three channels in -1..1', () => {
   assert.equal(input.length, 3 * SIZE * SIZE);
   assert.equal(input[0], (view[0] - 0.5) / 0.5);
   assert.equal(input[2 * SIZE * SIZE + 5], input[5]);
+});
+
+test('a small cut keeps a dot wider than 2% of its side', () => {
+  const width = 20;
+  const data = new Uint8ClampedArray(width * width * 4).fill(255);
+  const ink = (x, y) => data.set([0, 0, 0, 255], (y * width + x) * 4);
+  for (let x = 4; x < 16; x += 1) ink(x, 14);
+  ink(10, 5);
+  const box = inkBox(prepare({ data, width, height: width }).view);
+  assert.ok(box.bottom - box.top > 0.6 * (box.right - box.left), JSON.stringify(box));
 });
