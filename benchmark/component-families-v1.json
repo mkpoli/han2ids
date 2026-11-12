@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "policy": "Provisional component-family naming sensitivity. These pairs are accepted only as the first child of a horizontal layout at any depth. They are not assertions of visual identity or image-specific correctness. No transitive closure or expansion is applied.",
+  "review_status": "editorial; no independent glyph-level review",
+  "sources": [
+    {
+      "title": "The Unicode Standard, Version 17.0, Section 18.1: Han; Radical-Stroke Indices",
+      "url": "https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-18/",
+      "limitation": "The standard describes radical families and glyph variation; it does not prescribe these IDS matching rules."
+    },
+    {
+      "title": "Unicode Han Database, kRSUnicode",
+      "url": "https://www.unicode.org/reports/tr38/#kRSUnicode",
+      "limitation": "Radical-stroke classification does not establish visual interchangeability."
+    }
+  ],
+  "rules": [
+    {"components": ["釒", "金"], "contexts": [["H", 0]]},
+    {"components": ["訁", "言"], "contexts": [["H", 0]]},
+    {"components": ["糹", "糸"], "contexts": [["H", 0]]},
+    {"components": ["礻", "示"], "contexts": [["H", 0]]},
+    {"components": ["氵", "水"], "contexts": [["H", 0]]},
+    {"components": ["𤣩", "玉"], "contexts": [["H", 0]]}
+  ]
+}
