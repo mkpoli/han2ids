@@ -177,10 +177,10 @@
 
         <div class="cut-controls" id="cut-controls" hidden>
           <div class="cut-row">
-            <div class="ui-field cut-field">
-              <label class="ui-label" for="margin"><span data-i18n="cut.margin">Cut margin</span> <output class="range-value" id="margin-value" for="margin" aria-hidden="true">2%</output></label>
-              <input class="ui-range" id="margin" type="range" min="0" max="20" step="1" value="2">
-            </div>
+            <label class="ui-check-row clean-toggle">
+              <input class="ui-switch" id="clean-up" type="checkbox" role="switch" checked>
+              <span class="ui-check-text" data-i18n="cut.clean">Clean up</span>
+            </label>
             <div class="cut-buttons">
               <button class="ui-button" type="button" data-size="sm" id="quick-cut">
                 <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
@@ -226,7 +226,10 @@
 
         <div class="result-body" id="result-body" hidden>
           <div class="sequence-block">
-            <div class="ids-text" id="ids-text" lang="zh-Hani"></div>
+            <div class="sequence-head">
+              <img class="model-view" id="model-view" alt="" data-i18n-alt="reading.view" data-i18n-title="reading.view" width="224" height="224">
+              <div class="ids-text" id="ids-text" lang="zh-Hani"></div>
+            </div>
             <div class="unified-row" id="unified-row" hidden>
               <span class="unified-label" data-i18n="reading.unified">Unified</span>
               <span class="unified-text" id="unified-text" lang="zh-Hani"></span>

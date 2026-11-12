@@ -4,8 +4,7 @@ import { MIN_CUT, clamp, clampCrop, padBox } from './geometry.js';
 
 const CROP_ANNOUNCE_DELAY = 250;
 
-export function createStage(deps, els = selectElements(['margin', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'marginValue', 'cropBox', 'cropState', 'cropLive', 'quickCut', 'autoCut', 'fullImage'])) {
-  let margin = Number(els.margin.value);
+export function createStage(deps, els = selectElements(['cleanUp', 'imageEditor', 'dropEmpty', 'cutControls', 'imageSize', 'boxCount', 'boxLayer', 'glyphImage', 'imageWrap', 'cropBox', 'cropState', 'cropLive', 'quickCut', 'autoCut', 'fullImage'])) {
   let drag = null;
   let cropAnnounceTimer = 0;
 
@@ -38,8 +37,6 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     els.boxCount.textContent = deps.t('quick.boxes', { count });
     els.imageWrap.toggleAttribute('data-many', count > 1);
     els.imageWrap.style.setProperty('--image-bg', source.transparent && source.inkLight ? '#000' : '#fff');
-    els.margin.value = String(item.margin);
-    els.marginValue.textContent = `${item.margin}%`;
     renderBoxes();
     renderCrop();
   }
@@ -232,15 +229,7 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
 
   /* ---------- Cut controls ---------- */
 
-  els.margin.addEventListener('input', () => {
-    margin = Number(els.margin.value);
-    els.marginValue.textContent = `${margin}%`;
-    const item = deps.selectedItem();
-    if (!item) return;
-    item.margin = margin;
-    const source = deps.getSource(item.sourceId);
-    setCrop(padBox(item.box, item.margin, source));
-  });
+  els.cleanUp.addEventListener('change', () => deps.onCleanChanged(els.cleanUp.checked));
 
   els.quickCut.addEventListener('click', () => quickCut());
 
@@ -248,7 +237,7 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     const item = deps.selectedItem();
     if (!item) return;
     const source = deps.getSource(item.sourceId);
-    setCrop(padBox(item.box, item.margin, source), 0);
+    setCrop(padBox(item.box, source), 0);
   });
 
   els.fullImage.addEventListener('click', () => {
@@ -276,5 +265,5 @@ export function createStage(deps, els = selectElements(['margin', 'imageEditor',
     deps.onQuickCut(source, found);
   }
 
-  return { renderStage, renderBoxes, setCrop, getMargin: () => margin, isDragging: () => Boolean(drag) };
+  return { renderStage, renderBoxes, setCrop, isClean: () => els.cleanUp.checked, isDragging: () => Boolean(drag) };
 }

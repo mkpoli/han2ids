@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { createDisplay } from '../static/display.js';
 
 const ELEMENT_NAMES = ['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody',
-  'resultError', 'readingStatus', 'candidates', 'idsText', 'unifiedRow', 'unifiedText', 'copyUnified', 'resultCard', 'errorTitle', 'errorDetail',
+  'resultError', 'readingStatus', 'candidates', 'idsText', 'modelView', 'unifiedRow', 'unifiedText', 'copyUnified', 'resultCard', 'errorTitle', 'errorDetail',
   'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList',
   'readingStatusText', 'liveStatus'];
 

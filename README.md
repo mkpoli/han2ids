@@ -52,7 +52,7 @@ uv run python demo/server.py
 ```
 
 The page at <http://127.0.0.1:8402> runs the int8 ONNX model in a Web Worker; the first read loads
-40.2 MB of models. It reads one em-box crop without the CLI's four-cut beam search, and it is not the
+40.2 MB of models. It cleans and frames each cut, then reads it once without the CLI's four-cut beam search, and it is not the
 canonical PyTorch checkpoint. See `demo/README.md` for the page and deployment.
 
 ## Browser export

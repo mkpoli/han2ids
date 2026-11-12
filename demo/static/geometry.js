@@ -24,9 +24,12 @@ export function clampCrop(crop) {
   return out;
 }
 
-export function padBox(box, margin, source) {
+/** Room around a detected glyph, so its cut handles sit clear of the ink. */
+const PAD = 0.04;
+
+export function padBox(box, source) {
   if (!box) return { x: 0, y: 0, w: 1, h: 1 };
-  const padding = (margin / 100) * Math.max(box.w * source.width, box.h * source.height);
+  const padding = PAD * Math.max(box.w * source.width, box.h * source.height);
   return clampCrop({
     x: box.x - padding / source.width,
     y: box.y - padding / source.height,

@@ -24,7 +24,7 @@ function setup() {
     if (!elements.has(name)) elements.set(name, new Element());
     return elements.get(name);
   };
-  const names = ['margin', 'imageWrap', 'cropBox', 'cropState', 'cropLive', 'boxLayer', 'marginValue', 'quickCut', 'autoCut', 'fullImage', 'recognize'];
+  const names = ['cleanUp', 'imageWrap', 'cropBox', 'cropState', 'cropLive', 'boxLayer', 'quickCut', 'autoCut', 'fullImage', 'recognize'];
   const els = Object.fromEntries(names.map(name => [name, element(name)]));
   const window = new Element();
   const timers = new Map(); let nextTimer = 0;
@@ -41,7 +41,7 @@ function setup() {
   });
   const source = { id: 's', width: 100, height: 100, transparent: false, inkLight: false };
   const item = { id: 'i', sourceId: 's', crop: { x: 0.1, y: 0.1, w: 0.5, h: 0.5 },
-    box: { x: 0.1, y: 0.1, w: 0.5, h: 0.5 }, margin: 2,
+    box: { x: 0.1, y: 0.1, w: 0.5, h: 0.5 },
     readings: [], phase: 'queued', errorKey: null, seq: 0 };
   let stage, reading;
   stage = createStage({
@@ -52,7 +52,7 @@ function setup() {
   }, els);
   reading = createReading({
     selectedItem: () => item, byId: () => item, getSource: () => source,
-    isDragging: () => stage.isDragging(), bitmapFor: async () => ({}), makeThumb: async () => {},
+    isDragging: () => stage.isDragging(), bitmapFor: async () => ({}), makeThumb: async () => {}, prepareOptions: () => ({}),
     touch() {}, cropInvalidated() {}, showModelProgress() {}, hideModelProgress() {}, setStatus() {},
     announceReading() {}, showError() {},
     loadInference: async () => ({ recognize: () => new Promise((resolve, reject) => calls.push({ resolve, reject })) }),

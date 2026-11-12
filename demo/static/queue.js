@@ -1,14 +1,13 @@
 import { selectElements } from './elements.js';
 import { uid } from './identity.js';
 import { padBox } from './geometry.js';
-import { background } from './detect.js';
+import { SIZE } from './prepare.js';
 import { renderIds } from './render-ids.js';
 
 export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal', 'itemList', 'queuePosition', 'itemPrev', 'itemNext'])) {
   let items = [];
   let selectedId = null;
   const rows = new Map();
-  const THUMB = 96;
 
   // Queue owns item membership and thumbnails; stage owns geometry, reading owns read state.
   function buildItems(source, boxes) {
@@ -18,8 +17,7 @@ export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal
       sourceId: source.id,
       index: at + 1,
       box,
-      crop: padBox(box, deps.getMargin(), source),
-      margin: deps.getMargin(),
+      crop: padBox(box, source),
       readings: [],
       phase: 'queued',
       errorKey: null,
@@ -150,19 +148,21 @@ export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal
 
   els.itemPrev.addEventListener('click', () => stepSelection(-1));
   els.itemNext.addEventListener('click', () => stepSelection(1));
-  async function makeThumb(item, bitmap, source) {
-    const sx = Math.max(0, Math.floor(item.crop.x * source.width));
-    const sy = Math.max(0, Math.floor(item.crop.y * source.height));
-    const sw = Math.max(1, Math.round(item.crop.w * source.width));
-    const sh = Math.max(1, Math.round(item.crop.h * source.height));
-    const scale = Math.min(1, THUMB / Math.max(sw, sh));
+  /** The frame the model read, as the item's thumbnail. */
+  async function makeThumb(item, view) {
     const canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(sw * scale));
-    canvas.height = Math.max(1, Math.round(sh * scale));
+    canvas.width = SIZE;
+    canvas.height = SIZE;
     const context = canvas.getContext('2d');
-    context.fillStyle = background(source);
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(bitmap, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+    const image = context.createImageData(SIZE, SIZE);
+    for (let index = 0; index < view.length; index += 1) {
+      const value = Math.round(view[index] * 255);
+      image.data[index * 4] = value;
+      image.data[index * 4 + 1] = value;
+      image.data[index * 4 + 2] = value;
+      image.data[index * 4 + 3] = 255;
+    }
+    context.putImageData(image, 0, 0);
     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     if (!blob) return;
     if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
@@ -187,5 +187,5 @@ export function createQueue(deps, els = selectElements(['queueCard', 'queueTotal
     items = keep;
     return added;
   }
-  return { add, replaceSource, selectedItem, byId, itemsOf, selectItem, renderQueue, updateRow, makeThumb };
+  return { add, replaceSource, all: () => [...items], selectedItem, byId, itemsOf, selectItem, renderQueue, updateRow, makeThumb };
 }

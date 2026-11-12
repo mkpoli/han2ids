@@ -64,8 +64,9 @@ export function createReading(deps, els = selectElements(['recognize'])) {
     try {
       const bitmap = await deps.bitmapFor(source);
       if (item.seq !== seq) return;
-      input = modelInput(bitmap, source, item.crop);
-      await deps.makeThumb(item, bitmap, source);
+      const prepared = modelInput(bitmap, source, item.crop, deps.prepareOptions());
+      input = prepared.input;
+      await deps.makeThumb(item, prepared.view);
     } catch {
       if (item.seq === seq) fail(item, 'error.cut');
       return;

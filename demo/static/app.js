@@ -5,6 +5,7 @@ import { createStage } from './stage.js';
 import { createQueue } from './queue.js';
 import { createReading } from './reading.js';
 import { createDisplay } from './display.js';
+import { RAW } from './prepare.js';
 
 initTheme();
 const language = createLanguage({ onTranslationsChanged() {
@@ -18,7 +19,7 @@ const files = createFiles({ t, onError: error => reading.showError(error), onSou
   queue.renderQueue();
   reading.enqueue(items);
 } });
-const queue = createQueue({ t, getMargin: () => stage.getMargin(), getSource: id => files.getSource(id), onSelect({ scroll }) {
+const queue = createQueue({ t, getSource: id => files.getSource(id), onSelect({ scroll }) {
   display.clearCopied();
   reading.cancelScheduled();
   stage.renderStage();
@@ -31,7 +32,12 @@ const stage = createStage({
   bitmapFor: source => files.bitmapFor(source), selectItem: id => queue.selectItem(id),
   scheduleRead: delay => reading.scheduleRead(delay), cancelScheduled: () => reading.cancelScheduled(),
   onCropChanged: item => reading.cropChanged(item), showError: error => reading.showError(error),
-  clearError: () => display.clearError(), onQuickCut(source, found) {
+  clearError: () => display.clearError(),
+  onCleanChanged() {
+    for (const item of queue.all()) reading.cropChanged(item);
+    reading.enqueue(queue.all());
+  },
+  onQuickCut(source, found) {
     files.updateAnalysis(source, found);
     const items = queue.replaceSource(source, found.boxes);
     queue.selectItem(items[0].id);
@@ -44,7 +50,8 @@ const display = createDisplay({ t, selectedItem: () => queue.selectedItem(),
 const reading = createReading({
   selectedItem: () => queue.selectedItem(), byId: id => queue.byId(id), isDragging: () => stage.isDragging(),
   getSource: id => files.getSource(id), bitmapFor: source => files.bitmapFor(source),
-  makeThumb: (item, bitmap, source) => queue.makeThumb(item, bitmap, source),
+  makeThumb: (item, view) => queue.makeThumb(item, view),
+  prepareOptions: () => (stage.isClean() ? {} : RAW),
   showModelProgress: fraction => display.showModelProgress(fraction), hideModelProgress: () => display.hideModelProgress(),
   setStatus: (key, kind) => display.setStatus(key, kind), showError: error => display.showError(error),
   announceReading: item => display.announceReading(item),
