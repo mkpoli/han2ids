@@ -64,6 +64,11 @@ class Reading:
     variant: str
     valid: bool
 
+    @property
+    def unified(self) -> str:
+        from .status import unify
+        return unify(self.ids)
+
 
 class Han2IDS:
     def __init__(self, checkpoint: str | Path = "models/han2ids-v0.4.pt", device: str | None = None):
