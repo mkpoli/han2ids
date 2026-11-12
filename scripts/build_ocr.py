@@ -12,6 +12,7 @@ REQUIRED = (
     "models/encoder-int8.onnx",
     "models/decoder-int8.onnx",
     "models/itos.json",
+    "models/forms.json",
     "ort/ort.wasm.min.mjs",
     "ort/ort-wasm-simd-threaded.mjs",
     "ort/ort-wasm-simd-threaded.wasm",

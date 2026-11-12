@@ -13,6 +13,7 @@ from torch import nn
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from han2ids.forms import UNIFIED
 from han2ids.model import GlyphIDS
 from han2ids.tokenizer import BOS
 
@@ -89,6 +90,7 @@ def main(argv: list[str] | None = None) -> int:
         dynamo=False, do_constant_folding=True, training=torch.onnx.TrainingMode.EVAL,
     )
     (args.out / "itos.json").write_text(json.dumps(payload["itos"], ensure_ascii=False) + "\n")
+    (args.out / "forms.json").write_text(json.dumps(UNIFIED, ensure_ascii=False) + "\n")
 
     try:
         from onnxruntime.quantization import QuantType, quantize_dynamic

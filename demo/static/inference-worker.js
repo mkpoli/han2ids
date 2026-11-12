@@ -1,4 +1,5 @@
 import * as ort from './ort/ort.wasm.min.mjs';
+import { unify } from './ids.js';
 
 const MAX_LEN = 48;
 const BOS = 1;
@@ -64,10 +65,11 @@ async function initialize(onProgress) {
   ort.env.wasm.simd = true;
 
   let itos;
+  let forms;
   try {
-    const response = await fetch(url('./models/itos.json'));
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    itos = await response.json();
+    const responses = await Promise.all([fetch(url('./models/itos.json')), fetch(url('./models/forms.json'))]);
+    for (const response of responses) if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    [itos, forms] = await Promise.all(responses.map(response => response.json()));
   } catch (error) {
     throw new ModelLoadError('The vocabulary could not be loaded.', { cause: error });
   }
@@ -92,6 +94,7 @@ async function initialize(onProgress) {
       encoder,
       decoder,
       itos,
+      forms,
       opIds: new Set(itos.map((char, index) => (ARITY[char] ? index : -1)).filter(index => index >= 0)),
     };
   } catch (error) {
@@ -175,7 +178,7 @@ async function run(model, input) {
 
   const readingScore = Math.exp(score / Math.max(1, steps));
   const valid = Boolean(text) && model.stack.length === 0;
-  return [{ ids: text, score: readingScore, variant: 'em', valid }];
+  return [{ ids: text, unified: unify(text, model.forms), score: readingScore, variant: 'em', valid }];
 }
 
 async function recognize(input, { onProgress } = {}) {
