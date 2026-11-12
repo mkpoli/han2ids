@@ -29,24 +29,29 @@ function url(path) {
   return new URL(path, import.meta.url);
 }
 
-async function fetchProgress(target, onProgress, start, span) {
-  const response = await fetch(target);
+async function fetchProgress(target, report, signal) {
+  const response = await fetch(target, { signal });
   if (!response.ok) throw new ModelLoadError(`HTTP ${response.status}`);
-  const total = Number(response.headers.get('content-length')) || 0;
+  const length = Number(response.headers.get('content-length'));
+  const encoding = response.headers.get('content-encoding');
+  // Fetch exposes decoded bytes, while Content-Length can describe encoded bytes.
+  let total = (!encoding || encoding.toLowerCase() === 'identity') && Number.isSafeInteger(length) && length > 0 ? length : null;
+  let loaded = 0;
+  report({ loaded, total, done: false });
   if (!response.body) {
     const bytes = new Uint8Array(await response.arrayBuffer());
-    onProgress?.(start + span);
+    report({ loaded: bytes.length, total: bytes.length, done: true });
     return bytes;
   }
   const reader = response.body.getReader();
   const chunks = [];
-  let loaded = 0;
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
     chunks.push(value);
     loaded += value.length;
-    if (total) onProgress?.(start + span * (loaded / total));
+    if (total !== null && loaded > total) total = null;
+    report({ loaded, total, done: false });
   }
   const bytes = new Uint8Array(loaded);
   let offset = 0;
@@ -54,7 +59,7 @@ async function fetchProgress(target, onProgress, start, span) {
     bytes.set(chunk, offset);
     offset += chunk.length;
   }
-  onProgress?.(start + span);
+  report({ loaded, total: loaded, done: true });
   return bytes;
 }
 
@@ -72,16 +77,40 @@ async function initialize(onProgress) {
     throw new ModelLoadError('The vocabulary could not be loaded.', { cause: error });
   }
 
-  const [encoderBytes, decoderBytes] = await Promise.all([
-    fetchProgress(url('./models/encoder-int8.onnx'), onProgress, 0, 0.55).catch(error => {
-      throw error instanceof ModelLoadError ? error : new ModelLoadError('The encoder could not be loaded.', { cause: error });
-    }),
-    fetchProgress(url('./models/decoder-int8.onnx'), onProgress, 0.55, 0.4).catch(error => {
-      throw error instanceof ModelLoadError ? error : new ModelLoadError('The decoder could not be loaded.', { cause: error });
-    }),
-  ]);
+  const downloads = [null, null];
+  const controller = new AbortController();
+  let active = true;
+  const reportDownload = index => download => {
+    if (!active) return;
+    downloads[index] = download;
+    if (downloads.every(item => item?.done)) {
+      onProgress?.(0.95);
+    } else if (downloads.some(item => item?.total == null)) {
+      onProgress?.(null);
+    } else {
+      const loaded = downloads.reduce((sum, item) => sum + item.loaded, 0);
+      const total = downloads.reduce((sum, item) => sum + item.total, 0);
+      // Leave the last 5% for session creation, even if a server reports an inaccurate length.
+      onProgress?.(Math.min(0.949999, 0.95 * loaded / total));
+    }
+  };
+  onProgress?.(null);
+  let encoderBytes, decoderBytes;
+  try {
+    [encoderBytes, decoderBytes] = await Promise.all([
+      fetchProgress(url('./models/encoder-int8.onnx'), reportDownload(0), controller.signal).catch(error => {
+        throw error instanceof ModelLoadError ? error : new ModelLoadError('The encoder could not be loaded.', { cause: error });
+      }),
+      fetchProgress(url('./models/decoder-int8.onnx'), reportDownload(1), controller.signal).catch(error => {
+        throw error instanceof ModelLoadError ? error : new ModelLoadError('The decoder could not be loaded.', { cause: error });
+      }),
+    ]);
+  } catch (error) {
+    active = false;
+    controller.abort();
+    throw error;
+  }
 
-  onProgress?.(0.95);
   try {
     const [encoder, decoder] = await Promise.all([
       ort.InferenceSession.create(encoderBytes, { executionProviders: ['wasm'] }),
@@ -99,14 +128,26 @@ async function initialize(onProgress) {
   }
 }
 
+export { initialize };
+
 async function model(onProgress) {
   if (!ready) {
-    ready = initialize(onProgress).catch(error => {
-      ready = null;
+    const load = { listeners: new Set(), promise: null };
+    load.promise = initialize(fraction => {
+      for (const listener of load.listeners) listener(fraction);
+    }).catch(error => {
+      if (ready === load) ready = null;
       throw error;
     });
+    ready = load;
   }
-  return ready;
+  const load = ready;
+  if (onProgress) load.listeners.add(onProgress);
+  try {
+    return await load.promise;
+  } finally {
+    load.listeners.delete(onProgress);
+  }
 }
 
 function advance(stack, char) {
@@ -197,7 +238,7 @@ self.onmessage = async event => {
   if (type !== 'recognize') return;
   try {
     const readings = await recognize(new Float32Array(input), {
-      onProgress: fraction => self.postMessage({ type: 'progress', fraction }),
+      onProgress: fraction => self.postMessage({ type: 'progress', requestId, fraction }),
     });
     self.postMessage({ type: 'result', requestId, readings });
   } catch (error) {

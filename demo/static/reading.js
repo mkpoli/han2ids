@@ -7,7 +7,7 @@ export function createReading(deps, els = selectElements(['recognize'])) {
   let pending = [];
   let modelLoaded = false;
   let loading = false;
-  let progress = 0;
+  let progress = null;
   let pumping = false;
 
   els.recognize.addEventListener('click', () => {
@@ -74,8 +74,8 @@ export function createReading(deps, els = selectElements(['recognize'])) {
     const firstLoad = !modelLoaded;
     if (firstLoad) {
       loading = true;
-      progress = 0;
-      deps.showModelProgress(0);
+      progress = null;
+      deps.showModelProgress(null);
       if (item.id === deps.selectedItem()?.id) deps.setStatus('status.loading', 'busy');
     }
 
@@ -84,7 +84,7 @@ export function createReading(deps, els = selectElements(['recognize'])) {
       const readings = await recognize(input, {
         onProgress(fraction) {
           if (!firstLoad || !loading) return;
-          progress = Math.max(progress, fraction);
+          progress = fraction;
           deps.showModelProgress(progress);
         },
       });

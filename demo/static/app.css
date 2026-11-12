@@ -700,6 +700,50 @@ body {
   font-size: var(--ui-text-xs);
 }
 
+.model-progress {
+  display: block;
+  appearance: none;
+  inline-size: 100%;
+  block-size: 4px;
+  border: 0 solid;
+  border-radius: var(--ui-radius-pill);
+  overflow: clip;
+  background: var(--ui-color-border);
+}
+
+.model-progress::-webkit-progress-bar {
+  background: transparent;
+}
+
+.model-progress::-webkit-progress-value {
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-color-accent);
+  transition: inline-size var(--ui-duration) var(--ui-ease);
+}
+
+.model-progress::-moz-progress-bar {
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-color-accent);
+  transition: inline-size var(--ui-duration) var(--ui-ease);
+}
+
+@media (forced-colors: active) {
+  .model-progress {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+  }
+
+  .model-progress::-webkit-progress-value {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+
+  .model-progress::-moz-progress-bar {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}
+
 .result-empty {
   flex: 1;
   display: flex;

@@ -1,6 +1,5 @@
 let worker = null;
 let sequence = 0;
-let progress = null;
 const pending = new Map();
 
 function start() {
@@ -8,12 +7,12 @@ function start() {
   worker = new Worker(new URL('./inference-worker.js', import.meta.url), { type: 'module' });
   worker.onmessage = event => {
     const message = event.data || {};
-    if (message.type === 'progress') {
-      progress?.(message.fraction);
-      return;
-    }
     const item = pending.get(message.requestId);
     if (!item) return;
+    if (message.type === 'progress') {
+      item.onProgress?.(message.fraction);
+      return;
+    }
     pending.delete(message.requestId);
     if (message.type === 'result') item.resolve(message.readings);
     else if (message.type === 'error') item.reject(Object.assign(new Error(message.message), { name: message.name }));
@@ -32,10 +31,9 @@ function start() {
 
 export function recognize(input, { onProgress } = {}) {
   const active = start();
-  progress = onProgress || null;
   const requestId = ++sequence;
   return new Promise((resolve, reject) => {
-    pending.set(requestId, { resolve, reject });
+    pending.set(requestId, { resolve, reject, onProgress });
     active.postMessage({ type: 'recognize', requestId, input: input.buffer }, [input.buffer]);
   });
 }
