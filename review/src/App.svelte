@@ -1,6 +1,9 @@
 <script>
   // One glyph at a time: the image stays on the left while a reading is picked or written on the right.
+  import Composed from './Composed.svelte'
+
   let decks = $state(null)
+  let copied = $state('')
   let failure = $state('')
   let answers = $state({})
   let deck = $state('irg')
@@ -17,7 +20,7 @@
   const given = $derived(item ? answers[item.id] : null)
   const done = $derived(items.filter(entry => answers[entry.id]).length)
   const options = $derived(!item ? [] : deck === 'irg'
-    ? item.cands.map((cand, n) => ({ c: `c${n}`, key: String(n + 1), ids: cand[0], note: cand[1].toFixed(2) }))
+    ? item.cands.map((cand, n) => ({ c: `c${n}`, key: String(n + 1), shift: `Digit${n + 1}`, ids: cand[0], note: cand[1].toFixed(2) }))
     : [{ c: 'label', key: 'L', who: 'Label', ids: item.label }, { c: 'model', key: 'M', who: 'Model', ids: item.model, note: item.score.toFixed(2) },
        { c: 'both', key: 'B', who: 'Both describe it', ids: '' }])
   const tally = $derived.by(() => {
@@ -63,12 +66,16 @@
   }
   function go(at) { editing = false; index[deck] = Math.max(0, Math.min(items.length - 1, at)) }
   function choose(option) { answer(option.c, option.c === 'both' ? item.label : option.ids) }
-  async function write() {
-    draft = given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
+  async function write(from) {
+    draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
     editing = true
     Editor ??= (await import('./Editor.svelte')).default
   }
   function use(sequence = draft) { const text = String(sequence ?? '').trim(); if (text) answer('custom', text) }
+
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); copied = text; setTimeout(() => { if (copied === text) copied = '' }, 1200) } catch { copied = '' }
+  }
 
   function keys(event) {
     if (!item || event.metaKey || event.ctrlKey || event.altKey) return
@@ -79,7 +86,13 @@
     else if (event.key === 'ArrowRight') go(index[deck] + 1)
     else if (key === 'E') write()
     else if (key === 'X') answer('skip', '')
-    else { const option = options.find(o => o.key === key); if (!option) return; choose(option) }
+    else {
+      const option = options.find(o => o.key === key || (event.shiftKey && o.shift === event.code))
+      if (!option) return
+      // Shift with an option's key opens the editor on that option.
+      if (event.shiftKey && option.ids) write(option.ids)
+      else choose(option)
+    }
     event.preventDefault()
   }
 </script>
@@ -136,18 +149,26 @@
       <section class="side">
         <div class="choices">
           {#each options as option (option.c)}
-            <button class="choice" aria-pressed={given?.c === option.c} onclick={() => choose(option)}>
-              <kbd>{option.key}</kbd>
-              <span>
-                {#if option.who}<span class="who">{option.who}</span>{/if}
-                {#if option.ids}<span class="ids" lang="zh-Hani">{option.ids}</span>{/if}
-              </span>
-              <span class="note">{option.note ?? ''}</span>
-            </button>
+            <div class="option">
+              <button class="choice" aria-pressed={given?.c === option.c} onclick={() => choose(option)}>
+                <kbd>{option.key}</kbd>
+                {#if option.ids}<Composed ids={option.ids} />{/if}
+                <span>
+                  {#if option.who}<span class="who">{option.who}</span>{/if}
+                  {#if option.ids}<span class="ids" lang="zh-Hani">{option.ids}</span>{/if}
+                </span>
+                <span class="note">{option.note ?? ''}</span>
+              </button>
+              {#if option.ids}
+                <button class="ui-button" data-size="sm" title="Open this one in the editor (Shift+{option.key})" onclick={() => write(option.ids)}>Edit</button>
+                <button class="ui-button" data-size="sm" onclick={() => copy(option.ids)}>{copied === option.ids ? 'Copied' : 'Copy'}</button>
+              {/if}
+            </div>
           {/each}
           <div class="row">
             <button class="choice write" aria-pressed={given?.c === 'custom' || editing} onclick={write}>
               <kbd>E</kbd>
+              {#if given?.c === 'custom'}<Composed ids={given.ids} />{/if}
               <span>{#if given?.c === 'custom'}<span class="who">Written</span><span class="ids" lang="zh-Hani">{given.ids}</span>{:else}Write IDS{/if}</span>
               <span class="note"></span>
             </button>

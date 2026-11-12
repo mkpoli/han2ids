@@ -11,7 +11,9 @@
   import folds from 'ids-input/data/component-name-folds.tsv?url'
   import characterInfo from 'ids-input/data/character-info.json.gz?url'
   import characters from 'ids-input/data/character-vocabulary.tsv.gz?url'
-  const adapter = babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo })
+  import { preview } from './compose.js'
+  // With a preview, the editor draws the sequence beside its field as it is written.
+  const adapter = { ...babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo }), preview }
 </script>
 <script>
   import { IdsInput } from 'ids-input/svelte'

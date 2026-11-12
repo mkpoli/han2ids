@@ -17,7 +17,9 @@ bun run dev        # http://localhost:8430
 | Proposal glyphs | printed glyphs with no IDS, least-sure first | `1` `2` `3` keep a suggestion, `E` write, `X` can't tell |
 | Model vs label | benchmark images where the reading and the label differ | `L` label, `M` model, `B` both, `E` write, `X` can't tell |
 
-`←` and `→` move between glyphs.
+`←` and `→` move between glyphs. Each option carries the sequence drawn in Mincho by han-compose, from
+the serif export the IDS Workshop publishes, and **Edit** (or Shift with the option's key) opens the
+editor on that option; the editor draws the sequence as it is written.
 
 ## Decks
 
