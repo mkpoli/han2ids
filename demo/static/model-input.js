@@ -1,20 +1,17 @@
 import { clamp } from './geometry.js';
-import { background } from './detect.js';
+import { prepare } from './prepare.js';
 
-export function modelInput(bitmap, source, crop) {
-  const naturalWidth = source.width;
-  const naturalHeight = source.height;
-  const { x, y, w, h } = crop;
+const MAX_SIDE = 640;
 
-  const sx = clamp(Math.floor(x * naturalWidth), 0, naturalWidth - 1);
-  const sy = clamp(Math.floor(y * naturalHeight), 0, naturalHeight - 1);
-  const ex = clamp(Math.ceil((x + w) * naturalWidth), sx + 1, naturalWidth);
-  const ey = clamp(Math.ceil((y + h) * naturalHeight), sy + 1, naturalHeight);
-  const sourceWidth = ex - sx;
-  const sourceHeight = ey - sy;
-  const scale = 224 / Math.max(sourceWidth, sourceHeight);
-  const width = Math.max(1, Math.round(sourceWidth * scale));
-  const height = Math.max(1, Math.round(sourceHeight * scale));
+/** The crop's pixels, prepared for the model: its tensor and the greyscale frame it shows. */
+export function modelInput(bitmap, source, crop, options) {
+  const sx = clamp(Math.floor(crop.x * source.width), 0, source.width - 1);
+  const sy = clamp(Math.floor(crop.y * source.height), 0, source.height - 1);
+  const ex = clamp(Math.ceil((crop.x + crop.w) * source.width), sx + 1, source.width);
+  const ey = clamp(Math.ceil((crop.y + crop.h) * source.height), sy + 1, source.height);
+  const scale = Math.min(1, MAX_SIDE / Math.max(ex - sx, ey - sy));
+  const width = Math.max(1, Math.round((ex - sx) * scale));
+  const height = Math.max(1, Math.round((ey - sy) * scale));
 
   const canvas = document.createElement('canvas');
   canvas.width = width;
@@ -22,34 +19,6 @@ export function modelInput(bitmap, source, crop) {
   const context = canvas.getContext('2d', { willReadFrequently: true });
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
-  context.fillStyle = background(source);
-  context.fillRect(0, 0, width, height);
-  context.drawImage(bitmap, sx, sy, sourceWidth, sourceHeight, 0, 0, width, height);
-  const pixels = context.getImageData(0, 0, width, height).data;
-
-  const gray = new Float32Array(width * height);
-  let mean = 0;
-  for (let index = 0; index < gray.length; index += 1) {
-    const offset = index * 4;
-    const value = 0.299 * pixels[offset] + 0.587 * pixels[offset + 1] + 0.114 * pixels[offset + 2];
-    gray[index] = value;
-    mean += value;
-  }
-  const invert = mean / gray.length < 127;
-  const data = new Float32Array(3 * 224 * 224);
-  data.fill(1);
-  const left = Math.floor((224 - width) / 2);
-  const top = Math.floor((224 - height) / 2);
-  for (let row = 0; row < height; row += 1) {
-    for (let column = 0; column < width; column += 1) {
-      let value = gray[row * width + column];
-      if (invert) value = 255 - value;
-      const normalized = (value / 255 - 0.5) / 0.5;
-      const target = (top + row) * 224 + left + column;
-      data[target] = normalized;
-      data[224 * 224 + target] = normalized;
-      data[2 * 224 * 224 + target] = normalized;
-    }
-  }
-  return data;
+  context.drawImage(bitmap, sx, sy, ex - sx, ey - sy, 0, 0, width, height);
+  return prepare({ data: context.getImageData(0, 0, width, height).data, width, height }, options);
 }

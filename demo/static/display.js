@@ -2,7 +2,7 @@ import { selectElements } from './elements.js';
 import { clamp } from './geometry.js';
 import { renderIds } from './render-ids.js';
 
-export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'unifiedRow', 'unifiedText', 'copyUnified', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
+export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'modelView', 'unifiedRow', 'unifiedText', 'copyUnified', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
   let copied = false;
   let copyFailed = false;
   let copyField = 'ids';
@@ -54,6 +54,8 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
 
     if (reading) {
       renderIds(els.idsText, reading.ids);
+      if (item.thumbUrl && els.modelView.getAttribute('src') !== item.thumbUrl) els.modelView.src = item.thumbUrl;
+      els.modelView.hidden = !item.thumbUrl;
       els.openWorkshop.href = `https://ids.mkpo.li/?ids=${encodeURIComponent(reading.ids)}`;
       const score = Math.round(reading.score * 1000) / 10;
       els.scoreChip.textContent = deps.t('reading.score', { value: score.toFixed(1) });

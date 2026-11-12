@@ -623,26 +623,15 @@ body {
 
 .cut-row {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: var(--ui-space-xl);
   flex-wrap: wrap;
 }
 
-.cut-field {
-  flex: 1 1 220px;
-}
-
-.cut-field .ui-label {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--ui-space-sm);
-}
-
-.range-value {
-  color: var(--ui-color-ink);
-  font-family: var(--ui-font-mono);
-  font-size: var(--ui-text-xs);
+.clean-toggle {
+  align-items: center;
+  inline-size: auto;
+  margin-inline-end: auto;
 }
 
 .cut-buttons {
@@ -808,6 +797,27 @@ body {
   gap: var(--ui-space-lg);
   min-inline-size: 0;
   padding-block: var(--ui-space-xl) 0;
+}
+
+.sequence-head {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-xl);
+  min-inline-size: 0;
+}
+
+.sequence-head .ids-text {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.model-view {
+  flex: none;
+  inline-size: 72px;
+  block-size: 72px;
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-md);
+  background: #fff;
 }
 
 .ids-text {
