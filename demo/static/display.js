@@ -2,9 +2,10 @@ import { selectElements } from './elements.js';
 import { clamp } from './geometry.js';
 import { renderIds } from './render-ids.js';
 
-export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
+export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'unifiedRow', 'unifiedText', 'copyUnified', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
   let copied = false;
   let copyFailed = false;
+  let copyField = 'ids';
   let copyTimer;
   let lastCopyAnnouncement = '';
 
@@ -23,7 +24,8 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
   function hideModelProgress() {
     els.modelLoad.hidden = true;
   }
-  function copyLabel() {
+  function copyLabel(field = 'ids') {
+    if (field !== copyField) return deps.t('reading.copy');
     return copied ? deps.t('reading.copied') : copyFailed ? deps.t('reading.copyFailed') : deps.t('reading.copy');
   }
 
@@ -59,6 +61,10 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
       els.validityChip.textContent = reading.valid ? deps.t('reading.valid') : deps.t('reading.invalid');
       els.validityChip.dataset.variant = reading.valid ? 'accent' : 'danger';
       els.copyIds.textContent = copyLabel();
+      const unified = reading.unified && reading.unified !== reading.ids ? reading.unified : '';
+      els.unifiedRow.hidden = !unified;
+      renderIds(els.unifiedText, unified);
+      els.copyUnified.textContent = copyLabel('unified');
 
       const source = deps.getSource(item.sourceId);
       els.sourceChip.hidden = false;
@@ -121,12 +127,13 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
 
   /* ---------- Copy ---------- */
 
-  els.copyIds.addEventListener('click', async () => {
-    const reading = deps.selectedItem()?.readings[0];
-    if (!reading) return;
+  async function copy(field) {
+    const text = deps.selectedItem()?.readings[0]?.[field];
+    if (!text) return;
+    copyField = field;
     let succeeded = true;
     try {
-      await navigator.clipboard.writeText(reading.ids);
+      await navigator.clipboard.writeText(text);
     } catch {
       succeeded = false;
     }
@@ -144,7 +151,10 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
       copyFailed = false;
       renderResult();
     }, 1600);
-  });
+  }
+
+  els.copyIds.addEventListener('click', () => copy('ids'));
+  els.copyUnified.addEventListener('click', () => copy('unified'));
 
   function announceReading(reading) {
     copied = false;

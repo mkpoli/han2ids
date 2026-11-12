@@ -18,7 +18,7 @@ ORT_FILES = ("ort.wasm.min.mjs", "ort-wasm-simd-threaded.mjs", "ort-wasm-simd-th
 
 def copy_models(source: Path) -> None:
     MODELS.mkdir(parents=True, exist_ok=True)
-    for name in ("encoder-int8.onnx", "decoder-int8.onnx", "itos.json"):
+    for name in ("encoder-int8.onnx", "decoder-int8.onnx", "itos.json", "forms.json"):
         path = source / name
         if not path.exists():
             raise FileNotFoundError(path)

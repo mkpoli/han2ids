@@ -28,7 +28,7 @@ four-cut beam search, and is the int8 ONNX export, not the canonical PyTorch che
 - `static/inference.js`, `static/inference-worker.js` — the Web Worker client and the ONNX decoder.
 - `static/i18n.js` — the six UI locales.
 - `static/design/` — copies of the IDS Workshop's design system, with provenance in its README.
-- `static/fonts/han2ids-glyphs.woff2` — Jigmo subset for sequence text, with provenance in its README.
+- `static/fonts/han2ids-glyphs.woff2`, `static/fonts/han2ids-forms.woff2` — Jigmo subsets for sequence text, with provenance in their README.
 - `static/samples/` — the 疑 sample and the glyph sheets, with provenance in its README.
 
 ## The cut
