@@ -134,9 +134,52 @@ function panel(track) {
   ]);
 }
 
+function facesPanel() {
+  const [before, after] = Object.keys(data.faces[0].scores);
+  const rows = data.faces.map(face => {
+    const row = element('li', { className: 'bench-row', tabIndex: 0, dataset: { group: 'han2ids', overlap: 'false', latest: 'false' } }, [
+      element('span', { className: 'bench-name', textContent: face.name, title: face.name }),
+      element('span', { className: 'bench-track' }, [
+        element('span', { className: 'bench-bar', style: `inline-size:${face.scores[after]}%` }),
+        element('span', { className: 'bench-tick', style: `inset-inline-start:${face.scores[before]}%` }),
+      ]),
+      element('span', { className: 'bench-value', textContent: percent(face.scores[after]) }),
+    ]);
+    row.setAttribute('aria-label', `${face.name}: ${after} ${percent(face.scores[after])}, ${before} ${percent(face.scores[before])}`);
+    const show = () => {
+      els.tip.replaceChildren(element('strong', { textContent: face.name }),
+        ...[after, before].flatMap(name => [element('span', { textContent: `han2ids ${name}` }), element('span', { textContent: percent(face.scores[name]) })]),
+        element('span', { textContent: t('bench.characters') }), element('span', { textContent: face.characters.toLocaleString(document.documentElement.lang) }));
+      els.tip.hidden = false;
+      const box = row.getBoundingClientRect();
+      const tip = els.tip.getBoundingClientRect();
+      els.tip.style.left = `${Math.min(Math.max(8, box.right - tip.width), innerWidth - tip.width - 8)}px`;
+      els.tip.style.top = `${box.top - tip.height - 6 > 8 ? box.top - tip.height - 6 : box.bottom + 6}px`;
+    };
+    for (const type of ['pointerenter', 'focus']) row.addEventListener(type, show);
+    for (const type of ['pointerleave', 'blur']) row.addEventListener(type, () => { els.tip.hidden = true; });
+    return row;
+  });
+  return element('section', { className: 'ui-card bench-panel bench-faces' }, [
+    element('div', { className: 'bench-panel-head' }, [
+      element('h2', { textContent: t('bench.track.faces') }),
+      element('div', { className: 'bench-chips' }, [
+        element('span', { className: 'ui-chip', textContent: t('bench.measure.exact') }),
+        element('span', { className: 'ui-chip bench-key' }, [element('span', { className: 'bench-swatch', dataset: { group: 'han2ids' } }), after]),
+        element('span', { className: 'ui-chip bench-key' }, [element('span', { className: 'bench-tick-key' }), before]),
+        element('span', { className: 'ui-chip', textContent: t('bench.unreviewed') }),
+      ]),
+    ]),
+    element('ul', { className: 'bench-chart' }, rows),
+    element('div', { className: 'bench-axis', ariaHidden: 'true' }, [
+      element('span', { className: 'bench-ticks' }, [0, 25, 50, 75, 100].map(tick => element('span', { textContent: String(tick) }))),
+    ]),
+  ]);
+}
+
 function render() {
   renderMeasures();
   if (!data) return;
   els.tip.hidden = true;
-  els.tracks.replaceChildren(...data.tracks.map(panel));
+  els.tracks.replaceChildren(...data.tracks.map(panel), ...(data.faces?.length ? [facesPanel()] : []));
 }

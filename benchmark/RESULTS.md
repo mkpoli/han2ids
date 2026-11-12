@@ -64,6 +64,26 @@ A seed-20261112 random sample contains 256 characters and 477 clean images. Each
 | han2ids v0.5 | 84.11% | 91.34% | 93.10–96.61% |
 | GlyphStudio 0.1.0 | 60.35% | 64.45% | 85.55–97.66% |
 
+## Faces outside training
+
+Held-out test characters drawn in eleven Mincho and Song faces that no han2ids version trained on, with the clean track's renderer. Each face is scored on the test characters it covers, up to 1,500 in a seeded order, by exact agreement of unified readings per image. No images are published; the [summary](results/faces/summary.json) records each face's file hash, the characters, references and readings. `python -m benchmark.faces` reproduces it.
+
+| Face | Characters | han2ids v0.4 | han2ids v0.5 |
+| --- | ---: | ---: | ---: |
+| Hiragino Mincho ProN W3 | 536 | 91.42% | 92.35% |
+| Yu Mincho | 636 | 90.88% | 91.98% |
+| MS Mincho | 620 | 91.13% | 93.23% |
+| BIZ UDMincho | 465 | 91.40% | 92.90% |
+| HG Mincho E | 465 | 89.46% | 91.18% |
+| MingLiU | 1,345 | 87.06% | 91.38% |
+| MingLiU-ExtB | 1,500 | 70.87% | 75.60% |
+| TW-Sung | 1,344 | 88.32% | 91.44% |
+| TW-Sung-Ext-B | 1,500 | 69.87% | 75.47% |
+| Noto Serif CJK SC | 1,453 | 92.50% | 94.01% |
+| Noto Serif CJK TC | 1,453 | 91.40% | 93.32% |
+
+The two Extension B faces cover rarer characters than the others, so their rows are not comparable with the rest. Taiwanese and mainland faces print regional forms that the first-sequence references do not always describe. GlyphStudio was not run on this track.
+
 ## Conditions and limitations
 
 - **References:** Of the 10,076 clean and style images, 181 have labels accepted by one reviewer; the rest are unreviewed. The evaluation uses the source manifest's first usable IDS; a regional sequence and the visible font form may differ. GlyphStudio's enhanced IDS notation is not fully supported: on the clean track 47 top-one outputs are unsupported and nine malformed under this evaluator. Unsupported outputs remain in the score denominator and are reported separately.
