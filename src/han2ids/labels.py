@@ -1,9 +1,9 @@
-"""Read BabelStone IDS with its region tags and choose the Japanese sequence.
+"""Read BabelStone IDS with its region tags.
 
-BabelStone lists one sequence per region set. The fonts used by han2ids are Japanese Mincho faces
-(Noto Serif CJK JP, IPAmj, Jigmo), so the J-tagged sequence is the one the image is drawn from.
-Where no J row exists, the first usable sequence is kept. A small override file handles images the
-source cannot describe (for example a Japanese 崢 drawn with 争).
+BabelStone lists one sequence per region set. `base_labels`, which training and scoring use, keeps
+the first usable sequence of each character whatever its region. `japanese_labels` prefers the
+J-tagged sequence and is used only to audit regional variants. A small override file handles images
+the source cannot describe (for example a Japanese 崢 drawn with 争).
 """
 from __future__ import annotations
 

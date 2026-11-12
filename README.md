@@ -87,7 +87,8 @@ contain 10,398 distinct characters; Jigmo covers all and IPAmj covers 8,379. IPA
 second Mincho style, not as extra coverage.
 
 The v0.5 checkpoint is attached to the [v0.5.0 release](https://github.com/mkpoli/han2ids/releases/tag/v0.5.0);
-the repository does not carry the 135 MB file.
+the repository does not carry the 135 MB file. [Hugging Face](https://huggingface.co/mkpoli/han2ids-v0.5)
+mirrors it with the ONNX exports.
 
 ## Training
 
