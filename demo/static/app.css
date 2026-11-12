@@ -952,8 +952,14 @@ body {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 520px) {
   .version-link {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-name {
     display: none;
   }
 

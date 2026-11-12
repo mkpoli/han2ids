@@ -28,8 +28,9 @@ for (const [locale, entry] of Object.entries(LOCALES)) {
   }
 }
 
-const html = readFileSync(new URL('./static/index.html', import.meta.url), 'utf8')
 const staticDir = fileURLToPath(new URL('./static/', import.meta.url))
+const html = readdirSync(staticDir).filter(name => name.endsWith('.html'))
+  .map(name => readFileSync(join(staticDir, name), 'utf8')).join('\n')
 function* modules(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === 'ort' || entry.name === 'design') continue
@@ -39,7 +40,7 @@ function* modules(dir) {
   }
 }
 const used = new Set()
-for (const match of html.matchAll(/data-i18n(?:-aria|-title|-alt)?="([^"]+)"/g)) used.add(match[1])
+for (const match of html.matchAll(/data-(?:i18n(?:-aria|-title|-alt)?|title-key|description-key)="([^"]+)"/g)) used.add(match[1])
 for (const path of modules(staticDir)) {
   const script = readFileSync(path, 'utf8')
   for (const match of script.matchAll(/(?<![A-Za-z0-9_$])(?:t|setStatus)\(\s*['"]([^'"]+)['"]/g)) used.add(match[1])

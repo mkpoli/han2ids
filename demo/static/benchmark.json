@@ -1,0 +1,344 @@
+{
+ "readers": [
+  {
+   "id": "pilot",
+   "name": "han2ids font pilot",
+   "group": "han2ids",
+   "overlap": false
+  },
+  {
+   "id": "v0.1",
+   "name": "han2ids v0.1",
+   "group": "han2ids",
+   "overlap": true
+  },
+  {
+   "id": "v0.2",
+   "name": "han2ids v0.2",
+   "group": "han2ids",
+   "overlap": false
+  },
+  {
+   "id": "v0.3",
+   "name": "han2ids v0.3",
+   "group": "han2ids",
+   "overlap": false
+  },
+  {
+   "id": "v0.4",
+   "name": "han2ids v0.4",
+   "group": "han2ids",
+   "overlap": false
+  },
+  {
+   "id": "glyphstudio",
+   "name": "GlyphStudio 0.1.0",
+   "group": "external",
+   "overlap": false
+  }
+ ],
+ "tracks": [
+  {
+   "id": "clean",
+   "images": 8730,
+   "characters": 4752,
+   "reviewed": false,
+   "rows": {
+    "glyphstudio": {
+     "exact": 61.92,
+     "sameAxis": 62.53,
+     "family": 66.1,
+     "f1": 77.6,
+     "tree": 81.86,
+     "expanded": [
+      81.64,
+      92.53
+     ]
+    },
+    "pilot": {
+     "exact": 54.92,
+     "sameAxis": 54.92,
+     "family": 55.13,
+     "f1": 73.88,
+     "tree": 80.21,
+     "expanded": [
+      55.48,
+      73.27
+     ]
+    },
+    "v0.1": {
+     "exact": 88.19,
+     "sameAxis": 88.53,
+     "family": 89.45,
+     "f1": 93.98,
+     "tree": 95.35,
+     "expanded": [
+      90.72,
+      94.7
+     ]
+    },
+    "v0.2": {
+     "exact": 79.3,
+     "sameAxis": 79.71,
+     "family": 79.9,
+     "f1": 89.01,
+     "tree": 91.39,
+     "expanded": [
+      83.21,
+      90.47
+     ]
+    },
+    "v0.3": {
+     "exact": 77.95,
+     "sameAxis": 78.23,
+     "family": 78.37,
+     "f1": 88.12,
+     "tree": 90.65,
+     "expanded": [
+      81.93,
+      89.55
+     ]
+    },
+    "v0.4": {
+     "exact": 80.05,
+     "sameAxis": 80.34,
+     "family": 80.51,
+     "f1": 89.18,
+     "tree": 91.53,
+     "expanded": [
+      82.73,
+      90.21
+     ]
+    }
+   }
+  },
+  {
+   "id": "reviewed",
+   "images": 181,
+   "characters": 100,
+   "reviewed": true,
+   "rows": {
+    "glyphstudio": {
+     "exact": 50.0,
+     "sameAxis": 51.0,
+     "family": 58.67,
+     "f1": 71.78,
+     "tree": 76.99,
+     "expanded": [
+      80.67,
+      91.67
+     ]
+    },
+    "pilot": {
+     "exact": 51.67,
+     "sameAxis": 51.67,
+     "family": 51.67,
+     "f1": 74.36,
+     "tree": 80.91,
+     "expanded": [
+      52.67,
+      63.67
+     ]
+    },
+    "v0.1": {
+     "exact": 91.5,
+     "sameAxis": 91.5,
+     "family": 92.83,
+     "f1": 95.36,
+     "tree": 96.41,
+     "expanded": [
+      95.83,
+      97.0
+     ]
+    },
+    "v0.2": {
+     "exact": 80.5,
+     "sameAxis": 81.5,
+     "family": 81.5,
+     "f1": 89.56,
+     "tree": 91.91,
+     "expanded": [
+      85.67,
+      91.0
+     ]
+    },
+    "v0.3": {
+     "exact": 81.0,
+     "sameAxis": 81.0,
+     "family": 81.0,
+     "f1": 89.06,
+     "tree": 91.54,
+     "expanded": [
+      86.5,
+      91.33
+     ]
+    },
+    "v0.4": {
+     "exact": 82.67,
+     "sameAxis": 82.67,
+     "family": 82.67,
+     "f1": 90.01,
+     "tree": 92.48,
+     "expanded": [
+      86.17,
+      90.67
+     ]
+    }
+   }
+  },
+  {
+   "id": "styles",
+   "images": 1346,
+   "characters": 673,
+   "reviewed": false,
+   "rows": {
+    "glyphstudio": {
+     "exact": 70.73,
+     "sameAxis": 70.73,
+     "family": 80.46,
+     "f1": 82.99,
+     "tree": 86.56,
+     "expanded": [
+      86.63,
+      94.5
+     ]
+    },
+    "pilot": {
+     "exact": 82.69,
+     "sameAxis": 82.69,
+     "family": 82.76,
+     "f1": 89.57,
+     "tree": 91.5,
+     "expanded": [
+      82.76,
+      89.9
+     ]
+    },
+    "v0.1": {
+     "exact": 82.17,
+     "sameAxis": 82.39,
+     "family": 84.47,
+     "f1": 90.17,
+     "tree": 92.49,
+     "expanded": [
+      84.77,
+      91.16
+     ]
+    },
+    "v0.2": {
+     "exact": 88.63,
+     "sameAxis": 88.78,
+     "family": 89.0,
+     "f1": 93.67,
+     "tree": 94.9,
+     "expanded": [
+      90.19,
+      94.87
+     ]
+    },
+    "v0.3": {
+     "exact": 84.77,
+     "sameAxis": 84.84,
+     "family": 85.22,
+     "f1": 90.62,
+     "tree": 92.38,
+     "expanded": [
+      86.33,
+      93.46
+     ]
+    },
+    "v0.4": {
+     "exact": 87.15,
+     "sameAxis": 87.15,
+     "family": 87.37,
+     "f1": 92.11,
+     "tree": 93.6,
+     "expanded": [
+      88.19,
+      93.98
+     ]
+    }
+   }
+  },
+  {
+   "id": "candidates",
+   "images": 477,
+   "characters": 256,
+   "reviewed": false,
+   "rows": {
+    "glyphstudio": {
+     "exact": 59.57,
+     "sameAxis": 60.35,
+     "family": 65.17,
+     "f1": 76.11,
+     "tree": 80.39,
+     "top5": 64.45,
+     "expanded": [
+      85.55,
+      97.66
+     ]
+    },
+    "pilot": {
+     "exact": 56.38,
+     "sameAxis": 56.38,
+     "family": 56.38,
+     "f1": 76.09,
+     "tree": 82.28,
+     "top5": 65.1,
+     "expanded": [
+      65.49,
+      87.76
+     ]
+    },
+    "v0.1": {
+     "exact": 90.36,
+     "sameAxis": 90.36,
+     "family": 91.15,
+     "f1": 95.51,
+     "tree": 96.4,
+     "top5": 97.33,
+     "expanded": [
+      97.98,
+      99.09
+     ]
+    },
+    "v0.2": {
+     "exact": 80.4,
+     "sameAxis": 80.4,
+     "family": 80.4,
+     "f1": 89.42,
+     "tree": 91.5,
+     "top5": 88.28,
+     "expanded": [
+      93.55,
+      97.01
+     ]
+    },
+    "v0.3": {
+     "exact": 80.73,
+     "sameAxis": 80.73,
+     "family": 80.73,
+     "f1": 89.43,
+     "tree": 91.85,
+     "top5": 87.3,
+     "expanded": [
+      92.77,
+      97.33
+     ]
+    },
+    "v0.4": {
+     "exact": 81.77,
+     "sameAxis": 81.77,
+     "family": 81.77,
+     "f1": 89.85,
+     "tree": 92.15,
+     "top5": 88.02,
+     "expanded": [
+      90.36,
+      97.14
+     ]
+    }
+   }
+  }
+ ]
+}
