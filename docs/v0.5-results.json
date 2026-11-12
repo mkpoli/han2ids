@@ -1,0 +1,241 @@
+{
+ "validation": {
+  "ink-fitted renders and composed glyphs": [
+   {
+    "epoch": 0,
+    "loss": null,
+    "seconds": null,
+    "cached": {
+     "exact": 0.8490934128987836,
+     "unified": 0.8490934128987836,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8487530168946098,
+      "jigmo": 0.8247746803605114,
+      "noto": 0.9293067947838023
+     }
+    },
+    "fitted": {
+     "exact": 0.8349781960064264,
+     "unified": 0.8349781960064264,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8378921962992759,
+      "jigmo": 0.8111507021588765,
+      "noto": 0.9080301990391215
+     }
+    }
+   },
+   {
+    "epoch": 1,
+    "loss": 0.9301253723964797,
+    "seconds": 2021,
+    "cached": {
+     "exact": 0.8527656644480147,
+     "unified": 0.8527656644480147,
+     "valid": 0.9998852421390865,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8535800482703138,
+      "jigmo": 0.8285474743240411,
+      "noto": 0.9306794783802333
+     }
+    },
+    "fitted": {
+     "exact": 0.8521918751434473,
+     "unified": 0.8521918751434473,
+     "valid": 0.9998852421390865,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8543845534995977,
+      "jigmo": 0.8283378746594006,
+      "noto": 0.9265614275909403
+     }
+    }
+   },
+   {
+    "epoch": 2,
+    "loss": 0.7960078982855204,
+    "seconds": 566,
+    "cached": {
+     "exact": 0.8575854946063806,
+     "unified": 0.8575854946063806,
+     "valid": 0.999770484278173,
+     "unseen_component": 0.008797653958944282,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8563958165728077,
+      "jigmo": 0.8346258645986167,
+      "noto": 0.9347975291695264
+     }
+    },
+    "fitted": {
+     "exact": 0.8587330732155153,
+     "unified": 0.8587330732155153,
+     "valid": 1.0,
+     "unseen_component": 0.01466275659824047,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8576025744167337,
+      "jigmo": 0.8365122615803815,
+      "noto": 0.9334248455730954
+     }
+    }
+   },
+   {
+    "epoch": 3,
+    "loss": 0.7654602427205308,
+    "seconds": 707,
+    "cached": {
+     "exact": 0.8611429882946982,
+     "unified": 0.8611429882946982,
+     "valid": 0.999770484278173,
+     "unseen_component": 0.020527859237536656,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8584070796460177,
+      "jigmo": 0.839446656885349,
+      "noto": 0.9368565545641729
+     }
+    },
+    "fitted": {
+     "exact": 0.8602249254073904,
+     "unified": 0.8602249254073904,
+     "valid": 1.0,
+     "unseen_component": 0.02346041055718475,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8588093322606597,
+      "jigmo": 0.8383986585621463,
+      "noto": 0.9341111873713109
+     }
+    }
+   }
+  ],
+  "ink-fitted renders only": [
+   {
+    "epoch": 0,
+    "loss": null,
+    "seconds": null,
+    "cached": {
+     "exact": 0.8490934128987836,
+     "unified": 0.8490934128987836,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8487530168946098,
+      "jigmo": 0.8247746803605114,
+      "noto": 0.9293067947838023
+     }
+    },
+    "fitted": {
+     "exact": 0.8349781960064264,
+     "unified": 0.8349781960064264,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8378921962992759,
+      "jigmo": 0.8111507021588765,
+      "noto": 0.9080301990391215
+     }
+    }
+   },
+   {
+    "epoch": 1,
+    "loss": 0.7528290165175827,
+    "seconds": 2061,
+    "cached": {
+     "exact": 0.8371585953637825,
+     "unified": 0.8371585953637825,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8386967015285599,
+      "jigmo": 0.8096835045063928,
+      "noto": 0.9245024021962938
+     }
+    },
+    "fitted": {
+     "exact": 0.8362405324764747,
+     "unified": 0.8362405324764747,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8386967015285599,
+      "jigmo": 0.8096835045063928,
+      "noto": 0.9190116678105696
+     }
+    }
+   },
+   {
+    "epoch": 2,
+    "loss": 0.7318500453452889,
+    "seconds": 568,
+    "cached": {
+     "exact": 0.8416341519394078,
+     "unified": 0.8416341519394078,
+     "valid": 0.9998852421390865,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8439259855189059,
+      "jigmo": 0.8149234961224062,
+      "noto": 0.9251887439945092
+     }
+    },
+    "fitted": {
+     "exact": 0.8415193940784944,
+     "unified": 0.8415193940784944,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8455349959774738,
+      "jigmo": 0.8149234961224062,
+      "noto": 0.9217570350034318
+     }
+    }
+   },
+   {
+    "epoch": 3,
+    "loss": 0.7213523572297404,
+    "seconds": 702,
+    "cached": {
+     "exact": 0.8426669726876291,
+     "unified": 0.8426669726876291,
+     "valid": 0.9998852421390865,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8447304907481898,
+      "jigmo": 0.8159714944456089,
+      "noto": 0.9265614275909403
+     }
+    },
+    "fitted": {
+     "exact": 0.8432407619921964,
+     "unified": 0.8432407619921964,
+     "valid": 1.0,
+     "unseen_component": 0.0,
+     "unseen_component_rows": 341,
+     "by_font": {
+      "ipamj": 0.8475462590506838,
+      "jigmo": 0.8166002934395304,
+      "noto": 0.9231297185998627
+     }
+    }
+   }
+  ]
+ },
+ "note": "Agreement with the labels on the 8,714 validation images, cached em-box view and ink-fitted view. Epoch 0 is v0.4. The validation split selected the checkpoint."
+}

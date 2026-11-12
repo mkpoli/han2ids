@@ -15,7 +15,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="han2ids", description="Read an IDS from a Mincho glyph image.")
     parser.add_argument("images", nargs="+", type=Path)
     parser.add_argument("--checkpoint", type=Path,
-                        default=Path(os.environ.get("HAN2IDS_MODEL", "models/han2ids-v0.4.pt")))
+                        default=Path(os.environ.get("HAN2IDS_MODEL", "models/han2ids-v0.5.pt")))
     parser.add_argument("--json", action="store_true", help="one JSON object per image")
     parser.add_argument("--no-tta", action="store_true", help="use only the em-box reading")
     parser.add_argument("--top-k", type=int, default=1, help="beam alternatives, at most this many")

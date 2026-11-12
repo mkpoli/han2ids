@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "han2ids"
-version = "0.4.0"
+version = "0.5.0"
 description = "Read an ideographic description sequence from a Mincho serif glyph image."
 readme = "README.md"
 requires-python = ">=3.10"

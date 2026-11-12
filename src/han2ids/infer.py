@@ -71,7 +71,7 @@ class Reading:
 
 
 class Han2IDS:
-    def __init__(self, checkpoint: str | Path = "models/han2ids-v0.4.pt", device: str | None = None):
+    def __init__(self, checkpoint: str | Path = "models/han2ids-v0.5.pt", device: str | None = None):
         path = Path(checkpoint)
         if not path.exists():
             raise FileNotFoundError(f"Checkpoint not found: {path}")

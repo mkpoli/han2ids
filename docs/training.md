@@ -62,3 +62,37 @@ carry the four image overrides.
 
 Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is
 `models/han2ids-v0.3.pt`; the training script is `scripts/train_fonts_v3.py`.
+
+## v0.5
+
+v0.5 continues v0.4 for three epochs at one fifth of its learning rates (encoder 1e-5, decoder 5e-5).
+Three things change in the data:
+
+- **Printed-form labels.** The 鄉 family is labelled by the form each face prints
+  (`docs/font-variants.md`); 鄕 with U+E0101 and with U+E0102 are output tokens.
+- **Ink-fitted renders.** Half of the rows are drawn again from the face with the ink centred and
+  scaled to a margin of 6 to 30 px, the framing of the clean benchmark track and of a cropped glyph.
+  The other half keeps the cached em-box image.
+- **Composed glyphs.** A fifth of each batch is two glyphs of one face placed side by side or
+  stacked and labelled `⿰AB` or `⿱AB`. Half of the components come from those that fewer than six
+  training labels contain, and a quarter of the compositions hold a form of 鄉. A composition whose
+  unified reading is a validation or test label is never drawn.
+
+Agreement with the labels on the 8,714 validation images:
+
+| | cached em-box view | ink-fitted view | rows with a component no training label has (341) |
+| --- | ---: | ---: | ---: |
+| v0.4 | 84.91% | 83.50% | 0.0% |
+| ink-fitted renders only, 3 epochs | 84.27% | 84.32% | 0.0% |
+| v0.5: ink-fitted renders and composed glyphs | **86.11%** | **86.02%** | 2.1% |
+
+The composed glyphs carry the gain; ink-fitted renders alone trade cached-view agreement for
+ink-fitted agreement. Each arm ran once with seed 17, and the validation split chose the checkpoint,
+so the held-out numbers are the ones in `benchmark/RESULTS.md`: 83.77% exact on the clean track
+against v0.4's 80.05%, a paired difference of 3.72 points (interval 3.09 to 4.31).
+
+On the three test images of 䦳, v0.5 reads `⿵門鄉` for Noto, `⿵門鄕󠄂` for IPAmj and
+`⿵門鄕󠄁` for Jigmo, each with the unified reading `⿵門鄉`; v0.4 read `⿵門鄉` for all three.
+
+The script is `scripts/train_v5.py`; per-epoch metrics are in `docs/v0.5-results.json`. The two arms
+shared the GPU with each other and another job; an epoch took 9 to 34 minutes.

@@ -8,10 +8,10 @@ out of scope, so the model does not spend capacity on shapes it is not meant to 
 
 ![han2ids v0.3 capability gallery](docs/gallery-v0.3-cover.png)
 
-Status: v0.4, a 35.2M model continued from v0.3 on Noto, IPAmj and Jigmo renders. On the original
-8,730-image test, v0.4 matched 84.54% of the reference strings. That test clips glyphs; its published
-same-tree score also includes character-wide overrides. The references have not been independently
-reviewed against each image. See the [benchmark results](benchmark/RESULTS.md),
+Status: v0.5, a 35.2M model continued from v0.4 with printed-form labels, ink-fitted renders and
+composed glyphs. On the clean benchmark track (8,730 images of 4,752 held-out characters) v0.5 matches
+83.77% of the reference strings exactly, against 80.05% for v0.4. Of those references, 181 have been
+checked by a reviewer against the image. See the [benchmark results](benchmark/RESULTS.md),
 [protocol](benchmark/PROTOCOL.md) and [leak audit](docs/leak.md): v0.1's training split included 89.9%
 of the current test characters.
 
@@ -20,8 +20,8 @@ of the current test characters.
 ```sh
 uv sync
 mkdir -p models
-curl -L -o models/han2ids-v0.4.pt \
-  https://github.com/mkpoli/han2ids/releases/download/v0.4.0/han2ids-v0.4.pt
+curl -L -o models/han2ids-v0.5.pt \
+  https://github.com/mkpoli/han2ids/releases/download/v0.5.0/han2ids-v0.5.pt
 ```
 
 The checkpoint is 135 MB. It is not committed.
@@ -32,7 +32,7 @@ The checkpoint is 135 MB. It is not committed.
 uv run han2ids samples/疑.png
 ```
 
-The default checkpoint is `models/han2ids-v0.4.pt`. Point at another with `--checkpoint`, or set
+The default checkpoint is `models/han2ids-v0.5.pt`. Point at another with `--checkpoint`, or set
 `HAN2IDS_MODEL`. Each line gives the reading of the printed form, the unified reading and the
 confidence; see `docs/font-variants.md`. `--json` adds the chosen preprocessing variant;
 `--top-k 3` returns ranked beam alternatives; see `docs/multiple-ids.md`. `--no-tta` uses the em-box render only.
@@ -86,13 +86,13 @@ Of the 97,680 Han records, Jigmo covers all 97,680 and IPAmj covers 52,518, addi
 contain 10,398 distinct characters; Jigmo covers all and IPAmj covers 8,379. IPAmj is useful as a
 second Mincho style, not as extra coverage.
 
-The v0.4 checkpoint is attached to the [v0.4.0 release](https://github.com/mkpoli/han2ids/releases/tag/v0.4.0);
-the repository does not carry the 135 MB file. [Hugging Face](https://huggingface.co/mkpoli/han2ids-v0.4) mirrors it.
+The v0.5 checkpoint is attached to the [v0.5.0 release](https://github.com/mkpoli/han2ids/releases/tag/v0.5.0);
+the repository does not carry the 135 MB file.
 
 ## Training
 
 `scripts/build_dataset.py` renders a font-mixed set from the BabelStone labels.
-`scripts/train_fonts_v4.py` trains v0.4 from v0.3; `scripts/train_fonts_v3.py` trains the full v0.3 model; `scripts/train.py` trains from image/label JSONL
+`scripts/train_v5.py` trains v0.5 from v0.4; `scripts/train_fonts_v4.py` trains v0.4 from v0.3; `scripts/train_fonts_v3.py` trains the full v0.3 model; `scripts/train.py` trains from image/label JSONL
 directories. `scripts/pilot_fonts.py` is the held-out-font experiment. Nothing uses Kai.
 
 The full v0.3 run used 176,965 images over 95,927 Han characters with a common em-box renderer, four epochs, and evaluated on 8,730 mixed-font rows. See `docs/training.md` for the numbers and the pilot comparison.

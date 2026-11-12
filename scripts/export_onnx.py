@@ -54,7 +54,7 @@ def digest(path: Path) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="export-onnx", description=__doc__)
-    parser.add_argument("--checkpoint", type=Path, default=ROOT / "models" / "han2ids-v0.4.pt")
+    parser.add_argument("--checkpoint", type=Path, default=ROOT / "models" / "han2ids-v0.5.pt")
     parser.add_argument("--out", type=Path, default=ROOT / "build" / "onnx")
     parser.add_argument("--max-len", type=int, default=0, help="decoder length; the checkpoint value by default")
     args = parser.parse_args(argv)
