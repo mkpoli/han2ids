@@ -40,6 +40,7 @@ async function setup() {
   globalThis.fetch = (target, options) => {
     const path = target.pathname;
     if (path.endsWith('/itos.json')) return Promise.resolve({ ok: true, json: async () => [] });
+    if (path.endsWith('/forms.json')) return Promise.resolve({ ok: true, json: async () => ({}) });
     signals.push(options.signal);
     return requests[path.includes('encoder') ? 'encoder' : 'decoder'].promise;
   };
@@ -176,6 +177,7 @@ test('shared loads notify each request and stale messages cannot reach a retry',
   };
   globalThis.fetch = (target, options) => {
     if (target.pathname.endsWith('/itos.json')) return Promise.resolve({ ok: true, json: async () => [] });
+    if (target.pathname.endsWith('/forms.json')) return Promise.resolve({ ok: true, json: async () => ({}) });
     const request = deferred();
     requests.push({ ...request, signal: options.signal });
     return request.promise;
@@ -236,6 +238,7 @@ test('the progress element hides its determinate bar when the aggregate size is 
 
   const els = {
     copyIds: { addEventListener() {} },
+    copyUnified: { addEventListener() {} },
     modelLoad: { hidden: true },
     modelProgress: { hidden: false, value: 0 },
     modelProgressText: { textContent: '' },
