@@ -4,6 +4,9 @@ import { renderIds } from './render-ids.js';
 
 export function createDisplay(deps, els = selectElements(['modelLoad', 'modelProgress', 'modelProgressText', 'resultEmpty', 'resultBody', 'resultError', 'readingStatus', 'candidates', 'idsText', 'resultCard', 'errorTitle', 'errorDetail', 'openWorkshop', 'scoreChip', 'validityChip', 'copyIds', 'sourceChip', 'candidateList', 'readingStatusText', 'liveStatus'])) {
   let copied = false;
+  let copyFailed = false;
+  let copyTimer;
+  let lastCopyAnnouncement = '';
 
   function showModelProgress(fraction) {
     els.modelLoad.hidden = false;
@@ -15,6 +18,10 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
   function hideModelProgress() {
     els.modelLoad.hidden = true;
   }
+  function copyLabel() {
+    return copied ? deps.t('reading.copied') : copyFailed ? deps.t('reading.copyFailed') : deps.t('reading.copy');
+  }
+
   function renderResult() {
     const item = deps.selectedItem();
     if (!item) {
@@ -46,7 +53,7 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
       els.scoreChip.title = deps.t('reading.scoreHint');
       els.validityChip.textContent = reading.valid ? deps.t('reading.valid') : deps.t('reading.invalid');
       els.validityChip.dataset.variant = reading.valid ? 'accent' : 'danger';
-      els.copyIds.textContent = copied ? deps.t('reading.copied') : deps.t('reading.copy');
+      els.copyIds.textContent = copyLabel();
 
       const source = deps.getSource(item.sourceId);
       els.sourceChip.hidden = false;
@@ -112,27 +119,34 @@ export function createDisplay(deps, els = selectElements(['modelLoad', 'modelPro
   els.copyIds.addEventListener('click', async () => {
     const reading = deps.selectedItem()?.readings[0];
     if (!reading) return;
+    let succeeded = true;
     try {
       await navigator.clipboard.writeText(reading.ids);
     } catch {
-      const area = document.createElement('textarea');
-      area.value = reading.ids;
-      area.setAttribute('readonly', '');
-      area.style.position = 'fixed';
-      area.style.opacity = '0';
-      document.body.append(area);
-      area.select();
-      document.execCommand('copy');
-      area.remove();
+      succeeded = false;
     }
-    copied = true;
+    clearTimeout(copyTimer);
+    copied = succeeded;
+    copyFailed = !succeeded;
     renderResult();
-    els.liveStatus.textContent = deps.t('live.copied');
-    setTimeout(() => {
+    const message = deps.t(succeeded ? 'live.copied' : 'reading.copyFailed');
+    const announcement = lastCopyAnnouncement === message ? `${message}\u00a0` : message;
+    lastCopyAnnouncement = announcement;
+    els.liveStatus.textContent = announcement;
+    copyTimer = setTimeout(() => {
+      if (els.liveStatus.textContent === announcement) els.liveStatus.textContent = '';
       copied = false;
+      copyFailed = false;
       renderResult();
     }, 1600);
   });
 
-  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announceReading: reading => { els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) }); } };
+  function announceReading(reading) {
+    copied = false;
+    copyFailed = false;
+    els.copyIds.textContent = copyLabel();
+    els.liveStatus.textContent = deps.t('live.read', { ids: reading.ids, score: (Math.round(reading.score * 1000) / 10).toFixed(1) });
+  }
+
+  return { renderResult, showModelProgress, hideModelProgress, setStatus, clearError, showError, clearCopied: () => { copied = false; copyFailed = false; }, clearLive: () => { els.liveStatus.textContent = ''; }, announceReading };
 }
