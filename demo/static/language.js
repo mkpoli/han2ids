@@ -45,8 +45,9 @@ export function createLanguage(deps, els = selectElements(['languageList', 'lang
 
   function applyTranslations() {
     document.documentElement.lang = LOCALES[locale].htmlLang;
-    document.title = t('meta.title');
-    document.querySelector('meta[name="description"]')?.setAttribute('content', t('meta.description'));
+    const { titleKey = 'meta.title', descriptionKey = 'meta.description' } = document.documentElement.dataset;
+    document.title = t(titleKey);
+    document.querySelector('meta[name="description"]')?.setAttribute('content', t(descriptionKey));
     for (const node of document.querySelectorAll('[data-i18n]')) node.textContent = t(node.dataset.i18n);
     for (const node of document.querySelectorAll('[data-i18n-aria]')) node.setAttribute('aria-label', t(node.dataset.i18nAria));
     for (const node of document.querySelectorAll('[data-i18n-title]')) node.title = t(node.dataset.i18nTitle);

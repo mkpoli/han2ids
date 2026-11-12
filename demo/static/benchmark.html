@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" data-title-key="bench.meta.title" data-description-key="bench.meta.description">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>han2ids — benchmark</title>
+  <meta name="description" content="Agreement of han2ids versions and other glyph-to-IDS readers with the reference sequences on four test sets.">
+  <script>
+    try {
+      const theme = localStorage.getItem('han2ids:theme')
+      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme
+      const lang = new URLSearchParams(location.search).get('lang') || localStorage.getItem('han2ids:lang')
+      if (lang) document.documentElement.lang = lang
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="./design/tokens.css">
+  <link rel="stylesheet" href="./design/base.css">
+  <link rel="stylesheet" href="./design/controls.css">
+  <link rel="stylesheet" href="./app.css">
+  <link rel="stylesheet" href="./benchmark.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="han2ids home" data-i18n-aria="page.home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
+          <path fill="currentColor" d="M5 5h5v14H5zM14 5h5v6h-5zM14 13h5v6h-5z"/>
+        </svg>
+      </span>
+      <span class="brand-name">han2ids</span>
+    </a>
+    <div class="topbar-actions">
+      <a class="ui-button nav-link" data-variant="quiet" data-size="sm" href="./benchmark.html" aria-current="page" data-i18n="nav.benchmark">Benchmark</a>
+      <a class="ui-button version-link" data-variant="quiet" data-size="sm" href="https://github.com/mkpoli/han2ids" target="_blank" rel="noreferrer">
+        <span class="version-number">v0.4 · int8 ONNX</span>
+        <span class="github-label">GitHub</span>
+        <span class="build-mark">int8 ONNX</span>
+      </a>
+      <div class="ui-select-menu language-menu" id="language-menu">
+        <button class="ui-button ui-select-menu-trigger language-trigger" id="language-button" type="button"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="language-list" aria-label="Language" title="Language">
+          <span class="ui-select-menu-leading" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" focusable="false">
+              <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.6" d="M3.5 12h17M12 3.5c2.3 2.4 3.5 5.4 3.5 8.5s-1.2 6.1-3.5 8.5M12 3.5C9.7 5.9 8.5 8.9 8.5 12s1.2 6.1 3.5 8.5"/>
+            </svg>
+          </span>
+          <span class="ui-select-menu-value language-name" id="language-label">English</span>
+          <span class="language-code" id="language-code" aria-hidden="true">EN</span>
+          <svg class="ui-select-menu-chevron" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+        <ul class="ui-menu ui-select-menu-list language-list" id="language-list" role="listbox" aria-label="Language" data-align="end" hidden>
+          <li class="ui-menu-item" role="option" data-value="en" aria-selected="true" tabindex="-1"><span lang="en">English</span></li>
+          <li class="ui-menu-item" role="option" data-value="ja" aria-selected="false" tabindex="-1"><span lang="ja">日本語</span></li>
+          <li class="ui-menu-item" role="option" data-value="zh-Hans" aria-selected="false" tabindex="-1"><span lang="zh-Hans">简体中文</span></li>
+          <li class="ui-menu-item" role="option" data-value="zh-Hant" aria-selected="false" tabindex="-1"><span lang="zh-Hant">繁體中文</span></li>
+          <li class="ui-menu-item" role="option" data-value="ko" aria-selected="false" tabindex="-1"><span lang="ko">한국어</span></li>
+          <li class="ui-menu-item" role="option" data-value="vi" aria-selected="false" tabindex="-1"><span lang="vi">Tiếng Việt</span></li>
+        </ul>
+      </div>
+      <fieldset class="theme-switch ui-segmented">
+        <legend class="ui-visually-hidden" data-i18n="theme.legend">Colour scheme</legend>
+        <label class="ui-segment" title="Follow the system" data-i18n-title="theme.system">
+          <input type="radio" name="theme" value="system">
+          <span class="ui-segment-face">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M4 6h16v10H4zM9 20h6M12 16v4"/></svg>
+            <span class="ui-visually-hidden" data-i18n="theme.system">System</span>
+          </span>
+        </label>
+        <label class="ui-segment" title="Light" data-i18n-title="theme.light">
+          <input type="radio" name="theme" value="light">
+          <span class="ui-segment-face">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+            <span class="ui-visually-hidden" data-i18n="theme.light">Light</span>
+          </span>
+        </label>
+        <label class="ui-segment" title="Dark" data-i18n-title="theme.dark">
+          <input type="radio" name="theme" value="dark">
+          <span class="ui-segment-face">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+            <span class="ui-visually-hidden" data-i18n="theme.dark">Dark</span>
+          </span>
+        </label>
+      </fieldset>
+    </div>
+  </header>
+
+  <main class="page bench-page">
+    <section class="bench-head">
+      <h1 data-i18n="bench.title">Benchmark</h1>
+      <div class="bench-controls">
+        <fieldset class="ui-segmented bench-measures" id="measures">
+          <legend class="ui-visually-hidden" data-i18n="bench.measure">Measure</legend>
+        </fieldset>
+        <ul class="bench-legend" id="legend" aria-label="Legend" data-i18n-aria="bench.legend">
+          <li><span class="bench-swatch" data-group="han2ids"></span><span>han2ids</span></li>
+          <li><span class="bench-swatch" data-group="external"></span><span data-i18n="bench.external">Other readers</span></li>
+          <li><span class="bench-swatch" data-group="han2ids" data-overlap="true"></span><span data-i18n="bench.overlap">Trained on test characters</span></li>
+          <li><span class="bench-range-key" aria-hidden="true"></span><span data-i18n="bench.range">Expanded sensitivity</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="bench-grid" id="tracks"></div>
+
+    <section class="bench-sources" aria-labelledby="sources-heading">
+      <h2 id="sources-heading" data-i18n="bench.sources">Sources</h2>
+      <ul>
+        <li><a href="https://github.com/mkpoli/han2ids/blob/main/benchmark/RESULTS.md" data-i18n="bench.results">Full results</a> · <a href="https://github.com/mkpoli/han2ids/blob/main/benchmark/PROTOCOL.md" data-i18n="bench.protocol">Protocol</a></li>
+        <li>Andrew West, <a href="https://www.babelstone.co.uk/CJK/IDS.TXT">BabelStone IDS</a>, 2025-06-27</li>
+        <li><a href="https://github.com/chise/ids/tree/c3057f890b4d7a990628873f19274ec33b58a7aa">CHISE IDS</a>, c3057f8, GPL-2.0-or-later</li>
+        <li>GlyphStudio 0.1.0, <span class="bench-hash">GlyphStudio-source-with-models-0.1.0.zip</span></li>
+        <li><a href="https://github.com/notofonts/noto-cjk">Noto CJK</a> · <a href="https://moji.or.jp/mojikiban/font/">IPAmj Mincho</a> · <a href="https://kamichikoichi.github.io/jigmo/">Jigmo</a> · <a href="https://github.com/fontdasu/ShipporiMincho">Shippori Mincho</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="bench-tip" id="tip" role="tooltip" hidden></div>
+  <script type="module" src="./benchmark.js"></script>
+</body>
+</html>
