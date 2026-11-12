@@ -24,13 +24,14 @@ function setup() {
     if (!elements.has(name)) elements.set(name, new Element());
     return elements.get(name);
   };
-  const names = ['margin', 'imageWrap', 'cropBox', 'boxLayer', 'marginValue', 'quickCut', 'autoCut', 'fullImage', 'recognize'];
+  const names = ['margin', 'imageWrap', 'cropBox', 'cropState', 'cropLive', 'boxLayer', 'marginValue', 'quickCut', 'autoCut', 'fullImage', 'recognize'];
   const els = Object.fromEntries(names.map(name => [name, element(name)]));
   const window = new Element();
   const timers = new Map(); let nextTimer = 0;
   const calls = [];
   const pixels = new Uint8ClampedArray(224 * 224 * 4).fill(255);
   const document = {
+    documentElement: { lang: 'en' },
     createElement() { return { getContext() { return { fillRect() {}, drawImage() {}, getImageData() { return { data: pixels }; } }; } }; },
   };
   Object.assign(globalThis, {
@@ -44,6 +45,7 @@ function setup() {
     readings: [], phase: 'queued', errorKey: null, seq: 0 };
   let stage, reading;
   stage = createStage({
+    t: key => key,
     selectedItem: () => item, getSource: () => source, itemsOf: () => [item],
     onCropChanged: entry => reading.cropChanged(entry), scheduleRead: delay => reading.scheduleRead(delay),
     cancelScheduled: () => reading.cancelScheduled(),
@@ -78,7 +80,7 @@ test('a drag keeps the read timer from firing until release', () => {
   assert.equal(app.timers.size, 0);
   app.window.dispatch('pointermove', { pointerId: 1, clientX: 30, clientY: 20 });
   app.window.dispatch('pointerup', { pointerId: 1 });
-  assert.equal(app.timers.size, 1);
+  assert.equal(app.timers.size, 2); // the read timer and the debounced crop announcement
 });
 
 test('an edited crop rejects an in-flight reading and enqueues the replacement', async () => {

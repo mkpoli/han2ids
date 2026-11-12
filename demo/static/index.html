@@ -150,8 +150,9 @@
                 <span class="shade-bottom"></span>
               </div>
               <div class="box-layer" id="box-layer"></div>
-              <div class="crop-box" id="crop-box" tabindex="0" role="group"
-                aria-label="Cut region" data-i18n-aria="crop.region" aria-describedby="crop-hint">
+              <!-- The two-dimensional keyboard control needs arrow keys in screen-reader focus mode. -->
+              <div class="crop-box" id="crop-box" tabindex="0" role="application"
+                aria-label="Cut region" data-i18n-aria="crop.region" aria-describedby="crop-hint crop-state">
                 <span class="crop-line" aria-hidden="true"></span>
                 <span class="crop-handle" data-handle="nw" aria-hidden="true"></span>
                 <span class="crop-handle" data-handle="n" aria-hidden="true"></span>
@@ -163,7 +164,9 @@
                 <span class="crop-handle" data-handle="w" aria-hidden="true"></span>
               </div>
             </div>
-            <p class="ui-visually-hidden" id="crop-hint" data-i18n="crop.hint">Drag the handles to change the cut. Arrow keys move the cut; hold Shift and an arrow key to resize it.</p>
+            <p class="ui-visually-hidden" id="crop-hint" data-i18n="crop.hint">Drag the handles to change the cut. Arrow keys move it by 0.5% of the image; Shift and arrow keys resize it by 2% from the top-left corner.</p>
+            <p class="ui-visually-hidden" id="crop-state"></p>
+            <div class="ui-visually-hidden" id="crop-live" aria-live="polite" aria-atomic="true"></div>
           </div>
         </div>
 
