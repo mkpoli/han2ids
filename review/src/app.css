@@ -48,7 +48,9 @@ h1 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
 .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
 .skip { inline-size: auto; }
 .editor { display: flex; flex-direction: column; gap: 12px; padding: 14px; background: var(--ui-color-surface); border: 1px solid var(--ui-color-border); border-radius: 12px; }
-.editor-foot { display: flex; justify-content: flex-end; gap: 8px; }
+.workshop { inline-size: 100%; block-size: max(640px, 78vh); border: 1px solid var(--ui-color-border); border-radius: 10px; background: var(--ui-color-surface); }
+.editor-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.editor-foot .draft { flex: 1; min-inline-size: 0; font: 400 22px/1.25 var(--glyph); overflow-wrap: anywhere; }
 @media (max-width: 760px) {
   .work { grid-template-columns: 1fr; }
   .reference { inset-block-start: 0; z-index: 2; padding-block: 8px; background: var(--ui-color-canvas); }

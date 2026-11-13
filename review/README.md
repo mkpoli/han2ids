@@ -21,6 +21,14 @@ bun run dev        # http://localhost:8430
 the serif export the IDS Workshop publishes, and **Edit** (or Shift with the option's key) opens the
 editor on that option; the editor draws the sequence as it is written.
 
+## The editor
+
+With a build of the [IDS Workshop](https://ids.mkpo.li/) at `build/review/workshop/` (or the folder
+named by `IDS_WORKSHOP`), **Edit** opens the Workshop itself beside the glyph, and the desk reads the
+sequence from the Workshop's address. The build is ids-input's own `bunx vite build demo --outDir
+<folder>`, with its `ort/` folder copied in. Without one, the desk falls back to the smaller
+`IdsInput` component from the `ids-input` package.
+
 ## Decks
 
 `build/review/decks.json` is built on this machine and holds absolute image paths:
