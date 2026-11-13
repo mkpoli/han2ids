@@ -15,6 +15,9 @@ checked by a reviewer against the image. See the [benchmark results](benchmark/R
 [protocol](benchmark/PROTOCOL.md) and [leak audit](docs/leak.md): v0.1's training split included 89.9%
 of the current test characters.
 
+The browser demo is at <https://ids.mkpo.li/ocr/>, beside the [IDS Workshop](https://ids.mkpo.li/)
+([ids-input](https://github.com/mkpoli/ids-input)), where a reading can be opened and edited.
+
 ## Install
 
 ```sh
