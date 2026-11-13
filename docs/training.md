@@ -50,17 +50,20 @@ Jigmo gains 15.9 points; IPAmj loses 1.6; Noto is unchanged. The result is in
 
 ## v0.3
 
-v0.3 retrains on a common em-box rendering: a 200-unit em box with the baseline at 0.88 em, cropped to
-224. That removes the per-font anchor offset and the bottom clipping of the earlier renders. The labels
+v0.3 retrains on a common rendering: the glyph is drawn at 224 px with its baseline at a fixed
+height, and a 200 px window is cut out and scaled to 224. That removes the per-font anchor offset of
+the earlier renders. The window is smaller than the em box, so it clips ink on at least one side of
+8,719 of the 8,730 test images (`benchmark/RESULTS.md`, original crop audit). The labels
 carry the four image overrides.
 
 | test | v0.3 | v0.2, same renders |
 | --- | ---: | ---: |
-| exact | 82.93% | 80.24% |
+| exact | 82.90% | 80.24% |
 | same tree | 86.48% | |
 | valid | 100% | 99.97% |
 
-Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is
+The recorded run (`build/font-v03/results.json`) is 82.90%; other notes give 82.88% and 82.93% for
+the same checkpoint. Jigmo gains 3.91 exact points over v0.2 on the same renders. The checkpoint is
 `models/han2ids-v0.3.pt`; the training script is `scripts/train_fonts_v3.py`.
 
 ## v0.5
