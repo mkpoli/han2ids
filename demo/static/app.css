@@ -1046,6 +1046,12 @@ body {
   }
 }
 
+@media (max-width: 760px) {
+  .workshop-link {
+    display: none;
+  }
+}
+
 @media (max-width: 520px) {
   .version-link {
     display: none;
