@@ -44,7 +44,8 @@ def variants(image: Image.Image) -> list[tuple[str, Image.Image]]:
     base = _gray(image)
     padded = ImageOps.pad(base, (SIZE, SIZE), color=255)
     out = [("em", padded)]
-    ink = base.point(lambda value: 0 if value < 220 else 255)
+    # getbbox bounds the nonzero pixels, so the ink is the nonzero class.
+    ink = base.point(lambda value: 255 if value < 220 else 0)
     box = ink.getbbox()
     if box:
         glyph = base.crop(box)

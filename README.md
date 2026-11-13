@@ -70,9 +70,9 @@ export is not the canonical PyTorch checkpoint.
 ## Preprocessing
 
 The model reads a 224×224 grayscale image in an em box. A cropped glyph has no em box, so the CLI
-tries four placements (the image as given, and the ink fitted at 3%, 8% and 15% margins) and keeps
-the reading with the highest token confidence. The same augmentation is needed in training before
-real crops can be claimed.
+tries four placements: the image as given, and the ink fitted at 3%, 8% and 15% margins. It keeps the
+reading of the image as given unless that is invalid or a fitted placement scores more than 0.08
+above it. v0.5 trained on ink-fitted renders with margins of 6 to 30 px.
 
 ## Fonts and data
 
