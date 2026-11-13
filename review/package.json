@@ -1,0 +1,17 @@
+{
+  "name": "han2ids-review",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "svelte": "^5.55.2",
+    "vite": "^8.0.7"
+  },
+  "dependencies": {
+    "ids-input": "github:mkpoli/ids-input#e7b69691"
+  }
+}
