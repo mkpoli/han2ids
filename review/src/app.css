@@ -31,7 +31,9 @@ h1 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
 .reference { position: sticky; inset-block-start: 12px; display: flex; flex-direction: column; gap: 10px; }
 .glyph { inline-size: 100%; aspect-ratio: 1; object-fit: contain; background: #fff; border: 1px solid var(--ui-color-border); border-radius: 12px; }
 .chips, .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.ui-chip.char { font: 400 16px var(--glyph); }
+.ui-chip .char { font: 400 16px var(--glyph); }
+.ui-chip.zi { color: var(--ui-color-accent); text-decoration: none; }
+.ui-chip.zi:hover { text-decoration: underline; }
 .jump { inline-size: 84px; margin-inline-start: auto; font: 500 13px var(--ui-font-mono); color: var(--ui-color-ink); background: var(--ui-color-surface); border: 1px solid var(--ui-color-control-border); border-radius: 8px; padding: 5px 8px; }
 .side { display: flex; flex-direction: column; gap: 14px; min-inline-size: 0; }
 .choices { display: flex; flex-direction: column; gap: 8px; }
