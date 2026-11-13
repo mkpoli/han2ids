@@ -14,7 +14,7 @@ bun run dev        # http://localhost:8430
 
 | Deck | Items | Keys |
 | --- | --- | --- |
-| Proposal glyphs | printed glyphs with no IDS, least-sure first | `1` `2` `3` keep a suggestion, `E` write, `X` can't tell |
+| Proposal glyphs | printed glyphs with no IDS, least-sure first | `Z` keep the encoded character's BabelStone IDS, `1` `2` `3` keep a suggestion, `E` write, `X` can't tell |
 | Model vs label | benchmark images where the reading and the label differ | `L` label, `M` model, `B` both, `E` write, `X` can't tell |
 
 `←` and `→` move between glyphs. Each option carries the sequence drawn in Mincho by han-compose, from
@@ -35,14 +35,17 @@ sequence from the Workshop's address. The build is ids-input's own `bunx vite bu
 
 ```sh
 uv run python review/prepare.py read --glyphs <charsets>/glyphs
-uv run python review/prepare.py decks --charsets <charsets> --dataset <benchmark dataset> --run <benchmark run>
+uv run python review/prepare.py decks --charsets <charsets> --dataset <benchmark dataset> --run <benchmark run> --unihan <Unihan.zip>
 ```
 
 `read` strips table rules at the image edge, fits the ink with a 12 px margin and keeps the three best
 beam readings. Proposal glyphs come from a folder of `<set>/<name>.png` with `*_records.json` beside
-it; the current deck is the IRG proposal glyphs kept by the han-input project.
+it; the current deck is the IRG proposal glyphs kept by the han-input project. A proposal whose source
+reference Unihan lists, or that its withdrawal record unifies with a character, carries that character: the
+desk links it to [zi.tools](https://zi.tools/) and offers its [BabelStone IDS](https://www.babelstone.co.uk/CJK/IDS.TXT)
+as option `Z`.
 
 ## Answers
 
-`data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `c0`, `c1` or `c2` for a kept
+`data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `known` for the encoded character's IDS, `c0`, `c1` or `c2` for a kept
 suggestion, `label`, `model` or `both`, `custom` for a written sequence, or `skip`.
