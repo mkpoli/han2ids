@@ -13,8 +13,14 @@ const FONTS = `${root}cache/fonts/jigmo/`
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' }
 
 function desk() {
+  // Re-read whenever prepare.py rewrites the decks, so a running desk sees them.
   let decks = null
-  const read = () => (decks ??= JSON.parse(readFileSync(DECKS, 'utf8')))
+  let stamp = 0
+  const read = () => {
+    const now = statSync(DECKS).mtimeMs
+    if (now !== stamp) { decks = JSON.parse(readFileSync(DECKS, 'utf8')); stamp = now }
+    return decks
+  }
   const answers = () => (existsSync(ANSWERS) ? JSON.parse(readFileSync(ANSWERS, 'utf8')) : {})
   const json = (res, status, body) => { res.statusCode = status; res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(body)) }
   return {
