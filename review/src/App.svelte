@@ -13,6 +13,10 @@
   let editing = $state(false)
   let draft = $state('')
   let Editor = $state(null)
+  let workshop = $state(false)
+  let frame = $state(null)
+  let start = $state('')
+  fetch('/api/workshop').then(response => response.json()).then(body => { workshop = Boolean(body.available) }).catch(() => {})
 
   const NAMES = { irg: 'Proposal glyphs', clean: 'Model vs label' }
   const items = $derived(decks?.[deck] ?? [])
@@ -68,10 +72,26 @@
   function choose(option) { answer(option.c, option.c === 'both' ? item.label : option.ids) }
   async function write(from) {
     draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
+    start = draft
     editing = true
-    Editor ??= (await import('./Editor.svelte')).default
+    if (!workshop) Editor ??= (await import('./Editor.svelte')).default
   }
   function use(sequence = draft) { const text = String(sequence ?? '').trim(); if (text) answer('custom', text) }
+
+  // The Workshop keeps its sequence in its own address: the path, or `?ids=` for one holding a dot or a slash.
+  function workshopSequence() {
+    try {
+      const where = new URL(frame.contentWindow.location.href)
+      const segment = decodeURIComponent(where.pathname.slice(1))
+      if (segment && !segment.includes('/') && !segment.includes('.')) return segment
+      return where.searchParams.get('ids') ?? (where.hash.length > 1 ? decodeURIComponent(where.hash.slice(1)) : '')
+    } catch { return draft }
+  }
+  $effect(() => {
+    if (!editing || !workshop) return
+    const timer = setInterval(() => { if (frame) draft = workshopSequence() }, 300)
+    return () => clearInterval(timer)
+  })
 
   async function copy(text) {
     try { await navigator.clipboard.writeText(text); copied = text; setTimeout(() => { if (copied === text) copied = '' }, 1200) } catch { copied = '' }
@@ -178,10 +198,14 @@
 
         {#if editing}
           <div class="editor">
-            {#if Editor}<Editor bind:value={draft} onuse={use} />{:else}<p class="meta">Loading the editor…</p>{/if}
             <div class="editor-foot">
+              {#if workshop}<Composed ids={draft} size={56} /><span class="ids draft" lang="zh-Hani">{draft}</span>{/if}
               <button class="ui-button" onclick={() => { editing = false }}>Cancel</button>
+              {#if workshop}<button class="ui-button" data-variant="primary" disabled={!draft} onclick={() => use(workshopSequence())}>Use this IDS</button>{/if}
             </div>
+            {#if workshop}
+              {#key item.id + start}<iframe class="workshop" bind:this={frame} src={`/workshop.html?ids=${encodeURIComponent(start)}`} title="IDS Workshop"></iframe>{/key}
+            {:else if Editor}<Editor bind:value={draft} onuse={use} />{:else}<p class="meta">Loading the editor…</p>{/if}
           </div>
         {/if}
       </section>
