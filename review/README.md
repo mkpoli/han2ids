@@ -40,6 +40,7 @@ one, the desk falls back to the smaller `IdsInput` component from the `ids-input
 
 ```sh
 uv run python review/prepare.py read --glyphs <charsets>/glyphs
+uv run python scripts/fetch_zi_n891.py  # about an hour; cached, so a second run is quick
 uv run python review/prepare.py decks --charsets <charsets> --dataset <benchmark dataset> --run <benchmark run> --unihan <Unihan.zip> --n891 <N891 PDF>
 ```
 

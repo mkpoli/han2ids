@@ -38,9 +38,14 @@ def main(argv=None) -> int:
     seen_path = OUT / "pages.jsonl"
     seen = {}
     if seen_path.exists():
-        for line in seen_path.read_text(encoding="utf-8").splitlines():
-            row = json.loads(line)
+        lines = seen_path.read_text(encoding="utf-8").splitlines()
+        for line in lines:
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:  # a record cut short by an interrupted run; its page is fetched again
+                continue
             seen[row["ids"]] = row["ma"]
+        seen_path.write_text("".join(json.dumps({"ids": text, "ma": ma}, ensure_ascii=False) + "\n" for text, ma in seen.items()), encoding="utf-8")
     sequences = []
     for name in SETS:
         path = OUT / f"set-{name}.json"
@@ -50,6 +55,7 @@ def main(argv=None) -> int:
         sequences += [row[1] for row in json.loads(path.read_text(encoding="utf-8"))["rows"]]
     todo = [text for text in dict.fromkeys(sequences) if text not in seen]
     print(f"{len(seen)} cached, {len(todo)} to fetch", flush=True)
+    failed = 0
     with open(seen_path, "a", encoding="utf-8") as log:
         for at, text in enumerate(todo):
             try:
@@ -57,6 +63,7 @@ def main(argv=None) -> int:
                 ma = json.loads(((body.get("yi") or {}).get("kv") or {}).get("ma") or "[]")
             except Exception as error:  # a failed page is retried on the next run
                 print(f"skip {text}: {error}", flush=True)
+                failed += 1
                 time.sleep(args.delay * 5)
                 continue
             seen[text] = ma
@@ -72,7 +79,9 @@ def main(argv=None) -> int:
                 codes[entry[1]] = text
     (OUT / "n891.json").write_text(json.dumps(dict(sorted(codes.items())), ensure_ascii=False, indent=0), encoding="utf-8")
     print(f"{OUT / 'n891.json'}\t{len(codes)} N891 glyphs with a zi.tools page", flush=True)
-    return 0
+    if failed:
+        print(f"{failed} pages failed; run again to fetch them", flush=True)
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
