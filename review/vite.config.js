@@ -1,6 +1,6 @@
 // The review desk: a local page whose answers are written straight into data/review/answers.json.
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
+import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, extname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -34,9 +34,10 @@ function desk() {
           // The page gets everything but the image paths, which stay on this machine.
           return json(res, 200, Object.fromEntries(Object.entries(all).map(([name, items]) => [name, items.map(({ image, ...rest }) => rest)])))
         }
-        const glyph = /^\/glyph\/([a-z]+)\/(\d+)$/.exec(url.pathname)
+        // By item id, so an image always belongs to the item a page shows, whatever order the decks are rebuilt in.
+        const glyph = /^\/glyph\/([a-z]+)\/([A-Za-z0-9_.-]+)$/.exec(url.pathname)
         if (glyph) {
-          const item = read()[glyph[1]]?.[Number(glyph[2])]
+          const item = read()[glyph[1]]?.find(entry => entry.id === glyph[2])
           if (!item || !existsSync(item.image)) return json(res, 404, { error: 'No such glyph.' })
           res.setHeader('Content-Type', TYPES[extname(item.image)] ?? 'application/octet-stream')
           res.setHeader('Cache-Control', 'max-age=3600')
