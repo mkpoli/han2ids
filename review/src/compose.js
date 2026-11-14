@@ -1,7 +1,7 @@
-// A sequence drawn in Mincho by han-compose, through ids-input's composer and its published serif export.
-import { composerPreview } from 'ids-input/composer'
+// A sequence drawn in Mincho by han-compose's composer, from the serif export the IDS Workshop draws with.
+import { composerPreview } from '@han-compose/composer'
 
-export const SERIF_EXPORT = 'https://ids-input-composer.mkpoli.workers.dev/8156f838798c-serif-compose-layout-v4-serif-f6/'
+export const SERIF_EXPORT = 'https://ids-input-composer.mkpoli.workers.dev/8156f838798c-serif-compose-layout-v4-serif-f6+variants/'
 /** The editor's live preview; a newer sequence replaces the one in flight. */
 export const preview = composerPreview({ base: SERIF_EXPORT, fontStyle: 'serif' })
 
