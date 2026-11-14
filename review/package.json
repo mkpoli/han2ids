@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@han-compose/composer": "file:../build/review/han-compose",
-    "ids-input": "github:mkpoli/ids-input#b1b0536d"
+    "ids-input": "github:mkpoli/ids-input#9101aef9"
   },
   "overrides": {
     "@han-compose/composer": "file:../build/review/han-compose"
