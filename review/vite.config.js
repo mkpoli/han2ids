@@ -19,8 +19,14 @@ const WEB = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/java
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' }
 
 function desk() {
+  // Re-read whenever prepare.py rewrites the decks, so a running desk sees them.
   let decks = null
-  const read = () => (decks ??= JSON.parse(readFileSync(DECKS, 'utf8')))
+  let stamp = 0
+  const read = () => {
+    const now = statSync(DECKS).mtimeMs
+    if (now !== stamp) { decks = JSON.parse(readFileSync(DECKS, 'utf8')); stamp = now }
+    return decks
+  }
   const answers = () => (existsSync(ANSWERS) ? JSON.parse(readFileSync(ANSWERS, 'utf8')) : {})
   const json = (res, status, body) => { res.statusCode = status; res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(body)) }
   return {
@@ -46,9 +52,10 @@ function desk() {
           // The page gets everything but the image paths, which stay on this machine.
           return json(res, 200, Object.fromEntries(Object.entries(all).map(([name, items]) => [name, items.map(({ image, ...rest }) => rest)])))
         }
-        const glyph = /^\/glyph\/([a-z]+)\/(\d+)$/.exec(url.pathname)
+        // By item id, so an image always belongs to the item a page shows, whatever order the decks are rebuilt in.
+        const glyph = /^\/glyph\/([a-z]+)\/([A-Za-z0-9_.-]+)$/.exec(url.pathname)
         if (glyph) {
-          const item = read()[glyph[1]]?.[Number(glyph[2])]
+          const item = read()[glyph[1]]?.find(entry => entry.id === glyph[2])
           if (!item || !existsSync(item.image)) return json(res, 404, { error: 'No such glyph.' })
           res.setHeader('Content-Type', TYPES[extname(item.image)] ?? 'application/octet-stream')
           res.setHeader('Cache-Control', 'max-age=3600')
