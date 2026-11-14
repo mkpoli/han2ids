@@ -72,7 +72,8 @@
   function choose(option) { answer(option.c, option.c === 'both' ? item.label : option.ids) }
   async function write(from) {
     draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
-    start = draft
+    // An empty start would let the Workshop reopen its last tab, another glyph's sequence; ⬚ is an empty slot.
+    start = draft || '⬚'
     editing = true
     if (!workshop) Editor ??= (await import('./Editor.svelte')).default
   }
@@ -82,6 +83,8 @@
   function workshopSequence() {
     try {
       const where = new URL(frame.contentWindow.location.href)
+      // Until the frame has loaded the Workshop its address is about:blank, which holds no sequence.
+      if (where.origin !== location.origin) return ''
       const segment = decodeURIComponent(where.pathname.slice(1))
       if (segment && !segment.includes('/') && !segment.includes('.')) return segment
       return where.searchParams.get('ids') ?? (where.hash.length > 1 ? decodeURIComponent(where.hash.slice(1)) : '')

@@ -11,7 +11,7 @@ const ANSWERS = `${root}data/review/answers.json`
 // Jigmo covers every character the labels use; scripts/fetch_fonts.py puts it here.
 const FONTS = `${root}cache/fonts/jigmo/`
 // A build of the IDS Workshop (ids-input's `vite build demo`), served beside the desk so the editor is the site's own.
-const WORKSHOP = process.env.IDS_WORKSHOP ?? `${root}build/review/workshop/`
+const WORKSHOP = (process.env.IDS_WORKSHOP ?? `${root}build/review/workshop`).replace(/\/?$/, '/')
 const WEB = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm',
   '.woff2': 'font/woff2', '.gz': 'application/gzip', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.txt': 'text/plain', '.tsv': 'text/tab-separated-values' }
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' }
