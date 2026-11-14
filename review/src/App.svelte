@@ -16,7 +16,8 @@
   let workshop = $state(false)
   let frame = $state(null)
   let start = $state('')
-  fetch('/api/workshop').then(response => response.json()).then(body => { workshop = Boolean(body.available) }).catch(() => {})
+  // Settled before any editor opens, so an editing session keeps the editor it started with.
+  const discovery = fetch('/api/workshop').then(response => response.json()).then(body => { workshop = Boolean(body.available) }).catch(() => {})
 
   const NAMES = { irg: 'Proposal glyphs', clean: 'Model vs label' }
   const items = $derived(decks?.[deck] ?? [])
@@ -71,6 +72,7 @@
   function go(at) { editing = false; index[deck] = Math.max(0, Math.min(items.length - 1, at)) }
   function choose(option) { answer(option.c, option.c === 'both' ? item.label : option.ids) }
   async function write(from) {
+    await discovery
     draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
     // An empty start would let the Workshop reopen its last tab, another glyph's sequence; ⬚ is an empty slot.
     start = draft || '⬚'
