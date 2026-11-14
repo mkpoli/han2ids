@@ -55,7 +55,7 @@ zi.tools also has pages for many unencoded glyphs of the China Extension C1 subm
 glyph's page, column and row there (`0891.0.01501` is page 1, column 5, row 1). That index is not published, so
 `scripts/fetch_zi_n891.py` opens each glyph page of the zi.tools sets G八辅, GB18030 and GB18030v1 once, a
 request a second, and writes the codes it finds to `cache/zi-tools/n891.json`. `decks --n891 <N891 PDF>` then
-links each proposal with such a page, and offers that page's sequence under `Z` when it is plain IDS.
+links each proposal with such a page, and offers that page's sequence, in zi.tools' notation, under `Z`.
 N891 glyphs found only in zi.tools' private index stay unlinked.
 
 ## Answers
