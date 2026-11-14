@@ -115,7 +115,7 @@ def became(source: str, unified: str, later: dict[str, str]) -> str | None:
 
 def region(source: str) -> str:
     """The BabelStone region tag of a proposal's source reference."""
-    for prefix, tag in (("UTC", "U"), ("Z_SAT", "U"), ("MAC", "M")):
+    for prefix, tag in (("UTC", "U"), ("Z_SAT", "S"), ("SAT", "S"), ("MAC", "M"), ("KP", "P"), ("UK", "B")):
         if source.startswith(prefix):
             return tag
     return source[:1]
