@@ -18,6 +18,7 @@ dependencies = [
 
 [project.optional-dependencies]
 train = ["fonttools>=4.50"]
+variants = ["fonttools>=4.50"]
 dev = ["pytest>=8"]
 onnx = ["onnx>=1.16", "onnxruntime>=1.18"]
 
