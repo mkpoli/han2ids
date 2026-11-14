@@ -25,7 +25,8 @@
   const given = $derived(item ? answers[item.id] : null)
   const done = $derived(items.filter(entry => answers[entry.id]).length)
   const options = $derived(!item ? [] : deck === 'irg'
-    ? item.cands.map((cand, n) => ({ c: `c${n}`, key: String(n + 1), shift: `Digit${n + 1}`, ids: cand[0], note: cand[1].toFixed(2) }))
+    ? [...item.known ? [{ c: 'known', key: 'Z', shift: 'KeyZ', who: item.char ? `BabelStone ${item.char}` : 'zi.tools', ids: item.known }] : [],
+       ...item.cands.map((cand, n) => ({ c: `c${n}`, key: String(n + 1), shift: `Digit${n + 1}`, ids: cand[0], note: cand[1].toFixed(2) }))]
     : [{ c: 'label', key: 'L', who: 'Label', ids: item.label }, { c: 'model', key: 'M', who: 'Model', ids: item.model, note: item.score.toFixed(2) },
        { c: 'both', key: 'B', who: 'Both describe it', ids: '' }])
   const tally = $derived.by(() => {
@@ -134,7 +135,7 @@
     <p class="meta">
       <span><b>{index[deck] + 1}</b> of {items.length}</span>
       <span><b>{done}</b> answered</span>
-      {#each [['suggested', 'suggestion kept'], ['label', 'label'], ['model', 'model'], ['both', 'both'], ['custom', 'written'], ['skip', "can't tell"]] as [kind, label]}
+      {#each [['known', 'known IDS'], ['suggested', 'suggestion kept'], ['label', 'label'], ['model', 'model'], ['both', 'both'], ['custom', 'written'], ['skip', "can't tell"]] as [kind, label]}
         {#if tally[kind]}<span><b>{tally[kind]}</b> {label}</span>{/if}
       {/each}
     </p>
@@ -145,11 +146,16 @@
         <div class="chips">
           {#if deck === 'irg'}
             {#each [item.set, item.source, item.doc && `IRG${item.doc.toUpperCase()}`].filter(Boolean) as text}<span class="ui-chip">{text}</span>{/each}
-          {:else}
-            <span class="ui-chip char" lang="zh-Hani">{item.char}</span>
-            <span class="ui-chip">U+{item.char.codePointAt(0).toString(16).toUpperCase()}</span>
-            <span class="ui-chip">{item.font}</span>
           {/if}
+          {#if item.char}
+            <a class="ui-chip zi" href={`https://zi.tools/zi/${encodeURIComponent(item.char)}`} target="_blank" rel="noreferrer" title="Open on zi.tools">
+              <span class="char" lang="zh-Hani">{item.char}</span> U+{item.char.codePointAt(0).toString(16).toUpperCase()} ↗
+            </a>
+          {/if}
+          {#if item.zi}
+            <a class="ui-chip zi" href={`https://zi.tools/zi/${encodeURIComponent(item.zi)}`} target="_blank" rel="noreferrer" title="Open on zi.tools">zi.tools ↗</a>
+          {/if}
+          {#if deck === 'clean'}<span class="ui-chip">{item.font}</span>{/if}
         </div>
         <div class="nav">
           <button class="ui-button" data-size="sm" onclick={() => go(index[deck] - 1)}>← Back</button>
