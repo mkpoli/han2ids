@@ -29,10 +29,10 @@ checkout's `js/` folder, built with `bun install && bun run data && bun run type
 ## The editor
 
 With a build of the [IDS Workshop](https://ids.mkpo.li/) at `build/review/workshop/` (or the folder
-named by `IDS_WORKSHOP`), **Edit** opens the Workshop itself beside the glyph, and the desk reads the
-sequence from the Workshop's address. The build is ids-input's own `bunx vite build demo --outDir
-<folder>`, with its `ort/` folder copied in. Without one, the desk falls back to the smaller
-`IdsInput` component from the `ids-input` package.
+named by `IDS_WORKSHOP`), **Edit** opens the Workshop's editor page (`editor.html`: one sequence, no
+tabs or site menus) beside the glyph, and the page posts each change back to the desk. The build is
+ids-input's own `bunx vite build demo --outDir <folder>`, with its `ort/` folder copied in. Without
+one, the desk falls back to the smaller `IdsInput` component from the `ids-input` package.
 
 ## Decks
 

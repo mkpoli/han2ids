@@ -74,29 +74,17 @@
   async function write(from) {
     await discovery
     draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
-    // An empty start would let the Workshop reopen its last tab, another glyph's sequence; ⬚ is an empty slot.
-    start = draft || '⬚'
+    start = draft
     editing = true
     if (!workshop) Editor ??= (await import('./Editor.svelte')).default
   }
   function use(sequence = draft) { const text = String(sequence ?? '').trim(); if (text) answer('custom', text) }
 
-  // The Workshop keeps its sequence in its own address: the path, or `?ids=` for one holding a dot or a slash.
-  function workshopSequence() {
-    try {
-      const where = new URL(frame.contentWindow.location.href)
-      // Until the frame has loaded the Workshop its address is about:blank, which holds no sequence.
-      if (where.origin !== location.origin) return ''
-      const segment = decodeURIComponent(where.pathname.slice(1))
-      if (segment && !segment.includes('/') && !segment.includes('.')) return segment
-      return where.searchParams.get('ids') ?? (where.hash.length > 1 ? decodeURIComponent(where.hash.slice(1)) : '')
-    } catch { return draft }
+  // The Workshop's editor page posts each change to the page that frames it.
+  function heard(event) {
+    if (!editing || !frame || event.source !== frame.contentWindow || event.data?.type !== 'ids-input:sequence') return
+    draft = String(event.data.sequence ?? '')
   }
-  $effect(() => {
-    if (!editing || !workshop) return
-    const timer = setInterval(() => { if (frame) draft = workshopSequence() }, 300)
-    return () => clearInterval(timer)
-  })
 
   async function copy(text) {
     try { await navigator.clipboard.writeText(text); copied = text; setTimeout(() => { if (copied === text) copied = '' }, 1200) } catch { copied = '' }
@@ -122,7 +110,7 @@
   }
 </script>
 
-<svelte:window onkeydown={keys} />
+<svelte:window onkeydown={keys} onmessage={heard} />
 
 <div class="desk">
   <header class="top">
@@ -206,10 +194,10 @@
             <div class="editor-foot">
               {#if workshop}<Composed ids={draft} size={56} /><span class="ids draft" lang="zh-Hani">{draft}</span>{/if}
               <button class="ui-button" onclick={() => { editing = false }}>Cancel</button>
-              {#if workshop}<button class="ui-button" data-variant="primary" disabled={!draft} onclick={() => use(workshopSequence())}>Use this IDS</button>{/if}
+              {#if workshop}<button class="ui-button" data-variant="primary" disabled={!draft} onclick={() => use()}>Use this IDS</button>{/if}
             </div>
             {#if workshop}
-              {#key item.id + start}<iframe class="workshop" bind:this={frame} src={`/workshop.html?ids=${encodeURIComponent(start)}`} title="IDS Workshop"></iframe>{/key}
+              {#key item.id + start}<iframe class="workshop" bind:this={frame} src={`/editor.html?lang=en&ids=${encodeURIComponent(start)}`} title="IDS Workshop"></iframe>{/key}
             {:else if Editor}<Editor bind:value={draft} onuse={use} />{:else}<p class="meta">Loading the editor…</p>{/if}
           </div>
         {/if}

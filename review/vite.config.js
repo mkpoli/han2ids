@@ -28,11 +28,12 @@ function desk() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = new URL(req.url, 'http://localhost')
-        if (url.pathname === '/api/workshop') return json(res, 200, { available: existsSync(`${WORKSHOP}index.html`) })
-        if (existsSync(`${WORKSHOP}index.html`)) {
-          const path = url.pathname === '/workshop.html' ? 'index.html' : normalize(decodeURIComponent(url.pathname)).replace(/^\/+/, '')
+        if (url.pathname === '/api/workshop') return json(res, 200, { available: existsSync(`${WORKSHOP}editor.html`) })
+        if (existsSync(`${WORKSHOP}editor.html`)) {
+          // The Workshop's editor page and its assets; the desk keeps its own index.
+          const path = normalize(decodeURIComponent(url.pathname)).replace(/^\/+/, '')
           const file = `${WORKSHOP}${path}`
-          if (path && path !== 'index.html' || url.pathname === '/workshop.html') {
+          if (path && path !== 'index.html') {
             if (!path.startsWith('..') && existsSync(file) && statSync(file).isFile()) {
               res.setHeader('Content-Type', WEB[extname(file)] ?? 'application/octet-stream')
               return createReadStream(file).pipe(res)
