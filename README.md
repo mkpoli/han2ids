@@ -46,6 +46,16 @@ samples/疑.png	⿰𠤕⿱龴疋	⿰𠤕⿱龴疋	0.956
 samples/字.png	⿱宀子	⿱宀子	0.940
 ```
 
+`--variants` also names the registered form the image draws: a variation sequence with its IVD
+collection and identifier, a compatibility ideograph or a regional design. It answers `matched`,
+`ambiguous` or `none`, and needs `uv sync --extra variants` with the fonts and Unicode files listed
+in `docs/variant-match.md`. `--char` gives the character when the reading names none.
+
+```console
+$ uv run han2ids --variants samples/葛.png
+samples/葛.png	⿱艹曷	⿱艹曷	0.948	ambiguous	U+845B U+E0100 (Adobe-Japan1 CID+1481); U+845B U+E0102 (Hanyo-Denshi JA1975, Moji_Joho MJ022335); U+845B U+E0107 (Hanyo-Denshi KS352870, Moji_Joho MJ022337)
+```
+
 ## Demo
 
 ```sh
