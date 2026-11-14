@@ -128,7 +128,7 @@
 
     <div class="work">
       <aside class="reference">
-        <img class="glyph" src={`/glyph/${deck}/${index[deck]}`} alt="Glyph under review">
+        <img class="glyph" src={`/glyph/${deck}/${item.id}`} alt="Glyph under review">
         <div class="chips">
           {#if deck === 'irg'}
             {#each [item.set, item.source, item.doc && `IRG${item.doc.toUpperCase()}`].filter(Boolean) as text}<span class="ui-chip">{text}</span>{/each}
