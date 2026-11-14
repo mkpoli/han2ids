@@ -140,11 +140,6 @@ def n891_positions(pdf: Path) -> dict[str, str]:
     return found
 
 
-def clean_ids(text: str) -> bool:
-    """A sequence in plain IDS: an operator first and none of zi.tools' own notation."""
-    return bool(text) and "\u2ff0" <= text[0] <= "\u2fff" and not re.search(r"[#()\[\]{}?？&\-]", text)
-
-
 def decks(args) -> int:
     from han2ids.labels import read as read_ids
     from han2ids.tree import normalise
@@ -180,9 +175,7 @@ def decks(args) -> int:
             if tagged:
                 item["known"] = tagged.text
         elif page:
-            item["zi"] = page
-            if clean_ids(page):
-                item["known"] = page
+            item["zi"] = item["known"] = page
         proposals.append(item)
 
     references = {}
