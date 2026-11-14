@@ -21,7 +21,7 @@ async function gunzipped(response) {
 /** The editor's live preview; a newer sequence replaces the one in flight. */
 export const preview = askDrawable(composerPreview({ base: SERIF_EXPORT, fontStyle: 'serif' }), drawable)
 
-// The options' drawings go through a second composer, one at a time, and are kept.
+// The options' drawings go through a second composer, one at a time; a drawing is kept, a failure asked again next time.
 const drawer = askDrawable(composerPreview({ base: SERIF_EXPORT, fontStyle: 'serif' }), drawable)
 const drawings = new Map()
 let last = Promise.resolve()
@@ -30,7 +30,7 @@ let last = Promise.resolve()
 export function draw(ids) {
   if (!drawings.has(ids)) {
     const drawn = last.then(() => drawer(ids, {}))
-    last = drawn.catch(() => {})
+    last = drawn.catch(() => { drawings.delete(ids) })
     drawings.set(ids, drawn)
   }
   return drawings.get(ids)
