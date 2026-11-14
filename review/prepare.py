@@ -10,7 +10,10 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import re
+import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -84,7 +87,66 @@ def read(args) -> int:
     return 0
 
 
+def encoded(unihan: Path) -> dict[str, str]:
+    """Each IRG source reference in Unihan, without its punctuation, to the character it became."""
+    found = {}
+    with zipfile.ZipFile(unihan) as archive:
+        for line in archive.read("Unihan_IRGSources.txt").decode("utf-8").splitlines():
+            parts = line.split("\t")
+            if len(parts) == 3 and parts[1].startswith("kIRG_") and parts[1].endswith("Source"):
+                for value in parts[2].split():
+                    found[re.sub(r"[-_]", "", value.split(":")[0])] = chr(int(parts[0][2:], 16))
+    return found
+
+
+def became(source: str, unified: str, later: dict[str, str]) -> str | None:
+    """The character a proposal glyph is now: its own source encoded later, else the character it was unified with.
+
+    Unihan goes first; the withdrawal lists give Extension E positions from drafts, a few code points off the final ones.
+    """
+    def key(reference: str) -> str:
+        return re.sub(r"[-_]", "", reference)
+    if key(source) in later:
+        return later[key(source)]
+    if unified.startswith("U+"):
+        return chr(int(unified[2:], 16))
+    return later.get(key(unified)) if unified else None
+
+
+def region(source: str) -> str:
+    """The BabelStone region tag of a proposal's source reference."""
+    for prefix, tag in (("UTC", "U"), ("Z_SAT", "S"), ("SAT", "S"), ("MAC", "M"), ("KP", "P"), ("UK", "B")):
+        if source.startswith(prefix):
+            return tag
+    return source[:1]
+
+
+def n891_positions(pdf: Path) -> dict[str, str]:
+    """Each source reference in IRG N891 to the position code zi.tools files it under, 0891.0.PPCRR.
+
+    The document lists five columns of glyphs a page, each cell a code line, a radical line and a source line.
+    """
+    text = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True, check=True).stdout
+    found = {}
+    for page, body in enumerate(text.split("\f"), 1):
+        lines = body.splitlines()
+        row = 0
+        for at, line in enumerate(lines):
+            # A source line follows a line of radicals, which follows a line of position codes.
+            if at >= 2 and re.match(r"^\s*\d{4}\.\d{3}", lines[at - 2]) and not re.match(r"^\s*\d{4}\.\d{3}", line) and line.strip():
+                row += 1
+                for column, token in enumerate(line.split(), 1):
+                    found[token.upper()] = f"0891.0.{page:02d}{column}{row:02d}"
+    return found
+
+
+def clean_ids(text: str) -> bool:
+    """A sequence in plain IDS: an operator first and none of zi.tools' own notation."""
+    return bool(text) and "\u2ff0" <= text[0] <= "\u2fff" and not re.search(r"[#()\[\]{}?？&\-]", text)
+
+
 def decks(args) -> int:
+    from han2ids.labels import read as read_ids
     from han2ids.tree import normalise
     sources = {}
     for path in args.charsets.glob("*_records.json"):
@@ -92,15 +154,36 @@ def decks(args) -> int:
         for row in body if isinstance(body, list) else body.get("records", []):
             if row.get("glyph"):
                 sources[row["glyph"]] = row
+    later = encoded(args.unihan)
+    known = read_ids(args.ids)
+    positions = n891_positions(args.n891) if args.n891 else {}
+    pages = json.loads(args.zi.read_text(encoding="utf-8")) if args.zi.exists() else {}
     proposals = []
     rows = [json.loads(line) for line in (OUT / "readings.jsonl").read_text(encoding="utf-8").splitlines()]
     rows.sort(key=lambda row: row["readings"][0]["score"] if row["readings"] else 0)
     for row in rows:
         _, name, file = row["glyph"].split("/")
         record = sources.get(row["glyph"], {})
-        proposals.append({"id": f"irg-{name}-{Path(file).stem}", "set": name, "source": record.get("source", ""),
-                          "doc": record.get("document", ""), "image": str(args.charsets / row["glyph"]),
-                          "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]]})
+        source = record.get("source", "")
+        char = became(source, record.get("unifiedWith", ""), later)
+        # The zi.tools page of an N891 glyph; a page named by one character is an encoded character.
+        page = pages.get(positions.get(re.sub(r"^G_", "", source).upper(), ""), "")
+        if len(page) == 1 and not char:
+            char = page
+        item = {"id": f"irg-{name}-{Path(file).stem}", "set": name, "source": source,
+                "doc": record.get("document", ""), "image": str(args.charsets / row["glyph"]),
+                "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]]}
+        if char:
+            item["char"] = char
+            sequences = known.get(char, [])
+            tagged = next((sequence for sequence in sequences if region(source) in sequence.regions), sequences[0] if sequences else None)
+            if tagged:
+                item["known"] = tagged.text
+        elif page:
+            item["zi"] = page
+            if clean_ids(page):
+                item["known"] = page
+        proposals.append(item)
 
     references = {}
     for line in (args.dataset / "references.jsonl").read_text(encoding="utf-8").splitlines():
@@ -137,6 +220,10 @@ def main(argv=None) -> int:
     two.add_argument("--charsets", type=Path, required=True, help="the folder holding glyphs/ and *_records.json")
     two.add_argument("--dataset", type=Path, required=True, help="a benchmark dataset folder")
     two.add_argument("--run", type=Path, required=True, help="a benchmark run on that dataset")
+    two.add_argument("--unihan", type=Path, required=True, help="Unihan.zip, for proposals encoded later")
+    two.add_argument("--n891", type=Path, help="IRG N891, the China Extension C1 submission (PDF)")
+    two.add_argument("--zi", type=Path, default=ROOT / "cache" / "zi-tools" / "n891.json", help="scripts/fetch_zi_n891.py's output")
+    two.add_argument("--ids", type=Path, default=ROOT / "data" / "IDS.TXT", help="BabelStone IDS")
     two.add_argument("--seed", type=int, default=20261113)
     two.set_defaults(handler=decks)
     args = parser.parse_args(argv)
