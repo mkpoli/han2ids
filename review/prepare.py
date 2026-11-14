@@ -11,6 +11,7 @@ import argparse
 import json
 import random
 import re
+import subprocess
 import sys
 import zipfile
 from pathlib import Path
@@ -120,6 +121,30 @@ def region(source: str) -> str:
     return source[:1]
 
 
+def n891_positions(pdf: Path) -> dict[str, str]:
+    """Each source reference in IRG N891 to the position code zi.tools files it under, 0891.0.PPCRR.
+
+    The document lists five columns of glyphs a page, each cell a code line, a radical line and a source line.
+    """
+    text = subprocess.run(["pdftotext", "-layout", str(pdf), "-"], capture_output=True, text=True, check=True).stdout
+    found = {}
+    for page, body in enumerate(text.split("\f"), 1):
+        lines = body.splitlines()
+        row = 0
+        for at, line in enumerate(lines):
+            # A source line follows a line of radicals, which follows a line of position codes.
+            if at >= 2 and re.match(r"^\s*\d{4}\.\d{3}", lines[at - 2]) and not re.match(r"^\s*\d{4}\.\d{3}", line) and line.strip():
+                row += 1
+                for column, token in enumerate(line.split(), 1):
+                    found[token.upper()] = f"0891.0.{page:02d}{column}{row:02d}"
+    return found
+
+
+def clean_ids(text: str) -> bool:
+    """A sequence in plain IDS: an operator first and none of zi.tools' own notation."""
+    return bool(text) and "\u2ff0" <= text[0] <= "\u2fff" and not re.search(r"[#()\[\]{}?？&\-]", text)
+
+
 def decks(args) -> int:
     from han2ids.labels import read as read_ids
     from han2ids.tree import normalise
@@ -131,6 +156,8 @@ def decks(args) -> int:
                 sources[row["glyph"]] = row
     later = encoded(args.unihan)
     known = read_ids(args.ids)
+    positions = n891_positions(args.n891) if args.n891 else {}
+    pages = json.loads(args.zi.read_text(encoding="utf-8")) if args.zi.exists() else {}
     proposals = []
     rows = [json.loads(line) for line in (OUT / "readings.jsonl").read_text(encoding="utf-8").splitlines()]
     rows.sort(key=lambda row: row["readings"][0]["score"] if row["readings"] else 0)
@@ -139,6 +166,10 @@ def decks(args) -> int:
         record = sources.get(row["glyph"], {})
         source = record.get("source", "")
         char = became(source, record.get("unifiedWith", ""), later)
+        # The zi.tools page of an N891 glyph; a page named by one character is an encoded character.
+        page = pages.get(positions.get(re.sub(r"^G_", "", source).upper(), ""), "")
+        if len(page) == 1 and not char:
+            char = page
         item = {"id": f"irg-{name}-{Path(file).stem}", "set": name, "source": source,
                 "doc": record.get("document", ""), "image": str(args.charsets / row["glyph"]),
                 "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]]}
@@ -148,6 +179,10 @@ def decks(args) -> int:
             tagged = next((sequence for sequence in sequences if region(source) in sequence.regions), sequences[0] if sequences else None)
             if tagged:
                 item["known"] = tagged.text
+        elif page:
+            item["zi"] = page
+            if clean_ids(page):
+                item["known"] = page
         proposals.append(item)
 
     references = {}
@@ -186,6 +221,8 @@ def main(argv=None) -> int:
     two.add_argument("--dataset", type=Path, required=True, help="a benchmark dataset folder")
     two.add_argument("--run", type=Path, required=True, help="a benchmark run on that dataset")
     two.add_argument("--unihan", type=Path, required=True, help="Unihan.zip, for proposals encoded later")
+    two.add_argument("--n891", type=Path, help="IRG N891, the China Extension C1 submission (PDF)")
+    two.add_argument("--zi", type=Path, default=ROOT / "cache" / "zi-tools" / "n891.json", help="scripts/fetch_zi_n891.py's output")
     two.add_argument("--ids", type=Path, default=ROOT / "data" / "IDS.TXT", help="BabelStone IDS")
     two.add_argument("--seed", type=int, default=20261113)
     two.set_defaults(handler=decks)

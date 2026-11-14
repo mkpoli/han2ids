@@ -40,7 +40,7 @@ one, the desk falls back to the smaller `IdsInput` component from the `ids-input
 
 ```sh
 uv run python review/prepare.py read --glyphs <charsets>/glyphs
-uv run python review/prepare.py decks --charsets <charsets> --dataset <benchmark dataset> --run <benchmark run> --unihan <Unihan.zip>
+uv run python review/prepare.py decks --charsets <charsets> --dataset <benchmark dataset> --run <benchmark run> --unihan <Unihan.zip> --n891 <N891 PDF>
 ```
 
 `read` strips table rules at the image edge, fits the ink with a 12 px margin and keeps the three best
@@ -50,7 +50,15 @@ reference Unihan lists, or that its withdrawal record unifies with a character, 
 desk links it to [zi.tools](https://zi.tools/) and offers its [BabelStone IDS](https://www.babelstone.co.uk/CJK/IDS.TXT)
 as option `Z`.
 
+zi.tools also has pages for many unencoded glyphs of the China Extension C1 submission,
+[IRG N891](https://www.unicode.org/irg/docs/n0891-China-ExtensionC1-sub.pdf) (2002-04-18), filed under the
+glyph's page, column and row there (`0891.0.01501` is page 1, column 5, row 1). That index is not published, so
+`scripts/fetch_zi_n891.py` opens each glyph page of the zi.tools sets G八辅, GB18030 and GB18030v1 once, a
+request a second, and writes the codes it finds to `cache/zi-tools/n891.json`. `decks --n891 <N891 PDF>` then
+links each proposal with such a page, and offers that page's sequence under `Z` when it is plain IDS.
+N891 glyphs found only in zi.tools' private index stay unlinked.
+
 ## Answers
 
-`data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `known` for the encoded character's IDS, `c0`, `c1` or `c2` for a kept
+`data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `known` for the IDS of the encoded character or zi.tools page, `c0`, `c1` or `c2` for a kept
 suggestion, `label`, `model` or `both`, `custom` for a written sequence, or `skip`.
