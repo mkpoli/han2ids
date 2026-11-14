@@ -1,7 +1,7 @@
 // The review desk: a local page whose answers are written straight into data/review/answers.json.
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, extname } from 'node:path'
+import { createReadStream, existsSync, mkdirSync, readFileSync, realpathSync, renameSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, extname, normalize } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 
@@ -10,6 +10,12 @@ const DECKS = `${root}build/review/decks.json`
 const ANSWERS = `${root}data/review/answers.json`
 // Jigmo covers every character the labels use; scripts/fetch_fonts.py puts it here.
 const FONTS = `${root}cache/fonts/jigmo/`
+// A build of the IDS Workshop (ids-input's `vite build demo`), served beside the desk so the editor is the site's own.
+const WORKSHOP = (process.env.IDS_WORKSHOP ?? `${root}build/review/workshop`).replace(/\/?$/, '/')
+// han-compose's composer, linked in from a checkout outside this repository; its drawing worker is served from there.
+const HAN_COMPOSE = `${root}build/review/han-compose`
+const WEB = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.wasm': 'application/wasm',
+  '.woff2': 'font/woff2', '.gz': 'application/gzip', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.txt': 'text/plain', '.tsv': 'text/tab-separated-values' }
 const TYPES = { '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp' }
 
 function desk() {
@@ -28,6 +34,18 @@ function desk() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = new URL(req.url, 'http://localhost')
+        if (url.pathname === '/api/workshop') return json(res, 200, { available: existsSync(`${WORKSHOP}editor.html`) })
+        if (existsSync(`${WORKSHOP}editor.html`)) {
+          // The Workshop's editor page and its assets; the desk keeps its own index.
+          const path = normalize(decodeURIComponent(url.pathname)).replace(/^\/+/, '')
+          const file = `${WORKSHOP}${path}`
+          if (path && path !== 'index.html') {
+            if (!path.startsWith('..') && existsSync(file) && statSync(file).isFile()) {
+              res.setHeader('Content-Type', WEB[extname(file)] ?? 'application/octet-stream')
+              return createReadStream(file).pipe(res)
+            }
+          }
+        }
         if (url.pathname === '/api/decks') {
           if (!existsSync(DECKS)) return json(res, 404, { error: 'Run review/prepare.py first.' })
           const all = read()
@@ -80,5 +98,5 @@ export default defineConfig({
   plugins: [svelte(), desk()],
   // The IDS editor's data is fetched as gzip files, and each stays a file of its own.
   build: { assetsInlineLimit: 0 },
-  server: { port: 8430, strictPort: true, fs: { allow: ['..'] } },
+  server: { port: 8430, strictPort: true, fs: { allow: ['..', ...existsSync(HAN_COMPOSE) ? [realpathSync(HAN_COMPOSE)] : []] } },
 })

@@ -13,6 +13,11 @@
   let editing = $state(false)
   let draft = $state('')
   let Editor = $state(null)
+  let workshop = $state(false)
+  let frame = $state(null)
+  let start = $state('')
+  // Settled before any editor opens, so an editing session keeps the editor it started with.
+  const discovery = fetch('/api/workshop').then(response => response.json()).then(body => { workshop = Boolean(body.available) }).catch(() => {})
 
   const NAMES = { irg: 'Proposal glyphs', clean: 'Model vs label' }
   const items = $derived(decks?.[deck] ?? [])
@@ -67,11 +72,19 @@
   function go(at) { editing = false; index[deck] = Math.max(0, Math.min(items.length - 1, at)) }
   function choose(option) { answer(option.c, option.c === 'both' ? item.label : option.ids) }
   async function write(from) {
+    await discovery
     draft = typeof from === 'string' ? from : given?.c === 'custom' ? given.ids : deck === 'irg' ? item.cands[0]?.[0] ?? '' : item.model
+    start = draft
     editing = true
-    Editor ??= (await import('./Editor.svelte')).default
+    if (!workshop) Editor ??= (await import('./Editor.svelte')).default
   }
   function use(sequence = draft) { const text = String(sequence ?? '').trim(); if (text) answer('custom', text) }
+
+  // The Workshop's editor page posts each change to the page that frames it.
+  function heard(event) {
+    if (!editing || !frame || event.source !== frame.contentWindow || event.data?.type !== 'ids-input:sequence') return
+    draft = String(event.data.sequence ?? '')
+  }
 
   async function copy(text) {
     try { await navigator.clipboard.writeText(text); copied = text; setTimeout(() => { if (copied === text) copied = '' }, 1200) } catch { copied = '' }
@@ -97,7 +110,7 @@
   }
 </script>
 
-<svelte:window onkeydown={keys} />
+<svelte:window onkeydown={keys} onmessage={heard} />
 
 <div class="desk">
   <header class="top">
@@ -178,10 +191,14 @@
 
         {#if editing}
           <div class="editor">
-            {#if Editor}<Editor bind:value={draft} onuse={use} />{:else}<p class="meta">Loading the editor…</p>{/if}
             <div class="editor-foot">
+              {#if workshop}<Composed ids={draft} size={56} /><span class="ids draft" lang="zh-Hani">{draft}</span>{/if}
               <button class="ui-button" onclick={() => { editing = false }}>Cancel</button>
+              {#if workshop}<button class="ui-button" data-variant="primary" disabled={!draft} onclick={() => use()}>Use this IDS</button>{/if}
             </div>
+            {#if workshop}
+              {#key item.id + start}<iframe class="workshop" bind:this={frame} src={`/editor.html?lang=en&ids=${encodeURIComponent(start)}`} title="IDS Workshop"></iframe>{/key}
+            {:else if Editor}<Editor bind:value={draft} onuse={use} />{:else}<p class="meta">Loading the editor…</p>{/if}
           </div>
         {/if}
       </section>

@@ -7,6 +7,7 @@ is kept with one key, or a sequence is written in the IDS Workshop's editor
 
 ```sh
 uv run python scripts/fetch_fonts.py   # once: Jigmo, which draws the sequences
+mkdir -p build/review && ln -sfn <han-compose checkout>/js build/review/han-compose
 cd review
 bun install
 bun run dev        # http://localhost:8430
@@ -20,6 +21,18 @@ bun run dev        # http://localhost:8430
 `←` and `→` move between glyphs. Each option carries the sequence drawn in Mincho by han-compose, from
 the serif export the IDS Workshop publishes, and **Edit** (or Shift with the option's key) opens the
 editor on that option; the editor draws the sequence as it is written.
+
+han-compose's composer is not on npm. ids-input reads it from a han-compose checkout at the commit its
+`.github/actions/composer/action.yml` pins, and so does the desk: `build/review/han-compose` links to that
+checkout's `js/` folder, built with `bun install && bun run data && bun run types`.
+
+## The editor
+
+With a build of the [IDS Workshop](https://ids.mkpo.li/) at `build/review/workshop/` (or the folder
+named by `IDS_WORKSHOP`), **Edit** opens the Workshop's editor page (`editor.html`: one sequence, no
+tabs or site menus) beside the glyph, and the page posts each change back to the desk. The build is
+ids-input's own `bunx vite build demo --outDir <folder>`, with its `ort/` folder copied in. Without
+one, the desk falls back to the smaller `IdsInput` component from the `ids-input` package.
 
 ## Decks
 
