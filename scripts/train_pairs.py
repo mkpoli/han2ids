@@ -101,14 +101,19 @@ class Shapes:
         for row in self.rows:
             row["collections"] = {collection for found in row["sequences"].values() for collection in found}
             row["named"] = set(row["sequences"])
+            row["registered"] = {name for name, found in row["sequences"].items() if found}
 
     def one(self, a: int, b: int) -> bool:
-        return bool(self.rows[a]["named"] & self.rows[b]["named"])
+        """A registered sequence that both drawings name; a shared compatibility ideograph does not count."""
+        return bool(self.rows[a]["registered"] & self.rows[b]["registered"])
 
     def two(self, a: int, b: int) -> bool:
-        """Different sequences that one collection registers."""
+        """Different sequences that one collection registers, which no drawing of the character joins."""
         first, second = self.rows[a], self.rows[b]
-        return not first["named"] & second["named"] and bool(first["collections"] & second["collections"])
+        if first["named"] & second["named"] or not first["collections"] & second["collections"]:
+            return False
+        return not any(self.rows[other]["named"] & first["named"] and self.rows[other]["named"] & second["named"]
+                       for other in self.chars[first["char"]])
 
     def pairs(self, chars: list[str]) -> dict[str, dict[str, list[tuple[int, int]]]]:
         """Per kind of pair, each character's pairs: one form across families, two forms across and within."""
@@ -168,9 +173,12 @@ def augment(ink, generator):
     theta[:, :, 2] = shift
     ink = F.grid_sample(ink, F.affine_grid(theta, ink.shape, align_corners=False), mode="bilinear",
                         padding_mode="zeros", align_corners=False)
-    coarse = int(torch.randint(72, SIZE + 1, (1,), generator=generator, device=device))
-    if coarse < 200:
-        ink = F.interpolate(F.interpolate(ink, size=coarse, mode="bilinear", antialias=True), size=SIZE, mode="bilinear")
+    # Resolution varies by group of drawings, so the two drawings of a pair seldom share one.
+    groups = torch.randperm(count, generator=generator, device=device).chunk(8)
+    for group, coarse in zip(groups, torch.randint(72, SIZE + 1, (len(groups),), generator=generator, device=device).tolist()):
+        if coarse < 200:
+            ink[group] = F.interpolate(F.interpolate(ink[group], size=coarse, mode="bilinear", antialias=True),
+                                       size=SIZE, mode="bilinear")
     sigma = uniform(0.0, 0.9)
     reach = torch.arange(-2, 3, device=device).view(1, 5).float()
     kernel = torch.exp(-reach ** 2 / (2 * sigma.view(count, 1).clamp(min=0.05) ** 2))
@@ -233,12 +241,12 @@ def load_ink(shapes: Shapes, indices: list[int], device):
 
 
 def scores(shapes: Shapes, encoder, head, taps, pairs: list[tuple[int, int]], device, batch: int = 192):
-    """For each pair, the head's probability and the cosine of the mean final patch tokens."""
+    """For each pair, the head's logit and the cosine of the mean final patch tokens, in full precision."""
     import torch
     from han2ids.pairs import patch_tokens
 
     learned, cosine = [], []
-    with torch.no_grad(), torch.autocast(device.type, dtype=torch.bfloat16, enabled=device.type == "cuda"):
+    with torch.no_grad():
         for start in range(0, len(pairs), batch):
             part = pairs[start:start + batch]
             unique = sorted({index for pair in part for index in pair})
@@ -250,13 +258,14 @@ def scores(shapes: Shapes, encoder, head, taps, pairs: list[tuple[int, int]], de
             b = torch.tensor([place[pair[1]] for pair in part], device=device)
             cosine.append((means[a] * means[b]).sum(1).cpu())
             if head is not None:
-                learned.append(head.score(tokens[a], tokens[b]).float().cpu())
+                learned.append(head.logit(tokens[a], tokens[b]).cpu())
     return (torch.cat(learned).numpy() if learned else None), torch.cat(cosine).numpy()
 
 
 def area(positive: np.ndarray, negative: np.ndarray) -> float:
-    """The chance that a pair of one form scores above a pair of two."""
-    ranks = np.concatenate([positive, negative]).argsort().argsort() + 1
+    """The chance that a pair of one form scores above a pair of two; equal scores count half."""
+    _, place, counts = np.unique(np.concatenate([positive, negative]), return_inverse=True, return_counts=True)
+    ranks = (np.cumsum(counts) - (counts - 1) / 2)[place]
     return float((ranks[:len(positive)].sum() - len(positive) * (len(positive) + 1) / 2) / (len(positive) * len(negative)))
 
 
@@ -368,15 +377,20 @@ def measure(args) -> None:
     every = sorted({(item["query"], other) for item in queries for other in item["others"] + item["siblings"]}
                    | set(same) | set(apart))
     learned, cosine = scores(shapes, encoder, head, head.taps, every, device)
-    # The third column is the head's score for a pair above the cosine floor, and nothing below it.
-    table = {pair: (float(a), float(b), float(a) if b >= args.floor else -1.0) for pair, a, b in zip(every, learned, cosine)}
+    # The third column is the head's logit for a pair above the cosine floor, and nothing below it.
+    table = {pair: (float(a), float(b), float(a) if b >= args.floor else -np.inf) for pair, a, b in zip(every, learned, cosine)}
     odd = [item for item in queries if half[item["char"]] == 1]
 
     def band(item) -> str:
         nearest = max(table[(item["query"], other)][1] for other in item["siblings"])
         return BANDS[0] if nearest < 0.90 else BANDS[1] if nearest < 0.95 else BANDS[2]
 
-    saved = torch.load(args.output / args.run / "pairs.pt", weights_only=True)
+    def shown(level: float, column: int) -> float:
+        """A level as the report gives it: the head's as a probability."""
+        return round(level if column == 1 else float(1 / (1 + np.exp(-level))), 4)
+
+    levels: dict[str, float] = {}
+    saved = torch.load(args.output / args.run / "pairs.pt", map_location="cpu", weights_only=True)
     report = {"reader": Path(args.checkpoint).name, "head": {key: saved[key] for key in ("step", "area", "settings")},
               "characters": sum(half.values()), "scorers": {}}
     for name, column, level in (("head", 0, None), ("cosine", 1, None), ("cosine at the floor", 1, args.floor),
@@ -385,11 +399,12 @@ def measure(args) -> None:
             return table[(a, b)][column]
 
         if level == "head":
-            level = report["scorers"]["head"]["level"]
+            level = levels["head"]
         elif level is None:
             # The level that refuses 1% of the right candidates among the even characters.
             level = float(np.quantile([value(item["query"], other) for item in queries if half[item["char"]] == 0
                                        for other in item["others"] if right(item["query"], other)], 0.01))
+        levels[name] = level
         others = {key: [0, 0] for key in ("all", *BANDS)}
         for item in odd:
             if item["wrong"]:
@@ -400,7 +415,7 @@ def measure(args) -> None:
         one = np.array([value(*pair) for pair in same if half[shapes.rows[pair[0]]["char"]] == 1])
         two = np.array([value(*pair) for pair in apart if half[shapes.rows[pair[0]]["char"]] == 1])
         report["scorers"][name] = {
-            "level": round(level, 4), "queries": len(odd),
+            "level": shown(level, column), "queries": len(odd),
             "best_right": sum(right(item["query"], max(item["others"], key=lambda other: value(item["query"], other)))
                               for item in odd),
             "right_refused": sum(max(value(item["query"], other) for other in item["others"] if right(item["query"], other))
@@ -418,7 +433,7 @@ def measure(args) -> None:
                 out.write(json.dumps({
                     "forms": kind, "half": half[first["char"]], "char": first["char"], "shapes": [a, b],
                     "families": [first["family"], second["family"]], "names": [first["names"], second["names"]],
-                    "head": round(table[(a, b)][0], 4), "cosine": round(table[(a, b)][1], 4),
+                    "logit": round(table[(a, b)][0], 3), "cosine": round(table[(a, b)][1], 4),
                 }, ensure_ascii=False) + "\n")
     print(text)
 

@@ -44,9 +44,13 @@ class PairHead(nn.Module):
         joined = torch.cat([self.start.expand(first.size(0), -1, -1), first, second], dim=1)
         return self.out(self.blocks(joined)[:, 0]).squeeze(-1)
 
+    def logit(self, first: torch.Tensor, second: torch.Tensor) -> torch.Tensor:
+        """The logit of one form, the same whichever image comes first."""
+        return (self(first, second) + self(second, first)) / 2
+
     def score(self, first: torch.Tensor, second: torch.Tensor) -> torch.Tensor:
-        """The probability of one form, the same whichever image comes first."""
-        return torch.sigmoid((self(first, second) + self(second, first)) / 2)
+        """The probability of one form."""
+        return torch.sigmoid(self.logit(first, second))
 
 
 def load(path: str | Path, device: str = "cpu") -> PairHead:
