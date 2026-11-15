@@ -5,9 +5,9 @@ import re
 
 PAD, BOS, EOS, UNK = 0, 1, 2, 3
 SPECIALS = ["<pad>", "<bos>", "<eos>", "<unk>"]
-# A component no code point names, written between marks: BabelStone's {53}, CHISE's &CDP-8964;
-# and zi.tools' #(-𠃌㇉). Each is one part of a sequence, as a character is.
-UNENCODED = re.compile(r"\{[^{}]*\}|&[^&;]*;|#\([^()]*\)")
+# A component no code point names, written between marks: BabelStone's number {53}, CHISE's entity
+# &CDP-8964; and zi.tools' stroke chain #(-𠃌㇉). Each is one part of a sequence, as a character is.
+UNENCODED = re.compile(r"\{\d+\}|&[A-Za-z0-9+_-]+;|#\([^()]+\)")
 
 
 def selector(char: str) -> bool:

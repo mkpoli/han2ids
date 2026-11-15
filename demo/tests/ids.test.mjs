@@ -18,3 +18,13 @@ test('printed forms share one unified reading', () => {
   assert.equal(unify('⿱郷音', forms), '⿱鄉音');
   assert.equal(unify('⿰亻五', forms), '⿰亻五');
 });
+
+test('an unencoded component is one token and fills one slot', () => {
+  assert.deepEqual(split('⿹{22}一'), ['⿹', '{22}', '一']);
+  assert.deepEqual(split('⿰&CDP-8964;口'), ['⿰', '&CDP-8964;', '口']);
+  assert.deepEqual(split('⿱丿⿹#(-𠃌㇉)一'), ['⿱', '丿', '⿹', '#(-𠃌㇉)', '一']);
+  assert.deepEqual(split('⿰{2口'), ['⿰', '{', '2', '口']);
+  assert.equal(validIds('⿹{22}一'), true);
+  assert.equal(validIds('⿹{22}'), false);
+  assert.equal(unify('⿹{22}一', forms), '⿹{22}一');
+});

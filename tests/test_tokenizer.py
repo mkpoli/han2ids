@@ -9,9 +9,11 @@ def test_an_unencoded_component_is_one_token():
     assert split("⿱⿰{27}{27}一") == ["⿱", "⿰", "{27}", "{27}", "一"]
 
 
-def test_an_unclosed_mark_is_a_character():
+def test_marks_around_anything_else_are_characters():
     assert split("⿰{2口") == ["⿰", "{", "2", "口"]
     assert split("⿰&口") == ["⿰", "&", "口"]
+    assert split("{}") == ["{", "}"]
+    assert split("{⿱口木}") == ["{", "⿱", "口", "木", "}"]
 
 
 def test_a_vocabulary_writes_the_component_back():

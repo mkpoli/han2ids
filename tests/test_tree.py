@@ -1,4 +1,5 @@
-from han2ids.tree import normalise
+from han2ids.tokenizer import split
+from han2ids.tree import normalise, parse
 
 
 def test_vertical_stack():
@@ -10,5 +11,5 @@ def test_horizontal_stack():
 
 
 def test_an_unencoded_component_is_a_leaf():
-    assert normalise("⿱⿱{88}一二") == normalise("⿳{88}一二")
-    assert normalise("⿹{22}一") == "⿹{22}一"
+    assert parse(split("⿹{22}一"))[0] == ("⿹", ("{22}", "一"))
+    assert normalise("⿱⿱{88}一二") == "⿳{88}一二"
