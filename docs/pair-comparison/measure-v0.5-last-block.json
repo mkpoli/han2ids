@@ -1,0 +1,153 @@
+{
+ "reader": "han2ids-v0.5.pt",
+ "head": {
+  "step": 8000,
+  "area": 0.9477642624635944,
+  "settings": {
+   "width": 384,
+   "taps": [
+    11
+   ],
+   "patches": 196,
+   "dim": 256,
+   "layers": 2,
+   "heads": 4,
+   "dropout": 0.1
+  }
+ },
+ "characters": 750,
+ "scorers": {
+  "head": {
+   "level": 0.0186,
+   "queries": 2667,
+   "best_right": 2473,
+   "right_refused": 26,
+   "others": {
+    "all": [
+     1400,
+     539
+    ],
+    "under 0.90": [
+     220,
+     50
+    ],
+    "0.90 to 0.95": [
+     368,
+     122
+    ],
+    "0.95 and over": [
+     812,
+     367
+    ]
+   },
+   "one_form": [
+    1341,
+    15
+   ],
+   "two_forms": [
+    980,
+    337
+   ],
+   "area": 0.9399
+  },
+  "cosine": {
+   "level": 0.9221,
+   "queries": 2667,
+   "best_right": 2503,
+   "right_refused": 16,
+   "others": {
+    "all": [
+     1400,
+     870
+    ],
+    "under 0.90": [
+     220,
+     1
+    ],
+    "0.90 to 0.95": [
+     368,
+     131
+    ],
+    "0.95 and over": [
+     812,
+     738
+    ]
+   },
+   "one_form": [
+    1341,
+    9
+   ],
+   "two_forms": [
+    980,
+    546
+   ],
+   "area": 0.905
+  },
+  "cosine at the floor": {
+   "level": 0.93,
+   "queries": 2667,
+   "best_right": 2503,
+   "right_refused": 30,
+   "others": {
+    "all": [
+     1400,
+     781
+    ],
+    "under 0.90": [
+     220,
+     1
+    ],
+    "0.90 to 0.95": [
+     368,
+     75
+    ],
+    "0.95 and over": [
+     812,
+     705
+    ]
+   },
+   "one_form": [
+    1341,
+    16
+   ],
+   "two_forms": [
+    980,
+    485
+   ],
+   "area": 0.905
+  },
+  "head above the floor": {
+   "level": 0.0186,
+   "queries": 2667,
+   "best_right": 2484,
+   "right_refused": 54,
+   "others": {
+    "all": [
+     1400,
+     348
+    ],
+    "under 0.90": [
+     220,
+     0
+    ],
+    "0.90 to 0.95": [
+     368,
+     38
+    ],
+    "0.95 and over": [
+     812,
+     310
+    ]
+   },
+   "one_form": [
+    1341,
+    29
+   ],
+   "two_forms": [
+    980,
+    191
+   ],
+   "area": 0.9502
+  }
+ }
+}
