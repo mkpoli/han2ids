@@ -1,0 +1,133 @@
+{
+ "args": {
+  "output": "build/pairs",
+  "checkpoint": "models/han2ids-v0.5.pt",
+  "device": "cuda",
+  "seed": "20261115",
+  "limit": "None",
+  "workers": "4",
+  "run": "taps-5-8-11",
+  "taps": "[5, 8, 11]",
+  "dim": "256",
+  "layers": "2",
+  "steps": "8000",
+  "batch": "128",
+  "rate": "0.0003",
+  "every": "500",
+  "floor": "0.93"
+ },
+ "log": [
+  {
+   "step": 500,
+   "loss": 0.6022,
+   "area": 0.7848,
+   "seconds": 102,
+   "memory": 1789
+  },
+  {
+   "step": 1000,
+   "loss": 0.4445,
+   "area": 0.868,
+   "seconds": 224,
+   "memory": 1789
+  },
+  {
+   "step": 1500,
+   "loss": 0.3333,
+   "area": 0.9303,
+   "seconds": 306,
+   "memory": 1789
+  },
+  {
+   "step": 2000,
+   "loss": 0.2382,
+   "area": 0.9443,
+   "seconds": 379,
+   "memory": 1789
+  },
+  {
+   "step": 2500,
+   "loss": 0.1859,
+   "area": 0.96,
+   "seconds": 485,
+   "memory": 1789
+  },
+  {
+   "step": 3000,
+   "loss": 0.1513,
+   "area": 0.9702,
+   "seconds": 603,
+   "memory": 1789
+  },
+  {
+   "step": 3500,
+   "loss": 0.128,
+   "area": 0.9711,
+   "seconds": 762,
+   "memory": 1789
+  },
+  {
+   "step": 4000,
+   "loss": 0.1102,
+   "area": 0.9734,
+   "seconds": 862,
+   "memory": 1789
+  },
+  {
+   "step": 4500,
+   "loss": 0.0959,
+   "area": 0.9743,
+   "seconds": 935,
+   "memory": 1789
+  },
+  {
+   "step": 5000,
+   "loss": 0.0831,
+   "area": 0.9785,
+   "seconds": 1003,
+   "memory": 1789
+  },
+  {
+   "step": 5500,
+   "loss": 0.0723,
+   "area": 0.9813,
+   "seconds": 1085,
+   "memory": 1789
+  },
+  {
+   "step": 6000,
+   "loss": 0.0664,
+   "area": 0.9795,
+   "seconds": 1147,
+   "memory": 1789
+  },
+  {
+   "step": 6500,
+   "loss": 0.0565,
+   "area": 0.9821,
+   "seconds": 1207,
+   "memory": 1789
+  },
+  {
+   "step": 7000,
+   "loss": 0.0546,
+   "area": 0.9836,
+   "seconds": 1269,
+   "memory": 1789
+  },
+  {
+   "step": 7500,
+   "loss": 0.0524,
+   "area": 0.9831,
+   "seconds": 1326,
+   "memory": 1789
+  },
+  {
+   "step": 8000,
+   "loss": 0.0522,
+   "area": 0.9829,
+   "seconds": 1383,
+   "memory": 1789
+  }
+ ]
+}

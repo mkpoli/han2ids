@@ -50,6 +50,8 @@ samples/字.png	⿱宀子	⿱宀子	0.940
 collection and identifier, a compatibility ideograph or a regional design. It answers `matched`,
 `ambiguous` or `none`, and needs `uv sync --extra variants` with the fonts and Unicode files listed
 in `docs/variant-match.md`. `--char` gives the character when the reading names none.
+`docs/pair-comparison.md` trains a head that tells apart forms a stroke apart; the match does not
+use it yet.
 
 ```console
 $ uv run han2ids --variants samples/葛.png

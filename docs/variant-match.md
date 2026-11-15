@@ -217,7 +217,8 @@ which in the thirty pairs looked at is a difference of a stroke or a dot, the qu
 candidates' names 86.9% of the time: such a form scores as high as another font's drawing of the
 same form. Over all 1,400 queries 55.9% are answered. The encoder was trained to write an IDS, which
 such a stroke does not change. Telling these forms apart needs a comparison trained on pairs of
-registered forms; a higher floor refuses right answers first.
+registered forms, which [pair comparison](pair-comparison.md) measures; a higher floor refuses right
+answers first.
 
 ### Regional designs
 
