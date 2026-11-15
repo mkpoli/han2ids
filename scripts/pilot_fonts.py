@@ -121,7 +121,10 @@ def main():
     def array(name, chars, tag):
         path = CACHE / f"{tag}-{name}.npy"
         if path.exists():
-            return np.load(path, mmap_mode="r")
+            cached = np.load(path, mmap_mode="r")
+            if len(cached) != len(chars):
+                raise SystemExit(f"{path} has {len(cached)} images, expected {len(chars)}")
+            return cached
         out = np.lib.format.open_memmap(path, mode="w+", dtype=np.uint8, shape=(len(chars), SIZE, SIZE))
         began = time.time()
         font = fonts.get(name)

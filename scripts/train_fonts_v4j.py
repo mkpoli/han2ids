@@ -24,7 +24,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from han2ids.grammar import generate, valid_ids
 from han2ids.model import GlyphIDS
 from han2ids.status import gold
-from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
+from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary, split as tokens_of
 
 
 def select_rows(rows, array):
@@ -45,7 +45,7 @@ class Rows(Dataset):
         self.items = []
         for i, row in rows:
             ids = gold(row['char'], row['font'], row['ids'])
-            if all(ch in vocab.stoi for ch in ids if ch not in '⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯'):
+            if all(ch in vocab.stoi for ch in tokens_of(ids) if ch not in '⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯'):
                 self.items.append((i, ids))
 
     def __len__(self): return len(self.items)
@@ -53,7 +53,7 @@ class Rows(Dataset):
     def __getitem__(self, index):
         i, ids = self.items[index]
         x = torch.from_numpy(np.asarray(self.array[i]).copy()).float().div_(255).unsqueeze(0).repeat(3, 1, 1).sub_(0.5).div_(0.5)
-        tokens = [BOS] + [self.vocab.stoi[ch] for ch in ids] + [EOS]
+        tokens = [BOS] + [self.vocab.stoi[ch] for ch in tokens_of(ids)] + [EOS]
         return x, torch.tensor(tokens[:48], dtype=torch.long)
 
 
