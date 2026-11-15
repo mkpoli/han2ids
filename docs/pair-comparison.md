@@ -54,7 +54,8 @@ are left out: two sequences of different collections, which can be one design un
 sequences that some font draws with one glyph; and two drawings that share only a compatibility
 ideograph. A batch takes 30% of its pairs from the first row, 15%, 20%, 25% and 10% from the next,
 a character at random and then one of its pairs. Each drawing of a training pair varies on its own
-in stroke weight, scale, slant, place, resolution and blur.
+in stroke weight, scale, slant, place and blur; resolution is drawn for each eighth of a batch, so
+about seven pairs in eight draw theirs separately.
 
 The 1,500 characters of the variant match's sample are held out, and the next 500 of the same
 order choose the checkpoint; the other 13,304 train.
@@ -82,15 +83,16 @@ the cosine.
 
 | | Cosine of mean patch tokens | Cosine at the 0.93 floor | Head | Head above the floor |
 | --- | ---: | ---: | ---: | ---: |
-| Level | 0.923 | 0.930 | 0.005 | 0.005 |
-| Best candidate right, 2,667 queries | 2,504 (93.9%) | 2,504 (93.9%) | 2,524 (94.6%) | 2,520 (94.5%) |
+| Level | 0.9226 | 0.9300 | 0.0046 | 0.0046 |
+| Best candidate right, 2,667 queries | 2,504 (93.9%) | 2,504 (93.9%) | 2,524 (94.6%) | 2,506 (94.0%) |
 | Right candidate refused, 2,667 queries | 18 (0.7%) | 30 (1.1%) | 4 (0.1%) | 34 (1.3%) |
 | One form in two families refused, 1,334 pairs | 9 (0.7%) | 15 (1.1%) | 2 (0.1%) | 17 (1.3%) |
 | Two forms of one collection taken as one, 980 pairs | 544 (55.5%) | 486 (49.6%) | 205 (20.9%) | 143 (14.6%) |
 | Area: one form ranked above two | 0.906 | 0.906 | 0.982 | 0.977 |
 
 "Head above the floor" takes a pair only when the cosine reaches 0.93 and the head reaches its
-level, which is how the variant match would apply it.
+level, which is how the variant match would apply it. A query with no candidate at the floor has
+no best candidate there.
 
 The head's count depends on where its level falls. With the level set to refuse a share of the
 even half's pairs of one form, the odd half gives:
@@ -131,7 +133,7 @@ takes more forms as one than the head of three blocks
   typefaces are not measured.
 - The level rests on the lowest 1% of the even half's right candidates, and a few low ones move
   it: the table of refused shares above shows how far the count of two forms taken follows.
-- Of the 205 pairs still taken as one, four of the six looked at (湾, 鯡, 綆, 鵨) show no difference
+- Of the 205 pairs still taken as one, four of the six looked at (湾, 鯡, 綆, 鷁) show no difference
   larger than the two fonts' own. Nobody has sorted the 205 into those and real misses.
 - The head alone takes 14 of 220 queries whose nearest other form is far in the cosine; under the
   cosine floor it takes none.
@@ -139,6 +141,10 @@ takes more forms as one than the head of three blocks
   逢 U+E0100 and U+E0102.
 - 15 held-out drawings are pixel for pixel a training drawing of another character, such as 朣 and
   膧.
+- 50 training pairs and 3 held-out pairs of two forms, all of 若, are one glyph through a chain of
+  two fonts: only a single drawing that names both sequences takes a pair out.
+- The queries follow the variant match, where a candidate that shares a compatibility ideograph
+  with the query is right; the pair labels do not count it.
 - One run of each setting was made, with one seed.
 
 ## Sources

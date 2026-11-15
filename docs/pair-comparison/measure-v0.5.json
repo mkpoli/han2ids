@@ -121,7 +121,7 @@
   "head above the floor": {
    "level": 0.0046,
    "queries": 2667,
-   "best_right": 2520,
+   "best_right": 2506,
    "right_refused": 34,
    "others": {
     "all": [
