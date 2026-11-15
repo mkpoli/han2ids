@@ -1,10 +1,13 @@
 """The character vocabulary written by the model."""
 from __future__ import annotations
 
+import re
+
 PAD, BOS, EOS, UNK = 0, 1, 2, 3
 SPECIALS = ["<pad>", "<bos>", "<eos>", "<unk>"]
-
-
+# A component no code point names, written between marks: BabelStone's number {53}, CHISE's entity
+# &CDP-8964; and zi.tools' stroke chain #(-𠃌㇉). Each is one part of a sequence, as a character is.
+UNENCODED = re.compile(r"\{\d+\}|&[A-Za-z0-9+_-]+;|#\([^()]+\)")
 
 
 def selector(char: str) -> bool:
@@ -13,9 +16,17 @@ def selector(char: str) -> bool:
 
 
 def split(text: str) -> list[str]:
-    """Tokens of an IDS: one per character, with variation selectors kept on their base."""
+    """Tokens of an IDS: one per character or unencoded component, with variation selectors kept on their base."""
     tokens: list[str] = []
-    for char in text:
+    at = 0
+    while at < len(text):
+        component = UNENCODED.match(text, at)
+        if component:
+            tokens.append(component.group())
+            at = component.end()
+            continue
+        char = text[at]
+        at += 1
         if tokens and selector(char):
             tokens[-1] += char
         else:

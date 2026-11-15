@@ -33,7 +33,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from han2ids.grammar import generate
 from han2ids.model import GlyphIDS
 from han2ids.status import gold
-from han2ids.tokenizer import BOS, EOS, PAD, Vocabulary
+from han2ids.tokenizer import BOS, EOS, PAD, Vocabulary, split as tokens_of
 
 
 def safe_path(path: Path) -> str:
@@ -103,11 +103,12 @@ def validate_rows(train, val, vocab, max_len: int, fonts: dict) -> None:
             if row["font"] not in fonts:
                 raise ValueError(f"missing font family {row['font']!r} for {split} row {index}")
             label = gold(row["char"], row["font"], row["ids"])
-            missing = sorted(set(label) - vocab.stoi.keys())
+            tokens = tokens_of(label)
+            missing = sorted(set(tokens) - vocab.stoi.keys())
             if missing:
                 raise ValueError(f"unknown label tokens in {split} row {index}: {missing}")
-            if len(label) + 2 > max_len:
-                raise ValueError(f"label too long in {split} row {index}: {len(label) + 2} > {max_len}")
+            if len(tokens) + 2 > max_len:
+                raise ValueError(f"label too long in {split} row {index}: {len(tokens) + 2} > {max_len}")
 
 
 def parse_fonts(specs: list[str]) -> dict[str, list[tuple[Path, int]]]:
@@ -157,7 +158,7 @@ class Rows(Dataset):
             from han2ids.augmentation import augment
             image = augment(image, random.Random(derived_seed(self.seed, "augmentation", self.epoch, index)))
         label = gold(row["char"], row["font"], row["ids"])
-        tokens = [BOS, *[self.vocab.stoi[ch] for ch in label], EOS]
+        tokens = [BOS, *[self.vocab.stoi[ch] for ch in tokens_of(label)], EOS]
         return image_tensor(image), torch.tensor(tokens, dtype=torch.long)
 
 

@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from han2ids.grammar import generate, valid_ids
 from han2ids.model import GlyphIDS
-from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
+from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary, split
 
 
 class Rows(Dataset):
@@ -33,7 +33,7 @@ class Rows(Dataset):
         row = self.rows[index]
         image = Image.open(self.root / row["image"]).convert("L").resize((224, 224), Image.Resampling.BILINEAR)
         x = torch.from_numpy(np.asarray(image, dtype=np.float32) / 255).unsqueeze(0).repeat(3, 1, 1).sub_(0.5).div_(0.5)
-        ids = [BOS] + [self.vocab.stoi.get(char, UNK) for char in row["ids"]] + [EOS]
+        ids = [BOS] + [self.vocab.stoi.get(char, UNK) for char in split(row["ids"])] + [EOS]
         return x, torch.tensor(ids[:self.max_len], dtype=torch.long)
 
 
@@ -83,7 +83,7 @@ def main():
     val = load(args.data / "val.jsonl")
     if args.limit:
         train, val = train[:args.limit], val[:150]
-    vocab = Vocabulary.from_chars({char for row in train + val for char in row["ids"]})
+    vocab = Vocabulary.from_chars({char for row in train + val for char in split(row["ids"])})
     model = GlyphIDS(len(vocab), args.encoder, pretrained=True).cuda()
     loader = DataLoader(Rows(train, args.data, vocab), batch_size=args.batch_size, shuffle=True,
                         collate_fn=collate, drop_last=True, num_workers=0)

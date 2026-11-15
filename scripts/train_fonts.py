@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from han2ids.grammar import generate, valid_ids
 from han2ids.labels import base_labels
 from han2ids.model import GlyphIDS
-from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
+from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary, split as tokens_of
 
 SIZE = 224
 OPERATORS = set("⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯")
@@ -62,7 +62,7 @@ class Rows(Dataset):
     def __getitem__(self, index):
         row = self.rows[index]
         x = torch.from_numpy(np.asarray(self.array[index]).copy()).float().div_(255).unsqueeze(0).repeat(3, 1, 1).sub_(0.5).div_(0.5)
-        ids = [BOS] + [self.stoi.get(ch, UNK) for ch in row["ids"]] + [EOS]
+        ids = [BOS] + [self.stoi.get(ch, UNK) for ch in tokens_of(row["ids"])] + [EOS]
         return x, torch.tensor(ids[:48], dtype=torch.long)
 
 
@@ -157,7 +157,7 @@ def main():
         (args.cache / f"{part}.jsonl").write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows))
         print(part, len(rows), flush=True)
 
-    vocab = Vocabulary.from_chars({ch for row in records for ch in row["ids"]})
+    vocab = Vocabulary.from_chars({ch for row in records for ch in tokens_of(row["ids"])})
     model = GlyphIDS(len(vocab), "vit_small_patch16_224.augreg_in21k_ft_in1k", pretrained=True).cuda()
     loader = DataLoader(Rows([r for r in records if r["split"] == "train"], arrays["train"], vocab.stoi),
                         batch_size=args.batch_size, shuffle=True, collate_fn=collate, drop_last=True, num_workers=0)

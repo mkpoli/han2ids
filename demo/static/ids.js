@@ -20,11 +20,18 @@ export function advance(stack, char) {
 }
 
 const SELECTOR = /[\u{FE00}-\u{FE0F}\u{E0100}-\u{E01EF}]/u;
+/* A component no code point names: BabelStone's {53}, CHISE's &CDP-8964;, zi.tools' #(-𠃌㇉). */
+const UNENCODED = /\{\d+\}|&[A-Za-z0-9+_-]+;|#\([^()]+\)/uy;
 
-/** Tokens of a sequence: one per character, with variation selectors kept on their base. */
+/** Tokens of a sequence: one per character or unencoded component, with variation selectors kept on their base. */
 export function split(text) {
   const tokens = [];
-  for (const char of text) {
+  for (let at = 0; at < text.length;) {
+    UNENCODED.lastIndex = at;
+    const component = UNENCODED.exec(text);
+    if (component) { tokens.push(component[0]); at = UNENCODED.lastIndex; continue; }
+    const char = String.fromCodePoint(text.codePointAt(at));
+    at += char.length;
     if (tokens.length && SELECTOR.test(char)) tokens[tokens.length - 1] += char;
     else tokens.push(char);
   }
