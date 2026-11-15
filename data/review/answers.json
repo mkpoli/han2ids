@@ -1,57 +1,4946 @@
 {
- "irg-ext-c-pdam5-2AA06": {
+ "ext_c_pdam5_removals:2AA06": {
   "c": "custom",
   "ids": "⿱𫜹𭔫",
-  "at": "2026-11-12T16:58:20.421Z"
+  "at": "2026-11-12T16:58:20.421Z",
+  "judged": "⿱殻寸"
  },
- "irg-ext-c-pdam5-2ABBB": {
+ "ext_c_pdam5_removals:2ABBB": {
   "c": "custom",
   "ids": "⿱𫤰手",
-  "at": "2026-11-12T16:26:37.734Z"
+  "at": "2026-11-12T16:26:37.734Z",
+  "judged": "⿱𫤰手"
  },
- "irg-ext-c-pdam5-2AD0B": {
+ "ext_c_pdam5_removals:2AD0B": {
   "c": "custom",
   "ids": "⿰木⿸广⿱廿从",
-  "at": "2026-11-12T16:20:41.174Z"
+  "at": "2026-11-12T16:20:41.174Z",
+  "judged": "⿰木庻"
  },
- "irg-ext-c-pdam5-2B02C": {
+ "ext_c_pdam5_removals:2B02C": {
   "c": "custom",
   "ids": "⿱⿶𲻋爻石",
-  "at": "2026-11-12T16:36:56.769Z"
+  "at": "2026-11-12T16:36:56.769Z",
+  "judged": "⿱𦥯石"
  },
- "irg-ext-c-pdam5-2B0B6": {
+ "ext_c_pdam5_removals:2B0B6": {
   "c": "custom",
   "ids": "⿳𥫗⿴𠀃人𰀠",
-  "at": "2026-11-13T13:33:30.164Z"
+  "at": "2026-11-13T13:33:30.164Z",
+  "judged": "⿱𥫗丹"
  },
- "irg-ext-d-18636": {
+ "ext_d_g_withdrawals:00010": {
+  "c": "known",
+  "ids": "⿱𠫔𫶧",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A0%AB%94%F0%AB%B6%A7",
+  "judged": "⿱𠫔𫶧"
+ },
+ "ext_d_g_withdrawals:00035": {
+  "c": "known",
+  "ids": "⿱不在",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%8D%E5%9C%A8",
+  "judged": "⿱不在"
+ },
+ "ext_d_g_withdrawals:00040": {
+  "c": "known",
+  "ids": "⿱不完",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%8D%E5%AE%8C",
+  "judged": "⿱不完"
+ },
+ "ext_d_g_withdrawals:00056": {
+  "c": "known",
+  "ids": "⿱东⿰东东",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%9C%E2%BF%B0%E4%B8%9C%E4%B8%9C",
+  "judged": "⿱东⿰东东"
+ },
+ "ext_d_g_withdrawals:00057": {
+  "c": "known",
+  "ids": "⿱不滑",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%8D%E6%BB%91",
+  "judged": "⿱不滑"
+ },
+ "ext_d_g_withdrawals:00070": {
+  "c": "known",
+  "ids": "⿲二〢二",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E4%BA%8C%E3%80%A2%E4%BA%8C",
+  "judged": "⿰⿾⺊⺊"
+ },
+ "ext_d_g_withdrawals:00082": {
   "c": "custom",
-  "ids": "⿱艹⿳⿲示貝貝⿰夕隹心",
-  "at": "2026-11-12T16:25:04.671Z"
+  "ids": "⿵#(-丿㇋)丶",
+  "at": "2026-11-14T13:07:12.436Z",
+  "judged": "⿰丿丶"
  },
- "irg-ext-d-23410": {
+ "ext_d_g_withdrawals:00083": {
+  "c": "known",
+  "ids": "⿹了丶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B9%E4%BA%86%E4%B8%B6",
+  "judged": "⿰了了"
+ },
+ "ext_d_g_withdrawals:00085": {
+  "c": "known",
+  "ids": "⿹𠄎乂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B9%F0%A0%84%8E%E4%B9%82",
+  "judged": "⿻乃㇒"
+ },
+ "ext_d_g_withdrawals:00091": {
+  "c": "known",
+  "ids": "⿱户一",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%88%B7%E4%B8%80",
+  "judged": "⿱㇒上"
+ },
+ "ext_d_g_withdrawals:00096": {
   "c": "custom",
-  "ids": "⿰魚卿",
-  "at": "2026-11-13T13:38:17.404Z"
+  "ids": "⿸丿⿴𢎘十",
+  "at": "2026-11-14T08:52:39.008Z",
+  "judged": "⿻㇉田"
  },
- "irg-ext-d-g-03898": {
+ "ext_d_g_withdrawals:00099": {
+  "c": "known",
+  "ids": "⿱乂冇",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B9%82%E5%86%87",
+  "judged": "⿱㐅冇"
+ },
+ "ext_d_g_withdrawals:00101": {
+  "c": "known",
+  "ids": "⿱夭下",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E4%B8%8B",
+  "judged": "⿱夭下"
+ },
+ "ext_d_g_withdrawals:00108": {
+  "c": "known",
+  "ids": "⿱夭井",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E4%BA%95",
+  "judged": "⿱夭井"
+ },
+ "ext_d_g_withdrawals:00109": {
+  "c": "known",
+  "ids": "⿱夭云",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E4%BA%91",
+  "judged": "⿱夭云"
+ },
+ "ext_d_g_withdrawals:00110": {
+  "c": "known",
+  "ids": "⿱夭中",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E4%B8%AD",
+  "judged": "⿱夭中"
+ },
+ "ext_d_g_withdrawals:00113": {
+  "c": "known",
+  "ids": "⿳丿𠦆一",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E4%B8%BF%F0%A0%A6%86%E4%B8%80",
+  "judged": "⿱㇒里"
+ },
+ "ext_d_g_withdrawals:00120": {
+  "c": "known",
+  "ids": "⿱夭怕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E6%80%95",
+  "judged": "⿱夭怕"
+ },
+ "ext_d_g_withdrawals:00129": {
+  "c": "known",
+  "ids": "⿺乙牛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E7%89%9B",
+  "judged": "⿺乙牛"
+ },
+ "ext_d_g_withdrawals:00130": {
+  "c": "known",
+  "ids": "⿺乙月",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E6%9C%88",
+  "judged": "⿺乙月"
+ },
+ "ext_d_g_withdrawals:00136": {
+  "c": "known",
+  "ids": "⿺乙禾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E7%A6%BE",
+  "judged": "⿺乙禾"
+ },
+ "ext_d_g_withdrawals:00138": {
+  "c": "known",
+  "ids": "⿺乙曲",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E6%9B%B2",
+  "judged": "⿺乙曲"
+ },
+ "ext_d_g_withdrawals:00145": {
+  "c": "known",
+  "ids": "⿺九各",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%9D%E5%90%84",
+  "judged": "⿺九各"
+ },
+ "ext_d_g_withdrawals:00149": {
+  "c": "known",
+  "ids": "⿺乙和",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E5%92%8C",
+  "judged": "⿺乙和"
+ },
+ "ext_d_g_withdrawals:00153": {
+  "c": "known",
+  "ids": "⿺乙若",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E8%8B%A5",
+  "judged": "⿺乙若"
+ },
+ "ext_d_g_withdrawals:00161": {
+  "c": "known",
+  "ids": "⿺乙無",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E7%84%A1",
+  "judged": "⿺𠃊無"
+ },
+ "ext_d_g_withdrawals:00163": {
+  "c": "known",
+  "ids": "⿺九曾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%9D%E6%9B%BE",
+  "judged": "⿺九曾"
+ },
+ "ext_d_g_withdrawals:00166": {
+  "c": "known",
+  "ids": "⿺乙襄",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%99%E8%A5%84",
+  "judged": "⿺乙襄"
+ },
+ "ext_d_g_withdrawals:00182": {
+  "c": "known",
+  "ids": "⿰云爰",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%91%E7%88%B0",
+  "judged": "⿰云爰"
+ },
+ "ext_d_g_withdrawals:00190": {
+  "c": "known",
+  "ids": "⿳亠二几",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E4%BA%A0%E4%BA%8C%E5%87%A0",
+  "judged": "⿳亠二几"
+ },
+ "ext_d_g_withdrawals:00216": {
+  "c": "known",
+  "ids": "⿴〢人",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E3%80%A2%E4%BA%BA",
+  "judged": "⿲丨人丨"
+ },
+ "ext_d_g_withdrawals:00223": {
+  "c": "known",
+  "ids": "⿰亻凢",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%BB%E5%87%A2",
+  "judged": "⿰亻凢"
+ },
+ "ext_d_g_withdrawals:00226": {
+  "c": "known",
+  "ids": "⿱人子",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%BA%BA%E5%AD%90",
+  "judged": "⿱𠆢子"
+ },
+ "ext_d_g_withdrawals:00233": {
+  "c": "known",
+  "ids": "⿰亻𫧇",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%BB%F0%AB%A7%87",
+  "judged": "⿰亻𫧇"
+ },
+ "ext_d_g_withdrawals:00245": {
+  "c": "known",
+  "ids": "⿰亻𡴴",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%BB%F0%A1%B4%B4",
+  "judged": "⿰亻𡴴"
+ },
+ "ext_d_g_withdrawals:00293": {
+  "c": "known",
+  "ids": "⿰亻奍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%BB%E5%A5%8D",
+  "judged": "⿰亻⿱⿻䒑人⿰丿丨"
+ },
+ "ext_d_g_withdrawals:00323": {
+  "c": "known",
+  "ids": "⿰合寻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%90%88%E5%AF%BB",
+  "judged": "⿰合寻"
+ },
+ "ext_d_g_withdrawals:00340": {
+  "c": "known",
+  "ids": "⿱今𢪒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%BB%8A%F0%A2%AA%92",
+  "judged": "⿱今𢪒"
+ },
+ "ext_d_g_withdrawals:00371": {
+  "c": "known",
+  "ids": "⿰亻逼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BA%BB%E9%80%BC",
+  "judged": "⿰亻逼"
+ },
+ "ext_d_g_withdrawals:00436": {
+  "c": "known",
+  "ids": "⿰儿乌",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%84%BF%E4%B9%8C",
+  "judged": "⿰儿乌"
+ },
+ "ext_d_g_withdrawals:00463": {
+  "c": "known",
+  "ids": "⿱八牛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%85%AB%E7%89%9B",
+  "judged": "⿱八牛"
+ },
+ "ext_d_g_withdrawals:00465": {
+  "c": "known",
+  "ids": "⿱丷⿻[1:]乚日",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%B7%E2%BF%BB%5B1%3A%5D%E4%B9%9A%E6%97%A5",
+  "judged": "⿱丷电"
+ },
+ "ext_d_g_withdrawals:00471": {
+  "c": "known",
+  "ids": "⿱公戊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%85%AC%E6%88%8A",
+  "judged": "⿳八幺戊"
+ },
+ "ext_d_g_withdrawals:00473": {
+  "c": "known",
+  "ids": "⿱丷𠄮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%B7%F0%A0%84%AE",
+  "judged": "⿱兹一"
+ },
+ "ext_d_g_withdrawals:00474": {
+  "c": "known",
+  "ids": "⿱丷黾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%B7%E9%BB%BE",
+  "judged": "⿱𠮦电"
+ },
+ "ext_d_g_withdrawals:00487": {
+  "c": "known",
+  "ids": "⿱一几",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%80%E5%87%A0",
+  "judged": "⿱一几"
+ },
+ "ext_d_g_withdrawals:00488": {
+  "c": "known",
+  "ids": "⿵冂十",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E5%86%82%E5%8D%81",
+  "judged": "⿵冂十"
+ },
+ "ext_d_g_withdrawals:00492": {
+  "c": "known",
+  "ids": "⿵冂⿲纟言纟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E5%86%82%E2%BF%B2%E7%BA%9F%E8%A8%80%E7%BA%9F",
+  "judged": "⿵冂⿰纟纟"
+ },
+ "ext_d_g_withdrawals:00498": {
+  "c": "known",
+  "ids": "⿱㓁比",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E3%93%81%E6%AF%94",
+  "judged": "⿱㓁比"
+ },
+ "ext_d_g_withdrawals:00504": {
+  "c": "known",
+  "ids": "⿱㓁𠮷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E3%93%81%F0%A0%AE%B7",
+  "judged": "⿱㓁𠮷"
+ },
+ "ext_d_g_withdrawals:00506": {
+  "c": "known",
+  "ids": "⿱冖参",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%86%96%E5%8F%82",
+  "judged": "⿱冖参"
+ },
+ "ext_d_g_withdrawals:00507": {
+  "c": "known",
+  "ids": "⿱㓁告",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E3%93%81%E5%91%8A",
+  "judged": "⿱㓁告"
+ },
+ "ext_d_g_withdrawals:00509": {
+  "c": "known",
+  "ids": "⿱冖彖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%86%96%E5%BD%96",
+  "judged": "⿱冖彖"
+ },
+ "ext_d_g_withdrawals:00511": {
+  "c": "known",
+  "ids": "⿱㓁卖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E3%93%81%E5%8D%96",
+  "judged": "⿱冖卖"
+ },
+ "ext_d_g_withdrawals:00526": {
+  "c": "known",
+  "ids": "⿰冫巨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E5%B7%A8",
+  "judged": "⿰冫巨"
+ },
+ "ext_d_g_withdrawals:00533": {
+  "c": "known",
+  "ids": "⿰冫有",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E6%9C%89",
+  "judged": "⿰冫有"
+ },
+ "ext_d_g_withdrawals:00536": {
+  "c": "known",
+  "ids": "⿰冫曳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E6%9B%B3",
+  "judged": "⿰冫曳"
+ },
+ "ext_d_g_withdrawals:00543": {
+  "c": "known",
+  "ids": "⿰冫皂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E7%9A%82",
+  "judged": "⿰冫皂"
+ },
+ "ext_d_g_withdrawals:00549": {
+  "c": "known",
+  "ids": "⿰冫朋",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E6%9C%8B",
+  "judged": "⿰冫朋"
+ },
+ "ext_d_g_withdrawals:00564": {
+  "c": "known",
+  "ids": "⿰冫祭",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%86%AB%E7%A5%AD",
+  "judged": "⿰冫祭"
+ },
+ "ext_d_g_withdrawals:00569": {
+  "c": "c2",
+  "ids": "⿱次⿰次次",
+  "at": "2026-11-13T21:41:45.058Z",
+  "judged": "⿱次欼"
+ },
+ "ext_d_g_withdrawals:00573": {
+  "c": "known",
+  "ids": "⿱坞几",
+  "at": "2026-11-14T13:07:35.469Z",
+  "judged": "⿱垧几",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%9D%9E%E5%87%A0"
+ },
+ "ext_d_g_withdrawals:00579": {
+  "c": "known",
+  "ids": "⿱⿰𡊚土几",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%F0%A1%8A%9A%E5%9C%9F%E5%87%A0",
+  "judged": "⿱⿲土白土几"
+ },
+ "ext_d_g_withdrawals:00608": {
+  "c": "known",
+  "ids": "⿱刀𬺢",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%88%80%F0%AC%BA%A2",
+  "judged": "⿳刀一八"
+ },
+ "ext_d_g_withdrawals:00624": {
+  "c": "known",
+  "ids": "⿰光刂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%85%89%E5%88%82",
+  "judged": "⿰光刂"
+ },
+ "ext_d_g_withdrawals:00640": {
+  "c": "known",
+  "ids": "⿰空刂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A9%BA%E5%88%82",
+  "judged": "⿰空刂"
+ },
+ "ext_d_g_withdrawals:00719": {
+  "c": "known",
+  "ids": "⿹勹丿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B9%E5%8B%B9%E4%B8%BF",
+  "judged": "⿹勹丿"
+ },
+ "ext_d_g_withdrawals:00747": {
+  "c": "known",
+  "ids": "⿷匚水",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B7%E5%8C%9A%E6%B0%B4",
+  "judged": "⿷匚水"
+ },
+ "ext_d_g_withdrawals:00772": {
+  "c": "known",
+  "ids": "⿱古斗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8F%A4%E6%96%97",
+  "judged": "⿱古斗"
+ },
+ "ext_d_g_withdrawals:00847": {
+  "c": "custom",
+  "ids": "⿸厂树",
+  "at": "2026-11-14T08:59:34.196Z",
+  "judged": "⿸厂对"
+ },
+ "ext_d_g_withdrawals:00901": {
+  "c": "known",
+  "ids": "⿱又丨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8F%88%E4%B8%A8",
+  "judged": "⿱又丨"
+ },
+ "ext_d_g_withdrawals:00932": {
+  "c": "known",
+  "ids": "⿰又⿱⿴囗⿱丷丅心",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%88%E2%BF%B1%E2%BF%B4%E5%9B%97%E2%BF%B1%E4%B8%B7%E4%B8%85%E5%BF%83",
+  "judged": "⿰又恩"
+ },
+ "ext_d_g_withdrawals:00958": {
+  "c": "known",
+  "ids": "⿱𬺢口",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%AC%BA%A2%E5%8F%A3",
+  "judged": "⿳一八口"
+ },
+ "ext_d_g_withdrawals:00982": {
+  "c": "known",
+  "ids": "⿰口右",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%A3%E5%8F%B3",
+  "judged": "⿰口右"
+ },
+ "ext_d_g_withdrawals:00984": {
+  "c": "known",
+  "ids": "⿰口𲝃",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%A3%F0%B2%9D%83",
+  "judged": "⿰口穴"
+ },
+ "ext_d_g_withdrawals:01001": {
+  "c": "known",
+  "ids": "⿰口页",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%A3%E9%A1%B5",
+  "judged": "⿰口页"
+ },
+ "ext_d_g_withdrawals:01049": {
+  "c": "known",
+  "ids": "⿰每口",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%AF%8F%E5%8F%A3",
+  "judged": "⿰每口"
+ },
+ "ext_d_g_withdrawals:01147": {
+  "c": "known",
+  "ids": "⿰口选",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%A3%E9%80%89",
+  "judged": "⿰口迭"
+ },
+ "ext_d_g_withdrawals:01207": {
+  "c": "known",
+  "ids": "⿰口萧",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8F%A3%E8%90%A7",
+  "judged": "⿰口萧"
+ },
+ "ext_d_g_withdrawals:01331": {
+  "c": "custom",
+  "ids": "⿰口⿱鄉音",
+  "at": "2026-11-13T21:29:54.584Z",
+  "judged": "⿰口醫"
+ },
+ "ext_d_g_withdrawals:01340": {
+  "c": "known",
+  "ids": "⿴囗牛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E5%9B%97%E7%89%9B",
+  "judged": "⿴囗牛"
+ },
+ "ext_d_g_withdrawals:01345": {
+  "c": "known",
+  "ids": "⿴囗央",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E5%9B%97%E5%A4%AE",
+  "judged": "⿴囗央"
+ },
+ "ext_d_g_withdrawals:01347": {
+  "c": "custom",
+  "ids": "⿴囗⿰氵亠",
+  "at": "2026-11-14T08:58:54.083Z",
+  "judged": "⿴囗汇"
+ },
+ "ext_d_g_withdrawals:01355": {
+  "c": "known",
+  "ids": "⿴囗林",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E5%9B%97%E6%9E%97",
+  "judged": "⿴囗林"
+ },
+ "ext_d_g_withdrawals:01367": {
+  "c": "known",
+  "ids": "⿴囗絲",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E5%9B%97%E7%B5%B2",
+  "judged": "⿴囗絲"
+ },
+ "ext_d_g_withdrawals:01376": {
+  "c": "known",
+  "ids": "⿺九土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E4%B9%9D%E5%9C%9F",
+  "judged": "⿺九土"
+ },
+ "ext_d_g_withdrawals:01378": {
+  "c": "known",
+  "ids": "⿰土九",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%B9%9D",
+  "judged": "⿰土九"
+ },
+ "ext_d_g_withdrawals:01381": {
+  "c": "known",
+  "ids": "⿰土了",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%BA%86",
+  "judged": "⿰土了"
+ },
+ "ext_d_g_withdrawals:01386": {
+  "c": "known",
+  "ids": "⿰土三",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%B8%89",
+  "judged": "⿰土三"
+ },
+ "ext_d_g_withdrawals:01390": {
+  "c": "known",
+  "ids": "⿰土刃",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%88%83",
+  "judged": "⿰土刃"
+ },
+ "ext_d_g_withdrawals:01413": {
+  "c": "known",
+  "ids": "⿰土⿱亠了",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E2%BF%B1%E4%BA%A0%E4%BA%86",
+  "judged": "⿰土⿱亠了"
+ },
+ "ext_d_g_withdrawals:01419": {
+  "c": "known",
+  "ids": "⿱双土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8F%8C%E5%9C%9F",
+  "judged": "⿱双土"
+ },
+ "ext_d_g_withdrawals:01425": {
+  "c": "known",
+  "ids": "⿰土囚",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%9B%9A",
+  "judged": "⿰土囚"
+ },
+ "ext_d_g_withdrawals:01427": {
+  "c": "known",
+  "ids": "⿰土甩",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%94%A9",
+  "judged": "⿰土甩"
+ },
+ "ext_d_g_withdrawals:01429": {
+  "c": "known",
+  "ids": "⿰土𱎜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%B1%8E%9C",
+  "judged": "⿰土⿱𠆢下"
+ },
+ "ext_d_g_withdrawals:01430": {
+  "c": "known",
+  "ids": "⿰土仝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%BB%9D",
+  "judged": "⿰土仝"
+ },
+ "ext_d_g_withdrawals:01432": {
+  "c": "c2",
+  "ids": "⿰土乌",
+  "at": "2026-11-14T13:01:37.926Z",
+  "judged": "⿰土枭"
+ },
+ "ext_d_g_withdrawals:01441": {
+  "c": "known",
+  "ids": "⿱加土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8A%A0%E5%9C%9F",
+  "judged": "⿱加土"
+ },
+ "ext_d_g_withdrawals:01444": {
+  "c": "known",
+  "ids": "⿱列土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%88%97%E5%9C%9F",
+  "judged": "⿱列土"
+ },
+ "ext_d_g_withdrawals:01451": {
+  "c": "known",
+  "ids": "⿰土戍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%88%8D",
+  "judged": "⿰土戍"
+ },
+ "ext_d_g_withdrawals:01457": {
+  "c": "known",
+  "ids": "⿰土贞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B4%9E",
+  "judged": "⿰土贞"
+ },
+ "ext_d_g_withdrawals:01458": {
+  "c": "known",
+  "ids": "⿰土团",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%9B%A2",
+  "judged": "⿰土团"
+ },
+ "ext_d_g_withdrawals:01462": {
+  "c": "known",
+  "ids": "⿱光土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%85%89%E5%9C%9F",
+  "judged": "⿱光土"
+ },
+ "ext_d_g_withdrawals:01464": {
+  "c": "known",
+  "ids": "⿰土臼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%87%BC",
+  "judged": "⿰土臼"
+ },
+ "ext_d_g_withdrawals:01467": {
+  "c": "known",
+  "ids": "⿰土𠂢",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A0%82%A2",
+  "judged": "⿰土𠂢"
+ },
+ "ext_d_g_withdrawals:01468": {
+  "c": "known",
+  "ids": "⿰土乓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%B9%93",
+  "judged": "⿰土兵"
+ },
+ "ext_d_g_withdrawals:01469": {
+  "c": "known",
+  "ids": "⿰土舟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%88%9F",
+  "judged": "⿰土舟"
+ },
+ "ext_d_g_withdrawals:01470": {
+  "c": "known",
+  "ids": "⿰土凫",
+  "at": "2026-11-14T13:27:13.399Z",
+  "judged": "⿰土枭",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%87%AB"
+ },
+ "ext_d_g_withdrawals:01476": {
+  "c": "known",
+  "ids": "⿱⿰冫历土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%E5%86%AB%E5%8E%86%E5%9C%9F",
+  "judged": "⿱⿰冫历土"
+ },
+ "ext_d_g_withdrawals:01482": {
+  "c": "known",
+  "ids": "⿰土𡰪",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A1%B0%AA",
+  "judged": "⿰土𡰪"
+ },
+ "ext_d_g_withdrawals:01486": {
+  "c": "known",
+  "ids": "⿰土两",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%B8%A4",
+  "judged": "⿰土两"
+ },
+ "ext_d_g_withdrawals:01488": {
+  "c": "known",
+  "ids": "⿰土走",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B5%B0",
+  "judged": "⿰土走"
+ },
+ "ext_d_g_withdrawals:01491": {
+  "c": "known",
+  "ids": "⿰土㕅",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E3%95%85",
+  "judged": "⿰土⿸厂甲"
+ },
+ "ext_d_g_withdrawals:01497": {
+  "c": "known",
+  "ids": "⿰土围",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%9B%B4",
+  "judged": "⿰土围"
+ },
+ "ext_d_g_withdrawals:01498": {
+  "c": "known",
+  "ids": "⿰土囤",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%9B%A4",
+  "judged": "⿰土囤"
+ },
+ "ext_d_g_withdrawals:01500": {
+  "c": "known",
+  "ids": "⿰土岜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%B2%9C",
+  "judged": "⿰土岜"
+ },
+ "ext_d_g_withdrawals:01506": {
+  "c": "known",
+  "ids": "⿰土岛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%B2%9B",
+  "judged": "⿰土岛"
+ },
+ "ext_d_g_withdrawals:01512": {
+  "c": "c0",
+  "ids": "⿰土㐬",
+  "judged": "⿰土㐬",
+  "at": "2026-11-15T08:08:19.621Z"
+ },
+ "ext_d_g_withdrawals:01513": {
+  "c": "known",
+  "ids": "⿰土库",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%BA%93",
+  "judged": "⿰土库"
+ },
+ "ext_d_g_withdrawals:01516": {
+  "c": "known",
+  "ids": "⿰土⿱㓁土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E2%BF%B1%E3%93%81%E5%9C%9F",
+  "judged": "⿰土⿱冖𡉀"
+ },
+ "ext_d_g_withdrawals:01517": {
+  "c": "known",
+  "ids": "⿰土𭖊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%AD%96%8A",
+  "judged": "⿰土冚"
+ },
+ "ext_d_g_withdrawals:01519": {
+  "c": "known",
+  "ids": "⿱良土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%AF%E5%9C%9F",
+  "judged": "⿱良土"
+ },
+ "ext_d_g_withdrawals:01520": {
+  "c": "known",
+  "ids": "⿱冻土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%86%BB%E5%9C%9F",
+  "judged": "⿱⿰冫东土"
+ },
+ "ext_d_g_withdrawals:01522": {
+  "c": "c2",
+  "ids": "⿱⿰氵⿸厂力土",
+  "at": "2026-11-14T08:58:13.891Z",
+  "judged": "⿱㲽土"
+ },
+ "ext_d_g_withdrawals:01528": {
+  "c": "known",
+  "ids": "⿰土𡛒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A1%9B%92",
+  "judged": "⿰土⿱双女"
+ },
+ "ext_d_g_withdrawals:01531": {
+  "c": "known",
+  "ids": "⿰土连",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%BF%9E",
+  "judged": "⿰土连"
+ },
+ "ext_d_g_withdrawals:01532": {
+  "c": "known",
+  "ids": "⿰土芜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%8A%9C",
+  "judged": "⿰土𦬞"
+ },
+ "ext_d_g_withdrawals:01533": {
+  "c": "known",
+  "ids": "⿰土苈",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%8B%88",
+  "judged": "⿰土⿱艹历"
+ },
+ "ext_d_g_withdrawals:01536": {
+  "c": "known",
+  "ids": "⿱邽土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%82%BD%E5%9C%9F",
+  "judged": "⿱⿰圭阝土"
+ },
+ "ext_d_g_withdrawals:01539": {
+  "c": "known",
+  "ids": "⿱垅土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%9E%85%E5%9C%9F",
+  "judged": "⿱坊土"
+ },
+ "ext_d_g_withdrawals:01540": {
+  "c": "known",
+  "ids": "⿰土靣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E9%9D%A3",
+  "judged": "⿰土靣"
+ },
+ "ext_d_g_withdrawals:01541": {
+  "c": "known",
+  "ids": "⿱𪣆土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%AA%A3%86%E5%9C%9F",
+  "judged": "⿱㑈土"
+ },
+ "ext_d_g_withdrawals:01546": {
+  "c": "custom",
+  "ids": "⿰土⿴囗石",
+  "at": "2026-11-13T19:58:12.771Z",
+  "judged": "⿰土圄"
+ },
+ "ext_d_g_withdrawals:01549": {
+  "c": "known",
+  "ids": "⿰土岩",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%B2%A9",
+  "judged": "⿰土岩"
+ },
+ "ext_d_g_withdrawals:01551": {
+  "c": "known",
+  "ids": "⿰土𱛘",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%B1%9B%98",
+  "judged": "⿰土⿱山瓜"
+ },
+ "ext_d_g_withdrawals:01559": {
+  "c": "known",
+  "ids": "⿰土贪",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B4%AA",
+  "judged": "⿰土念"
+ },
+ "ext_d_g_withdrawals:01569": {
+  "c": "known",
+  "ids": "⿰土劵",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%8A%B5",
+  "judged": "⿰土劵"
+ },
+ "ext_d_g_withdrawals:01572": {
+  "c": "known",
+  "ids": "⿰土贯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B4%AF",
+  "judged": "⿰土贯"
+ },
+ "ext_d_g_withdrawals:01577": {
+  "c": "known",
+  "ids": "⿰土查",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%9F%A5",
+  "judged": "⿰土查"
+ },
+ "ext_d_g_withdrawals:01578": {
+  "c": "known",
+  "ids": "⿰土歪",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%AD%AA",
+  "judged": "⿰土歪"
+ },
+ "ext_d_g_withdrawals:01579": {
+  "c": "known",
+  "ids": "⿰土𢆓",
+  "at": "2026-11-14T13:07:27.723Z",
+  "judged": "⿰土歪",
+  "by": "babelstone",
+  "page": "𱗍"
+ },
+ "ext_d_g_withdrawals:01582": {
+  "c": "known",
+  "ids": "⿰土苹",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%8B%B9",
+  "judged": "⿰土苹"
+ },
+ "ext_d_g_withdrawals:01583": {
+  "c": "known",
+  "ids": "⿰土苟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%8B%9F",
+  "judged": "⿰土苟"
+ },
+ "ext_d_g_withdrawals:01587": {
+  "c": "known",
+  "ids": "⿰土贱",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B4%B1",
+  "judged": "⿰土贱"
+ },
+ "ext_d_g_withdrawals:01612": {
+  "c": "known",
+  "ids": "⿰土恶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%81%B6",
+  "judged": "⿰土恶"
+ },
+ "ext_d_g_withdrawals:01614": {
+  "c": "known",
+  "ids": "⿰土班",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%8F%AD",
+  "judged": "⿰土班"
+ },
+ "ext_d_g_withdrawals:01615": {
+  "c": "known",
+  "ids": "⿰土索",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%B4%A2",
+  "judged": "⿰土索"
+ },
+ "ext_d_g_withdrawals:01616": {
+  "c": "known",
+  "ids": "⿱埔土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%9F%94%E5%9C%9F",
+  "judged": "⿱埔土"
+ },
+ "ext_d_g_withdrawals:01623": {
+  "c": "known",
+  "ids": "⿰土𧆠",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A7%86%A0",
+  "judged": "⿰土𧆠"
+ },
+ "ext_d_g_withdrawals:01625": {
+  "c": "known",
+  "ids": "⿰土圂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%9C%82",
+  "judged": "⿰土圂"
+ },
+ "ext_d_g_withdrawals:01632": {
+  "c": "known",
+  "ids": "⿰土𱷰",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%B1%B7%B0",
+  "judged": "⿰土⿱𥫗历"
+ },
+ "ext_d_g_withdrawals:01640": {
+  "c": "known",
+  "ids": "⿰土羞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%BE%9E",
+  "judged": "⿰土羞"
+ },
+ "ext_d_g_withdrawals:01645": {
+  "c": "known",
+  "ids": "⿱都土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%83%BD%E5%9C%9F",
+  "judged": "⿱都土"
+ },
+ "ext_d_g_withdrawals:01647": {
+  "c": "known",
+  "ids": "⿰土𭻍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%AD%BB%8D",
+  "judged": "⿰土晋"
+ },
+ "ext_d_g_withdrawals:01649": {
+  "c": "known",
+  "ids": "⿰土𤲅",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A4%B2%85",
+  "judged": "⿰土𤲅"
+ },
+ "ext_d_g_withdrawals:01663": {
+  "c": "known",
+  "ids": "⿰土𨈣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A8%88%A3",
+  "judged": "⿰土肬"
+ },
+ "ext_d_g_withdrawals:01670": {
+  "c": "known",
+  "ids": "⿰土望",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%9C%9B",
+  "judged": "⿰土⿱朔王"
+ },
+ "ext_d_g_withdrawals:01674": {
+  "c": "known",
+  "ids": "⿰土断",
+  "at": "2026-11-14T13:26:15.987Z",
+  "judged": "⿰土断",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%96%AD"
+ },
+ "ext_d_g_withdrawals:01675": {
+  "c": "known",
+  "ids": "⿰土窑",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%AA%91",
+  "judged": "⿰土窑"
+ },
+ "ext_d_g_withdrawals:01677": {
+  "c": "known",
+  "ids": "⿱⿰京丸土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%E4%BA%AC%E4%B8%B8%E5%9C%9F",
+  "judged": "⿱就土"
+ },
+ "ext_d_g_withdrawals:01680": {
+  "c": "known",
+  "ids": "⿱深土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%B7%B1%E5%9C%9F",
+  "judged": "⿱深土"
+ },
+ "ext_d_g_withdrawals:01686": {
+  "c": "known",
+  "ids": "⿰土斯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%96%AF",
+  "judged": "⿰土斯"
+ },
+ "ext_d_g_withdrawals:01687": {
+  "c": "known",
+  "ids": "⿰土散",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E6%95%A3",
+  "judged": "⿰土散"
+ },
+ "ext_d_g_withdrawals:01691": {
+  "c": "known",
+  "ids": "⿰土𪩃",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%AA%A9%83",
+  "judged": "⿰土𪩃"
+ },
+ "ext_d_g_withdrawals:01692": {
+  "c": "known",
+  "ids": "⿰土⿱刚缶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E2%BF%B1%E5%88%9A%E7%BC%B6",
+  "judged": "⿰土⿱刚缶"
+ },
+ "ext_d_g_withdrawals:01702": {
+  "c": "known",
+  "ids": "⿰土⿳亠口⿱冖㠯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E2%BF%B3%E4%BA%A0%E5%8F%A3%E2%BF%B1%E5%86%96%E3%A0%AF",
+  "judged": "⿰土官"
+ },
+ "ext_d_g_withdrawals:01703": {
+  "c": "known",
+  "ids": "⿰土䆣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E4%86%A3",
+  "judged": "⿰土䆣"
+ },
+ "ext_d_g_withdrawals:01705": {
+  "c": "known",
+  "ids": "⿰土蛮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%9B%AE",
+  "judged": "⿰土蛮"
+ },
+ "ext_d_g_withdrawals:01709": {
+  "c": "known",
+  "ids": "⿰土孱",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%AD%B1",
+  "judged": "⿰土孱"
+ },
+ "ext_d_g_withdrawals:01715": {
+  "c": "known",
+  "ids": "⿱埔𠇍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%9F%94%F0%A0%87%8D",
+  "judged": "⿱埔𠇍"
+ },
+ "ext_d_g_withdrawals:01716": {
+  "c": "known",
+  "ids": "⿰土赖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B5%96",
+  "judged": "⿰土赖"
+ },
+ "ext_d_g_withdrawals:01717": {
+  "c": "known",
+  "ids": "⿱献土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%8C%AE%E5%9C%9F",
+  "judged": "⿱献土"
+ },
+ "ext_d_g_withdrawals:01724": {
+  "c": "known",
+  "ids": "⿰土𤲞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A4%B2%9E",
+  "judged": "⿰土番"
+ },
+ "ext_d_g_withdrawals:01734": {
+  "c": "known",
+  "ids": "⿰土罂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E7%BD%82",
+  "judged": "⿰土罃"
+ },
+ "ext_d_g_withdrawals:01741": {
+  "c": "known",
+  "ids": "⿰土寨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E5%AF%A8",
+  "judged": "⿰土寨"
+ },
+ "ext_d_g_withdrawals:01752": {
+  "c": "known",
+  "ids": "⿰土𦉍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%F0%A6%89%8D",
+  "judged": "⿰土罍"
+ },
+ "ext_d_g_withdrawals:01753": {
+  "c": "known",
+  "ids": "⿰土赞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E8%B5%9E",
+  "judged": "⿰土赞"
+ },
+ "ext_d_g_withdrawals:01756": {
+  "c": "known",
+  "ids": "⿰土⿱𫁒寸",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%9C%9F%E2%BF%B1%F0%AB%81%92%E5%AF%B8",
+  "judged": "⿰土奪"
+ },
+ "ext_d_g_withdrawals:01779": {
+  "c": "c2",
+  "ids": "⿱𪢶⿶凵儿",
+  "at": "2026-11-14T08:56:06.562Z",
+  "judged": "⿱𪢶四"
+ },
+ "ext_d_g_withdrawals:01810": {
+  "c": "known",
+  "ids": "⿱大下",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%A7%E4%B8%8B",
+  "judged": "⿱大下"
+ },
+ "ext_d_g_withdrawals:01813": {
+  "c": "known",
+  "ids": "⿱𡗓𰀁",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A1%97%93%F0%B0%80%81",
+  "judged": "⿱大⿱一𰀁"
+ },
+ "ext_d_g_withdrawals:01840": {
+  "c": "known",
+  "ids": "⿱大狗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%A7%E7%8B%97",
+  "judged": "⿱大狗"
+ },
+ "ext_d_g_withdrawals:01861": {
+  "c": "known",
+  "ids": "⿱𮴡大",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%AE%B4%A1%E5%A4%A7",
+  "judged": "⿱玨大"
+ },
+ "ext_d_g_withdrawals:01866": {
+  "c": "known",
+  "ids": "⿱隆大",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%9A%86%E5%A4%A7",
+  "judged": "⿱隆大"
+ },
+ "ext_d_g_withdrawals:01887": {
+  "c": "known",
+  "ids": "⿱女上",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A5%B3%E4%B8%8A",
+  "judged": "⿱女上"
+ },
+ "ext_d_g_withdrawals:01897": {
+  "c": "known",
+  "ids": "⿱内女",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%86%85%E5%A5%B3",
+  "judged": "⿱内女"
+ },
+ "ext_d_g_withdrawals:01905": {
+  "c": "known",
+  "ids": "⿰女乌",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%A5%B3%E4%B9%8C",
+  "judged": "⿰女乌"
+ },
+ "ext_d_g_withdrawals:01935": {
+  "c": "known",
+  "ids": "⿰女巫",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%A5%B3%E5%B7%AB",
+  "judged": "⿰女巫"
+ },
+ "ext_d_g_withdrawals:01988": {
+  "c": "known",
+  "ids": "⿰女香",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%A5%B3%E9%A6%99",
+  "judged": "⿰女香"
+ },
+ "ext_d_g_withdrawals:02009": {
+  "c": "known",
+  "ids": "⿰女衮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%A5%B3%E8%A1%AE",
+  "judged": "⿰女衮"
+ },
+ "ext_d_g_withdrawals:02038": {
+  "c": "known",
+  "ids": "⿱泉奻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%B3%89%E5%A5%BB",
+  "judged": "⿱泉奻"
+ },
+ "ext_d_g_withdrawals:02137": {
+  "c": "known",
+  "ids": "⿱宀东",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E4%B8%9C",
+  "judged": "⿱宀东"
+ },
+ "ext_d_g_withdrawals:02138": {
+  "c": "known",
+  "ids": "⿱宀瓜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E7%93%9C",
+  "judged": "⿱宀瓜"
+ },
+ "ext_d_g_withdrawals:02139": {
+  "c": "known",
+  "ids": "⿱宀鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E9%B8%9F",
+  "judged": "⿱宀鸟"
+ },
+ "ext_d_g_withdrawals:02145": {
+  "c": "known",
+  "ids": "⿱宀地",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E5%9C%B0",
+  "judged": "⿱宀地"
+ },
+ "ext_d_g_withdrawals:02151": {
+  "c": "known",
+  "ids": "⿱宀坎",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E5%9D%8E",
+  "judged": "⿱宀坎"
+ },
+ "ext_d_g_withdrawals:02167": {
+  "c": "known",
+  "ids": "⿱宀其",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%80%E5%85%B6",
+  "judged": "⿱宀其"
+ },
+ "ext_d_g_withdrawals:02186": {
+  "c": "custom",
+  "ids": "⿳宀禾贝",
+  "at": "2026-11-14T13:27:52.560Z",
+  "judged": "⿱宀赉"
+ },
+ "ext_d_g_withdrawals:02207": {
+  "c": "known",
+  "ids": "⿰光宗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%85%89%E5%AE%97",
+  "judged": "⿰光宗"
+ },
+ "ext_d_g_withdrawals:02222": {
+  "c": "known",
+  "ids": "⿱宓角",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%AE%93%E8%A7%92",
+  "judged": "⿱宓角"
+ },
+ "ext_d_g_withdrawals:02272": {
+  "c": "known",
+  "ids": "⿱𲎰寸",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%B2%8E%B0%E5%AF%B8",
+  "judged": "⿱五寸"
+ },
+ "ext_d_g_withdrawals:02273": {
+  "c": "known",
+  "ids": "⿺⿱口兀寸",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E2%BF%B1%E5%8F%A3%E5%85%80%E5%AF%B8",
+  "judged": "⿺兄寸"
+ },
+ "ext_d_g_withdrawals:02335": {
+  "c": "known",
+  "ids": "⿸尸分",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B8%E5%B0%B8%E5%88%86",
+  "judged": "⿸尸分"
+ },
+ "ext_d_g_withdrawals:02387": {
+  "c": "known",
+  "ids": "⿳山一乃",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E5%B1%B1%E4%B8%80%E4%B9%83",
+  "judged": "⿳山一乃"
+ },
+ "ext_d_g_withdrawals:02394": {
+  "c": "known",
+  "ids": "⿺元山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E5%85%83%E5%B1%B1",
+  "judged": "⿺元山"
+ },
+ "ext_d_g_withdrawals:02400": {
+  "c": "known",
+  "ids": "⿰山长",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E9%95%BF",
+  "judged": "⿰山长"
+ },
+ "ext_d_g_withdrawals:02401": {
+  "c": "known",
+  "ids": "⿱山毛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E6%AF%9B",
+  "judged": "⿱山毛"
+ },
+ "ext_d_g_withdrawals:02402": {
+  "c": "known",
+  "ids": "⿱山化",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%8C%96",
+  "judged": "⿱山化"
+ },
+ "ext_d_g_withdrawals:02404": {
+  "c": "known",
+  "ids": "⿱山公",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%85%AC",
+  "judged": "⿱山公"
+ },
+ "ext_d_g_withdrawals:02414": {
+  "c": "known",
+  "ids": "⿱龙山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%BE%99%E5%B1%B1",
+  "judged": "⿱龙山"
+ },
+ "ext_d_g_withdrawals:02422": {
+  "c": "known",
+  "ids": "⿱山印",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%8D%B0",
+  "judged": "⿱山印"
+ },
+ "ext_d_g_withdrawals:02423": {
+  "c": "known",
+  "ids": "⿰山屳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%B1%B3",
+  "judged": "⿰山屳"
+ },
+ "ext_d_g_withdrawals:02429": {
+  "c": "known",
+  "ids": "⿱山包",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%8C%85",
+  "judged": "⿱山包"
+ },
+ "ext_d_g_withdrawals:02431": {
+  "c": "known",
+  "ids": "⿻人屾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BB%E4%BA%BA%E5%B1%BE",
+  "judged": "⿻人山"
+ },
+ "ext_d_g_withdrawals:02443": {
+  "c": "known",
+  "ids": "⿰山因",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%9B%A0",
+  "judged": "⿰山因"
+ },
+ "ext_d_g_withdrawals:02453": {
+  "c": "known",
+  "ids": "⿱山𠆿",
+  "at": "2026-11-15T08:16:01.236Z",
+  "judged": "⿱山鸟",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%F0%A0%86%BF"
+ },
+ "ext_d_g_withdrawals:02455": {
+  "c": "known",
+  "ids": "⿱山兊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%85%8A",
+  "judged": "⿱山兊"
+ },
+ "ext_d_g_withdrawals:02464": {
+  "c": "known",
+  "ids": "⿰山充",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%85%85",
+  "judged": "⿰山充"
+ },
+ "ext_d_g_withdrawals:02466": {
+  "c": "known",
+  "ids": "⿱山轩",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E8%BD%A9",
+  "judged": "⿱山奸"
+ },
+ "ext_d_g_withdrawals:02468": {
+  "c": "known",
+  "ids": "⿱山坞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%9D%9E",
+  "judged": "⿱山圴"
+ },
+ "ext_d_g_withdrawals:02471": {
+  "c": "custom",
+  "ids": "⿱山坝",
+  "at": "2026-11-13T21:28:38.725Z",
+  "judged": "⿱山顿"
+ },
+ "ext_d_g_withdrawals:02474": {
+  "c": "known",
+  "ids": "⿱山足",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E8%B6%B3",
+  "judged": "⿱山足"
+ },
+ "ext_d_g_withdrawals:02476": {
+  "c": "known",
+  "ids": "⿱山肖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E8%82%96",
+  "judged": "⿱山肖"
+ },
+ "ext_d_g_withdrawals:02478": {
+  "c": "known",
+  "ids": "⿱山廷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%BB%B7",
+  "judged": "⿱山廷"
+ },
+ "ext_d_g_withdrawals:02486": {
+  "c": "known",
+  "ids": "⿱汾山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%B1%BE%E5%B1%B1",
+  "judged": "⿱汾山"
+ },
+ "ext_d_g_withdrawals:02487": {
+  "c": "known",
+  "ids": "⿱山矣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E7%9F%A3",
+  "judged": "⿱山矣"
+ },
+ "ext_d_g_withdrawals:02489": {
+  "c": "known",
+  "ids": "⿱𪣆山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%AA%A3%86%E5%B1%B1",
+  "judged": "⿱⿰土东山"
+ },
+ "ext_d_g_withdrawals:02491": {
+  "c": "known",
+  "ids": "⿱岩丌",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B2%A9%E4%B8%8C",
+  "judged": "⿱山𥐧"
+ },
+ "ext_d_g_withdrawals:02494": {
+  "c": "known",
+  "ids": "⿱山软",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E8%BD%AF",
+  "judged": "⿱山钦"
+ },
+ "ext_d_g_withdrawals:02500": {
+  "c": "known",
+  "ids": "⿱𰎏山",
+  "at": "2026-11-15T08:12:51.417Z",
+  "judged": "⿱陈山",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%B0%8E%8F%E5%B1%B1"
+ },
+ "ext_d_g_withdrawals:02503": {
+  "c": "known",
+  "ids": "⿱山舍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E8%88%8D",
+  "judged": "⿱山舍"
+ },
+ "ext_d_g_withdrawals:02509": {
+  "c": "known",
+  "ids": "⿱山官",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%AE%98",
+  "judged": "⿱山官"
+ },
+ "ext_d_g_withdrawals:02510": {
+  "c": "known",
+  "ids": "⿰山尚",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%B0%9A",
+  "judged": "⿰山尚"
+ },
+ "ext_d_g_withdrawals:02515": {
+  "c": "known",
+  "ids": "⿰山咸",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%92%B8",
+  "judged": "⿰山咸"
+ },
+ "ext_d_g_withdrawals:02522": {
+  "c": "known",
+  "ids": "⿱山郎",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E9%83%8E",
+  "judged": "⿱山郎"
+ },
+ "ext_d_g_withdrawals:02530": {
+  "c": "known",
+  "ids": "⿰山㟖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E3%9F%96",
+  "judged": "⿰山⿳山王廾"
+ },
+ "ext_d_g_withdrawals:02531": {
+  "c": "known",
+  "ids": "⿰山𱰮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%F0%B1%B0%AE",
+  "judged": "⿰山𮖿"
+ },
+ "ext_d_g_withdrawals:02541": {
+  "c": "known",
+  "ids": "⿱山难",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E9%9A%BE",
+  "judged": "⿱山难"
+ },
+ "ext_d_g_withdrawals:02564": {
+  "c": "known",
+  "ids": "⿰山畬",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E7%95%AC",
+  "judged": "⿰山畬"
+ },
+ "ext_d_g_withdrawals:02565": {
+  "c": "known",
+  "ids": "⿱山番",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E7%95%AA",
+  "judged": "⿱山番"
+ },
+ "ext_d_g_withdrawals:02568": {
+  "c": "known",
+  "ids": "⿱山堕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B1%B1%E5%A0%95",
+  "judged": "⿱山墮"
+ },
+ "ext_d_g_withdrawals:02578": {
+  "c": "known",
+  "ids": "⿰山𤲞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%F0%A4%B2%9E",
+  "judged": "⿰山畬"
+ },
+ "ext_d_g_withdrawals:02579": {
+  "c": "known",
+  "ids": "⿱㞤畨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E3%9E%A4%E7%95%A8",
+  "judged": "⿳山𠆢畨"
+ },
+ "ext_d_g_withdrawals:02584": {
+  "c": "known",
+  "ids": "⿰山察",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E5%AF%9F",
+  "judged": "⿰山察"
+ },
+ "ext_d_g_withdrawals:02598": {
+  "c": "known",
+  "ids": "⿰山麓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B1%B1%E9%BA%93",
+  "judged": "⿰山麓"
+ },
+ "ext_d_g_withdrawals:02607": {
+  "c": "known",
+  "ids": "⿳巛一良",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E5%B7%9B%E4%B8%80%E8%89%AF",
+  "judged": "⿱巛⿱一良"
+ },
+ "ext_d_g_withdrawals:02622": {
+  "c": "known",
+  "ids": "⿰工贡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B7%A5%E8%B4%A1",
+  "judged": "⿰工贡"
+ },
+ "ext_d_g_withdrawals:02630": {
+  "c": "known",
+  "ids": "⿱左⿰左左",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B7%A6%E2%BF%B0%E5%B7%A6%E5%B7%A6",
+  "judged": "⿱左⿰左左"
+ },
+ "ext_d_g_withdrawals:02650": {
+  "c": "known",
+  "ids": "⿰巾乙",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B7%BE%E4%B9%99",
+  "judged": "⿰巾乙"
+ },
+ "ext_d_g_withdrawals:02664": {
+  "c": "known",
+  "ids": "⿰巾鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B7%BE%E9%B8%9F",
+  "judged": "⿰巾鸟"
+ },
+ "ext_d_g_withdrawals:02666": {
+  "c": "known",
+  "ids": "⿱代币",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%BB%A3%E5%B8%81",
+  "judged": "⿱代币"
+ },
+ "ext_d_g_withdrawals:02715": {
+  "c": "known",
+  "ids": "⿸广八",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B8%E5%B9%BF%E5%85%AB",
+  "judged": "⿸广八"
+ },
+ "ext_d_g_withdrawals:02785": {
+  "c": "known",
+  "ids": "⿺廴下",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E5%BB%B4%E4%B8%8B",
+  "judged": "⿺廴下"
+ },
+ "ext_d_g_withdrawals:02786": {
+  "c": "known",
+  "ids": "⿺廴上",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E5%BB%B4%E4%B8%8A",
+  "judged": "⿺廴上"
+ },
+ "ext_d_g_withdrawals:02787": {
+  "c": "known",
+  "ids": "⿺廴太",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E5%BB%B4%E5%A4%AA",
+  "judged": "⿺廴太"
+ },
+ "ext_d_g_withdrawals:02795": {
+  "c": "known",
+  "ids": "⿺廴⿱山正",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E5%BB%B4%E2%BF%B1%E5%B1%B1%E6%AD%A3",
+  "judged": "⿺廴⿱山正"
+ },
+ "ext_d_g_withdrawals:02849": {
+  "c": "custom",
+  "ids": "⿱⿻廿儿矤",
+  "at": "2026-11-15T08:11:30.041Z",
+  "judged": "⿱帶矤"
+ },
+ "ext_d_g_withdrawals:02872": {
+  "c": "known",
+  "ids": "⿰丰彡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%B8%B0%E5%BD%A1",
+  "judged": "⿰丰彡"
+ },
+ "ext_d_g_withdrawals:02888": {
+  "c": "custom",
+  "ids": "⿰彳⿸今人",
+  "at": "2026-11-14T08:54:45.820Z",
+  "judged": "⿰彳仒"
+ },
+ "ext_d_g_withdrawals:02897": {
+  "c": "known",
+  "ids": "⿰彳孟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%BD%B3%E5%AD%9F",
+  "judged": "⿰彳孟"
+ },
+ "ext_d_g_withdrawals:02905": {
+  "c": "known",
+  "ids": "⿰彳夏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%BD%B3%E5%A4%8F",
+  "judged": "⿰彳夏"
+ },
+ "ext_d_g_withdrawals:02986": {
+  "c": "known",
+  "ids": "⿱𣲙心",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A3%B2%99%E5%BF%83",
+  "judged": "⿱𣲙心"
+ },
+ "ext_d_g_withdrawals:03006": {
+  "c": "known",
+  "ids": "⿳䒑旧心",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E4%92%91%E6%97%A7%E5%BF%83",
+  "judged": "⿱䒑旧"
+ },
+ "ext_d_g_withdrawals:03068": {
+  "c": "c1",
+  "ids": "⿱𬥈心",
+  "at": "2026-11-14T08:58:58.381Z",
+  "judged": "⿱䫉心"
+ },
+ "ext_d_g_withdrawals:03075": {
+  "c": "known",
+  "ids": "⿱⿰土匿心",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%E5%9C%9F%E5%8C%BF%E5%BF%83",
+  "judged": "⿱⿰土匿心"
+ },
+ "ext_d_g_withdrawals:03169": {
+  "c": "known",
+  "ids": "⿰手八",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%89%8B%E5%85%AB",
+  "judged": "⿰手八"
+ },
+ "ext_d_g_withdrawals:03207": {
+  "c": "known",
+  "ids": "⿲手八手",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E6%89%8B%E5%85%AB%E6%89%8B",
+  "judged": "⿰手手"
+ },
+ "ext_d_g_withdrawals:03212": {
+  "c": "known",
+  "ids": "⿱汤手",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%B1%A4%E6%89%8B",
+  "judged": "⿱汤手"
+ },
+ "ext_d_g_withdrawals:03221": {
+  "c": "known",
+  "ids": "⿰扌㕅",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%89%8C%E3%95%85",
+  "judged": "⿰扌⿸厂甲"
+ },
+ "ext_d_g_withdrawals:03228": {
+  "c": "known",
+  "ids": "⿲手口手",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E6%89%8B%E5%8F%A3%E6%89%8B",
+  "judged": "⿲⿱㇒⿻二丿口手"
+ },
+ "ext_d_g_withdrawals:03267": {
+  "c": "known",
+  "ids": "⿰扌鱼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%89%8C%E9%B1%BC",
+  "judged": "⿰扌鱼"
+ },
+ "ext_d_g_withdrawals:03268": {
+  "c": "known",
+  "ids": "⿰扌⿱⿰𱍸刀土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%89%8C%E2%BF%B1%E2%BF%B0%F0%B1%8D%B8%E5%88%80%E5%9C%9F",
+  "judged": "⿰扌𡊎"
+ },
+ "ext_d_g_withdrawals:03279": {
+  "c": "known",
+  "ids": "⿰扌巷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%89%8C%E5%B7%B7",
+  "judged": "⿰扌巷"
+ },
+ "ext_d_g_withdrawals:03294": {
+  "c": "known",
+  "ids": "⿱皈手",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%9A%88%E6%89%8B",
+  "judged": "⿱⿰白反手"
+ },
+ "ext_d_g_withdrawals:03335": {
+  "c": "known",
+  "ids": "⿲手身手",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E6%89%8B%E8%BA%AB%E6%89%8B",
+  "judged": "⿰手手"
+ },
+ "ext_d_g_withdrawals:03400": {
+  "c": "custom",
+  "ids": "⿰扌⿱⿹勹䶹⿰⿹勹䶹⿹勹䶹",
+  "at": "2026-11-14T13:26:10.008Z",
+  "judged": "⿰扌芻"
+ },
+ "ext_d_g_withdrawals:03599": {
+  "c": "known",
+  "ids": "⿸𭤨黄",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B8%F0%AD%A4%A8%E9%BB%84",
+  "judged": "⿰方⿱𠂉黄"
+ },
+ "ext_d_g_withdrawals:03675": {
+  "c": "known",
+  "ids": "⿰日𬜯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%97%A5%F0%AC%9C%AF",
+  "judged": "⿰日𬜯"
+ },
+ "ext_d_g_withdrawals:03708": {
+  "c": "known",
+  "ids": "⿱尤日",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%B0%A4%E6%97%A5",
+  "judged": "⿱尤日"
+ },
+ "ext_d_g_withdrawals:03716": {
+  "c": "c2",
+  "ids": "⿱日⿹勹衣",
+  "at": "2026-11-13T21:28:43.709Z",
+  "judged": "⿱日𠣓"
+ },
+ "ext_d_g_withdrawals:03746": {
+  "c": "known",
+  "ids": "⿰月𢆉",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%88%F0%A2%86%89",
+  "judged": "⿰月𢆉"
+ },
+ "ext_d_g_withdrawals:03753": {
+  "c": "known",
+  "ids": "⿰月𠇄",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%88%F0%A0%87%84",
+  "judged": "⿰月关"
+ },
+ "ext_d_g_withdrawals:03766": {
+  "c": "known",
+  "ids": "⿰月芦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%88%E8%8A%A6",
+  "judged": "⿰月⿱艹户"
+ },
+ "ext_d_g_withdrawals:03774": {
+  "c": "known",
+  "ids": "⿰月胥",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%88%E8%83%A5",
+  "judged": "⿰月胥"
+ },
+ "ext_d_g_withdrawals:03829": {
+  "c": "known",
+  "ids": "⿰木凹",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%87%B9",
+  "judged": "⿰木凹"
+ },
+ "ext_d_g_withdrawals:03840": {
+  "c": "known",
+  "ids": "⿰𲥮木",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%B2%A5%AE%E6%9C%A8",
+  "judged": "⿲木十木"
+ },
+ "ext_d_g_withdrawals:03853": {
+  "c": "known",
+  "ids": "⿰木㐫",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E3%90%AB",
+  "judged": "⿰木㐫"
+ },
+ "ext_d_g_withdrawals:03859": {
+  "c": "known",
+  "ids": "⿰木买",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E4%B9%B0",
+  "judged": "⿰木买"
+ },
+ "ext_d_g_withdrawals:03865": {
+  "c": "known",
+  "ids": "⿰杜木",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9D%9C%E6%9C%A8",
+  "judged": "⿲木土木"
+ },
+ "ext_d_g_withdrawals:03868": {
+  "c": "known",
+  "ids": "⿰木芕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E8%8A%95",
+  "judged": "⿰木芕"
+ },
+ "ext_d_g_withdrawals:03873": {
+  "c": "known",
+  "ids": "⿰木园",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%9B%AD",
+  "judged": "⿰木园"
+ },
+ "ext_d_g_withdrawals:03874": {
+  "c": "known",
+  "ids": "⿰木岗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%B2%97",
+  "judged": "⿰木岗"
+ },
+ "ext_d_g_withdrawals:03875": {
+  "c": "known",
+  "ids": "⿰木岜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%B2%9C",
+  "judged": "⿰木岜"
+ },
+ "ext_d_g_withdrawals:03898": {
   "c": "custom",
   "ids": "⿰木⿱山令",
-  "at": "2026-11-12T16:31:38.366Z"
+  "at": "2026-11-12T16:31:38.366Z",
+  "judged": "⿰木岑"
  },
- "irg-ext-d-g-04940": {
+ "ext_d_g_withdrawals:03901": {
+  "c": "known",
+  "ids": "⿰𣏬木",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%A3%8F%AC%E6%9C%A8",
+  "judged": "⿲木日木"
+ },
+ "ext_d_g_withdrawals:03908": {
+  "c": "known",
+  "ids": "⿰杽木",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9D%BD%E6%9C%A8",
+  "judged": "⿲木手木"
+ },
+ "ext_d_g_withdrawals:03909": {
+  "c": "known",
+  "ids": "⿰木季",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%AD%A3",
+  "judged": "⿰木季"
+ },
+ "ext_d_g_withdrawals:03930": {
+  "c": "known",
+  "ids": "⿰木⿷匚贡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E2%BF%B7%E5%8C%9A%E8%B4%A1",
+  "judged": "⿰木匮"
+ },
+ "ext_d_g_withdrawals:03944": {
+  "c": "known",
+  "ids": "⿰桐亍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%A1%90%E4%BA%8D",
+  "judged": "⿲木同亍"
+ },
+ "ext_d_g_withdrawals:03996": {
+  "c": "known",
+  "ids": "⿰木笕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E7%AC%95",
+  "judged": "⿰木觉"
+ },
+ "ext_d_g_withdrawals:03997": {
+  "c": "known",
+  "ids": "⿰木⿱𫢉田",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E2%BF%B1%F0%AB%A2%89%E7%94%B0",
+  "judged": "⿰木畬"
+ },
+ "ext_d_g_withdrawals:04002": {
+  "c": "known",
+  "ids": "⿰木⿳䒑夫巾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E2%BF%B3%E4%92%91%E5%A4%AB%E5%B7%BE",
+  "judged": "⿰木帣"
+ },
+ "ext_d_g_withdrawals:04009": {
+  "c": "known",
+  "ids": "⿰木𭻍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%F0%AD%BB%8D",
+  "judged": "⿰木晋"
+ },
+ "ext_d_g_withdrawals:04032": {
+  "c": "known",
+  "ids": "⿰木窑",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E7%AA%91",
+  "judged": "⿰木窑"
+ },
+ "ext_d_g_withdrawals:04060": {
+  "c": "known",
+  "ids": "⿰木凿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E5%87%BF",
+  "judged": "⿰木凿"
+ },
+ "ext_d_g_withdrawals:04065": {
+  "c": "known",
+  "ids": "⿰木筒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E7%AD%92",
+  "judged": "⿰木筒"
+ },
+ "ext_d_g_withdrawals:04066": {
+  "c": "custom",
+  "ids": "⿰木⿳𠆢𢆉田",
+  "at": "2026-11-13T21:30:58.093Z",
+  "judged": "⿰木畬"
+ },
+ "ext_d_g_withdrawals:04070": {
+  "c": "known",
+  "ids": "⿰木阔",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E9%98%94",
+  "judged": "⿰木阔"
+ },
+ "ext_d_g_withdrawals:04071": {
+  "c": "known",
+  "ids": "⿰木窝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E7%AA%9D",
+  "judged": "⿰木窝"
+ },
+ "ext_d_g_withdrawals:04100": {
+  "c": "known",
+  "ids": "⿰木赘",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E8%B5%98",
+  "judged": "⿰木赘"
+ },
+ "ext_d_g_withdrawals:04105": {
+  "c": "known",
+  "ids": "⿰木⿱人番",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9C%A8%E2%BF%B1%E4%BA%BA%E7%95%AA",
+  "judged": "⿰木畬"
+ },
+ "ext_d_g_withdrawals:04272": {
+  "c": "known",
+  "ids": "⿰每严",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%AF%8F%E4%B8%A5",
+  "judged": "⿰每严"
+ },
+ "ext_d_g_withdrawals:04275": {
+  "c": "known",
+  "ids": "⿳⺈龱比",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E2%BA%88%E9%BE%B1%E6%AF%94",
+  "judged": "⿱⿱⺈龱比"
+ },
+ "ext_d_g_withdrawals:04281": {
+  "c": "known",
+  "ids": "⿺毛土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E6%AF%9B%E5%9C%9F",
+  "judged": "⿺毛土"
+ },
+ "ext_d_g_withdrawals:04320": {
+  "c": "known",
+  "ids": "⿰气奏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%94%E5%A5%8F",
+  "judged": "⿰气奏"
+ },
+ "ext_d_g_withdrawals:04349": {
+  "c": "known",
+  "ids": "⿰氵六",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E5%85%AD",
+  "judged": "⿰氵六"
+ },
+ "ext_d_g_withdrawals:04356": {
+  "c": "known",
+  "ids": "⿱东水",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%9C%E6%B0%B4",
+  "judged": "⿱东水"
+ },
+ "ext_d_g_withdrawals:04361": {
+  "c": "known",
+  "ids": "⿰氵电",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E7%94%B5",
+  "judged": "⿰氵电"
+ },
+ "ext_d_g_withdrawals:04362": {
+  "c": "known",
+  "ids": "⿰氵匆",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E5%8C%86",
+  "judged": "⿰氵匆"
+ },
+ "ext_d_g_withdrawals:04364": {
+  "c": "known",
+  "ids": "⿰氵𰵋",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%F0%B0%B5%8B",
+  "judged": "⿰氵许"
+ },
+ "ext_d_g_withdrawals:04365": {
+  "c": "known",
+  "ids": "⿰氵⿵门丅",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B5%E9%97%A8%E4%B8%85",
+  "judged": "⿰氵闹"
+ },
+ "ext_d_g_withdrawals:04388": {
+  "c": "known",
+  "ids": "⿰氵劣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E5%8A%A3",
+  "judged": "⿰氵劣"
+ },
+ "ext_d_g_withdrawals:04412": {
+  "c": "known",
+  "ids": "⿰氵𡰷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%F0%A1%B0%B7",
+  "judged": "⿰氵戽"
+ },
+ "ext_d_g_withdrawals:04423": {
+  "c": "known",
+  "ids": "⿰氵⿴囗𣱳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B4%E5%9B%97%F0%A3%B1%B3",
+  "judged": "⿰氵囦"
+ },
+ "ext_d_g_withdrawals:04438": {
+  "c": "known",
+  "ids": "⿰氵⿵门𢀖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B5%E9%97%A8%F0%A2%80%96",
+  "judged": "⿰氵阁"
+ },
+ "ext_d_g_withdrawals:04456": {
+  "c": "known",
+  "ids": "⿰氵苦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E8%8B%A6",
+  "judged": "⿰氵苦"
+ },
+ "ext_d_g_withdrawals:04459": {
+  "c": "known",
+  "ids": "⿰氵⿱龸水",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E9%BE%B8%E6%B0%B4",
+  "judged": "⿰氵䝉"
+ },
+ "ext_d_g_withdrawals:04474": {
+  "c": "known",
+  "ids": "⿰氵⿱亠肙",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E4%BA%A0%E8%82%99",
+  "judged": "⿰氵高"
+ },
+ "ext_d_g_withdrawals:04475": {
+  "c": "known",
+  "ids": "⿰氵⿵门血",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B5%E9%97%A8%E8%A1%80",
+  "judged": "⿰氵阚"
+ },
+ "ext_d_g_withdrawals:04486": {
+  "c": "known",
+  "ids": "⿰氵⿱𫇦毛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%F0%AB%87%A6%E6%AF%9B",
+  "judged": "⿰氵芼"
+ },
+ "ext_d_g_withdrawals:04493": {
+  "c": "known",
+  "ids": "⿰氵顿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E9%A1%BF",
+  "judged": "⿰氵顿"
+ },
+ "ext_d_g_withdrawals:04498": {
+  "c": "known",
+  "ids": "⿰氵⿱曲⺝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E6%9B%B2%E2%BA%9D",
+  "judged": "⿰氵胄"
+ },
+ "ext_d_g_withdrawals:04504": {
+  "c": "known",
+  "ids": "⿰氵⿱夭⿻王丷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E5%A4%AD%E2%BF%BB%E7%8E%8B%E4%B8%B7",
+  "judged": "⿰氵⿱夭⿻王丷"
+ },
+ "ext_d_g_withdrawals:04505": {
+  "c": "known",
+  "ids": "⿰氵爹",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E7%88%B9",
+  "judged": "⿰氵爹"
+ },
+ "ext_d_g_withdrawals:04517": {
+  "c": "known",
+  "ids": "⿰洪鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B4%AA%E9%B8%9F",
+  "judged": "⿰洪鸟"
+ },
+ "ext_d_g_withdrawals:04518": {
+  "c": "known",
+  "ids": "⿰氵⿱斩山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E6%96%A9%E5%B1%B1",
+  "judged": "⿰氵⿱斩山"
+ },
+ "ext_d_g_withdrawals:04519": {
+  "c": "known",
+  "ids": "⿰氵菁",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E8%8F%81",
+  "judged": "⿰氵菁"
+ },
+ "ext_d_g_withdrawals:04525": {
+  "c": "known",
+  "ids": "⿰氵𡸺",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%F0%A1%B8%BA",
+  "judged": "⿰氵⿱山青"
+ },
+ "ext_d_g_withdrawals:04531": {
+  "c": "custom",
+  "ids": "⿲氵身见",
+  "at": "2026-11-13T21:42:04.462Z",
+  "judged": "⿰氵旣"
+ },
+ "ext_d_g_withdrawals:04572": {
+  "c": "known",
+  "ids": "⿰氵搏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E6%90%8F",
+  "judged": "⿰氵搏"
+ },
+ "ext_d_g_withdrawals:04573": {
+  "c": "known",
+  "ids": "⿰氵榃",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E6%A6%83",
+  "judged": "⿰氵𣈅"
+ },
+ "ext_d_g_withdrawals:04591": {
+  "c": "custom",
+  "ids": "⿰氵⿳亠由⿹勹灬",
+  "at": "2026-11-13T19:59:47.719Z",
+  "judged": "⿰氵𤉢"
+ },
+ "ext_d_g_withdrawals:04617": {
+  "c": "known",
+  "ids": "⿰氵颜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E9%A2%9C",
+  "judged": "⿰氵颜"
+ },
+ "ext_d_g_withdrawals:04623": {
+  "c": "known",
+  "ids": "⿰氵⿱艹鲊",
+  "at": "2026-11-14T13:21:25.289Z",
+  "judged": "⿰氵葃",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E2%BF%B1%E8%89%B9%E9%B2%8A"
+ },
+ "ext_d_g_withdrawals:04628": {
+  "c": "known",
+  "ids": "⿰氵篦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%B0%B5%E7%AF%A6",
+  "judged": "⿰氵篦"
+ },
+ "ext_d_g_withdrawals:04731": {
+  "c": "known",
+  "ids": "⿱夭𭴉",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%F0%AD%B4%89",
+  "judged": "⿳夭云灬"
+ },
+ "ext_d_g_withdrawals:04766": {
+  "c": "known",
+  "ids": "⿱⿰虫旡灬",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%E8%99%AB%E6%97%A1%E7%81%AC",
+  "judged": "⿱既灬"
+ },
+ "ext_d_g_withdrawals:04782": {
+  "c": "known",
+  "ids": "⿰火⿱壴十",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%81%AB%E2%BF%B1%E5%A3%B4%E5%8D%81",
+  "judged": "⿰火喜"
+ },
+ "ext_d_g_withdrawals:04802": {
+  "c": "known",
+  "ids": "⿰火鲁",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%81%AB%E9%B2%81",
+  "judged": "⿰火鲁"
+ },
+ "ext_d_g_withdrawals:04842": {
+  "c": "known",
+  "ids": "⿺爪鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E7%88%AA%E9%B8%9F",
+  "judged": "⿺爪鸟"
+ },
+ "ext_d_g_withdrawals:04846": {
+  "c": "known",
+  "ids": "⿺爪孚",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E7%88%AA%E5%AD%9A",
+  "judged": "⿺爪孚"
+ },
+ "ext_d_g_withdrawals:04849": {
+  "c": "known",
+  "ids": "⿳爫冖⿶凵幺",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%E7%88%AB%E5%86%96%E2%BF%B6%E5%87%B5%E5%B9%BA",
+  "judged": "⿳爫冖⿶凵幺"
+ },
+ "ext_d_g_withdrawals:04870": {
+  "c": "known",
+  "ids": "⿱父上",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%88%B6%E4%B8%8A",
+  "judged": "⿱父上"
+ },
+ "ext_d_g_withdrawals:04871": {
+  "c": "known",
+  "ids": "⿱父打",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%88%B6%E6%89%93",
+  "judged": "⿱父打"
+ },
+ "ext_d_g_withdrawals:04914": {
+  "c": "known",
+  "ids": "⿱牛旦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%89%9B%E6%97%A6",
+  "judged": "⿱牛旦"
+ },
+ "ext_d_g_withdrawals:04936": {
+  "c": "known",
+  "ids": "⿱⿰未成牛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%E6%9C%AA%E6%88%90%E7%89%9B",
+  "judged": "⿱⿰未成牛"
+ },
+ "ext_d_g_withdrawals:04940": {
   "c": "c0",
   "ids": "⿳𫝀𰃮牛",
-  "at": "2026-11-12T17:56:03.969Z"
+  "at": "2026-11-12T17:56:03.969Z",
+  "judged": "⿳𫝀𰃮牛"
  },
- "irg-ext-d-g-08505": {
+ "ext_d_g_withdrawals:04945": {
+  "c": "known",
+  "ids": "⿰犭了",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8A%AD%E4%BA%86",
+  "judged": "⿰犭了"
+ },
+ "ext_d_g_withdrawals:04948": {
+  "c": "known",
+  "ids": "⿰犭五",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8A%AD%E4%BA%94",
+  "judged": "⿰犭五"
+ },
+ "ext_d_g_withdrawals:04973": {
+  "c": "known",
+  "ids": "⿰犭责",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8A%AD%E8%B4%A3",
+  "judged": "⿰犭责"
+ },
+ "ext_d_g_withdrawals:04996": {
+  "c": "known",
+  "ids": "⿰犭敕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8A%AD%E6%95%95",
+  "judged": "⿰犭敕"
+ },
+ "ext_d_g_withdrawals:05005": {
+  "c": "known",
+  "ids": "⿰犭窖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8A%AD%E7%AA%96",
+  "judged": "⿰犭窖"
+ },
+ "ext_d_g_withdrawals:05088": {
+  "c": "known",
+  "ids": "⿰王⿱山𡗞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8E%8B%E2%BF%B1%E5%B1%B1%F0%A1%97%9E",
+  "judged": "⿰𤣩奚"
+ },
+ "ext_d_g_withdrawals:05091": {
+  "c": "known",
+  "ids": "⿰王弯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8E%8B%E5%BC%AF",
+  "judged": "⿰𤣩弯"
+ },
+ "ext_d_g_withdrawals:05105": {
+  "c": "known",
+  "ids": "⿰王⿱㓁缶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8E%8B%E2%BF%B1%E3%93%81%E7%BC%B6",
+  "judged": "⿰𤣩窑"
+ },
+ "ext_d_g_withdrawals:05106": {
+  "c": "known",
+  "ids": "⿰王冢",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8E%8B%E5%86%A2",
+  "judged": "⿰𤣩冢"
+ },
+ "ext_d_g_withdrawals:05133": {
+  "c": "known",
+  "ids": "⿰王遗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%8E%8B%E9%81%97",
+  "judged": "⿰𤣩遗"
+ },
+ "ext_d_g_withdrawals:05144": {
+  "c": "known",
+  "ids": "⿰璋月",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%92%8B%E6%9C%88",
+  "judged": "⿰𤣩彰"
+ },
+ "ext_d_g_withdrawals:05171": {
+  "c": "known",
+  "ids": "⿱丽瓦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%BD%E7%93%A6",
+  "judged": "⿱一瓦"
+ },
+ "ext_d_g_withdrawals:05207": {
+  "c": "known",
+  "ids": "⿹丁田",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B9%E4%B8%81%E7%94%B0",
+  "judged": "⿹丁田"
+ },
+ "ext_d_g_withdrawals:05216": {
+  "c": "known",
+  "ids": "⿱牛田",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%89%9B%E7%94%B0",
+  "judged": "⿱牛田"
+ },
+ "ext_d_g_withdrawals:05226": {
+  "c": "known",
+  "ids": "⿱田光",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%94%B0%E5%85%89",
+  "judged": "⿱田光"
+ },
+ "ext_d_g_withdrawals:05228": {
+  "c": "known",
+  "ids": "⿱田兆",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%94%B0%E5%85%86",
+  "judged": "⿱田兆"
+ },
+ "ext_d_g_withdrawals:05229": {
+  "c": "known",
+  "ids": "⿱人畓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%BA%BA%E7%95%93",
+  "judged": "⿱𠆢畓"
+ },
+ "ext_d_g_withdrawals:05239": {
+  "c": "known",
+  "ids": "⿰田佥",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%94%B0%E4%BD%A5",
+  "judged": "⿰田佥"
+ },
+ "ext_d_g_withdrawals:05240": {
+  "c": "known",
+  "ids": "⿰田狂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%94%B0%E7%8B%82",
+  "judged": "⿰田狂"
+ },
+ "ext_d_g_withdrawals:05258": {
+  "c": "known",
+  "ids": "⿱棥田",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%A3%A5%E7%94%B0",
+  "judged": "⿱棥田"
+ },
+ "ext_d_g_withdrawals:05262": {
+  "c": "known",
+  "ids": "⿰田蜀",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%94%B0%E8%9C%80",
+  "judged": "⿰田蜀"
+ },
+ "ext_d_g_withdrawals:05321": {
+  "c": "known",
+  "ids": "⿸疒排",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B8%E7%96%92%E6%8E%92",
+  "judged": "⿸疒排"
+ },
+ "ext_d_g_withdrawals:05344": {
+  "c": "known",
+  "ids": "⿱白永",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%99%BD%E6%B0%B8",
+  "judged": "⿱白永"
+ },
+ "ext_d_g_withdrawals:05345": {
+  "c": "known",
+  "ids": "⿰白亚",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%99%BD%E4%BA%9A",
+  "judged": "⿰白亚"
+ },
+ "ext_d_g_withdrawals:05393": {
+  "c": "known",
+  "ids": "⿱古皿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8F%A4%E7%9A%BF",
+  "judged": "⿱古皿"
+ },
+ "ext_d_g_withdrawals:05406": {
+  "c": "known",
+  "ids": "⿱辰皿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%BE%B0%E7%9A%BF",
+  "judged": "⿱辰皿"
+ },
+ "ext_d_g_withdrawals:05464": {
+  "c": "known",
+  "ids": "⿰目马",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9B%AE%E9%A9%AC",
+  "judged": "⿰目马"
+ },
+ "ext_d_g_withdrawals:05508": {
+  "c": "known",
+  "ids": "⿲目彳⿱亠龶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E7%9B%AE%E5%BD%B3%E2%BF%B1%E4%BA%A0%E9%BE%B6",
+  "judged": "⿰目⿱八隹"
+ },
+ "ext_d_g_withdrawals:05545": {
+  "c": "known",
+  "ids": "⿰矢主",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%A2%E4%B8%BB",
+  "judged": "⿰矢主"
+ },
+ "ext_d_g_withdrawals:05553": {
+  "c": "known",
+  "ids": "⿰矢盛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%A2%E7%9B%9B",
+  "judged": "⿰矢盛"
+ },
+ "ext_d_g_withdrawals:05558": {
+  "c": "known",
+  "ids": "⿰石乙",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E4%B9%99",
+  "judged": "⿰石乙"
+ },
+ "ext_d_g_withdrawals:05562": {
+  "c": "known",
+  "ids": "⿰石下",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E4%B8%8B",
+  "judged": "⿰石下"
+ },
+ "ext_d_g_withdrawals:05563": {
+  "c": "known",
+  "ids": "⿰石上",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E4%B8%8A",
+  "judged": "⿰石上"
+ },
+ "ext_d_g_withdrawals:05575": {
+  "c": "known",
+  "ids": "⿰石牛",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E7%89%9B",
+  "judged": "⿰石牛"
+ },
+ "ext_d_g_withdrawals:05588": {
+  "c": "known",
+  "ids": "⿰石幻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%B9%BB",
+  "judged": "⿰石幻"
+ },
+ "ext_d_g_withdrawals:05606": {
+  "c": "known",
+  "ids": "⿱石地",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%9F%B3%E5%9C%B0",
+  "judged": "⿱石地"
+ },
+ "ext_d_g_withdrawals:05615": {
+  "c": "known",
+  "ids": "⿱舟石",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%88%9F%E7%9F%B3",
+  "judged": "⿱舟石"
+ },
+ "ext_d_g_withdrawals:05618": {
+  "c": "known",
+  "ids": "⿱壮石",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A3%AE%E7%9F%B3",
+  "judged": "⿱壮石"
+ },
+ "ext_d_g_withdrawals:05655": {
+  "c": "known",
+  "ids": "⿰石卷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%8D%B7",
+  "judged": "⿰石卷"
+ },
+ "ext_d_g_withdrawals:05662": {
+  "c": "known",
+  "ids": "⿰石奏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%A5%8F",
+  "judged": "⿰石奏"
+ },
+ "ext_d_g_withdrawals:05664": {
+  "c": "known",
+  "ids": "⿰石贵",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E8%B4%B5",
+  "judged": "⿰石贵"
+ },
+ "ext_d_g_withdrawals:05669": {
+  "c": "known",
+  "ids": "⿰石瓮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E7%93%AE",
+  "judged": "⿰石瓮"
+ },
+ "ext_d_g_withdrawals:05676": {
+  "c": "known",
+  "ids": "⿰石弯",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%BC%AF",
+  "judged": "⿰石弯"
+ },
+ "ext_d_g_withdrawals:05678": {
+  "c": "known",
+  "ids": "⿸𰦩⿱一巴",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B8%F0%B0%A6%A9%E2%BF%B1%E4%B8%80%E5%B7%B4",
+  "judged": "⿰石扈"
+ },
+ "ext_d_g_withdrawals:05680": {
+  "c": "known",
+  "ids": "⿰石⿱孔甲",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E2%BF%B1%E5%AD%94%E7%94%B2",
+  "judged": "⿰石⿱孔甲"
+ },
+ "ext_d_g_withdrawals:05686": {
+  "c": "known",
+  "ids": "⿰石特",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E7%89%B9",
+  "judged": "⿰石特"
+ },
+ "ext_d_g_withdrawals:05688": {
+  "c": "known",
+  "ids": "⿰石窊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E7%AA%8A",
+  "judged": "⿰石窊"
+ },
+ "ext_d_g_withdrawals:05691": {
+  "c": "known",
+  "ids": "⿰石难",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E9%9A%BE",
+  "judged": "⿰石难"
+ },
+ "ext_d_g_withdrawals:05692": {
+  "c": "known",
+  "ids": "⿱⿰𲸯纟石",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E2%BF%B0%F0%B2%B8%AF%E7%BA%9F%E7%9F%B3",
+  "judged": "⿱⿲纟车纟石"
+ },
+ "ext_d_g_withdrawals:05693": {
+  "c": "known",
+  "ids": "⿰石舂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E8%88%82",
+  "judged": "⿰石舂"
+ },
+ "ext_d_g_withdrawals:05694": {
+  "c": "known",
+  "ids": "⿰石菓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E8%8F%93",
+  "judged": "⿰石菓"
+ },
+ "ext_d_g_withdrawals:05708": {
+  "c": "known",
+  "ids": "⿰石淼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E6%B7%BC",
+  "judged": "⿰石淼"
+ },
+ "ext_d_g_withdrawals:05713": {
+  "c": "known",
+  "ids": "⿰石罂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E7%BD%82",
+  "judged": "⿰石罃"
+ },
+ "ext_d_g_withdrawals:05717": {
+  "c": "known",
+  "ids": "⿰石寨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%AF%A8",
+  "judged": "⿰石寨"
+ },
+ "ext_d_g_withdrawals:05723": {
+  "c": "known",
+  "ids": "⿰石⿱䀠瓦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E2%BF%B1%E4%80%A0%E7%93%A6",
+  "judged": "⿰石⿱䀠瓦"
+ },
+ "ext_d_g_withdrawals:05725": {
+  "c": "known",
+  "ids": "⿰石寮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%9F%B3%E5%AF%AE",
+  "judged": "⿰石寮"
+ },
+ "ext_d_g_withdrawals:05738": {
+  "c": "known",
+  "ids": "⿰示⿱口乚",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A4%BA%E2%BF%B1%E5%8F%A3%E4%B9%9A",
+  "judged": "⿰礻兄"
+ },
+ "ext_d_g_withdrawals:05745": {
+  "c": "known",
+  "ids": "⿱业示",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%9A%E7%A4%BA",
+  "judged": "⿱业示"
+ },
+ "ext_d_g_withdrawals:05764": {
+  "c": "known",
+  "ids": "⿰示佥",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A4%BA%E4%BD%A5",
+  "judged": "⿰礻佥"
+ },
+ "ext_d_g_withdrawals:05800": {
+  "c": "known",
+  "ids": "⿰示⿱凹羽",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A4%BA%E2%BF%B1%E5%87%B9%E7%BE%BD",
+  "judged": "⿰礻⿱凹羽"
+ },
+ "ext_d_g_withdrawals:05807": {
+  "c": "known",
+  "ids": "⿰示⿱吅羽",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A4%BA%E2%BF%B1%E5%90%85%E7%BE%BD",
+  "judged": "⿰礻⿱吅羽"
+ },
+ "ext_d_g_withdrawals:05824": {
+  "c": "known",
+  "ids": "⿰禾入",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A6%BE%E5%85%A5",
+  "judged": "⿰禾入"
+ },
+ "ext_d_g_withdrawals:05830": {
+  "c": "known",
+  "ids": "⿰仑禾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%BB%91%E7%A6%BE",
+  "judged": "⿰仑禾"
+ },
+ "ext_d_g_withdrawals:05838": {
+  "c": "known",
+  "ids": "⿰禾召",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A6%BE%E5%8F%AC",
+  "judged": "⿰禾召"
+ },
+ "ext_d_g_withdrawals:05845": {
+  "c": "known",
+  "ids": "⿰禾产",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A6%BE%E4%BA%A7",
+  "judged": "⿰禾产"
+ },
+ "ext_d_g_withdrawals:05848": {
+  "c": "known",
+  "ids": "⿰禾丽",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A6%BE%E4%B8%BD",
+  "judged": "⿰禾丽"
+ },
+ "ext_d_g_withdrawals:05865": {
+  "c": "known",
+  "ids": "⿰禾差",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%A6%BE%E5%B7%AE",
+  "judged": "⿰禾差"
+ },
+ "ext_d_g_withdrawals:05890": {
+  "c": "known",
+  "ids": "⿱穴化",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%E5%8C%96",
+  "judged": "⿱穴⿰彳𠤎"
+ },
+ "ext_d_g_withdrawals:05898": {
+  "c": "known",
+  "ids": "⿱穴加",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%E5%8A%A0",
+  "judged": "⿱穴加"
+ },
+ "ext_d_g_withdrawals:05901": {
+  "c": "known",
+  "ids": "⿱穴㞭",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%E3%9E%AD",
+  "judged": "⿱穴㞭"
+ },
+ "ext_d_g_withdrawals:05909": {
+  "c": "known",
+  "ids": "⿱穴贡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%E8%B4%A1",
+  "judged": "⿱空贝"
+ },
+ "ext_d_g_withdrawals:05912": {
+  "c": "known",
+  "ids": "⿰⿱穴亏包",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E2%BF%B1%E7%A9%B4%E4%BA%8F%E5%8C%85",
+  "judged": "⿰⿱穴亏包"
+ },
+ "ext_d_g_withdrawals:05913": {
+  "c": "known",
+  "ids": "⿱穴岷",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%E5%B2%B7",
+  "judged": "⿱穴⿰山民"
+ },
+ "ext_d_g_withdrawals:05917": {
+  "c": "known",
+  "ids": "⿱穴𰙣",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%A9%B4%F0%B0%99%A3",
+  "judged": "⿱穴⿰止民"
+ },
+ "ext_d_g_withdrawals:05953": {
+  "c": "known",
+  "ids": "⿱勒立",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8B%92%E7%AB%8B",
+  "judged": "⿱勒立"
+ },
+ "ext_d_g_withdrawals:05959": {
+  "c": "known",
+  "ids": "⿰意意",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%84%8F%E6%84%8F",
+  "judged": "⿰意意"
+ },
+ "ext_d_g_withdrawals:05963": {
+  "c": "known",
+  "ids": "⿱𥫗乜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E4%B9%9C",
+  "judged": "⿱𥫗乜"
+ },
+ "ext_d_g_withdrawals:05972": {
+  "c": "known",
+  "ids": "⿱𥫗片",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E7%89%87",
+  "judged": "⿱𥫗片"
+ },
+ "ext_d_g_withdrawals:05976": {
+  "c": "known",
+  "ids": "⿱𥫗𠕴",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%F0%A0%95%B4",
+  "judged": "⿱𥫗𠕵"
+ },
+ "ext_d_g_withdrawals:05980": {
+  "c": "known",
+  "ids": "⿱𥫗弍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E5%BC%8D",
+  "judged": "⿱𥫗弎"
+ },
+ "ext_d_g_withdrawals:05989": {
+  "c": "known",
+  "ids": "⿱𥫗𠮮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%F0%A0%AE%AE",
+  "judged": "⿱𥫗吞"
+ },
+ "ext_d_g_withdrawals:05997": {
+  "c": "known",
+  "ids": "⿱𥫗刖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E5%88%96",
+  "judged": "⿱𥫗刖"
+ },
+ "ext_d_g_withdrawals:06003": {
+  "c": "known",
+  "ids": "⿱𥫗收",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E6%94%B6",
+  "judged": "⿱𥫗收"
+ },
+ "ext_d_g_withdrawals:06004": {
+  "c": "known",
+  "ids": "⿱𥫗𡗞",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%F0%A1%97%9E",
+  "judged": "⿱𥫗𡗞"
+ },
+ "ext_d_g_withdrawals:06010": {
+  "c": "known",
+  "ids": "⿱𥫗杏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E6%9D%8F",
+  "judged": "⿱𥫗杏"
+ },
+ "ext_d_g_withdrawals:06027": {
+  "c": "known",
+  "ids": "⿱𥫗抪",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E6%8A%AA",
+  "judged": "⿱𥫗捕"
+ },
+ "ext_d_g_withdrawals:06029": {
+  "c": "known",
+  "ids": "⿱𥫗杳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E6%9D%B3",
+  "judged": "⿱𥫗杳"
+ },
+ "ext_d_g_withdrawals:06030": {
+  "c": "known",
+  "ids": "⿱𥫗⿷匚再",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E2%BF%B7%E5%8C%9A%E5%86%8D",
+  "judged": "⿱𥫗⿷匚再"
+ },
+ "ext_d_g_withdrawals:06051": {
+  "c": "known",
+  "ids": "⿱𥬵土",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AC%B5%E5%9C%9F",
+  "judged": "⿱𥫗⿱而土"
+ },
+ "ext_d_g_withdrawals:06064": {
+  "c": "known",
+  "ids": "⿱𥫗埂",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E5%9F%82",
+  "judged": "⿱𥫗埋"
+ },
+ "ext_d_g_withdrawals:06067": {
+  "c": "custom",
+  "ids": "⿱𥫗⿰扌旱",
+  "at": "2026-11-14T08:54:08.594Z",
+  "judged": "⿱𥫗掉"
+ },
+ "ext_d_g_withdrawals:06078": {
+  "c": "known",
+  "ids": "⿱𥫗堑",
+  "at": "2026-11-14T13:27:54.617Z",
+  "judged": "⿱𥫗塹",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E5%A0%91"
+ },
+ "ext_d_g_withdrawals:06082": {
+  "c": "known",
+  "ids": "⿱𥫗赊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E8%B5%8A",
+  "judged": "⿱𥫗⿰贝佘"
+ },
+ "ext_d_g_withdrawals:06098": {
+  "c": "known",
+  "ids": "⿱𥫗焦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E7%84%A6",
+  "judged": "⿱𥫗焦"
+ },
+ "ext_d_g_withdrawals:06121": {
+  "c": "known",
+  "ids": "⿳𥫗艹⿱吅甲",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%F0%A5%AB%97%E8%89%B9%E2%BF%B1%E5%90%85%E7%94%B2",
+  "judged": "⿱𥫗蕇"
+ },
+ "ext_d_g_withdrawals:06130": {
+  "c": "known",
+  "ids": "⿱𥫗播",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A5%AB%97%E6%92%AD",
+  "judged": "⿱𥫗播"
+ },
+ "ext_d_g_withdrawals:06145": {
+  "c": "known",
+  "ids": "⿳𥫗臼⿰臼臼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%F0%A5%AB%97%E8%87%BC%E2%BF%B0%E8%87%BC%E8%87%BC",
+  "judged": "⿱𥫗皛"
+ },
+ "ext_d_g_withdrawals:06176": {
+  "c": "known",
+  "ids": "⿰米母",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%B1%B3%E6%AF%8D",
+  "judged": "⿰米母"
+ },
+ "ext_d_g_withdrawals:06182": {
+  "c": "known",
+  "ids": "⿰米色",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%B1%B3%E8%89%B2",
+  "judged": "⿰米色"
+ },
+ "ext_d_g_withdrawals:06425": {
+  "c": "known",
+  "ids": "⿰纟奋",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BA%9F%E5%A5%8B",
+  "judged": "⿰纟奋"
+ },
+ "ext_d_g_withdrawals:06468": {
+  "c": "known",
+  "ids": "⿲纟言纟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B2%E7%BA%9F%E8%A8%80%E7%BA%9F",
+  "judged": "⿰纟訟"
+ },
+ "ext_d_g_withdrawals:06491": {
+  "c": "known",
+  "ids": "⿰纟就",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BA%9F%E5%B0%B1",
+  "judged": "⿰纟就"
+ },
+ "ext_d_g_withdrawals:06492": {
+  "c": "custom",
+  "ids": "⿲纟交页",
+  "at": "2026-11-14T09:00:10.419Z",
+  "judged": "⿰纟頝"
+ },
+ "ext_d_g_withdrawals:06497": {
+  "c": "known",
+  "ids": "⿰纟⿱白金",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BA%9F%E2%BF%B1%E7%99%BD%E9%87%91",
+  "judged": "⿰纟⿱白金"
+ },
+ "ext_d_g_withdrawals:06509": {
+  "c": "known",
+  "ids": "⿰缶几",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BC%B6%E5%87%A0",
+  "judged": "⿰缶几"
+ },
+ "ext_d_g_withdrawals:06520": {
+  "c": "known",
+  "ids": "⿰缶安",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BC%B6%E5%AE%89",
+  "judged": "⿰缶安"
+ },
+ "ext_d_g_withdrawals:06521": {
+  "c": "known",
+  "ids": "⿰缶青",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BC%B6%E9%9D%92",
+  "judged": "⿰缶青"
+ },
+ "ext_d_g_withdrawals:06546": {
+  "c": "known",
+  "ids": "⿱罒伏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%BD%92%E4%BC%8F",
+  "judged": "⿱罒伏"
+ },
+ "ext_d_g_withdrawals:06554": {
+  "c": "known",
+  "ids": "⿱罒朋",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E7%BD%92%E6%9C%8B",
+  "judged": "⿱罒朋"
+ },
+ "ext_d_g_withdrawals:06589": {
+  "c": "known",
+  "ids": "⿰羊胡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BE%8A%E8%83%A1",
+  "judged": "⿰羊胡"
+ },
+ "ext_d_g_withdrawals:06627": {
+  "c": "known",
+  "ids": "⿱老已",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%80%81%E5%B7%B2",
+  "judged": "⿱老巳"
+ },
+ "ext_d_g_withdrawals:06628": {
+  "c": "known",
+  "ids": "⿱老⿹𠃌口",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%80%81%E2%BF%B9%F0%A0%83%8C%E5%8F%A3",
+  "judged": "⿱老可"
+ },
+ "ext_d_g_withdrawals:06638": {
+  "c": "known",
+  "ids": "⿰耒𪩡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%80%92%F0%AA%A9%A1",
+  "judged": "⿰耒𪩡"
+ },
+ "ext_d_g_withdrawals:06642": {
+  "c": "known",
+  "ids": "⿰耳𠃓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%80%B3%F0%A0%83%93",
+  "judged": "⿰耳𠃓"
+ },
+ "ext_d_g_withdrawals:06804": {
+  "c": "c1",
+  "ids": "⿳𦥯林⿱大𣥂",
+  "at": "2026-11-13T20:00:11.527Z",
+  "judged": "⿳𦥯大𣥂"
+ },
+ "ext_d_g_withdrawals:06887": {
+  "c": "known",
+  "ids": "⿱艹夺",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%A4%BA",
+  "judged": "⿱艹夺"
+ },
+ "ext_d_g_withdrawals:06893": {
+  "c": "known",
+  "ids": "⿱艹𰁦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%B0%81%A6",
+  "judged": "⿱艹㚢"
+ },
+ "ext_d_g_withdrawals:06906": {
+  "c": "known",
+  "ids": "⿱艹决",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%86%B3",
+  "judged": "⿱艹决"
+ },
+ "ext_d_g_withdrawals:06907": {
+  "c": "known",
+  "ids": "⿱艹汗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E6%B1%97",
+  "judged": "⿱艹汗"
+ },
+ "ext_d_g_withdrawals:06913": {
+  "c": "known",
+  "ids": "⿱艹观",
+  "at": "2026-11-15T08:12:47.947Z",
+  "judged": "⿱艹对",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E8%A7%82"
+ },
+ "ext_d_g_withdrawals:06918": {
+  "c": "custom",
+  "ids": "⿱艹坝",
+  "at": "2026-11-13T21:27:20.947Z",
+  "judged": "⿱艹坎"
+ },
+ "ext_d_g_withdrawals:06939": {
+  "c": "known",
+  "ids": "⿱艹庒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%BA%92",
+  "judged": "⿱艹庒"
+ },
+ "ext_d_g_withdrawals:06940": {
+  "c": "known",
+  "ids": "⿱艹⿰冫包",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E2%BF%B0%E5%86%AB%E5%8C%85",
+  "judged": "⿱艹泡"
+ },
+ "ext_d_g_withdrawals:06941": {
+  "c": "known",
+  "ids": "⿱艹汨",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E6%B1%A8",
+  "judged": "⿱艹汨"
+ },
+ "ext_d_g_withdrawals:06988": {
+  "c": "known",
+  "ids": "⿱艹沶",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E6%B2%B6",
+  "judged": "⿱艹⿰氵示"
+ },
+ "ext_d_g_withdrawals:07004": {
+  "c": "known",
+  "ids": "⿱艹𪣌",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%AA%A3%8C",
+  "judged": "⿱艹坪"
+ },
+ "ext_d_g_withdrawals:07005": {
+  "c": "known",
+  "ids": "⿱艹⿰土⿱𠂉止",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E2%BF%B0%E5%9C%9F%E2%BF%B1%F0%A0%82%89%E6%AD%A2",
+  "judged": "⿱艹⿰土⿱𠂉止"
+ },
+ "ext_d_g_withdrawals:07006": {
+  "c": "known",
+  "ids": "⿱艹𣐡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%A3%90%A1",
+  "judged": "⿱艹根"
+ },
+ "ext_d_g_withdrawals:07033": {
+  "c": "known",
+  "ids": "⿱𫇦豆",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%AB%87%A6%E8%B1%86",
+  "judged": "⿱𫇦豆"
+ },
+ "ext_d_g_withdrawals:07034": {
+  "c": "known",
+  "ids": "⿳𫇦口火",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B3%F0%AB%87%A6%E5%8F%A3%E7%81%AB",
+  "judged": "⿳𫇦冖火"
+ },
+ "ext_d_g_withdrawals:07040": {
+  "c": "known",
+  "ids": "⿱艹垒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%9E%92",
+  "judged": "⿱艹垒"
+ },
+ "ext_d_g_withdrawals:07048": {
+  "c": "known",
+  "ids": "⿱艹殊",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E6%AE%8A",
+  "judged": "⿱艹殊"
+ },
+ "ext_d_g_withdrawals:07050": {
+  "c": "known",
+  "ids": "⿱艹耙",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E8%80%99",
+  "judged": "⿱艹⿰耒巴"
+ },
+ "ext_d_g_withdrawals:07066": {
+  "c": "known",
+  "ids": "⿱艹𣑠",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%A3%91%A0",
+  "judged": "⿱艹弇"
+ },
+ "ext_d_g_withdrawals:07095": {
+  "c": "known",
+  "ids": "⿱艹教",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E6%95%99",
+  "judged": "⿱艹教"
+ },
+ "ext_d_g_withdrawals:07120": {
+  "c": "known",
+  "ids": "⿱艹𮄮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%AE%84%AE",
+  "judged": "⿱艹竘"
+ },
+ "ext_d_g_withdrawals:07121": {
+  "c": "known",
+  "ids": "⿱艹𱲒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%F0%B1%B2%92",
+  "judged": "⿱艹盪"
+ },
+ "ext_d_g_withdrawals:07145": {
+  "c": "known",
+  "ids": "⿱艹就",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%B0%B1",
+  "judged": "⿱艹就"
+ },
+ "ext_d_g_withdrawals:07146": {
+  "c": "known",
+  "ids": "⿱艹痢",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E7%97%A2",
+  "judged": "⿱艹𢈱"
+ },
+ "ext_d_g_withdrawals:07178": {
+  "c": "known",
+  "ids": "⿱艹塱",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E5%A1%B1",
+  "judged": "⿱艹𭎮"
+ },
+ "ext_d_g_withdrawals:07207": {
+  "c": "custom",
+  "ids": "⿱艹⿰氵𫔴",
+  "at": "2026-11-13T21:28:30.413Z",
+  "judged": "⿱艹綱"
+ },
+ "ext_d_g_withdrawals:07231": {
+  "c": "known",
+  "ids": "⿱艹⿰鸟隻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%89%B9%E2%BF%B0%E9%B8%9F%E9%9A%BB",
+  "judged": "⿱艹⿰鸟隻"
+ },
+ "ext_d_g_withdrawals:07270": {
+  "c": "custom",
+  "ids": "⿱艹⿱次⿰次次",
+  "at": "2026-11-14T08:55:23.964Z",
+  "judged": "⿱艹䢯"
+ },
+ "ext_d_g_withdrawals:07277": {
+  "c": "c1",
+  "ids": "⿱艹瓊",
+  "at": "2026-11-13T21:28:52.669Z",
+  "judged": "⿱艹鎫"
+ },
+ "ext_d_g_withdrawals:07281": {
+  "c": "custom",
+  "ids": "⿳艹興良",
+  "at": "2026-11-14T13:27:08.765Z",
+  "judged": "⿱艹䝿"
+ },
+ "ext_d_g_withdrawals:07283": {
+  "c": "known",
+  "ids": "⿱荒⿰荒荒",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%8D%92%E2%BF%B0%E8%8D%92%E8%8D%92",
+  "judged": "⿱荒荒"
+ },
+ "ext_d_g_withdrawals:07296": {
+  "c": "known",
+  "ids": "⿰导虎",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%AF%BC%E8%99%8E",
+  "judged": "⿰⿱巳寸虎"
+ },
+ "ext_d_g_withdrawals:07324": {
+  "c": "known",
+  "ids": "⿰虫右",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%99%AB%E5%8F%B3",
+  "judged": "⿰虫右"
+ },
+ "ext_d_g_withdrawals:07344": {
+  "c": "known",
+  "ids": "⿰虫伐",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%99%AB%E4%BC%90",
+  "judged": "⿰虫伐"
+ },
+ "ext_d_g_withdrawals:07345": {
+  "c": "known",
+  "ids": "⿰虫争",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%99%AB%E4%BA%89",
+  "judged": "⿰虫争"
+ },
+ "ext_d_g_withdrawals:07352": {
+  "c": "known",
+  "ids": "⿰虫壳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%99%AB%E5%A3%B3",
+  "judged": "⿰虫壳"
+ },
+ "ext_d_g_withdrawals:07366": {
+  "c": "custom",
+  "ids": "⿰虫⿱戈贝",
+  "at": "2026-11-14T08:55:51.801Z",
+  "judged": "⿰虫贤"
+ },
+ "ext_d_g_withdrawals:07375": {
+  "c": "known",
+  "ids": "⿰虫竻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%99%AB%E7%AB%BB",
+  "judged": "⿰虫筋"
+ },
+ "ext_d_g_withdrawals:07376": {
+  "c": "known",
+  "ids": "⿱𢪒虫",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%A2%AA%92%E8%99%AB",
+  "judged": "⿱𢪒虫"
+ },
+ "ext_d_g_withdrawals:07391": {
+  "c": "known",
+  "ids": "⿰蚱殳",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%9A%B1%E6%AE%B3",
+  "judged": "⿰虫伇"
+ },
+ "ext_d_g_withdrawals:07458": {
+  "c": "known",
+  "ids": "⿰𢓕亍",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%A2%93%95%E4%BA%8D",
+  "judged": "⿲彳占亍"
+ },
+ "ext_d_g_withdrawals:07459": {
+  "c": "known",
+  "ids": "⿴行目",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E8%A1%8C%E7%9B%AE",
+  "judged": "⿲彳目亍"
+ },
+ "ext_d_g_withdrawals:07461": {
+  "c": "known",
+  "ids": "⿴行贡",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E8%A1%8C%E8%B4%A1",
+  "judged": "⿲彳贡亍"
+ },
+ "ext_d_g_withdrawals:07462": {
+  "c": "known",
+  "ids": "⿴行鱼",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E8%A1%8C%E9%B1%BC",
+  "judged": "⿲彳鱼亍"
+ },
+ "ext_d_g_withdrawals:07463": {
+  "c": "known",
+  "ids": "⿴行空",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E8%A1%8C%E7%A9%BA",
+  "judged": "⿲彳空亍"
+ },
+ "ext_d_g_withdrawals:07464": {
+  "c": "known",
+  "ids": "⿴行背",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B4%E8%A1%8C%E8%83%8C",
+  "judged": "⿲彳背亍"
+ },
+ "ext_d_g_withdrawals:07499": {
+  "c": "known",
+  "ids": "⿰衤齐",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%A1%A4%E9%BD%90",
+  "judged": "⿰衤齐"
+ },
+ "ext_d_g_withdrawals:07537": {
+  "c": "known",
+  "ids": "⿰衤⿱吅羽",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%A1%A4%E2%BF%B1%E5%90%85%E7%BE%BD",
+  "judged": "⿰衤⿱吅羽"
+ },
+ "ext_d_g_withdrawals:07544": {
+  "c": "known",
+  "ids": "⿰衤裴",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%A1%A4%E8%A3%B4",
+  "judged": "⿰衤裴"
+ },
+ "ext_d_g_withdrawals:07575": {
+  "c": "known",
+  "ids": "⿰丨见",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%B8%A8%E8%A7%81",
+  "judged": "⿸⿵冂丨见"
+ },
+ "ext_d_g_withdrawals:07577": {
+  "c": "known",
+  "ids": "⿺见山",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%A7%81%E5%B1%B1",
+  "judged": "⿺见山"
+ },
+ "ext_d_g_withdrawals:07579": {
+  "c": "known",
+  "ids": "⿱文见",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E6%96%87%E8%A7%81",
+  "judged": "⿱文见"
+ },
+ "ext_d_g_withdrawals:07735": {
+  "c": "known",
+  "ids": "⿰讠⿺廴大",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%AE%A0%E2%BF%BA%E5%BB%B4%E5%A4%A7",
+  "judged": "⿰讠⿺廴大"
+ },
+ "ext_d_g_withdrawals:07775": {
+  "c": "known",
+  "ids": "⿰讠迏",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%AE%A0%E8%BF%8F",
+  "judged": "⿰讠迏"
+ },
+ "ext_d_g_withdrawals:07787": {
+  "c": "known",
+  "ids": "⿰讠並",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%AE%A0%E4%B8%A6",
+  "judged": "⿰讠並"
+ },
+ "ext_d_g_withdrawals:07820": {
+  "c": "known",
+  "ids": "⿰讠⿱穴白",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%AE%A0%E2%BF%B1%E7%A9%B4%E7%99%BD",
+  "judged": "⿰讠⿱穴白"
+ },
+ "ext_d_g_withdrawals:07867": {
+  "c": "custom",
+  "ids": "⿰读言",
+  "at": "2026-11-13T19:56:47.581Z",
+  "judged": "⿰卖言"
+ },
+ "ext_d_g_withdrawals:07881": {
+  "c": "known",
+  "ids": "⿱𰀡豆",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%B0%80%A1%E8%B1%86",
+  "judged": "⿱𰀡豆"
+ },
+ "ext_d_g_withdrawals:07892": {
+  "c": "known",
+  "ids": "⿱𱼀⿲𰀪㇁⿱丿乀",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%F0%B1%BC%80%E2%BF%B2%F0%B0%80%AA%E3%87%81%E2%BF%B1%E4%B8%BF%E4%B9%80",
+  "judged": "⿱𱼀𧰨"
+ },
+ "ext_d_g_withdrawals:07968": {
+  "c": "known",
+  "ids": "⿱夾贝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%BE%E8%B4%9D",
+  "judged": "⿱夾贝"
+ },
+ "ext_d_g_withdrawals:07970": {
+  "c": "known",
+  "ids": "⿱贝林",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E8%B4%9D%E6%9E%97",
+  "judged": "⿱贝林"
+ },
+ "ext_d_g_withdrawals:07998": {
+  "c": "known",
+  "ids": "⿱千𤴓",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%8D%83%F0%A4%B4%93",
+  "judged": "⿱𡈼龰"
+ },
+ "ext_d_g_withdrawals:08045": {
+  "c": "known",
+  "ids": "⿺足𠓝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%B6%B3%F0%A0%93%9D",
+  "judged": "⿺足仐"
+ },
+ "ext_d_g_withdrawals:08056": {
+  "c": "known",
+  "ids": "⿰𧾷而",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%A7%BE%B7%E8%80%8C",
+  "judged": "⿰𧾷而"
+ },
+ "ext_d_g_withdrawals:08082": {
+  "c": "known",
+  "ids": "⿰𧾷罙",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%A7%BE%B7%E7%BD%99",
+  "judged": "⿰𧾷罙"
+ },
+ "ext_d_g_withdrawals:08088": {
+  "c": "known",
+  "ids": "⿰𧾷鸦",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%F0%A7%BE%B7%E9%B8%A6",
+  "judged": "⿰𧾷⿰牙鸟"
+ },
+ "ext_d_g_withdrawals:08195": {
+  "c": "known",
+  "ids": "⿰车丸",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%BD%A6%E4%B8%B8",
+  "judged": "⿰车丸"
+ },
+ "ext_d_g_withdrawals:08221": {
+  "c": "known",
+  "ids": "⿱奴车",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A5%B4%E8%BD%A6",
+  "judged": "⿱奴车"
+ },
+ "ext_d_g_withdrawals:08261": {
+  "c": "known",
+  "ids": "⿰车曹",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%BD%A6%E6%9B%B9",
+  "judged": "⿰车曹"
+ },
+ "ext_d_g_withdrawals:08292": {
+  "c": "known",
+  "ids": "⿺辶八",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E5%85%AB",
+  "judged": "⿺辶八"
+ },
+ "ext_d_g_withdrawals:08301": {
+  "c": "known",
+  "ids": "⿺辶欠",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E6%AC%A0",
+  "judged": "⿺辶欠"
+ },
+ "ext_d_g_withdrawals:08303": {
+  "c": "known",
+  "ids": "⿺辶田",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E7%94%B0",
+  "judged": "⿺辶田"
+ },
+ "ext_d_g_withdrawals:08307": {
+  "c": "known",
+  "ids": "⿺辶玄",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E7%8E%84",
+  "judged": "⿺辶玄"
+ },
+ "ext_d_g_withdrawals:08341": {
+  "c": "known",
+  "ids": "⿺辶苗",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E8%8B%97",
+  "judged": "⿺辶苗"
+ },
+ "ext_d_g_withdrawals:08361": {
+  "c": "known",
+  "ids": "⿺辶⿸𲟁女",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%BA%E8%BE%B6%E2%BF%B8%F0%B2%9F%81%E5%A5%B3",
+  "judged": "⿺辶⿸广⿱廿女"
+ },
+ "ext_d_g_withdrawals:08445": {
+  "c": "known",
+  "ids": "⿰考阝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%80%83%E9%98%9D",
+  "judged": "⿰考阝"
+ },
+ "ext_d_g_withdrawals:08481": {
+  "c": "known",
+  "ids": "⿰⿱吅王阝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E2%BF%B1%E5%90%85%E7%8E%8B%E9%98%9D",
+  "judged": "⿰⿱吅王阝"
+ },
+ "ext_d_g_withdrawals:08482": {
+  "c": "known",
+  "ids": "⿰⿱丿⿹⿴#(-𠃌㇉)丶米阝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E2%BF%B1%E4%B8%BF%E2%BF%B9%E2%BF%B4%23%28-%F0%A0%83%8C%E3%87%89%29%E4%B8%B6%E7%B1%B3%E9%98%9D",
+  "judged": "⿰枭阝"
+ },
+ "ext_d_g_withdrawals:08505": {
   "c": "custom",
   "ids": "⿲⿿虎虎阝",
-  "at": "2026-11-12T16:22:25.957Z"
+  "at": "2026-11-12T16:22:25.957Z",
+  "judged": "⿰⿱⿰𠃊虎虎阝"
  },
- "irg-ext-e-04253": {
+ "ext_d_g_withdrawals:08807": {
+  "c": "known",
+  "ids": "⿰钅言",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%92%85%E8%A8%80",
+  "judged": "⿰钅言"
+ },
+ "ext_d_g_withdrawals:08815": {
+  "c": "known",
+  "ids": "⿰钅豖",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%92%85%E8%B1%96",
+  "judged": "⿰钅豖"
+ },
+ "ext_d_g_withdrawals:08975": {
+  "c": "known",
+  "ids": "⿵门十",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%8D%81",
+  "judged": "⿵门十"
+ },
+ "ext_d_g_withdrawals:08976": {
+  "c": "known",
+  "ids": "⿵门七",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E4%B8%83",
+  "judged": "⿵门七"
+ },
+ "ext_d_g_withdrawals:08982": {
+  "c": "known",
+  "ids": "⿵门切",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%88%87",
+  "judged": "⿵门切"
+ },
+ "ext_d_g_withdrawals:08986": {
+  "c": "known",
+  "ids": "⿱夭门",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%A4%AD%E9%97%A8",
+  "judged": "⿱夭门"
+ },
+ "ext_d_g_withdrawals:08991": {
+  "c": "known",
+  "ids": "⿵门孔",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%AD%94",
+  "judged": "⿵门孔"
+ },
+ "ext_d_g_withdrawals:08992": {
+  "c": "known",
+  "ids": "⿵门正",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E6%AD%A3",
+  "judged": "⿵门正"
+ },
+ "ext_d_g_withdrawals:08993": {
+  "c": "known",
+  "ids": "⿵门未",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E6%9C%AA",
+  "judged": "⿵门未"
+ },
+ "ext_d_g_withdrawals:08998": {
+  "c": "known",
+  "ids": "⿵门处",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%A4%84",
+  "judged": "⿵门处"
+ },
+ "ext_d_g_withdrawals:09010": {
+  "c": "known",
+  "ids": "⿵门次",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E6%AC%A1",
+  "judged": "⿵门次"
+ },
+ "ext_d_g_withdrawals:09011": {
+  "c": "known",
+  "ids": "⿵门决",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%86%B3",
+  "judged": "⿵门决"
+ },
+ "ext_d_g_withdrawals:09032": {
+  "c": "known",
+  "ids": "⿵门奕",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E5%A5%95",
+  "judged": "⿵门奕"
+ },
+ "ext_d_g_withdrawals:09036": {
+  "c": "known",
+  "ids": "⿵门栾",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E6%A0%BE",
+  "judged": "⿵门栾"
+ },
+ "ext_d_g_withdrawals:09038": {
+  "c": "known",
+  "ids": "⿵门麻",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E9%BA%BB",
+  "judged": "⿵门麻"
+ },
+ "ext_d_g_withdrawals:09039": {
+  "c": "known",
+  "ids": "⿵门犇",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B5%E9%97%A8%E7%8A%87",
+  "judged": "⿵门犇"
+ },
+ "ext_d_g_withdrawals:09056": {
+  "c": "known",
+  "ids": "⿰阝合",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%98%9D%E5%90%88",
+  "judged": "⿰阝合"
+ },
+ "ext_d_g_withdrawals:09078": {
+  "c": "known",
+  "ids": "⿰阝⿱少鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%98%9D%E2%BF%B1%E5%B0%91%E9%B8%9F",
+  "judged": "⿰阝⿱少鸟"
+ },
+ "ext_d_g_withdrawals:09091": {
+  "c": "known",
+  "ids": "⿰阝莫",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%98%9D%E8%8E%AB",
+  "judged": "⿰阝莫"
+ },
+ "ext_d_g_withdrawals:09115": {
+  "c": "known",
+  "ids": "⿰阝瞿",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%98%9D%E7%9E%BF",
+  "judged": "⿰阝瞿"
+ },
+ "ext_d_g_withdrawals:09126": {
+  "c": "c1",
+  "ids": "⿰⿱巛幺隹",
+  "at": "2026-11-15T08:11:53.514Z",
+  "judged": "⿰𡿪隹"
+ },
+ "ext_d_g_withdrawals:09143": {
+  "c": "known",
+  "ids": "⿱雨本",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%9B%A8%E6%9C%AC",
+  "judged": "⿱雨本"
+ },
+ "ext_d_g_withdrawals:09144": {
+  "c": "known",
+  "ids": "⿱雨布",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%9B%A8%E5%B8%83",
+  "judged": "⿱雨布"
+ },
+ "ext_d_g_withdrawals:09174": {
+  "c": "known",
+  "ids": "⿱雨⿴行目",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%9B%A8%E2%BF%B4%E8%A1%8C%E7%9B%AE",
+  "judged": "⿱雨行"
+ },
+ "ext_d_g_withdrawals:09194": {
+  "c": "known",
+  "ids": "⿰与青",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E4%B8%8E%E9%9D%92",
+  "judged": "⿰与青"
+ },
+ "ext_d_g_withdrawals:09197": {
+  "c": "known",
+  "ids": "⿰青皮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%9D%92%E7%9A%AE",
+  "judged": "⿰青皮"
+ },
+ "ext_d_g_withdrawals:09198": {
+  "c": "known",
+  "ids": "⿰青疋",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%9D%92%E7%96%8B",
+  "judged": "⿰青疋"
+ },
+ "ext_d_g_withdrawals:09329": {
+  "c": "known",
+  "ids": "⿰⿱ス口页",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E2%BF%B1%E3%82%B9%E5%8F%A3%E9%A1%B5",
+  "judged": "⿰呑页"
+ },
+ "ext_d_g_withdrawals:09344": {
+  "c": "known",
+  "ids": "⿰束页",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%9D%9F%E9%A1%B5",
+  "judged": "⿰束页"
+ },
+ "ext_d_g_withdrawals:09345": {
+  "c": "known",
+  "ids": "⿱不顺",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E4%B8%8D%E9%A1%BA",
+  "judged": "⿱不顺"
+ },
+ "ext_d_g_withdrawals:09361": {
+  "c": "known",
+  "ids": "⿰⿸广另页",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E2%BF%B8%E5%B9%BF%E5%8F%A6%E9%A1%B5",
+  "judged": "⿰房页"
+ },
+ "ext_d_g_withdrawals:09566": {
+  "c": "custom",
+  "ids": "⿹&X-00051;中",
+  "at": "2026-11-13T21:41:42.231Z",
+  "judged": "⿻𫠉口"
+ },
+ "ext_d_g_withdrawals:09596": {
+  "c": "known",
+  "ids": "⿰马叉",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%A9%AC%E5%8F%89",
+  "judged": "⿰马叉"
+ },
+ "ext_d_g_withdrawals:09635": {
+  "c": "known",
+  "ids": "⿱应马",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%BA%94%E9%A9%AC",
+  "judged": "⿱应马"
+ },
+ "ext_d_g_withdrawals:09666": {
+  "c": "known",
+  "ids": "⿰马祭",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%A9%AC%E7%A5%AD",
+  "judged": "⿰马祭"
+ },
+ "ext_d_g_withdrawals:09924": {
+  "c": "known",
+  "ids": "⿰鱼团",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E5%9B%A2",
+  "judged": "⿰鱼团"
+ },
+ "ext_d_g_withdrawals:09938": {
+  "c": "known",
+  "ids": "⿰鱼孝",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E5%AD%9D",
+  "judged": "⿰鱼孝"
+ },
+ "ext_d_g_withdrawals:09947": {
+  "c": "known",
+  "ids": "⿰鱼利",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E5%88%A9",
+  "judged": "⿰鱼利"
+ },
+ "ext_d_g_withdrawals:09964": {
+  "c": "known",
+  "ids": "⿰鱼知",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E7%9F%A5",
+  "judged": "⿰鱼知"
+ },
+ "ext_d_g_withdrawals:09999": {
+  "c": "known",
+  "ids": "⿰鱼荅",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E8%8D%85",
+  "judged": "⿰鱼荅"
+ },
+ "ext_d_g_withdrawals:10003": {
+  "c": "known",
+  "ids": "⿰鱼桀",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E6%A1%80",
+  "judged": "⿰鱼桀"
+ },
+ "ext_d_g_withdrawals:10032": {
+  "c": "known",
+  "ids": "⿰鱼逮",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E9%80%AE",
+  "judged": "⿰鱼逮"
+ },
+ "ext_d_g_withdrawals:10048": {
+  "c": "known",
+  "ids": "⿰鱼襄",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E9%B1%BC%E8%A5%84",
+  "judged": "⿰鱼襄"
+ },
+ "ext_d_g_withdrawals:10144": {
+  "c": "known",
+  "ids": "⿱鸟卜",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%B8%9F%E5%8D%9C",
+  "judged": "⿳㇒鸟下"
+ },
+ "ext_d_g_withdrawals:10153": {
+  "c": "known",
+  "ids": "⿰少鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%B0%91%E9%B8%9F",
+  "judged": "⿰少鸟"
+ },
+ "ext_d_g_withdrawals:10165": {
+  "c": "custom",
+  "ids": "⿹&X-00053;甲",
+  "at": "2026-11-13T19:56:03.364Z",
+  "judged": "⿳㇒凡甲"
+ },
+ "ext_d_g_withdrawals:10183": {
+  "c": "known",
+  "ids": "⿰臣鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%87%A3%E9%B8%9F",
+  "judged": "⿰臣鸟"
+ },
+ "ext_d_g_withdrawals:10196": {
+  "c": "known",
+  "ids": "⿰缶鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%BC%B6%E9%B8%9F",
+  "judged": "⿰缶鸟"
+ },
+ "ext_d_g_withdrawals:10209": {
+  "c": "known",
+  "ids": "⿰赤鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%B5%A4%E9%B8%9F",
+  "judged": "⿰赤鸟"
+ },
+ "ext_d_g_withdrawals:10224": {
+  "c": "known",
+  "ids": "⿱应鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E5%BA%94%E9%B8%9F",
+  "judged": "⿱应鸟"
+ },
+ "ext_d_g_withdrawals:10231": {
+  "c": "known",
+  "ids": "⿰厓鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E5%8E%93%E9%B8%9F",
+  "judged": "⿰厓鸟"
+ },
+ "ext_d_g_withdrawals:10260": {
+  "c": "known",
+  "ids": "⿰胃鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E8%83%83%E9%B8%9F",
+  "judged": "⿰胃鸟"
+ },
+ "ext_d_g_withdrawals:10288": {
+  "c": "custom",
+  "ids": "⿰柬鸠",
+  "at": "2026-11-14T13:09:45.148Z",
+  "judged": "⿰柬鳩"
+ },
+ "ext_d_g_withdrawals:10296": {
+  "c": "known",
+  "ids": "⿰窑鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E7%AA%91%E9%B8%9F",
+  "judged": "⿰窑鸟"
+ },
+ "ext_d_g_withdrawals:10302": {
+  "c": "known",
+  "ids": "⿰斑鸟",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B0%E6%96%91%E9%B8%9F",
+  "judged": "⿰斑鸟"
+ },
+ "ext_d_g_withdrawals:10513": {
+  "c": "known",
+  "ids": "⿱龙井",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%BE%99%E4%BA%95",
+  "judged": "⿱龙井"
+ },
+ "ext_d_g_withdrawals:10514": {
+  "c": "known",
+  "ids": "⿱龙光",
+  "at": "2026-11-15T08:19:33.086Z",
+  "by": "zi.tools",
+  "page": "https://zi.tools/zi/%E2%BF%B1%E9%BE%99%E5%85%89",
+  "judged": "⿱龙光"
+ },
+ "ext_d_removals:06807": {
+  "c": "c0",
+  "ids": "⿰女助",
+  "at": "2026-11-13T21:29:57.516Z",
+  "judged": "⿰女助"
+ },
+ "ext_d_removals:17470": {
+  "c": "custom",
+  "ids": "⿰肉⿱⿰⿱幺八助⿺几力",
+  "at": "2026-11-13T21:27:03.023Z",
+  "judged": "⿰肉⿱鄉⿺几力"
+ },
+ "ext_d_removals:18265": {
+  "c": "c2",
+  "ids": "⿱艹𧙿",
+  "at": "2026-11-14T13:07:24.978Z",
+  "judged": "⿱艹𥑴"
+ },
+ "ext_d_removals:18269": {
+  "c": "custom",
+  "ids": "⿱茨皿",
+  "at": "2026-11-14T13:27:27.903Z",
+  "judged": "⿱茨𦉫"
+ },
+ "ext_d_removals:18470": {
+  "c": "custom",
+  "ids": "⿱⿱艹㳅見",
+  "at": "2026-11-14T13:09:22.148Z",
+  "judged": "⿱蒤見"
+ },
+ "ext_d_removals:18636": {
+  "c": "custom",
+  "ids": "⿱艹⿳⿲示貝貝⿰夕隹心",
+  "at": "2026-11-12T16:25:04.671Z",
+  "judged": "⿱艹慰"
+ },
+ "ext_d_removals:18979": {
+  "c": "custom",
+  "ids": "⿰虫⿱⿲𰀪言彡⿼叉丶",
+  "at": "2026-11-15T08:15:32.893Z",
+  "judged": "⿰虫⿱⿲㇒言彡又"
+ },
+ "ext_d_removals:22235": {
+  "c": "custom",
+  "ids": "⿱䨺龘",
+  "at": "2026-11-13T19:56:33.725Z",
+  "judged": "⿱龖龖"
+ },
+ "ext_d_removals:23410": {
+  "c": "custom",
+  "ids": "⿰魚卿",
+  "at": "2026-11-13T13:38:17.404Z",
+  "judged": "⿰魝即"
+ },
+ "ext_d_removals:23855": {
+  "c": "custom",
+  "ids": "⿱⿰口歲鳥",
+  "at": "2026-11-13T20:01:37.628Z",
+  "judged": "⿱翽鳥"
+ },
+ "ext_d_removals:23858": {
+  "c": "c2",
+  "ids": "⿰⿱桃花鳥",
+  "at": "2026-11-13T21:27:07.719Z",
+  "judged": "⿰想鳥"
+ },
+ "ext_e_withdrawal_records:04253": {
   "c": "custom",
   "ids": "⿰⿸尸⿱工𧘇殳",
-  "at": "2026-11-13T13:36:08.909Z"
+  "at": "2026-11-13T13:36:08.909Z",
+  "judged": "⿰𡱁殳"
+ },
+ "ext_e_withdrawal_records:07170": {
+  "c": "custom",
+  "ids": "⿱艹鲍",
+  "at": "2026-11-15T08:15:58.852Z",
+  "judged": "⿱艹㚿"
+ },
+ "ext_f_jmj_withdrawals:01857": {
+  "c": "custom",
+  "ids": "⿲宀&X-00014;口",
+  "at": "2026-11-14T13:21:09.488Z",
+  "judged": "⿱宀𠮛"
+ },
+ "ext_f_sat_withdrawals:427": {
+  "c": "custom",
+  "ids": "⿰亻⿳宀⿲幺白幺丁",
+  "at": "2026-11-14T08:59:20.612Z",
+  "judged": "⿰亻藥"
+ },
+ "ext_f_sat_withdrawals:7699": {
+  "c": "custom",
+  "ids": "⿵門⿱日卭",
+  "at": "2026-11-15T08:12:13.714Z",
+  "judged": "⿵門昂"
+ },
+ "glyphwiki_ebag:ebag_kxr-01535": {
+  "c": "custom",
+  "ids": "⿰阝⿱巛⿻臼木",
+  "judged": "⿰阝⿱𢆶⿻臼木",
+  "at": "2026-11-15T08:08:19.621Z"
+ },
+ "glyphwiki_ebag:ebag_s040-144": {
+  "c": "c0",
+  "ids": "⿱宀𦙚",
+  "judged": "⿱宀𦙚",
+  "at": "2026-11-15T08:08:19.621Z"
+ },
+ "glyphwiki_ebag:ebag_s070-036": {
+  "c": "custom",
+  "ids": "⿰方⿱𠂉煬",
+  "judged": "⿰方⿱𠂉𰥓",
+  "at": "2026-11-15T08:08:19.621Z"
+ },
+ "glyphwiki_ebag:ebag_s077-313": {
+  "c": "custom",
+  "ids": "⿱⿰弓口止",
+  "judged": "⿱⿻弓口止",
+  "at": "2026-11-15T08:08:19.621Z"
+ },
+ "glyphwiki_ebag:ebag_s104-125": {
+  "c": "c0",
+  "ids": "⿸疒唯",
+  "judged": "⿸疒唯",
+  "at": "2026-11-15T08:08:19.621Z"
  }
 }
