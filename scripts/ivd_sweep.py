@@ -16,41 +16,11 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-SIZE, MARGIN = 224, 12
-LINE = re.compile(r"^([0-9A-F]+) (E01[0-9A-F]{2}); ([^;]+); (.+)$")
-
-
-def registrations(path: Path) -> dict[tuple[int, int], list[list[str]]]:
-    pairs: dict[tuple[int, int], list[list[str]]] = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
-        match = LINE.match(line)
-        if match:
-            pairs.setdefault((int(match.group(1), 16), int(match.group(2), 16)), []).append(
-                [match.group(3).strip(), match.group(4).strip()])
-    return pairs
-
-
-def frame(font, text: str):
-    """The text's ink centred on white with the clean track's margin, or None when nothing is drawn."""
-    from PIL import Image, ImageDraw, ImageOps
-    canvas = Image.new("L", (448, 448), 255)
-    ImageDraw.Draw(canvas).text((224, 300), text, font=font, fill=0, anchor="ms")
-    box = ImageOps.invert(canvas).getbbox()
-    if not box:
-        return None
-    part = canvas.crop(box)
-    scale = (SIZE - 2 * MARGIN) / max(part.size)
-    part = part.resize((max(1, round(part.width * scale)), max(1, round(part.height * scale))), Image.Resampling.LANCZOS)
-    out = Image.new("L", (SIZE, SIZE), 255)
-    out.paste(part, ((SIZE - part.width) // 2, (SIZE - part.height) // 2))
-    return out
-
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -67,6 +37,7 @@ def main(argv=None) -> int:
     from han2ids.forms import unify
     from han2ids.grammar import generate
     from han2ids.infer import Han2IDS, tensor
+    from han2ids.variants import SIZE, frame, registrations
 
     registered = registrations(args.sequences)
     reader = Han2IDS(args.checkpoint)

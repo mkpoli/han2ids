@@ -21,5 +21,9 @@ The benchmark evaluator's assigned-character ranges are derived from Unicode 17.
 `UnicodeData.txt`, © 1991–2026 Unicode, Inc., under the Unicode License v3; see
 `LICENSES/Unicode-License-v3.txt`.
 
+The variant matcher reads `IVD_Sequences.txt` of the Unicode Ideographic Variation Database and
+`StandardizedVariants.txt` of the Unicode Character Database, © Unicode, Inc., under the Unicode
+License v3. Neither file is bundled; `docs/variant-match.md` gives their editions and hashes.
+
 The model weights are derived from renders of the fonts above. Check the font terms before
 redistributing weights or generated data.
