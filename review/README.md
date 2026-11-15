@@ -61,8 +61,18 @@ N891 glyphs found only in zi.tools' private index stay unlinked.
 
 ## Answers
 
-`data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `known` for the IDS of the encoded character or zi.tools page, `c0`, `c1` or `c2` for a kept
-suggestion, `label`, `model` or `both`, `custom` for a written sequence, or `skip`.
+`data/review/answers.json` maps each glyph's han-input key to an answer. The key is the record file's `id` and
+the record's serial, else its source (`ext_d_removals:00225`, `glyphwiki_ebag:ebag_h0001`); a benchmark item is
+`han2ids-clean:<sample_id>`. An answer is `{c, ids, judged, at}`, plus `by` and `page` when `c` is `known`:
+
+- `c`: `known` (the IDS of the encoded character, `by: "babelstone"` with the character as `page`, or of the
+  zi.tools page, `by: "zi.tools"` with its URL), `c0`, `c1` or `c2` for a kept suggestion, `label`, `model` or
+  `both` on the benchmark deck, `custom` for a written sequence, `wrong` when the reading is wrong and no fix is
+  written, or `skip`;
+- `ids`: the sequence, empty for `wrong` and `skip`;
+- `judged`: the model reading the desk showed (the top beam reading), whatever the answer.
+
+ids-input imports the file as open data (`bun scripts/import_glyph_ids.mjs <answers.json>` there).
 
 A zi.tools sequence counts as right. `uv run python review/prepare.py accept-zi` answers every proposal glyph
 that has one as `known`, with `by: "zi.tools"` and its `page`, leaving answered glyphs as they are; the desk

@@ -52,13 +52,15 @@
   async function save(id, value) {
     pending += 1
     try {
-      const response = await fetch(`/api/answers/${id}`, { method: 'PUT', body: JSON.stringify(value) })
+      const response = await fetch(`/api/answers/${encodeURIComponent(id)}`, { method: 'PUT', body: JSON.stringify(value) })
       if (!response.ok) throw new Error(String(response.status))
       failed = false
     } catch { failed = true } finally { pending -= 1 }
   }
   function answer(c, ids) {
-    const value = { c, ids, at: new Date().toISOString() }
+    // The reading the desk showed goes with every verdict; a known IDS also says where it came from.
+    const source = c === 'known' ? (item.char ? { by: 'babelstone', page: item.char } : { by: 'zi.tools', page: `https://zi.tools/zi/${encodeURIComponent(item.zi)}` }) : {}
+    const value = { c, ids, judged: item.judged ?? '', at: new Date().toISOString(), ...source }
     answers[item.id] = value
     save(item.id, value)
     editing = false
@@ -100,6 +102,7 @@
     else if (event.key === 'ArrowRight') go(index[deck] + 1)
     else if (key === 'E') write()
     else if (key === 'X') answer('skip', '')
+    else if (key === 'W') answer('wrong', '')
     else {
       const option = options.find(o => o.key === key || (event.shiftKey && o.shift === event.code))
       if (!option) return
@@ -135,14 +138,14 @@
     <p class="meta">
       <span><b>{index[deck] + 1}</b> of {items.length}</span>
       <span><b>{done}</b> answered</span>
-      {#each [['known', 'known IDS'], ['suggested', 'suggestion kept'], ['label', 'label'], ['model', 'model'], ['both', 'both'], ['custom', 'written'], ['skip', "can't tell"]] as [kind, label]}
+      {#each [['known', 'known IDS'], ['suggested', 'suggestion kept'], ['label', 'label'], ['model', 'model'], ['both', 'both'], ['custom', 'written'], ['wrong', 'wrong'], ['skip', "can't tell"]] as [kind, label]}
         {#if tally[kind]}<span><b>{tally[kind]}</b> {label}</span>{/if}
       {/each}
     </p>
 
     <div class="work">
       <aside class="reference">
-        <img class="glyph" src={`/glyph/${deck}/${item.id}`} alt="Glyph under review">
+        <img class="glyph" src={`/glyph/${deck}/${encodeURIComponent(item.id)}`} alt="Glyph under review">
         <div class="chips">
           {#if deck === 'irg'}
             {#each [item.set, item.source, item.doc && `IRG${item.doc.toUpperCase()}`].filter(Boolean) as text}<span class="ui-chip">{text}</span>{/each}
@@ -191,6 +194,7 @@
               <span>{#if given?.c === 'custom'}<span class="who">Written</span><span class="ids" lang="zh-Hani">{given.ids}</span>{:else}Write IDS{/if}</span>
               <span class="note"></span>
             </button>
+            <button class="choice skip" aria-pressed={given?.c === 'wrong'} title="The reading is wrong; no fix written" onclick={() => answer('wrong', '')}><kbd>W</kbd><span>Wrong</span><span class="note"></span></button>
             <button class="choice skip" aria-pressed={given?.c === 'skip'} onclick={() => answer('skip', '')}><kbd>X</kbd><span>Can't tell</span><span class="note"></span></button>
           </div>
         </div>

@@ -148,12 +148,15 @@ def clean_ids(text: str) -> bool:
 def decks(args) -> int:
     from han2ids.labels import read as read_ids
     from han2ids.tree import normalise
-    sources = {}
+    sources, keys = {}, {}
     for path in args.charsets.glob("*_records.json"):
         body = json.loads(path.read_text(encoding="utf-8"))
         for row in body if isinstance(body, list) else body.get("records", []):
             if row.get("glyph"):
                 sources[row["glyph"]] = row
+                # han-input's key for a glyph: its record file's id, then its serial, else its source.
+                if isinstance(body, dict):
+                    keys[row["glyph"]] = f"{body['id']}:{row.get('serial') or row.get('source')}"
     later = encoded(args.unihan)
     known = read_ids(args.ids)
     positions = n891_positions(args.n891) if args.n891 else {}
@@ -170,9 +173,10 @@ def decks(args) -> int:
         page = pages.get(positions.get(re.sub(r"^G_", "", source).upper(), ""), "")
         if len(page) == 1 and not char:
             char = page
-        item = {"id": f"irg-{name}-{Path(file).stem}", "set": name, "source": source,
+        item = {"id": keys[row["glyph"]], "set": name, "source": source,
                 "doc": record.get("document", ""), "image": str(args.charsets / row["glyph"]),
-                "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]]}
+                "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]],
+                "judged": row["readings"][0]["ids"] if row["readings"] else ""}
         if char:
             item["char"] = char
             sequences = known.get(char, [])
@@ -199,7 +203,7 @@ def decks(args) -> int:
         reference = references[row["sample_id"]]
         text = row["candidates"][0]["text"] if row["candidates"] else ""
         if text and normalise(text) != normalise(reference["ids"]):
-            disagreements.append({"id": f"clean-{row['sample_id'][:16]}", "char": reference["char"], "font": reference["font"],
+            disagreements.append({"id": f"han2ids-clean:{row['sample_id']}", "judged": text, "char": reference["char"], "font": reference["font"],
                                   "label": reference["ids"], "model": text, "score": round(row["candidates"][0]["score"], 3),
                                   "image": str(args.dataset / images[row["sample_id"]])})
     random.Random(args.seed).shuffle(disagreements)

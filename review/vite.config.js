@@ -53,7 +53,7 @@ function desk() {
           return json(res, 200, Object.fromEntries(Object.entries(all).map(([name, items]) => [name, items.map(({ image, ...rest }) => rest)])))
         }
         // By item id, so an image always belongs to the item a page shows, whatever order the decks are rebuilt in.
-        const glyph = /^\/glyph\/([a-z]+)\/([A-Za-z0-9_.-]+)$/.exec(url.pathname)
+        const glyph = /^\/glyph\/([a-z]+)\/([A-Za-z0-9_.:-]+)$/.exec(decodeURIComponent(url.pathname))
         if (glyph) {
           const item = read()[glyph[1]]?.find(entry => entry.id === glyph[2])
           if (!item || !existsSync(item.image)) return json(res, 404, { error: 'No such glyph.' })
@@ -69,7 +69,7 @@ function desk() {
           return createReadStream(FONTS + font[1]).pipe(res)
         }
         if (url.pathname === '/api/answers' && req.method === 'GET') return json(res, 200, answers())
-        const one = /^\/api\/answers\/([A-Za-z0-9_.-]+)$/.exec(url.pathname)
+        const one = /^\/api\/answers\/([A-Za-z0-9_.:-]+)$/.exec(decodeURIComponent(url.pathname))
         if (one && req.method === 'PUT') {
           let body = ''
           req.on('data', chunk => { body += chunk })
@@ -78,7 +78,11 @@ function desk() {
               const value = JSON.parse(body)
               const all = answers()
               if (value === null) delete all[one[1]]
-              else all[one[1]] = { c: String(value.c), ids: String(value.ids ?? ''), at: String(value.at) }
+              else {
+                // An answer: the verdict, the sequence, the reading the desk showed, and for a known IDS where it came from.
+                all[one[1]] = { c: String(value.c), ids: String(value.ids ?? ''), judged: String(value.judged ?? ''), at: String(value.at),
+                  ...(value.by ? { by: String(value.by), page: String(value.page ?? '') } : {}) }
+              }
               const sorted = Object.fromEntries(Object.keys(all).sort().map(key => [key, all[key]]))
               mkdirSync(dirname(ANSWERS), { recursive: true })
               writeFileSync(`${ANSWERS}.tmp`, `${JSON.stringify(sorted, null, 1)}\n`)
