@@ -63,3 +63,7 @@ N891 glyphs found only in zi.tools' private index stay unlinked.
 
 `data/review/answers.json` maps an item id to `{c, ids, at}`. `c` is `known` for the IDS of the encoded character or zi.tools page, `c0`, `c1` or `c2` for a kept
 suggestion, `label`, `model` or `both`, `custom` for a written sequence, or `skip`.
+
+A zi.tools sequence counts as right. `uv run python review/prepare.py accept-zi` answers every proposal glyph
+that has one as `known`, with `by: "zi.tools"` and its `page`, leaving answered glyphs as they are; the desk
+then skips them. Glyphs whose only known IDS is BabelStone's stay in the queue.
