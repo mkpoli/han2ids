@@ -155,8 +155,14 @@ def decks(args) -> int:
             if row.get("glyph"):
                 sources[row["glyph"]] = row
                 # han-input's key for a glyph: its record file's id, then its serial, else its source.
-                if isinstance(body, dict):
-                    keys[row["glyph"]] = f"{body['id']}:{row.get('serial') or row.get('source')}"
+                name = body.get("id") if isinstance(body, dict) else None
+                serial = row.get("serial") or row.get("source")
+                if not name or not serial:
+                    raise SystemExit(f"{path.name}: {row['glyph']} has no han-input key (file id {name!r}, serial or source {serial!r})")
+                key = f"{name}:{serial}"
+                if key in keys.values():
+                    raise SystemExit(f"{path.name}: {key} names two glyphs")
+                keys[row["glyph"]] = key
     later = encoded(args.unihan)
     known = read_ids(args.ids)
     positions = n891_positions(args.n891) if args.n891 else {}
@@ -173,6 +179,8 @@ def decks(args) -> int:
         page = pages.get(positions.get(re.sub(r"^G_", "", source).upper(), ""), "")
         if len(page) == 1 and not char:
             char = page
+        if row["glyph"] not in keys:
+            raise SystemExit(f"{row['glyph']} has a reading but no han-input record")
         item = {"id": keys[row["glyph"]], "set": name, "source": source,
                 "doc": record.get("document", ""), "image": str(args.charsets / row["glyph"]),
                 "cands": [[reading["ids"], round(reading["score"], 3)] for reading in row["readings"]],
@@ -225,11 +233,12 @@ def accept_zi(args) -> int:
     added = 0
     for item in decks["irg"]:
         if item.get("zi") and item["id"] not in answers:
-            answers[item["id"]] = {"c": "known", "ids": item["zi"], "at": now, "by": "zi.tools",
+            answers[item["id"]] = {"c": "known", "ids": item["zi"], "judged": item.get("judged", ""), "at": now, "by": "zi.tools",
                                    "page": f"https://zi.tools/zi/{quote(item['zi'], safe='')}"}
             added += 1
     answers_path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = answers_path.with_suffix(".json.tmp")
+    # Its own temporary file, so a save from the running desk cannot replace this one mid-write.
+    temporary = answers_path.with_suffix(".json.accept-zi.tmp")
     temporary.write_text(json.dumps(dict(sorted(answers.items())), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     temporary.replace(answers_path)
     print(f"{answers_path}\t{added} answered from zi.tools, {len(answers)} answers in all")
