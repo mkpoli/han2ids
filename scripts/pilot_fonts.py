@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from han2ids.grammar import generate, valid_ids
 from han2ids.labels import base_labels
 from han2ids.model import GlyphIDS
-from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary
+from han2ids.tokenizer import BOS, EOS, PAD, UNK, Vocabulary, split as tokens_of
 
 SIZE = 224
 OPERATORS = set("⿰⿱⿲⿳⿴⿵⿶⿷⿸⿹⿺⿻⿼⿽⿾⿿〾㇯")
@@ -63,7 +63,7 @@ class PairData(Dataset):
     def __getitem__(self, index):
         array, i = self.items[index]
         x = torch.from_numpy(np.asarray(array[i]).copy()).float().div_(255).unsqueeze(0).repeat(3, 1, 1).sub_(0.5).div_(0.5)
-        ids = [BOS] + [self.stoi.get(ch, UNK) for ch in self.labels[i]] + [EOS]
+        ids = [BOS] + [self.stoi.get(ch, UNK) for ch in tokens_of(self.labels[i])] + [EOS]
         return x, torch.tensor(ids[:48], dtype=torch.long)
 
 
@@ -134,7 +134,7 @@ def main():
     labels_train = [table[char] for char in train]
     labels_val = [table[char] for char in val]
     labels_test = [table[char] for char in test]
-    vocab = Vocabulary.from_chars({ch for text in labels_train + labels_val + labels_test for ch in text})
+    vocab = Vocabulary.from_chars({ch for text in labels_train + labels_val + labels_test for ch in tokens_of(text)})
     train_arrays = [array("noto", train, "train"), array("jigmo", train, "train")]
     val_array = array("ipamj", val, "val")
     test_arrays = {name: array(name, test, "test") for name in ("noto", "jigmo", "ipamj")}
