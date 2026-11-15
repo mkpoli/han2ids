@@ -42,6 +42,20 @@ def test_sequences_of_different_collections_are_left_out(tmp_path):
     assert "葛" not in found["same"] and "葛" not in found["apart"] and "葛" not in found["within"]
 
 
+def test_a_shared_compatibility_ideograph_is_not_one_form(tmp_path):
+    shapes = rows(tmp_path, ("更", "Jigmo", {"a": ["Adobe-Japan1"], "U+F901": []}),
+                  ("更", "NotoSerifCJK-Regular", {"b": ["Adobe-Japan1"], "U+F901": []}))
+    assert all("更" not in found for kind, found in shapes.pairs(["更"]).items() if kind != "self")
+
+
+def test_sequences_a_third_drawing_joins_are_left_out(tmp_path):
+    shapes = rows(tmp_path, ("切", "ipamjm", {"a": ["Moji_Joho"]}), ("切", "ipamjm", {"b": ["Moji_Joho"]}),
+                  ("切", "Jigmo", {"a": ["Moji_Joho"], "b": ["Moji_Joho"]}))
+    found = shapes.pairs(["切"])
+    assert "切" not in found["within"] and "切" not in found["apart"]
+    assert found["same"] == {"切": [(0, 2), (1, 2)]}
+
+
 def test_a_drawing_without_a_sequence_gives_no_pair(tmp_path):
     shapes = rows(tmp_path, ("葛", "Jigmo", {}), ("葛", "ipamjm", {}))
     assert all("葛" not in found for found in shapes.pairs(["葛"]).values())
@@ -63,6 +77,7 @@ def test_characters_two_families_share_are_held_out_first(tmp_path, monkeypatch)
 def test_area_is_the_chance_one_form_scores_higher():
     assert train_pairs.area(np.array([0.9, 0.8]), np.array([0.1, 0.2])) == 1.0
     assert train_pairs.area(np.array([0.9, 0.1]), np.array([0.5, 0.5])) == 0.5
+    assert train_pairs.area(np.array([0.5, 0.5]), np.array([0.5])) == 0.5
 
 
 def test_augmenting_keeps_the_frame_and_the_range():
@@ -78,6 +93,7 @@ def test_the_score_does_not_depend_on_the_order():
     head = PairHead(8, (11,), patches=4, dim=16, layers=1, heads=2).eval()
     first, second = torch.randn(2, 4, 8), torch.randn(2, 4, 8)
     assert torch.allclose(head.score(first, second), head.score(second, first), atol=1e-6)
+    assert torch.allclose(head.score(first, second), torch.sigmoid(head.logit(first, second)))
 
 
 def test_a_saved_head_loads_with_its_settings(tmp_path):

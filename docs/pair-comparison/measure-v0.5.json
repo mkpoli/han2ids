@@ -1,8 +1,8 @@
 {
  "reader": "han2ids-v0.5.pt",
  "head": {
-  "step": 7000,
-  "area": 0.9836145851179259,
+  "step": 6000,
+  "area": 0.9836899399399399,
   "settings": {
    "width": 384,
    "taps": [
@@ -20,136 +20,136 @@
  "characters": 750,
  "scorers": {
   "head": {
-   "level": 0.0545,
+   "level": 0.0046,
    "queries": 2667,
-   "best_right": 2557,
-   "right_refused": 10,
+   "best_right": 2524,
+   "right_refused": 4,
    "others": {
     "all": [
      1400,
-     238
+     346
     ],
     "under 0.90": [
      220,
-     10
+     14
     ],
     "0.90 to 0.95": [
-     368,
-     36
+     369,
+     56
     ],
     "0.95 and over": [
-     812,
-     192
+     811,
+     276
     ]
    },
    "one_form": [
-    1341,
-    6
+    1334,
+    2
    ],
    "two_forms": [
     980,
-    133
+    205
    ],
-   "area": 0.978
+   "area": 0.9823
   },
   "cosine": {
-   "level": 0.9221,
+   "level": 0.9226,
    "queries": 2667,
-   "best_right": 2503,
-   "right_refused": 16,
+   "best_right": 2504,
+   "right_refused": 18,
    "others": {
     "all": [
      1400,
-     870
+     868
     ],
     "under 0.90": [
      220,
      1
     ],
     "0.90 to 0.95": [
-     368,
-     131
+     369,
+     129
     ],
     "0.95 and over": [
-     812,
+     811,
      738
     ]
    },
    "one_form": [
-    1341,
+    1334,
     9
    ],
    "two_forms": [
     980,
-    546
+    544
    ],
-   "area": 0.905
+   "area": 0.9056
   },
   "cosine at the floor": {
    "level": 0.93,
    "queries": 2667,
-   "best_right": 2503,
+   "best_right": 2504,
    "right_refused": 30,
    "others": {
     "all": [
      1400,
-     781
+     783
     ],
     "under 0.90": [
      220,
      1
     ],
     "0.90 to 0.95": [
-     368,
-     75
+     369,
+     77
     ],
     "0.95 and over": [
-     812,
+     811,
      705
     ]
    },
    "one_form": [
-    1341,
-    16
+    1334,
+    15
    ],
    "two_forms": [
     980,
-    485
+    486
    ],
-   "area": 0.905
+   "area": 0.9056
   },
   "head above the floor": {
-   "level": 0.0545,
+   "level": 0.0046,
    "queries": 2667,
-   "best_right": 2555,
-   "right_refused": 40,
+   "best_right": 2506,
+   "right_refused": 34,
    "others": {
     "all": [
      1400,
-     173
+     257
     ],
     "under 0.90": [
      220,
      0
     ],
     "0.90 to 0.95": [
-     368,
-     14
+     369,
+     23
     ],
     "0.95 and over": [
-     812,
-     159
+     811,
+     234
     ]
    },
    "one_form": [
-    1341,
-    22
+    1334,
+    17
    ],
    "two_forms": [
     980,
-    92
+    143
    ],
-   "area": 0.9715
+   "area": 0.9769
   }
  }
 }
