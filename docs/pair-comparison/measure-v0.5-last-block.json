@@ -1,8 +1,8 @@
 {
  "reader": "han2ids-v0.5.pt",
  "head": {
-  "step": 8000,
-  "area": 0.9477642624635944,
+  "step": 7500,
+  "area": 0.934009009009009,
   "settings": {
    "width": 384,
    "taps": [
@@ -18,136 +18,136 @@
  "characters": 750,
  "scorers": {
   "head": {
-   "level": 0.0186,
+   "level": 0.0207,
    "queries": 2667,
-   "best_right": 2473,
-   "right_refused": 26,
-   "others": {
-    "all": [
-     1400,
-     539
-    ],
-    "under 0.90": [
-     220,
-     50
-    ],
-    "0.90 to 0.95": [
-     368,
-     122
-    ],
-    "0.95 and over": [
-     812,
-     367
-    ]
-   },
-   "one_form": [
-    1341,
-    15
-   ],
-   "two_forms": [
-    980,
-    337
-   ],
-   "area": 0.9399
-  },
-  "cosine": {
-   "level": 0.9221,
-   "queries": 2667,
-   "best_right": 2503,
+   "best_right": 2433,
    "right_refused": 16,
    "others": {
     "all": [
      1400,
-     870
+     577
+    ],
+    "under 0.90": [
+     220,
+     52
+    ],
+    "0.90 to 0.95": [
+     369,
+     139
+    ],
+    "0.95 and over": [
+     811,
+     386
+    ]
+   },
+   "one_form": [
+    1334,
+    8
+   ],
+   "two_forms": [
+    980,
+    357
+   ],
+   "area": 0.9458
+  },
+  "cosine": {
+   "level": 0.9226,
+   "queries": 2667,
+   "best_right": 2504,
+   "right_refused": 18,
+   "others": {
+    "all": [
+     1400,
+     868
     ],
     "under 0.90": [
      220,
      1
     ],
     "0.90 to 0.95": [
-     368,
-     131
+     369,
+     129
     ],
     "0.95 and over": [
-     812,
+     811,
      738
     ]
    },
    "one_form": [
-    1341,
+    1334,
     9
    ],
    "two_forms": [
     980,
-    546
+    544
    ],
-   "area": 0.905
+   "area": 0.9056
   },
   "cosine at the floor": {
    "level": 0.93,
    "queries": 2667,
-   "best_right": 2503,
+   "best_right": 2504,
    "right_refused": 30,
    "others": {
     "all": [
      1400,
-     781
+     783
     ],
     "under 0.90": [
      220,
      1
     ],
     "0.90 to 0.95": [
-     368,
-     75
+     369,
+     77
     ],
     "0.95 and over": [
-     812,
+     811,
      705
     ]
    },
    "one_form": [
-    1341,
-    16
+    1334,
+    15
    ],
    "two_forms": [
     980,
-    485
+    486
    ],
-   "area": 0.905
+   "area": 0.9056
   },
   "head above the floor": {
-   "level": 0.0186,
+   "level": 0.0207,
    "queries": 2667,
-   "best_right": 2484,
-   "right_refused": 54,
+   "best_right": 2444,
+   "right_refused": 46,
    "others": {
     "all": [
      1400,
-     348
+     365
     ],
     "under 0.90": [
      220,
      0
     ],
     "0.90 to 0.95": [
-     368,
-     38
+     369,
+     41
     ],
     "0.95 and over": [
-     812,
-     310
+     811,
+     324
     ]
    },
    "one_form": [
-    1341,
-    29
+    1334,
+    23
    ],
    "two_forms": [
     980,
-    191
+    205
    ],
-   "area": 0.9502
+   "area": 0.9535
   }
  }
 }
