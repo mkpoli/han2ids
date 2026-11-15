@@ -405,6 +405,12 @@ def measure(args) -> None:
             level = float(np.quantile([value(item["query"], other) for item in queries if half[item["char"]] == 0
                                        for other in item["others"] if right(item["query"], other)], 0.01))
         levels[name] = level
+
+        def best(item, value=value) -> bool:
+            """Whether the highest candidate is right; a query with every candidate under the floor has none."""
+            top = max(item["others"], key=lambda other: value(item["query"], other))
+            return value(item["query"], top) > -np.inf and right(item["query"], top)
+
         others = {key: [0, 0] for key in ("all", *BANDS)}
         for item in odd:
             if item["wrong"]:
@@ -416,8 +422,7 @@ def measure(args) -> None:
         two = np.array([value(*pair) for pair in apart if half[shapes.rows[pair[0]]["char"]] == 1])
         report["scorers"][name] = {
             "level": shown(level, column), "queries": len(odd),
-            "best_right": sum(right(item["query"], max(item["others"], key=lambda other: value(item["query"], other)))
-                              for item in odd),
+            "best_right": sum(best(item) for item in odd),
             "right_refused": sum(max(value(item["query"], other) for other in item["others"] if right(item["query"], other))
                                  < level for item in odd),
             "others": others,
