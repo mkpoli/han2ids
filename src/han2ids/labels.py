@@ -1,7 +1,9 @@
 """Read BabelStone IDS with its region tags.
 
 BabelStone lists one sequence per region set. `base_labels`, which training and scoring use, keeps
-the first usable sequence of each character whatever its region. `japanese_labels` prefers the
+the first usable sequence of each character whatever its region. A sequence that names a component
+with no code point ({53}) is kept only for a character that has no other, so no character that
+already had a label changes it. `japanese_labels` prefers the
 J-tagged sequence and is used only to audit regional variants. A small override file handles images
 the source cannot describe (for example a Japanese 崢 drawn with 争).
 """
@@ -22,8 +24,17 @@ class Sequence:
     regions: str
 
 
+UNREADABLE = ("&", "？", "?", "[", " ")
+
+
 def usable(text: str) -> bool:
-    return bool(text) and text[0] in OPERATORS and not any(token in text for token in ("{", "&", "？", "?", "[", " "))
+    """A sequence led by an operator and written with encoded components only."""
+    return bool(text) and text[0] in OPERATORS and "{" not in text and not any(token in text for token in UNREADABLE)
+
+
+def unencoded(text: str) -> bool:
+    """A sequence whose only obstacle is a component no code point names, written {53}."""
+    return bool(text) and text[0] in OPERATORS and "{" in text and not any(token in text for token in UNREADABLE)
 
 
 def read(path: Path) -> dict[str, list[Sequence]]:
@@ -34,10 +45,9 @@ def read(path: Path) -> dict[str, list[Sequence]]:
             if not match:
                 continue
             char, rest = match.group(2), match.group(3)
-            sequences = []
-            for text, regions in SEQUENCE.findall(rest):
-                if usable(text):
-                    sequences.append(Sequence(text, regions or ""))
+            found = [Sequence(text, regions or "") for text, regions in SEQUENCE.findall(rest)]
+            sequences = [sequence for sequence in found if usable(sequence.text)]
+            sequences = sequences or [sequence for sequence in found if unencoded(sequence.text)]
             if sequences:
                 records[char] = sequences
     return records
