@@ -47,7 +47,7 @@ h1 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
 .choice .who { display: block; font-size: 11px; color: var(--ui-color-ink-muted); text-transform: uppercase; letter-spacing: .05em; }
 .choice > span:not(.note):not(.composed) { flex: 1; min-inline-size: 0; }
 .choice .note { font: 500 11px var(--ui-font-mono); color: var(--ui-color-ink-muted); }
-.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
 .skip { inline-size: auto; }
 .editor { display: flex; flex-direction: column; gap: 12px; padding: 14px; background: var(--ui-color-surface); border: 1px solid var(--ui-color-border); border-radius: 12px; }
 .workshop { inline-size: 100%; block-size: max(640px, 78vh); border: 1px solid var(--ui-color-border); border-radius: 10px; background: var(--ui-color-surface); }
