@@ -209,6 +209,29 @@ def decks(args) -> int:
     return 0
 
 
+def accept_zi(args) -> int:
+    """Answer every proposal glyph zi.tools has a sequence for: its zi.tools sequence counts as right.
+    A glyph already answered keeps its answer; the desk then skips the rest as answered."""
+    from datetime import datetime, timezone
+    from urllib.parse import quote
+    answers_path = ROOT / "data" / "review" / "answers.json"
+    answers = json.loads(answers_path.read_text(encoding="utf-8")) if answers_path.exists() else {}
+    decks = json.loads((OUT / "decks.json").read_text(encoding="utf-8"))
+    now = datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    added = 0
+    for item in decks["irg"]:
+        if item.get("zi") and item["id"] not in answers:
+            answers[item["id"]] = {"c": "known", "ids": item["zi"], "at": now, "by": "zi.tools",
+                                   "page": f"https://zi.tools/zi/{quote(item['zi'], safe='')}"}
+            added += 1
+    answers_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = answers_path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(dict(sorted(answers.items())), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    temporary.replace(answers_path)
+    print(f"{answers_path}\t{added} answered from zi.tools, {len(answers)} answers in all")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -226,6 +249,8 @@ def main(argv=None) -> int:
     two.add_argument("--ids", type=Path, default=ROOT / "data" / "IDS.TXT", help="BabelStone IDS")
     two.add_argument("--seed", type=int, default=20261113)
     two.set_defaults(handler=decks)
+    three = commands.add_parser("accept-zi", help="answer every proposal glyph with a zi.tools sequence as known")
+    three.set_defaults(handler=accept_zi)
     args = parser.parse_args(argv)
     return args.handler(args)
 
