@@ -28,7 +28,7 @@ def _gray(image: Image.Image) -> Image.Image:
         visible = alpha > 127
         if visible.any() and (alpha <= 127).any():
             lum = (0.299 * pixels[:, :, 0] + 0.587 * pixels[:, :, 1] + 0.114 * pixels[:, :, 2])[visible]
-            if float(np.median(lum)) > 127:
+            if float(lum.min()) > 127:
                 pixels = pixels.copy()
                 pixels[:, :, :3] = 255 - pixels[:, :, :3]
                 rgba = Image.fromarray(pixels, mode="RGBA")
@@ -45,7 +45,7 @@ def _gray(image: Image.Image) -> Image.Image:
                         array[d:h - d, d], array[d:h - d, w - 1 - d]])
         for d in rings
     ])
-    if float(np.median(border)) < 127:
+    if float(np.median(border)) < 127 and float(array.mean()) < 127:
         image = ImageOps.invert(image)
     return image
 

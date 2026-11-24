@@ -57,11 +57,21 @@ def test_gray_preserves_white_glyph_on_transparent_background():
     assert result[0, 0] == 255 and result[20, 20] == 0
 
 
-def test_gray_keeps_tight_cropped_box_outline():
-    image = Image.new("L", (16, 16), 255)
-    ImageDraw.Draw(image).rectangle((0, 0, 15, 15), outline=0)
+def test_gray_preserves_white_card_with_black_glyph_on_transparent():
+    image = Image.new("RGBA", (100, 100), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(image)
+    draw.rectangle((10, 10, 89, 89), fill=(255, 255, 255, 255))
+    draw.rectangle((40, 40, 59, 59), fill=(0, 0, 0, 255))
     result = np.asarray(_gray(image))
-    assert result[0, 0] == 0 and result[8, 8] == 255
+    assert result[0, 0] == 255 and result[20, 20] == 255 and result[50, 50] == 0
+
+
+def test_gray_keeps_tight_cropped_box_outline():
+    for width in (1, 2):
+        image = Image.new("L", (16, 16), 255)
+        ImageDraw.Draw(image).rectangle((0, 0, 15, 15), outline=0, width=width)
+        result = np.asarray(_gray(image))
+        assert result[0, 0] == 0 and result[8, 8] == 255
 
 
 def test_gray_handles_empty_image_and_none_transparency():
