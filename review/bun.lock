@@ -6,7 +6,7 @@
       "name": "han2ids-review",
       "dependencies": {
         "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c",
-        "ids-input": "github:mkpoli/ids-input#28bade6452cc82d694fd560cec87ae1b788c65e0",
+        "ids-input": "github:mkpoli/ids-input#e46a6d7560193e42a0cd063fd1bc1fffa3fb8adc",
       },
       "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^7.0.0",
@@ -116,7 +116,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "ids-input": ["ids-input@github:mkpoli/ids-input#28bade6", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-28bade6", "sha512-/5qZFfnqb+oN4mszzqOr8kwxzg7OnqRqR/Tq9eOefeRNkh5xrloia5WLnSXYpCmtVac5bFgEckTi2V+oOKLe1Q=="],
+    "ids-input": ["ids-input@github:mkpoli/ids-input#e46a6d7", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-e46a6d7", "sha512-5W5UFkkMw4d0xqPO+E6lTQXFi8psHzqWXY9PcOAmCKbwJr52XcP1CdTYyWy8S0RYls291D2paP/P9ijs6FNq8Q=="],
 
     "internmap": ["internmap@2.0.3", "", {}, "sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg=="],
 
