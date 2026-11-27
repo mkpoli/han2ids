@@ -133,8 +133,11 @@ class HanAdapter:
                     for i, text in enumerate(self.reader.vocab.decode(row.tolist()) for row in tokens)]
         results = []
         for image in images:
-            readings = ([self.reader.read(image, tta=self.tta)] if self.decode == "greedy"
-                        else self.reader.read_topk(image, k=5, tta=self.tta))
+            if self.decode == "greedy":
+                method = getattr(self.reader, "read_greedy", self.reader.read)
+                readings = [method(image, tta=self.tta)]
+            else:
+                readings = self.reader.read_topk(image, k=5, tta=self.tta)
             results.append([{"text": self.unify(x.ids), "score": float(x.confidence),
                              "variant": x.variant, "valid": bool(x.valid)} for x in readings])
         return results

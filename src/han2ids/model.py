@@ -32,14 +32,19 @@ class GlyphIDS(nn.Module):
         nn.init.zeros_(self.head.bias)
         self.d_model, self.max_len = d_model, max_len
 
-    def forward(self, images: torch.Tensor, tokens: torch.Tensor) -> torch.Tensor:
+    def encode(self, images: torch.Tensor) -> torch.Tensor:
         memory = self.encoder.forward_features(images)
         if memory.dim() == 4:
             memory = memory.flatten(2).transpose(1, 2)
-        memory = self.memory_proj(memory)
+        return self.memory_proj(memory)
+
+    def decode(self, memory: torch.Tensor, tokens: torch.Tensor) -> torch.Tensor:
         length = tokens.size(1)
         target = self.tok(tokens) * math.sqrt(self.d_model)
         target = target + self.pos(torch.arange(length, device=tokens.device))[None]
-        causal = torch.triu(torch.full((length, length), float("-inf"), device=tokens.device), 1)
+        causal = torch.triu(torch.ones((length, length), dtype=torch.bool, device=tokens.device), 1)
         out = self.decoder(target, memory, tgt_mask=causal, tgt_key_padding_mask=tokens.eq(0))
         return self.head(out)
+
+    def forward(self, images: torch.Tensor, tokens: torch.Tensor) -> torch.Tensor:
+        return self.decode(self.encode(images), tokens)
