@@ -12,10 +12,7 @@
     "vite": "^8.0.7"
   },
   "dependencies": {
-    "@han-compose/composer": "file:../build/review/han-compose",
-    "ids-input": "github:mkpoli/ids-input#9101aef9"
-  },
-  "overrides": {
-    "@han-compose/composer": "file:../build/review/han-compose"
+    "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c",
+    "ids-input": "github:mkpoli/ids-input#21089261138ceef2e836d448875fe2366c95d029"
   }
 }

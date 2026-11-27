@@ -7,9 +7,8 @@ is kept with one key, or a sequence is written in the IDS Workshop's editor
 
 ```sh
 uv run python scripts/fetch_fonts.py   # once: Jigmo, which draws the sequences
-mkdir -p build/review && ln -sfn <han-compose checkout>/js build/review/han-compose
 cd review
-bun install
+bun install --frozen-lockfile
 bun run dev        # http://localhost:8430
 ```
 
@@ -22,15 +21,13 @@ bun run dev        # http://localhost:8430
 the serif export the IDS Workshop publishes, and **Edit** (or Shift with the option's key) opens the
 editor on that option; the editor draws the sequence as it is written.
 
-han-compose's composer is not on npm. ids-input reads it from a han-compose checkout at the commit its
-`.github/actions/composer/action.yml` pins, and so does the desk: `build/review/han-compose` links to that
-checkout's `js/` folder, built with `bun install && bun run data && bun run types`.
-
 ## The editor
+
+Select a 率 component in the IDS tree and open its form menu to choose the center and side dots. Save the chosen spelling with **Use this form** in the inline editor or **Use this IDS** in the full workshop.
 
 With a build of the [IDS Workshop](https://ids.mkpo.li/) at `build/review/workshop/` (or the folder
 named by `IDS_WORKSHOP`), **Edit** opens the Workshop's editor page (`editor.html`: one sequence, no
-tabs or site menus) beside the glyph, and the page posts each change back to the desk. The build is
+tabs or site menus) beside the glyph, and the page posts each change back to the desk. Build the Workshop from the ids-input revision pinned in `review/package.json` to use the same form choices. The build is
 ids-input's own `bunx vite build demo --outDir <folder>`, with its `ort/` folder copied in. Without
 one, the desk falls back to the smaller `IdsInput` component from the `ids-input` package.
 
