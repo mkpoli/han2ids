@@ -13,7 +13,7 @@
   import characters from 'ids-input/data/character-vocabulary.tsv.gz?url'
   import { preview } from './compose.js'
   // With a preview, the editor draws the sequence beside its field as it is written.
-  const adapter = { ...babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo }), preview }
+  const adapter = { ...babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo }), preview, fontStyle: 'serif' }
 </script>
 <script>
   import { IdsInput } from 'ids-input/svelte'
