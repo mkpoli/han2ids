@@ -5,8 +5,8 @@
     "": {
       "name": "han2ids-review",
       "dependencies": {
-        "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c",
-        "ids-input": "github:mkpoli/ids-input#21089261138ceef2e836d448875fe2366c95d029",
+        "@han-compose/composer": "github:mkpoli/han-compose#33cd39e44f12d7be4d442ac8390d0ac14b128c6e",
+        "ids-input": "github:mkpoli/ids-input#d6db09a79ef18e6fb393e865e18fa3afaa86173f",
       },
       "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^7.0.0",
@@ -24,7 +24,7 @@
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@2.2.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-JP7OYH38Q7+pyTAe14raZHLQIK7BDKbdwji+Xi3pcd/6QkJYQH3SX4wu6EplGrGJWRepoNzedfm0G3B9Z4e9Rw=="],
 
-    "@han-compose/composer": ["han-compose@github:mkpoli/han-compose#62bcf2c", { "dependencies": { "clipper-lib": "6.4.2", "d3-contour": "4.0.2" } }, "mkpoli-han-compose-62bcf2c", "sha512-X87cRlYu55fOsuq/rxn95MQvq4NvBy8YPyTk6YL8M85LLyXp7NOCDkuPp5E1Oikk6xt9R9xZFlCRHFfLBTSnBA=="],
+    "@han-compose/composer": ["han-compose@github:mkpoli/han-compose#33cd39e", { "dependencies": { "clipper-lib": "6.4.2", "d3-contour": "4.0.2" } }, "mkpoli-han-compose-33cd39e", "sha512-jD+wBMZCUdGa9sjacDgqGKDSwbWWPzbzi3+HuaIJnE9wRG+7iRynyYTe6tO6f7CrNPieRE1yBNpb7WSTMZ1kSw=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.13", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA=="],
 
@@ -116,7 +116,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "ids-input": ["ids-input@github:mkpoli/ids-input#2108926", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-2108926", "sha512-NtppNy6i5bDLBC6NI8URl5juAe7sf1a7PvDyOGWT9Bbg/YqgTB469ItqLIXhAGbChkoIHngrGNq3nVjaTglsHw=="],
+    "ids-input": ["ids-input@github:mkpoli/ids-input#d6db09a", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#33cd39e44f12d7be4d442ac8390d0ac14b128c6e" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-d6db09a", "sha512-zcXFVWeQ7XRCkYY3r4qTR98d6acPiNRe+4PHQXqfN7p0ZIvBbgfKjqpHac3GzooNlM48kUses1txAdnmXJmk1Q=="],
 
     "internmap": ["internmap@2.0.3", "", {}, "sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg=="],
 
@@ -178,7 +178,7 @@
 
     "zimmerframe": ["zimmerframe@1.1.5", "", {}, "sha512-msJxIvYDYcoNL+PJsu+7qmpDWsYmAxTY+2TNYXXF0hzBzBk0BMecOqDOG/EckUoKCuKwObfbugIl8QpqHDXeFA=="],
 
-    "ids-input/@han-compose/composer": ["han-compose@github:mkpoli/han-compose#62bcf2c", { "dependencies": { "clipper-lib": "6.4.2", "d3-contour": "4.0.2" } }, "mkpoli-han-compose-62bcf2c", "sha512-X87cRlYu55fOsuq/rxn95MQvq4NvBy8YPyTk6YL8M85LLyXp7NOCDkuPp5E1Oikk6xt9R9xZFlCRHFfLBTSnBA=="],
+    "ids-input/@han-compose/composer": ["han-compose@github:mkpoli/han-compose#33cd39e", { "dependencies": { "clipper-lib": "6.4.2", "d3-contour": "4.0.2" } }, "mkpoli-han-compose-33cd39e", "sha512-jD+wBMZCUdGa9sjacDgqGKDSwbWWPzbzi3+HuaIJnE9wRG+7iRynyYTe6tO6f7CrNPieRE1yBNpb7WSTMZ1kSw=="],
 
     "svelte/magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ=="],
   }
