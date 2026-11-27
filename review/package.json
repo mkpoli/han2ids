@@ -12,7 +12,7 @@
     "vite": "^8.0.7"
   },
   "dependencies": {
-    "@han-compose/composer": "github:mkpoli/han-compose#33cd39e44f12d7be4d442ac8390d0ac14b128c6e",
-    "ids-input": "github:mkpoli/ids-input#d6db09a79ef18e6fb393e865e18fa3afaa86173f"
+    "@han-compose/composer": "github:mkpoli/han-compose#edfb1828873505bd8a8b01aacc4e027b4b084d8d",
+    "ids-input": "github:mkpoli/ids-input#6c1507c2d58ee1d89e94debf6e141e35e832f02b"
   }
 }
