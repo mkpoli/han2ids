@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c",
-    "ids-input": "github:mkpoli/ids-input#e46a6d7560193e42a0cd063fd1bc1fffa3fb8adc"
+    "ids-input": "github:mkpoli/ids-input#21089261138ceef2e836d448875fe2366c95d029"
   }
 }

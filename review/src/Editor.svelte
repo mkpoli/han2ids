@@ -13,11 +13,12 @@
   import characters from 'ids-input/data/character-vocabulary.tsv.gz?url'
   import { preview } from './compose.js'
   // With a preview, the editor draws the sequence beside its field as it is written.
-  const adapter = { ...babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo }), preview, fontStyle: 'serif' }
+  const dataAdapter = { ...babelStoneAdapter({ ids, additionalIds: projectIds, overwrite: overwriteIds, components, parts, forms, names, folds, characters, characterInfo }), preview, fontStyle: 'serif' }
 </script>
 <script>
   import { IdsInput } from 'ids-input/svelte'
-  let { value = $bindable(''), onuse } = $props()
+  let { value = $bindable(''), onuse, adapter } = $props()
+  const source = $derived({ ...dataAdapter, ...adapter })
 </script>
 
-<IdsInput {adapter} bind:value locale="en" {onuse} recentKey="idsDesk.recentParts" />
+<IdsInput adapter={source} bind:value locale="en" {onuse} recentKey="idsDesk.recentParts" />
