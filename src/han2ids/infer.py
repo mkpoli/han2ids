@@ -17,14 +17,35 @@ SIZE = 224
 
 
 def _gray(image: Image.Image) -> Image.Image:
-    if image.mode in ("LA", "RGBA", "PA"):
+    if image.width == 0 or image.height == 0:
+        return image.convert("L")
+    bands = image.getbands()
+    has_alpha = "A" in bands or "a" in bands or image.info.get("transparency") is not None
+    if has_alpha:
+        rgba = image.convert("RGBA")
+        pixels = np.asarray(rgba)
+        alpha = pixels[:, :, 3]
+        visible = alpha > 127
+        if visible.any() and (alpha <= 127).any():
+            lum = (0.299 * pixels[:, :, 0] + 0.587 * pixels[:, :, 1] + 0.114 * pixels[:, :, 2])[visible]
+            if float(lum.min()) > 127:
+                pixels = pixels.copy()
+                pixels[:, :, :3] = 255 - pixels[:, :, :3]
+                rgba = Image.fromarray(pixels, mode="RGBA")
         ground = Image.new("RGBA", image.size, (255, 255, 255, 255))
-        ground.alpha_composite(image.convert("RGBA"))
+        ground.alpha_composite(rgba)
         image = ground.convert("L")
     else:
         image = image.convert("L")
     array = np.asarray(image)
-    if array.mean() < 127:
+    h, w = array.shape
+    rings = [0] + [d for d in (1, 2) if d < h // 2 and d < w // 2]
+    border = np.concatenate([
+        np.concatenate([array[d, d:w - d], array[h - 1 - d, d:w - d],
+                        array[d:h - d, d], array[d:h - d, w - 1 - d]])
+        for d in rings
+    ])
+    if float(np.median(border)) < 127 and float(array.mean()) < 127:
         image = ImageOps.invert(image)
     return image
 
