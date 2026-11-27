@@ -23,7 +23,7 @@ editor on that option; the editor draws the sequence as it is written.
 
 ## The editor
 
-Select a 率 component in the IDS tree and open its form menu to choose the center and side dots. **Use this IDS** saves the chosen spelling with the review answer.
+Select a 率 component in the IDS tree and open its form menu to choose the center and side dots. Save the chosen spelling with **Use this form** in the inline editor or **Use this IDS** in the full workshop.
 
 With a build of the [IDS Workshop](https://ids.mkpo.li/) at `build/review/workshop/` (or the folder
 named by `IDS_WORKSHOP`), **Edit** opens the Workshop's editor page (`editor.html`: one sequence, no

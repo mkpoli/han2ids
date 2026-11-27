@@ -3,7 +3,7 @@ import { composerPreview } from '@han-compose/composer'
 import { askDrawable, createCustomComponents } from 'ids-input'
 import customUrl from 'ids-input/data/custom-components.json.gz?url'
 
-export const SERIF_EXPORT = 'https://ids-input-composer.mkpoli.workers.dev/8156f838798c-serif-compose-layout-v4-serif-f6+variants/'
+export const SERIF_EXPORT = 'https://ids-input-composer.mkpoli.workers.dev/8156f838798c-serif-compose-layout-v4-serif-f7+variants/'
 // A component no code point names (#(-𠃍㇉), {53}) is drawn as the character or sequence ids-input gives it.
 let custom = null
 /** @param {string} text */
