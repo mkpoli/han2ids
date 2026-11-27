@@ -6,7 +6,7 @@
       "name": "han2ids-review",
       "dependencies": {
         "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c",
-        "ids-input": "github:mkpoli/ids-input#f51ee19201889cf88e214e9ba270d1f9a75daf05",
+        "ids-input": "github:mkpoli/ids-input#28bade6452cc82d694fd560cec87ae1b788c65e0",
       },
       "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^7.0.0",
@@ -116,7 +116,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "ids-input": ["ids-input@github:mkpoli/ids-input#f51ee19", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-f51ee19", "sha512-SpIhHqR7TMrYq+mt7XKYhVNzHCiZs2pykSgPsQulI8HAcqlb/HiQeT9U6qr9cEqOw4PGWTSJwsH/o+Yc7DbW4Q=="],
+    "ids-input": ["ids-input@github:mkpoli/ids-input#28bade6", { "dependencies": { "@cf-wasm/resvg": "^0.4.0", "@han-compose/composer": "github:mkpoli/han-compose#62bcf2ccd66b6f7d8756c49b436a6d892606560c" }, "peerDependencies": { "svelte": "^5.20.0" }, "optionalPeers": ["svelte"] }, "mkpoli-ids-input-28bade6", "sha512-/5qZFfnqb+oN4mszzqOr8kwxzg7OnqRqR/Tq9eOefeRNkh5xrloia5WLnSXYpCmtVac5bFgEckTi2V+oOKLe1Q=="],
 
     "internmap": ["internmap@2.0.3", "", {}, "sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg=="],
 
@@ -177,6 +177,8 @@
     "vitefu": ["vitefu@1.1.3", "", { "peerDependencies": { "vite": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0" }, "optionalPeers": ["vite"] }, "sha512-ub4okH7Z5KLjb6hDyjqrGXqWtWvoYdU3IGm/NorpgHncKoLTCfRIbvlhBm7r0YstIaQRYlp4yEbFqDcKSzXSSg=="],
 
     "zimmerframe": ["zimmerframe@1.1.5", "", {}, "sha512-msJxIvYDYcoNL+PJsu+7qmpDWsYmAxTY+2TNYXXF0hzBzBk0BMecOqDOG/EckUoKCuKwObfbugIl8QpqHDXeFA=="],
+
+    "ids-input/@han-compose/composer": ["han-compose@github:mkpoli/han-compose#62bcf2c", { "dependencies": { "clipper-lib": "6.4.2", "d3-contour": "4.0.2" } }, "mkpoli-han-compose-62bcf2c", "sha512-X87cRlYu55fOsuq/rxn95MQvq4NvBy8YPyTk6YL8M85LLyXp7NOCDkuPp5E1Oikk6xt9R9xZFlCRHFfLBTSnBA=="],
 
     "svelte/magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ=="],
   }
